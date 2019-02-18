@@ -1,0 +1,50 @@
+<table>
+    <thead>
+    <tr>
+        <td colspan="2" style="color: #ffffff; background-color: #2e6da4;padding: 8px;">
+            <p>Señor(a):{{ arError.nombreUsuario }} - {{ arError.cliente }}, la aplicación SogaApp detectó un error el cual
+                hemos solucionado: </p>
+        </td>
+    </tr>
+    </thead>
+    <br><br>
+    <tbody>
+    <tr>
+        <td><strong>Número: </strong></td>
+        <td><span>{{ arError.codigoErrorPk }}</span></td>
+    </tr>
+    <tr>
+        <td><strong>Código: </strong></td>
+        <td><span>{{ arError.codigo }}</span></td>
+    </tr>
+    <tr>
+        <td><strong>Fecha de Registro:</strong></td>
+        <td><span>{{ arError.fecha|date('Y/m/d H:m') }}</span></td>
+    </tr>
+    <tr>
+        <td><strong>Ruta: </strong></td>
+        <td><span>{{ arError.ruta }}</span></td>
+    </tr>
+    <tr>
+        <td><strong>Mensaje: </strong></td>
+        <td><span>{{ mensaje }}</span></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <hr>
+        </td>
+    </tr>
+    <br>
+    <tr>
+        <td colspan="2" style="background-color: #8d9496;color: #ffffff;text-align: center;">
+            <h4>Seguimos mejorando la prestación de nuestros servicios, contamos con su apoyo.</h4>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="background-color: #2e6da4;color: #ffffff;text-align: center;">
+
+            <h6>Por favor no responder este correo ya que es generado automaticamente.</h6>
+        </td>
+    </tr>
+    </tbody>
+</table>

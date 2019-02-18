@@ -1,0 +1,193 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+                    {% block content %}
+                        <div class="main-body">
+                        <div class="current-bar">
+                            <h2>Registro de Llamadas</h2>
+                        </div>
+                        <div class="main-content">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="page-title-box">
+                                    <span class="label label-danger">Pendientes: {{ pendientes }}</span>
+                                    <span class="label label-info">Atendidas Pendientes: {{ atendidasPendientes }}</span>
+                                    <a href="{{ path('registrarLlamada') }}">
+                                        <button class="btn btn-success btn-bordered waves-effect waves-light"
+                                                style="float: right;"><span class="mdi mdi-plus"></span> Nueva
+                                        </button>
+                                    </a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 col-md-6"></div>
+                            <div class="col-6 col-md-6">
+                                {{ form_start(formFiltro) }}
+                                {{ form_widget(formFiltro.clienteRel) }}
+                                <div class="col-12 col-md-12" style="text-align: right;padding: 10px;">
+                                    {{ form_widget(formFiltro.BtnFiltrar) }}
+                                </div>
+                            </div>
+                            {{ form_end(formFiltro) }}
+                        </div>
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-box">
+                                    <h4 class="header-title m-t-0 m-b-30"><i class="mdi mdi-phone-in-talk"></i> Registro
+                                        de Llamadas</h4>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-hover m-0">
+                                            <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Cliente</th>
+                                                <th>Cat.</th>
+                                                <th>Módulo</th>
+                                                <th>Contacto</th>
+                                                <th>Teléfono</th>
+                                                <th>Descripción</th>
+                                                <th>Recibe</th>
+                                                {#<th>Gestiona</th>#}
+                                                {#<th>Gestión</th>#}
+                                                {#<th>Solución</th>#}
+                                                <th>Nc</th>
+                                                <th>At</th>
+                                                <th>So</th>
+                                                <th>Ed</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for llamada in llamadas %}
+
+                                                <tr>
+                                                    <td>{{ llamada.fechaRegistro|date('y-m-d H:i') }}</td>
+                                                    <td>
+                                                        <strong>{{ llamada.clienteRel.nombreComercial }}</strong>
+                                                    </td>
+                                                    <td>
+                                                        {% if llamada.codigoCategoriaLlamadaFk == 0 %}
+                                                            <span class="label label-danger">N/A</span>
+                                                        {% elseif llamada.codigoCategoriaLlamadaFk == 1 %}
+                                                            <span class="label label-default">{{ llamada.categoriaRel.nombre[:3] }}</span>
+                                                        {% elseif llamada.codigoCategoriaLlamadaFk == 2 %}
+                                                            <span class="label label-info">{{ llamada.categoriaRel.nombre[:3] }}</span>
+                                                        {% elseif llamada.codigoCategoriaLlamadaFk == 3 %}
+                                                            <span class="label label-orange">{{ llamada.categoriaRel.nombre[:3] }}</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ llamada.codigoModuloFk }}</td>
+                                                    <td>{{ llamada.nombreContacto }}</td>
+                                                    <td>{{ llamada.telefono }} - ({{ llamada.extension }})</td>
+                                                    <td>{{ llamada.descripcion }}</td>
+                                                    <td>{{ llamada.codigoUsuarioRecibeFk }}</td>
+                                                    {#<td>{{ llamada.codigoUsuarioAtiendeFk }}</td>#}
+                                                    {#<td>{% if llamada.fechaGestion != null %}{{ llamada.fechaGestion|date('y-m-d H:i') }}{%  endif %}</td>#}
+                                                    {#<td>{% if llamada.fechaSolucion!= null %}{{ llamada.fechaSolucion|date('y-m-d H:i') }}{%  endif %}</td>#}
+                                                    <td>
+                                                        {% if llamada.estadoAtendido %}
+                                                            {% set disabled = 'disabled' %}
+                                                        {% else %}
+                                                            {% set disabled = '' %}
+                                                        {% endif %}
+
+                                                        {% if llamada.estadoNoContestan %}
+                                                            <button class="btn btn-danger btn-xs" type="submit"
+                                                                    name="llamadaContestan" {{ disabled }}
+                                                                    value="{{ llamada.codigoLlamadaPk }}"
+                                                                    title="{% for noContestan in llamada.llamadasNoContestanRel %}{{ noContestan.fechaNoContestan|date('y-m-d H:i') }}-{{ noContestan.codigoUsuarioFk }}&#10;{% endfor %}">
+                                                                <i class="mdi mdi-phone-missed"></i>Contestan</button>
+                                                        {% elseif llamada.estadoNoContestan == false and llamada.estadoAtendido %}
+                                                            <button class="btn btn-primary btn-xs" type="submit"
+                                                                    name="llamadaContestan" {{ disabled }}
+                                                                    value="{{ llamada.codigoLlamadaPk }}">
+                                                                <i class="mdi mdi-phone-outgoing"></i>Contestan</button>
+
+                                                        {% else %}
+                                                            <button class="btn btn-primary btn-xs" type="submit"
+                                                                    name="llamadaContestan" {{ disabled }}
+                                                                    value="{{ llamada.codigoLlamadaPk }}">
+                                                                <i class="mdi mdi-phone-outgoing"></i>Contestan</button>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+
+                                                        {% if llamada.estadoAtendido %}
+                                                            <button class="btn btn-success btn-xs" type="submit"
+                                                                    name="llamadaAtender" disabled
+                                                                    value="{{ llamada.codigoLlamadaPk }}"
+                                                                    title="{{ llamada.codigoUsuarioAtiendeFk }}">
+                                                                <i class="glyphicon glyphicon-thumbs-up"></i>Atender</button>
+                                                        {% else %}
+                                                            <button class="btn btn-danger btn-xs" type="submit"
+                                                                    name="llamadaAtender"
+                                                                    value="{{ llamada.codigoLlamadaPk }}">
+                                                                <i class="glyphicon glyphicon-thumbs-down"></i>Atender</button>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if llamada.estadoSolucionado == false and llamada.estadoAtendido or llamada.estadoAtendido == false and llamada.estadoSolucionado == false %}
+                                                            <button class="btn btn-danger btn-xs" type="submit"
+                                                                    name="llamadaSolucionar"
+                                                                    value="{{ llamada.codigoLlamadaPk }}" {% if llamada.estadoAtendido == false %} disabled {% endif %} >
+                                                                <i class="glyphicon glyphicon-thumbs-down"></i>Solucionar</button>
+                                                        {% else %}
+                                                            <button class="btn btn-success btn-xs" type="submit"
+                                                                    name="llamadaSolucionar" disabled
+                                                                    value="{{ llamada.codigoLlamadaPk }}"
+                                                                    title="{{ llamada.codigoUsuarioSolucionaFk }}">
+                                                                <i class="glyphicon glyphicon-thumbs-up"></i>Solucionar</button>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% if llamada.estadoSolucionado == false and llamada.estadoAtendido == false %}
+                                                            <a href="{{ path('registrarLlamada', { 'codigoLlamada':  llamada.codigoLlamadaPk }) }}"
+                                                               class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i
+                                                                        class="glyphicon glyphicon-pencil"
+                                                                        style="padding: 3px;"></i>Registro
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="{{ path('registrarLlamada', { 'codigoLlamadaPk':  llamada.codigoLlamadaPk }) }}"
+                                                               onclick="return false" disabled=""
+                                                               class="btn btn-purple waves-effect waves-light btn-xs m-b-5"><i
+                                                                        class="glyphicon glyphicon-pencil"
+                                                                        style="padding: 3px;"></i>Registro
+                                                            </a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> <!-- end card -->
+                            </div>
+                            <!-- end col -->
+
+                        </div>
+                        {{ form_end(form) }}
+                    {% endblock content %}
+                    <div class="btn-group" style="float: left">
+                        <div class="btn btn-default ">Llamadas <span
+                                    class="badge">{{ llamadas.getTotalItemCount }}</span></div>
+                    </div>
+                    <div class="btn-group"
+                         style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(llamadas) }}</div>
+
+    </div>
+    </div>
+
+        {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}

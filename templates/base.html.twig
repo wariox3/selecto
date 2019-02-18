@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        {% block metas %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="local">
+        {% endblock %}
+        <title>{% block title %}Oro{% if app.user is not null %} - {{ app.user.nombres }} {{ app.user.apellidos }} {% endif %}{% endblock %}</title>
+        {% block stylesheets %}
+            <!-- Custom box css -->
+            <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('local/assets/js/jquery.min.js') }}"></script>
+            <script src="{{ asset('local/assets/js/oro.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+
+
+            {% block content %}
+
+            {% endblock %}
+
+        {% endblock %}
+
+        {% block javascriptsBottom %}
+
+            <script>
+                $(document).ready(function(){
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+            </script>
+
+        {% endblock %}
+    </body>
+</html>

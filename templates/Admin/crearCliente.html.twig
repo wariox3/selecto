@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+                    {% block content %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title"><i class="mdi mdi-phone-incoming"></i> Crear Cliente</h4>
+                                    {#<a href="{{ path('listadoLlamadas') }}">#}
+                                    {#<button class="btn btn-success btn-bordered waves-effect waves-light" style="float: right;"><span class="mdi mdi-backspace"></span> Volver a todas</button>#}
+                                    {#</a>#}
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <h4 class="m-t-0 header-title"><b>Datos del cliente</b></h4>
+                                    {#<h5>Fecha: {{ fecha|date('d/m/Y - H:i:s') }}</h5>#}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true'} }) }}
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="_telefono">Nit: </label>
+                                                <div class="col-md-5">
+                                                    {{ form_widget(form.nit) }}
+                                                </div>
+                                                <label class="col-md-2 control-label" for="_telefono">  Razón social:</label>
+                                                <div class="col-md-3">
+                                                    {{ form_widget(form.razonSocial) }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="_telefono">Nombre comercial:</label>
+                                                <div class="col-md-10">
+                                                    {{ form_widget(form.nombreComercial) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    {{ form_widget(form.btnGuardar, { 'attr': {'class': 'btn btn-success btn-bordered waves-effect w-md waves-light m-b-5','style':'float:right;margin-left:5px;'} }) }}
+                                                    <a href="{{ path('listaUsuario') }}" class="btn btn-default btn-bordered waves-effect w-md m-b-5" style="float: right;">CANCELAR</a>
+                                                </div>
+                                            </div>
+                                            {{ form_rest(form) }}
+                                            {{ form_end(form) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock content %}
+        {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}
+{#{% block javascriptsBottom %}#}
+    {#<script type="text/javascript">#}
+
+            {#$('form').parsley();#}
+
+        {#$(function () {#}
+            {#$('#form').parsley().on('field:validated', function () {#}
+                {#var ok = $('.parsley-error').length === 0;#}
+                {#$('.alert-info').toggleClass('hidden', !ok);#}
+                {#$('.alert-warning').toggleClass('hidden', ok);#}
+            {#})#}
+            {#.on('form:submit', function () {#}
+                {#return false; // Don't submit form for this demo#}
+            {#});#}
+        {#});#}
+    {#</script>#}
+{#{% endblock %}#}

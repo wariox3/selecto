@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+
+                    {% block content %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="page-title-box">
+                                    <h4 class="page-title"><i class="mdi mdi-phone-incoming"></i> Nueva Llamada</h4>
+                                    {#<a href="{{ path('listadoLlamadas') }}">#}
+                                        {#<button class="btn btn-success btn-bordered waves-effect waves-light" style="float: right;"><span class="mdi mdi-backspace"></span> Volver a todas</button>#}
+                                    {#</a>#}
+                                    <div class="clearfix"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card-box">
+                                    <h4 class="m-t-0 header-title"><b>Datos de la llamada</b></h4>
+                                    {#<h5>Fecha: {{ fecha|date('d/m/Y - H:i:s') }}</h5>#}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true','novalidate':'novalidate'} }) }}
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="_telefono">Cliente: </label>
+                                                    <div class="col-md-5">
+                                                        {{ form_widget(form.clienteRel) }}
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="_telefono">Categoría:</label>
+                                                    <div class="col-md-3">
+                                                        {{ form_widget(form.categoriaRel) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="_telefono">Contacto:</label>
+                                                    <div class="col-md-5">
+                                                        {{ form_widget(form.nombreContacto) }}
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="_telefono">Módulo:</label>
+                                                    <div class="col-md-3">
+                                                        {{ form_widget(form.moduloRel) }}
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="_telefono">Teléfono:</label>
+
+                                                    <div class="col-md-5">
+                                                        {{ form_widget(form.telefono,{'attr':{'data-parsley-type':'number','data-parsley-maxlength':'15'}}) }}
+                                                    </div>
+                                                    <label class="col-md-2 control-label" for="_telefono">Extensión:</label>
+                                                    <div class="col-md-3">
+                                                        {{ form_widget(form.extension,{'attr':{'data-parsley-type':'number','data-parsley-maxlength':'6'}}) }}
+                                                    </div>
+                                                </div>
+                                                {#<div class="form-group">#}
+                                                    {#<label class="col-md-2 control-label" for="_telefono">Tema</label>#}
+                                                    {#<div class="col-md-10">#}
+                                                        {#{{ form_widget(form.tema,{'attr':{'rows':'5'}}) }}#}
+                                                    {#</div>#}
+                                                {#</div>#}
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">Descripción:</label>
+                                                    <div class="col-md-10">
+                                                        {{ form_widget(form.descripcion,{'attr': {'rows':'5'}}) }}
+                                                    </div>
+                                                </div>
+                                            {#<div data-color-format="rgb" data-color="rgb(255, 146, 180)" class="colorpicker-default input-group colorpicker-element">#}
+                                                {#<input type="text" id="txt" readonly="readonly" value="#cccccc" class="form-control">#}
+                                                {#<span class="input-group-btn add-on">#}
+                                                    {#<button class="btn btn-white" type="button">#}
+                                                        {#<i style="background-color: rgb(166,157,201); margin-top: 2px;"></i>#}
+                                                    {#</button>#}
+                                                {#</span>#}
+                                            {#</div>#}
+                                            {#<input type="text" class="form-control" maxlength="25" name="placement" id="placement">SD#}
+                                            {#<div class="form-group">#}
+                                                {#<label>Default</label>#}
+                                                {#<input type="text" class="colorpicker-default form-control colorpicker-element" value="#8fff00">#}
+                                            {#</div>#}
+                                            {#<div class="form-group">#}
+                                                {#<label>RGBA</label>#}
+                                                {#<input type="text" class="colorpicker-rgba form-control colorpicker-element" value="rgb(0,194,255,0.78)" data-color-format="rgba">#}
+                                            {#</div>#}
+                                            <hr>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        {{ form_widget(form.btnGuardar, { 'attr': {'class': 'btn btn-success btn-bordered waves-effect w-md waves-light m-b-5','style':'float:right;margin-left:5px;'} }) }}
+                                                        <a href="{{ path('listadoLlamadas') }}" class="btn btn-default btn-bordered waves-effect w-md m-b-5" style="float: right;">CANCELAR</a>
+                                                    </div>
+                                                </div>
+                                            {{ form_rest(form) }}
+                                            {{ form_end(form) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock content %}
+
+        {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}

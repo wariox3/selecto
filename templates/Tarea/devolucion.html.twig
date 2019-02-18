@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    Devolucion tarea ({{ arTarea.codigoTareaPk }})
+                </h4>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box">
+                <h4 class="m-t-0 header-title"><b>Información.</b></h4>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true'} }) }}
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Comentarios Devolucion:</label>
+                            <div class="col-md-4">
+                                {{ form_widget(form.comentario) }}
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                {{ form_widget(form.BtnGuardar, { 'attr': {'class': 'btn btn-success btn-bordered waves-effect w-md waves-light m-b-5','style':'float:right;margin-left:5px;'} }) }}
+                            </div>
+                        </div>
+                        {{ form_rest(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}

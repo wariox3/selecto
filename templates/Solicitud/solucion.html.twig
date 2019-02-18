@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+    {% block body %}
+        {#inicio modal#}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-box">
+                    <button type="button" class="close" onclick="window.close()" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true','novalidate':'novalidate'} }) }}
+                    <div class="row">
+                        <h4>Descripción de Solicitud solucionado.</h4>
+                        <div class="col-md-4">
+                            <h5>Fecha registro:</h5>{{ arSolicitud.fechaSolicitud|date('d/m/Y') }}<br>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Solicitud:</h5>{{ arSolicitud.codigoSolicitudPk }}<br>
+                            <h5>Correo:</h5>{{ arSolicitud.correo }}
+                        </div>
+
+                        <div class="col-md-4">
+                            <h5>Descripción:</h5>{{ arSolicitud.descripcion }}<br>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Solución:</label>
+                                <div class="col-md-10">
+                                    {{ form_widget(form.solucion,{'attr': {'rows':'10'},'value':arSolicitud.solucion}) }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    {{ form_widget(form.btnEnviar, { 'attr': {'class': 'btn btn-success btn-bordered waves-effect w-md waves-light m-b-5','style':'float:right;margin-left:5px;'} }) }}
+                                    <a href="#" onclick="window.close()"
+                                       class="btn btn-default btn-bordered waves-effect w-md m-b-5"
+                                       style="float: right;">CANCELAR</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_widget(form._token) }}
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}

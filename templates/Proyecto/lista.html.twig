@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+
+    <div id="wrapper">
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+        {{ include('bloquesGenerales/pie.html.twig') }}
+    </div>
+{% endblock %}

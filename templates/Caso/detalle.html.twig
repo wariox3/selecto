@@ -1,0 +1,266 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+    {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+    {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+    {% block content %}
+        <div class="row">
+            <div class="col-md-12" style="padding: 20px;">
+                <div class="panel panel-color panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Detalles del caso: <span
+                                    class="label label-default">#{{ caso.codigoCasoPk }} </span></h3><br>
+                        <div class="row">
+                            <div class="col-md-4" style="float: right">
+                                    {% if caso.estadoAtendido %}
+                                        <span class="label label-info">Atendido</span>
+                                    {% endif %}
+
+                                    {% if caso.estadoSolucionado %}
+                                        <span class="label label-success">Solucionado</span>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <h4>Informacion caso:</h4>
+                            <hr>
+                            <table width="100%" class="table table-condensed table-bordered">
+                            <tr>
+                                <td class="titulo">REGISTRA:</th>
+                                <td class="td-in-well">{{ caso.usuario|default('Sin usuario') }}</td>
+                                <td class="titulo">FECHA REGISTRO:</th>
+                                <td class="td-in-well">
+                                    {% if caso.fechaRegistro %}
+                                        {{ caso.fechaRegistro|date('d/m/Y') }}
+                                    {% endif %}</td>
+                                <td class="titulo">GESTIONA:</th>
+                                <td class="td-in-well">{{ caso.codigoUsuarioAtiendeFk|default('Sin atender') }}</td>
+                                <td class="titulo">FECHA GESTION:</th>
+                                <td class="td-in-well" align="right">
+                                    {% if caso.fechaGestion is defined %}
+                                        {{ caso.fechaGestion|date('d/m/Y') }}
+                                    {% endif %}</td>
+                                <td class="titulo">SOLUCIONA:</th>
+                                <td class="td-in-well">{{ caso.codigoUsuarioSolucionaFk|default('Sin solucionar') }}</td>
+                            </tr>
+                                <tr>
+                                    <td class="titulo">FECHA SOLUCION:</th>
+                                    <td class="td-in-well">
+                                        {% if caso.fechaSolucion is defined %}
+                                            {{ caso.fechaSolucion|date('d/m/Y') }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <h4>Datos de Contacto:</h4>
+                            <hr>
+                            <table width="100%" class="table table-condensed table-bordered">
+                                <tr>
+                                    <td class="titulo">CONTACTO:</th>
+                                    <td class="td-in-well">{{ caso.contacto }}</td>
+                                    <td class="titulo">CORREO:</th>
+                                    <td class="td-in-well">{{ caso.correo }}</td>
+                                    <td class="titulo">TELEFONO:</th>
+                                    <td class="td-in-well">{{ caso.telefono }} ext. {{ caso.extension }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <h4>Asunto:</h4>
+                                    <p>{{ caso.asunto }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <h4>Descripcion:</h4>
+                                    <p>{{ caso.descripcion }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            {% if(caso.solucion) %}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4>Solución:</h4>
+
+                                    <p>{{ caso.solucion }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            {% endif %}
+
+                            <div class="col-md-6">
+                                <h4>Comentarios:</h4>
+                                <div id="comentarios">
+                                    <div class="card card-block">
+                                        <div class="timeline">
+                                            {% if arrComentarios is defined and arrComentarios|length > 0 %}
+                                                {% for comentario in arrComentarios %}
+                                                    <article class="timeline-item alt">
+                                                        <div class="timeline-desk" style="">
+                                                            <div class="panel">
+                                                                <div class="timeline-box">
+                                                                    <span class="arrow-alt"></span>
+                                                                    <span class="timeline-icon"><i
+                                                                                class="mdi mdi-checkbox-blank-circle-outline"></i></span>
+                                                                    <h4 class="">{{ comentario.fechaRegistro|date('Y/m/d') }}</h4>
+                                                                    <p class="timeline-date text-muted">
+                                                                        <small>{{ comentario.fechaRegistro|date('H:m') }}</small>
+                                                                    </p>
+                                                                    <p>{{ comentario.comentario }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                {% endfor %}
+                                            {% else %}
+                                                <article class="timeline-item alt">
+                                                    <div class="timeline-desk">
+                                                        <div class="panel">
+                                                            <div class="timeline-box">
+                                                                <p>Sin Comentarios para este caso</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+
+                        </div>
+                        <div class="row">
+                            <h4>Datos de solicitud de información adicional</h4>
+                            <hr>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <h4 for="field-2" class="control-label">Fecha Solicitud:</h4>
+                                    <p>{{ caso.fechaSolicitudInformacion|date('y-m-d H:m') }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            {% if(caso.solicitudInformacion) %}
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <h4 for="field-3" class="control-label">Descripción de la solicitud:</h4>
+                                    <p>{{ caso.solicitudInformacion }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            {% endif %}
+                            {% if(caso.respuestaSolicitudInformacion) %}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <h4 for="field-4" class="control-label">Respuesta:</h4>
+                                    <p>{{ caso.respuestaSolicitudInformacion }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        {% endif %}
+
+                <div class="row">
+                            <div class="col-md-6">
+                                <h4>Adjuntos:</h4>
+                                <table class="tablesaw m-t-20 table m-b-0 tablesaw-stack" data-tablesaw-mode="stack"
+                                       id="table-2285">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="persist">
+                                            Titulo
+                                        </th>
+                                        {#<th scope="col" data-tablesaw-sortable-col=""#}
+                                        {#data-tablesaw-sortable-default-col="" data-tablesaw-priority="3">Fecha#}
+                                        {#</th>#}
+                                        {#<th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="2">#}
+                                        {#Tamaño#}
+                                        {#</th>#}
+                                        <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">Tipo
+                                        </th>
+                                        <th scope="col" data-tablesaw-sortable-col="" data-tablesaw-priority="1">Bajar
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for archivo in arrArchivos %}
+                                        <tr>
+                                            <td><span
+                                                        class="tablesaw-cell-content">{{ archivo.nombre }}</span></td>
+                                            {#<td><b class="tablesaw-cell-label">Rank</b><span#}
+                                            {#class="tablesaw-cell-content">{{ archivo.fecha|date('Y/m/d') }}</span>#}
+                                            {#</td>#}
+                                            {#<td><span#}
+                                            {#class="tablesaw-cell-content">{{ archivo.tamano }}</span></td>#}
+                                            <td><span
+                                                        class="tablesaw-cell-content">{{ archivo.tipo }}</span></td>
+                                            <td><span
+                                                        class="tablesaw-cell-content"><a
+                                                            href="{{ path('archivo_descarga',{'codigoArchivo':archivo.codigoArchivoPk}) }}"><i
+                                                                class="glyphicon glyphicon-cloud-download"></i> Descargar</a></span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                    <hr>
+                    <div class="col-md-6">
+                                <h4>Tareas:</h4>
+                                <div class="timeline timeline-left">
+                                    {% if arrTareas is defined and arrTareas|length > 0 %}
+                                        {% for tarea in arrTareas %}
+                                            <article class="timeline-item">
+                                                <div class="timeline-desk">
+                                                    <div class="panel">
+                                                        <div class="timeline-box">
+                                                            {#<span class="arrow"></span>#}
+                                                            {#<span class="timeline-icon"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>#}
+                                                            <p class="">{{ tarea.fechaRegistro|date('Y/m/d') }}</p>
+                                                            <p class="timeline-date text-muted">
+                                                                <p>Asignada a : {{ tarea.codigoUsuarioAsignaFk }}</p>
+                                                            </p>
+                                                            <p>{{ tarea.descripcion }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        {% endfor %}
+                                    {% else %}
+
+                                        <article class="timeline-item">
+                                            <div class="timeline-desk">
+                                                <div class="panel">
+                                                    <div class="timeline-box">
+                                                        {#<span class="arrow"></span>#}
+                                                        {#<span class="timeline-icon"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>#}
+                                                        {#<h4 class="">1 hour ago</h4>#}
+                                                        {#<p class="timeline-date text-muted"><small>08:25 am</small></p>#}
+                                                        <p><i>No hay tareas para este caso.</i></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            </div>
+        {{ include('bloquesGenerales/pie.html.twig') }}
+    {% endblock %}
+{% endblock %}

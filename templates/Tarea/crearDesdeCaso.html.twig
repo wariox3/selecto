@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+    {% block body %}
+
+                <div class="content-page">
+                    <!-- Start content -->
+                    <div class="content">
+                        <div class="container">
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="page-title-box">
+                                            <h4 class="page-title"><i class="mdi mdi-desktop-tower"></i>Tarea nueva</h4>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card-box">
+                                            <h4 class="m-t-0 header-title"><b>Datos de la tarea</b></h4>
+                                            {#<h5>Fecha: {{ fecha|date('d/m/Y - H:i:s') }}</h5>#}
+                                            <div>{{ caso.asunto }} - {{ caso.descripcion }} </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true','novalidate':'novalidate'} }) }}
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label" for="_telefono">Tipo: </label>
+                                                        <div class="col-md-5">
+                                                            {{ form_widget(form.tareaTipoRel) }}
+                                                        </div>
+                                                        <label class="col-md-2 control-label" for="_telefono">Asignar a:</label>
+                                                        <div class="col-md-3">
+                                                            {{ form_widget(form.codigoUsuarioAsignaFk) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label" for="_telefono"></label>
+                                                        <div class="col-md-5">
+
+                                                        </div>
+                                                        <label class="col-md-2 control-label" for="_telefono">Prioridad</label>
+                                                        <div class="col-md-3">
+                                                            {{ form_widget(form.prioridadRel) }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label">Descripción:</label>
+                                                        <div class="col-md-10">
+                                                            {{ form_widget(form.descripcion,{'attr': {'rows':'5'}}) }}
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            {{ form_widget(form.btnGuardar, { 'attr': {'class': 'btn btn-success btn-bordered waves-effect w-md waves-light m-b-5','style':'float:right;margin-left:5px;'} }) }}
+                                                            <a href="{{ path('listaTareaGeneral') }}" class="btn btn-default btn-bordered waves-effect w-md m-b-5" style="float: right;">CANCELAR</a>
+                                                        </div>
+                                                    </div>
+                                                    {{ form_widget(form._token) }}
+
+                                                    {{ form_end(form, {'render_rest': false}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div> <!-- container -->
+                    </div> <!-- content -->
+                </div>
+
+            </div>
+        {% endblock %}
+

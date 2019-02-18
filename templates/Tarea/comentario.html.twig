@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+    {% block body %}
+
+{#inicio modal#}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box">
+            <button type="button" class="close" onclick="window.close()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ form_start(form, { 'attr': {'id':'form','class': 'form-horizontal','data-parsley-validate':'true','novalidate':'novalidate'} }) }}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Comentario:</label>
+                        <div class="col-md-10">
+                            {{ form_widget(form.comentario,{'attr': {'rows':'10'}}) }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            {{ form_widget(form.btnGuardar, { 'attr': {'class': 'btn btn-success btn-bordered waves-effect w-md waves-light m-b-5','style':'float:right;margin-left:5px;'} }) }}
+                            <a href="#" onclick="window.close()" class="btn btn-default btn-bordered waves-effect w-md m-b-5" style="float: right;">CANCELAR</a>
+                        </div>
+                    </div>
+                    {{ form_widget(form._token) }}
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+{#fin modal#}
+        </div>
+    </div>
+</div>
+{% endblock %}

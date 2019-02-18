@@ -1,0 +1,53 @@
+    {% extends 'base.html.twig' %}
+
+{% block bodyAtt %}class="fixed-left"{% endblock %}
+
+{% block body %}
+
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+                    {% block content %}
+                        <table  class="table table-striped table-bordered table-condensed table-hover">
+                            <tr>
+                                <th>USUARIO</th>
+                                <th>C_T</th>
+                                <th>DESCRIPCION</th>
+                            </tr>
+                            {% for arUsuario in arUsuarios %}
+                                <tr {% if arUsuario.codigoTareaFk == null %} class="danger" {% endif %}>
+                                    <td>{{ arUsuario.codigoUsuarioPk }}</td>
+                                    <td>{{ arUsuario.codigoTareaFk }}
+                                        {% if arUsuario.codigoTareaFk != null %}
+                                            {{ arUsuario.tareaRel.fechaEjecucion | date('Y-m-d H:i') }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if arUsuario.codigoTareaFk != null %}
+                                            {{ arUsuario.tareaRel.descripcion }}
+                                        {% endif %}
+                                        <table  class="table table-striped table-bordered table-condensed table-hover">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>FECHA</th>
+                                                <th>CASO</th>
+                                                <th>DESCRIPCION</th>
+                                            </tr>
+                                            {% for arrTarea in arrTareas %}
+                                                {% if arrTarea.usuario ==  arUsuario.codigoUsuarioPk  %}
+                                                <tr>
+                                                    <td>{{ arrTarea.id }}</td>
+                                                    <td>{{ arrTarea.fechaRegistro | date('Y-m-d') }}</td>
+                                                    <td>{{ arrTarea.caso }}</td>
+                                                    <td>{{ arrTarea.descripcion }}</td>
+                                                </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% endblock content %}
+        {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}

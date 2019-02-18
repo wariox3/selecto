@@ -1,0 +1,15 @@
+
+<header class="container">
+    <div class="header-right">
+
+    </div>
+    <div class="header-right">
+        <img src="{{ asset('local/assets/images/logo_sm.png') }}" alt="" height="35">&nbsp;&nbsp;&nbsp;
+        {% if app.user %}
+            <a href="{{ logout_path('main') }}"><i class="ti-power-off m-r-5"></i> Salir</a>
+        {% else %}
+            <a href="{{ path('acceso') }}"><i class="ti-power-off m-r-5"></i> Ingresar</a>
+        {% endif %}
+    </div>
+</header>
+<div class="content-body">

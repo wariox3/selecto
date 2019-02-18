@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+        {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+                    {% block content %}
+<div class="main-body">
+    <div class="current-bar">
+        <h2>Tareas</h2>
+    </div>
+    <div class="main-content">
+
+
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="page-title-box">
+                                    {#<span class="label label-danger">Sin asignar: {{ sinAsignar }}</span>#}
+                                    {#<span class="label label-danger">Sin terminar: {{ sinTerminar }}</span>#}
+                                    <span class="label label-danger">Sin verificar: {{ sinVerificar }}</span>
+                                    <a href="{{ path('registrarTarea') }}">
+                                        <button class="btn btn-success btn-bordered waves-effect waves-light"
+                                                style="float: right;"><span class="mdi mdi-plus"></span> Nueva
+                                        </button>
+                                    </a>
+                                    <hr>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 col-md-6"></div>
+                            <div class="col-6 col-md-6">
+                                {#{{ form_start(formFiltro) }}#}
+                                {#{{ form_widget(formFiltro.estado) }}#}
+                                {#<div class="col-12 col-md-12" id="submit-filtro" style="text-align: right;padding: 10px;">#}
+                                    {#{{ form_widget(formFiltro.BtnFiltrar) }}#}
+                                {#</div>#}
+                                {#{{ form_end(formFiltro) }}#}
+
+                            </div>
+                        </div>
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-box">
+                                    <div class="table-responsive">
+                                        <table id="tarea-table" class="table table table-hover m-0 ">
+
+                                            <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Registra</th>
+                                                <th>Fecha</th>
+                                                <th>Tipo</th>
+                                                <th>F.asignación</th>
+                                                <th>Asignado</th>
+                                                <th>F.solución</th>
+                                                <th>F.verificación</th>
+                                                <th>Descripción</th>
+                                                <th>Caso</th>
+                                                <th>Prioridad</th>
+                                                <th>EJE</th>
+                                                <th>INC</th>
+                                                <th>PAU</th>
+                                                <th>RES</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for tarea in tareas %}
+                                                <tr>
+                                                    <td>{{ tarea.codigoTareaPk }}</td>
+                                                    <td>{{ tarea.codigoUsuarioRegistraFk }}</td>
+
+                                                    <td>{% if tarea.fechaRegistro != null %}
+                                                            {{ tarea.fechaRegistro|date('y-m-d') }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td>{% if tarea.tareaTipoRel != null %}
+                                                            <span class="label label-default">{{ tarea.tareaTipoRel.codigoTareaTipoPk }}</span>
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td>
+                                                        {% if tarea.fechaGestion != null %}
+                                                            {{ tarea.fechaGestion|date('y-m-d') }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td>{{ tarea.codigoUsuarioAsignaFk }}</td>
+
+                                                    <td>
+                                                        {% if tarea.fechaSolucion != null %}
+                                                            {{ tarea.fechaSolucion|date('y-m-d') }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td>
+                                                        {% if tarea.fechaVerificado != null %}
+                                                            {{ tarea.fechaVerificado|date('y-m-d') }}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td>{{ tarea.descripcion }}</td>
+                                                    <td>{% if tarea.casoRel.codigoCasoPk is defined %}<a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>{% endif %}</td>
+
+                                                    <td>
+                                                    <span class="label" style="background-color: {% if tarea.prioridadRel.color is defined %} {{ tarea.prioridadRel.color }} {% else %} #efefef {% endif %};">
+                                                        {% if tarea.prioridadRel.nombre is defined or tarea.prioridadRel != null %}
+                                                            {{ tarea.prioridadRel.nombre }}
+                                                        {% else %}
+                                                            Sin prioridad
+                                                        {% endif %}
+                                                    </span>
+                                                    </td>
+                                                    <td>{{ tarea.estadoEjecucion == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoIncomprensible == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoPausa == 1 ? "SI":"NO" }}</td>
+                                                    <td>{{ tarea.estadoTerminado == 1 ? "SI":"NO" }}</td>
+
+
+
+                                                    <td>
+                                                        <a href="{{ path('tareaDetalle', { 'codigoTarea':  tarea.codigoTareaPk }) }}"
+                                                           class="btn btn-purple waves-effect waves-light btn-xs"><i
+                                                                    class="glyphicon glyphicon-new-window"
+                                                                    style="padding: 3px;">Detalle</i>
+                                                        </a>
+                                                    </td>
+
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- table-responsive -->
+                                </div> <!-- end card -->
+                            </div>
+                            <!-- end col -->
+                        </div>
+                        {{ form_end(form) }}
+        <hr>
+
+        <div class="btn-group" style="float: left">
+                            <div class="btn btn-default ">Registros <span
+                                        class="badge">{{ tareas.getTotalItemCount }}</span></div>
+                            <div class="btn-group"
+                                 style="float: left;margin: 0px;padding-top: 0px">{{ knp_pagination_render(tareas) }}</div>
+                        </div>
+
+    </div>
+</div>
+                    {% endblock content %}
+
+        {{ include('bloquesGenerales/pie.html.twig') }}
+{% endblock %}

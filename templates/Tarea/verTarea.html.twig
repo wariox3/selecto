@@ -1,0 +1,252 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
+
+    {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
+
+    {% block content %}
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
+        {{ form_errors(form) }}
+
+        <div class="row">
+        <div class="col-md-12" style="padding: 20px;">
+            <div class="panel panel-color panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Detalles Tarea: <span
+                                class="label label-default">#{{ tarea.codigoTareaPk }} </span></h3><br>
+                    <div class="row">
+                        <div style="float: left">
+                            {{ form_widget(form.BtnEjecucion, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {{ form_widget(form.BtnResuelto, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {{ form_widget(form.BtnVerificado, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                            {% if tarea.estadoTerminado == 1 and tarea.estadoVerificado == 0 %}
+                                <a href="javascript:abrirVentana('{{ path('tareaDevolucion',{ 'codigoTarea':  tarea.codigoTareaPk }) }}', 'Devolucion tareas', 600, 900)" class="btn btn-orange btn-sm">Devolucion</a>
+                            {% endif %}
+
+
+                        </div>
+
+                        <div style="float: right">
+                                {% if tarea.estadoEjecucion == 1  %}
+                                    <span class="label label-info">Ejecucion</span>
+                                {% endif %}
+                                {% if tarea.estadoTerminado == 1 %}
+                                    <span class="label label-success">Finalizado</span>
+                                {% endif %}
+                            {% if tarea.estadoVerificado == 1 %}
+                                <span class="label label-success">Verificado</span>
+                            {% endif %}
+                            {% if tarea.estadoIncomprensible == 1 %}
+                                <span class="label label-danger">Incomprensible</span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <br>
+                    <br>
+                    <div class="row">
+                        <h4>Informacion tarea:</h4>
+                        <br>
+                        <hr>
+                        <table width="100%" class="table table-condensed table-bordered">
+                            <tr>
+                                <td class="titulo">TIPO:</th>
+                                <td class="td-in-well">{{ tarea.tareaTipoRel.nombre }}</td>
+                                <td class="titulo">PRIORIDAD:</th>
+                                <td class="td-in-well">{{ tarea.prioridadRel.nombre }}</td>
+                                <td class="titulo">USUARIO REGISTRA:</th>
+                                <td class="td-in-well" align="right">{{ tarea.codigoUsuarioRegistraFk}}</td>
+                                <td class="titulo">FECHA REGISTRO:</th>
+                                <td class="td-in-well" align="right">{{ tarea.fechaRegistro|date('d/m/Y')}}</td>
+                                <td class="titulo">USUARIO ASIGNA:</th>
+                                <td class="td-in-well">
+                                    {% if tarea.codigoUsuarioAsignaFk != null %}
+
+                                        {{ tarea.codigoUsuarioAsignaFk }}
+
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td class="titulo">FECHA GESTION:</th>
+                                <td class="td-in-well">
+                                    {% if tarea.fechaGestion != null %}
+
+                                        {{ tarea.fechaGestion|date('d/m/Y') }}
+
+                                    {% endif %}
+                                </td>
+
+
+                                <td class="titulo">FECHA EJECUCION:</th>
+                                <td class="td-in-well">
+                                    {% if tarea.fechaEjecucion != null %}
+
+                                        {{ tarea.fechaEjecucion|date('d/m/Y') }}
+
+                                    {% endif %}
+                                </td>
+
+                                <td class="titulo">FECHA SOLUCION:</th>
+                                <td class="td-in-well">
+                                    {% if tarea.fechaSolucion != null %}
+
+                                        {{ tarea.fechaSolucion|date('d/m/Y') }}
+                                    {% endif %}
+                                </td>
+
+                                <td class="titulo">FECHA VERIFICACION:</th>
+                                <td class="td-in-well">
+                                    {% if tarea.fechaVerificado != null %}
+
+                                        {{ tarea.fechaVerificado|date('d/m/Y') }}
+
+                                    {% endif %}
+                                </td>
+
+                                <td class="titulo">CASO:</th>
+                                <td class="td-in-well">
+                                    {% if tarea.codigoCasoFk != null %}
+
+                                        <a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>
+
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h4>Descripción :</h4>
+                        {{ tarea.descripcion }}
+                    </div>
+                    <hr>
+                    <h4>Comentarios:</h4>
+                    <div class="card-box">
+                        <div class="table-responsive">
+                            <table id="tarea-table" class="table table table-hover m-0 ">
+
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Fecha registro</th>
+                                    <th>Comentario</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for arComentarios in arComentarios %}
+                                    <tr>
+                                        <td>{{ arComentarios.codigoComentarioPk }}</td>
+                                        <td>{{ arComentarios.fechaRegistro | date("Y/m/d H:i") }}</td>
+                                        <td>{{ arComentarios.comentario }}</td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+
+
+                            </table>
+                        </div> <!-- table-responsive -->
+                    </div> <!-- end card -->
+                    <br>
+                    <div class="row">
+                        <h4>Comentarios :</h4>
+                        {{ form_widget(form.comentario) }}
+                    </div>
+                    <div style="float: right ">
+                        {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
+                    </div>
+                    <br>
+
+                    <hr>
+                    <div class="row">
+
+                            <h4>Tiempos tarea:</h4>
+
+                            <div class="card-box">
+                                <div class="table-responsive">
+                                    <table id="tarea-table" class="table table table-hover m-0 ">
+
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Fecha/Hora inicio</th>
+                                            <th>Fecha/Hora fin</th>
+                                            <th>Minutos</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        {% for arTareaTiempos in arTareaTiempos %}
+                                            <tr>
+                                                <td>{{ arTareaTiempos.codigoTareaTiempoPk }}</td>
+                                                <td>{{ arTareaTiempos.fechaHoraInicio | date("Y/m/d H:i") }}</td>
+                                                <td>{{ arTareaTiempos.fechaHoraFin != null ? arTareaTiempos.fechaHoraFin | date("Y/m/d H:i"):"" }}</td>
+                                                <td style="text-align: center">{{ arTareaTiempos.minutos != null ? arTareaTiempos.minutos:"0" }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div> <!-- table-responsive -->
+                            </div> <!-- end card -->
+
+                        <hr>
+                        <h4>Devoluciones ( total {{ tarea.numeroDevoluciones != null ? tarea.numeroDevoluciones : "0"  }} ):</h4>
+
+                        <div class="card-box">
+                            <div class="table-responsive">
+                                <table id="tarea-table" class="table table table-hover m-0 ">
+
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Fecha</th>
+                                        <th>Comentarios</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for arDevoluciones in arDevoluciones %}
+                                        <tr>
+                                            <td>{{ arDevoluciones.codigoTareaDevolucionPk }}</td>
+                                            <td>{{ arDevoluciones.fecha| date("Y/m/d H:i") }}</td>
+                                            <td>{{ arDevoluciones.comentarios }}</td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div> <!-- table-responsive -->
+                        </div> <!-- end card -->
+                        <hr>
+                        <!-- end col -->
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <a class="btn btn-default btn-sm" href="{{ path('listaTareaGeneral') }}"
+                       style="float:left">VOLVER</a>
+
+                    <div class="clearfix"></div>
+
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+
+
+        {{ include('bloquesGenerales/pie.html.twig') }}
+    {% endblock %}
+{% endblock %}
