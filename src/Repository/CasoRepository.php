@@ -533,7 +533,32 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
             ->select('c.codigoCasoPk')
             ->addSelect('c.fechaRegistro')
             ->addSelect('cl.nombreComercial as clienteNombre')
-        ->leftJoin('c.clienteRel', 'cl');
+            ->addSelect('c.codigoCategoriaCasoFk')
+            ->addSelect('c.contacto')
+            ->addSelect('c.descripcion')
+            ->addSelect('p.nombre as prioridad')
+            ->addSelect('c.estadoReabierto')
+            ->addSelect('c.estadoEscalado')
+            ->addSelect('c.estadoSolucionado')
+        ->leftJoin('c.clienteRel', 'cl')
+        ->leftJoin('c.prioridadRel', 'p');
+
+        switch ($session->get('filtroCasoEstadoAtendido')) {
+            case '0':
+                $queryBuilder->andWhere("c.estadoAtendido = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("c.estadoAtendido = 1");
+                break;
+        }
+        switch ($session->get('filtroCasoEstadoSolucionado')) {
+            case '0':
+                $queryBuilder->andWhere("c.estadoSolucionado = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("c.estadoSolucionado = 1");
+                break;
+        }
         return $queryBuilder;
     }
 
