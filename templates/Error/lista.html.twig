@@ -56,11 +56,14 @@
                     {% for arError in arErrores %}
                         <section class="toggle">
                             <label>{{ arError.codigoErrorPk }}-{{ arError.clienteNombre }} ({{ arError.fecha |date('Y-m-d H:i') }}): {{ arError.mensaje }} </label>
-                            <p>{{ arError.traza }}</p>
+                            <p>Archivo: {{ arError.archivo }} Linea: {{ arError.linea }} <br/>{{ arError.traza }}</p>
+                            {% if arError.estadoSolucionado == 0 %}
                                 <div class="btn-group" style="float: right">
                                     <a href="javascript:abrirVentana3('{{ path('error_solucionar', {'id' : arError.codigoErrorPk }) }}','solucionar',600,900)" class="btn btn-primary btn-xs">Solucionar</a>
                                 </div>
                             <hr>
+                            {% endif %}
+
                         </section>
                     {% endfor %}
                 </div>
