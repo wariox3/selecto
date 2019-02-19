@@ -52,6 +52,68 @@ class CasoController extends Controller {
         ]);
     }
 
+    /**
+     * @Route("/caso/solucionar/{id}", name="caso_solucionar")
+     */
+    public function solucionar(Request $request, $id, \Swift_Mailer $mailer) {
+
+        $em = $this->getDoctrine()->getManager();
+        $arCaso = $em->getRepository(Caso::class)->find($id);
+        $form = $this->createFormBuilder()
+            ->add('comentario',TextareaType::class, ['required' => true,'label' => 'Comentario:', 'data' => $arCaso->getSolucion()])
+            ->add('btnSolucionar', SubmitType::class, ['label' => 'Solucionar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnSolucionar')->isClicked()) {
+                if(!$arCaso->getEstadoAtendido()) {
+                    $arCaso->setEstadoAtendido(1);
+                    $arCaso->setFechaGestion(new DateTime('now'));
+                    $arCaso->setCodigoUsuarioAtiendeFk($this->getUser()->getCodigoUsuarioPk());
+                }
+
+                $arCaso->setEstadoSolucionado(1);
+                $arCaso->setFechaSolucion(new DateTime('now'));
+                $arCaso->setSolucion($form->get('comentario')->getData());
+                $arCaso->setCodigoUsuarioSolucionaFk($this->getUser()->getCodigoUsuarioPk());
+                $em->persist($arCaso);
+                $em->flush();
+                if(filter_var($arCaso->getCorreo(), FILTER_VALIDATE_EMAIL)){
+                    $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
+                    $message = (new \Swift_Message('Solución de caso'.' - '.$arCaso->getCodigoCasoPk()))
+                        ->setFrom($arrConfiguracion['correoEmpresa'])
+                        ->setTo($arCaso->getCorreo())
+                        ->setBody(
+                            $this->renderView(
+                                'Correo/Caso/solucionado.html.twig',
+                                array('arCaso' => $arCaso)
+                            ),
+                            'text/html'
+                        );
+                    $mailer->send($message);
+                }
+                echo "<script language='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+            }
+        }
+        return $this->render('Caso/solucionar.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/caso/nuevo/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarCaso")

@@ -67,6 +67,7 @@
                                 <th>Cat</th>
                                 <th>Descripcion</th>
                                 <th>Pri</th>
+                                <th title="Atendido">ATE</th>
                                 <th title="Re-abierto">R_A</th>
                                 <th title="Escalado">ESC</th>
                                 <th title="Solucionado">SOL</th>
@@ -83,12 +84,14 @@
                                     <td>{{ arCaso.codigoCategoriaCasoFk }}</td>
                                     <td>{{ arCaso.descripcion }}</td>
                                     <td>{{ arCaso.prioridad }}</td>
+                                    <td>{{ arCaso.estadoAtendido ? 'SI':'NO' }}</td>
                                     <td>{{ arCaso.estadoReabierto ? 'SI':'NO' }}</td>
                                     <td>{{ arCaso.estadoEscalado ? 'SI':'NO' }}</td>
                                     <td>{{ arCaso.estadoSolucionado ? 'SI':'NO' }}</td>
                                     <td class="actions">
-                                        <a href=""><i class="fa fa-pencil"></i></a>
-                                        <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
+                                        {% if arCaso.estadoSolucionado == 0 %}
+                                            <a href="javascript:abrirVentana3('{{ path('caso_solucionar', {'id' : arCaso.codigoCasoPk }) }}','solucionar',600,900)"><i class="fa fa-check-circle-o"></i></a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}

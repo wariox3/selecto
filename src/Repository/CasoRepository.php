@@ -540,6 +540,7 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
             ->addSelect('c.estadoReabierto')
             ->addSelect('c.estadoEscalado')
             ->addSelect('c.estadoSolucionado')
+            ->addSelect('c.estadoAtendido')
         ->leftJoin('c.clienteRel', 'cl')
         ->leftJoin('c.prioridadRel', 'p');
 
