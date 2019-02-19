@@ -15,8 +15,8 @@ security:
             pattern: /.*
             provider: user_db
             form_login:
-                login_path: /acceso
-                check_path: /acceso
+                login_path: /login
+                check_path: /login
                 remember_me: false
             logout:
                 path: /logout
@@ -26,5 +26,5 @@ security:
 
     access_control:
         - { path: /api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /acceso, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /.*, roles: IS_AUTHENTICATED_FULLY }

@@ -2,6 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Caso;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 /**
  * CasoRepository
  *
@@ -521,4 +524,17 @@ class CasoRepository extends \Doctrine\ORM\EntityRepository
         $query = $dql->getQuery()->getResult();
         return $query;
     }
+
+
+    public function lista()
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Caso::class, 'c')
+            ->select('c.codigoCasoPk')
+            ->addSelect('c.fechaRegistro')
+            ->addSelect('cl.nombreComercial as clienteNombre')
+        ->leftJoin('c.clienteRel', 'cl');
+        return $queryBuilder;
+    }
+
 }

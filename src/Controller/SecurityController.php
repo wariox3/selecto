@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\SecurityContext;
 class SecurityController extends Controller
 {
     /**
-     * @Route("/acceso", name="acceso")
+     * @Route("/login", name="login")
      */
     public function accesoAction(Request $request){
 
@@ -50,17 +50,5 @@ class SecurityController extends Controller
         throw new \RuntimeException('Esta funcion jamas debe ser llamada directamente');
     }
 
-
-
-    /**
-     * @Route("/acceso2", name="acceso2")
-     */
-    public function acceso2Action(Request $request){
-
-
-       
-      return $this->render('Loginlogin2.html.twig');
-
-    }    
 
 }

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        <a href="#" class="fa fa-times"></a>
+                    </div>
+
+                    <h2 class="panel-title">Condensed</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-bordered table-hover mb-none">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arCaso in arCasos %}
+                                <tr>
+                                    <td>{{ arCaso.codigoCasoPk }}</td>
+                                    <td>{{ arCaso.fechaRegistro | date('Y-m-d') }}</td>
+                                    <td>{{ arCaso.clienteNombre }}</td>
+                                    <td class="actions">
+                                        <a href=""><i class="fa fa-pencil"></i></a>
+                                        <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+{% endblock %}

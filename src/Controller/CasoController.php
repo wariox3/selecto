@@ -23,8 +23,34 @@ use Symfony\Bundle\SwiftmailerBundle;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CasoController extends Controller {
-
     var $strDqlLista = '';
+
+    /**
+     * @Route("/caso/lista", name="caso_lista")
+     */
+    public function lista(Request $request) {
+        $session = new Session();
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $form = $this->createFormBuilder()
+            ->add('txtDespachoCodigo', TextType::class, array('data' => $session->get('filtroTteDespachoCodigo')))
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnEntrega', SubmitType::class, array('label' => 'Entregar'))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnFiltrar')->isClicked()) {
+
+            }
+        }
+        $arCasos = $paginator->paginate($em->getRepository(Caso::class)->lista(), $request->query->getInt('page', 1), 500);
+        return $this->render('Caso/lista.html.twig', [
+            'arCasos' => $arCasos,
+            'form' => $form->createView()
+        ]);
+    }
+
 
     /**
      * @Route("/caso/nuevo/{codigoCaso}", requirements={"codigoCaso":"\d+"}, name="registrarCaso")
@@ -166,93 +192,7 @@ class CasoController extends Controller {
     }
 
 
-    /**
-     * @Route("/caso/lista/sin/solucionar", name="listadoCasosSinSolucionar")
-     */
 
-    public function listaSinSolucionar(Request $request, Request $requestFiltro) {
-        $em = $this->getDoctrine()->getManager();
-        $paginator = $this->get('knp_paginator');
-        $this->listarSinSolucionar($em);
-        $session = new Session();
-        $propiedades = array(
-            'class' => 'App:Cliente',
-            'choice_label' => 'nombreComercial',
-            'required' => false,
-            'label' => 'Cliente:',
-            'empty_data' => '',
-            'placeholder' => 'Todos',
-            'data' =>''
-        );
-        if($session->get('filtroCasosCliente')){
-            $propiedades['data'] = $em->getReference('App:Cliente', $session->get('filtroCasosCliente'));
-        }
-        $formFiltro = $this::createFormBuilder ()
-            ->add('clienteRel', EntityType::class,$propiedades)
-            ->add('estadoEscalado', ChoiceType::class, array('choices' => array('TODOS' => '2', 'ESCALADOS' => '1', 'SIN ESCALAR' => '0'), 'label' => 'Escalado:', 'data' => $session->get('filtroCasoEstadoEscalado')))
-            ->add('estadoTarea', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TAREA' => '1', 'SIN TAREA' => '0'), 'label' => 'Tarea:' ,'data' => $session->get('filtroCasoEstadoTarea')))
-            ->add('estadoTareaTerminada', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TAREA TERMINADA' => '1', 'TAREA SIN TERMINAR' => '0'), 'label' => 'Tarea terminada:' ,'data' => $session->get('filtroCasoEstadoTareaTerminada')))
-            ->add('estadoTareaRevisada', ChoiceType::class, array('choices' => array('TODOS' => '2', 'TATERA REVISADA' => '1', 'TAREA SIN REVISAR' => '0'), 'label' => 'Tarea revisada:' ,'data' => $session->get('filtroCasoEstadoTareaRevisada')))
-            ->add ('btnFiltrar', SubmitType::class, array (
-                'label' => 'Filtrar',
-                'attr' => array (
-                    'class' => 'btn btn-primary btn-bordered waves-effect w-md waves-light m-b-5'
-                )
-            ))
-            ->getForm();
-        $formFiltro->handleRequest($requestFiltro);
-        if($formFiltro->isSubmitted() && $formFiltro->isValid()){
-            $this->filtrar($formFiltro);
-            $this->listarSinSolucionar($em);
-        }
-        $dql = $em->createQuery($this->strDqlLista);
-        $arCaso = $dql->getResult();
-        //Listado General Sin Filtro
-        $user = $this->getUser();
-        $form = $this::createFormBuilder()->getForm();//form para manejar los cambios de estado
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){ // actualiza el estado de las llamadas
-            if($request->request->has('casoAtender')) {
-                $codigoCaso = $request->request->get('casoAtender');
-                $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
-                if(!$arCaso->getEstadoAtendido()){
-                    $arCaso->setEstadoAtendido(true);
-                    $arCaso->setCodigoUsuarioAtiendeFk($user->getCodigoUsuarioPk());
-                    $arCaso->setFechaGestion(new \DateTime('now'));
-                    $em->persist($arCaso);
-                }
-            }
-            if($request->request->has('casoSolucionar')) {
-                $codigoCaso = $request->request->get('casoSolucionar');
-                $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
-                if(!$arCaso->getEstadoSolucionado()){
-                    $arCaso->setEstadoSolucionado(true);
-                    $arCaso->setCodigoUsuarioSolucionaFk($user->getCodigoUsuarioPk());
-                    $arCaso->setFechaSolucion(new \DateTime('now'));
-                    $em->persist($arCaso);
-                }
-            }
-	        if($request->request->has('casoEscalar')) {
-		        $codigoCaso = $request->request->get('casoEscalar');
-		        $arCaso = $em->getRepository('App:Caso')->find($codigoCaso);
-		        if(!$arCaso->getEstadoEscalado()){
-			        $arCaso->setEstadoEscalado(true);
-			        $em->persist($arCaso);
-		        }
-	        }
-            $em->flush();
-            return $this->redirect($this->generateUrl('listadoCasosSinSolucionar'));
-        }
-
-
-        $arrCasos = $paginator->paginate($arCaso, $request->query->get('page', 1),50);
-
-        return $this->render('Caso/listar.html.twig', [
-            'casos' => $arrCasos,
-            'form' => $form->createView(),
-            'formFiltro' => $formFiltro->createView ()
-        ]);
-    }
 
     private function filtrar($formFiltro){
         $session = new Session();
