@@ -44,6 +44,18 @@ class CasoController extends Controller {
                 $session->set('filtroCasoEstadoAtendido', $form->get('estadoAtendido')->getData());
                 $session->set('filtroCasoEstadoSolucionado', $form->get('estadoSolucionado')->getData());
             }
+            if($request->request->has('btnAtender')) {
+                $codigoCaso = $request->request->get('btnAtender');
+                $arCaso = $em->getRepository(Caso::class)->find($codigoCaso);
+                if(!$arCaso->getEstadoAtendido()){
+                    $arCaso->setEstadoAtendido(true);
+                    $arCaso->setCodigoUsuarioAtiendeFk($this->getUser()->getCodigoUsuarioPk());
+                    $arCaso->setFechaGestion(new \DateTime('now'));
+                    $em->persist($arCaso);
+                    $em->flush();
+                }
+            }
+
         }
         $arCasos = $paginator->paginate($em->getRepository(Caso::class)->lista(), $request->query->getInt('page', 1), 500);
         return $this->render('Caso/lista.html.twig', [

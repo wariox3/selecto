@@ -71,7 +71,6 @@
                                 <th title="Re-abierto">R_A</th>
                                 <th title="Escalado">ESC</th>
                                 <th title="Solucionado">SOL</th>
-                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -84,13 +83,20 @@
                                     <td>{{ arCaso.codigoCategoriaCasoFk }}</td>
                                     <td>{{ arCaso.descripcion }}</td>
                                     <td>{{ arCaso.prioridad }}</td>
-                                    <td>{{ arCaso.estadoAtendido ? 'SI':'NO' }}</td>
+                                    <td>
+                                        {% if arCaso.estadoAtendido == 0 %}
+                                            <button class="btn btn-primary btn-xs" type="submit" name="btnAtender" value="{{ arCaso.codigoCasoPk }}"><i class="glyphicon glyphicon-thumbs-up"></i></button>
+                                        {% else %}
+                                            SI
+                                        {% endif %}
+                                        </td>
                                     <td>{{ arCaso.estadoReabierto ? 'SI':'NO' }}</td>
                                     <td>{{ arCaso.estadoEscalado ? 'SI':'NO' }}</td>
-                                    <td>{{ arCaso.estadoSolucionado ? 'SI':'NO' }}</td>
-                                    <td class="actions">
+                                    <td>
                                         {% if arCaso.estadoSolucionado == 0 %}
-                                            <a href="javascript:abrirVentana3('{{ path('caso_solucionar', {'id' : arCaso.codigoCasoPk }) }}','solucionar',600,900)"><i class="fa fa-check-circle-o"></i></a>
+                                            <a href="javascript:abrirVentana3('{{ path('caso_solucionar', {'id' : arCaso.codigoCasoPk }) }}','solucionar',600,900)" class="btn btn-primary btn-xs"><i class="fa fa-check-circle-o"></i></a>
+                                        {% else %}
+                                            SI
                                         {% endif %}
                                     </td>
                                 </tr>
