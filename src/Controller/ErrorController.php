@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,60 +25,63 @@ class ErrorController extends Controller
 {
     private $strDqlLista;
 
+
     /**
-     * @Route("/error/lista", name="erroresLista")
+     * @Route("/error/lista", name="error_lista")
      */
-    public function lista(Request $request, Request $requestForm)
-    {
+    public function lista(Request $request) {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
-        $this->listarErrores($em);
-
-        if ($session->get("filtro_cliente")) {
-            $cliente = $em->getRepository("App:Cliente")->find($session->get('filtro_cliente'));
-        }
-        $formFiltro = $this::createFormBuilder()
-            ->add('clienteRel', EntityType::class, [
-                'placeholder' => 'Seleccione un cliente',
-                'required' => false,
-                'class' => 'App:Cliente',
-                'query_builder' => function(EntityRepository $er){
-                    return $er->createQueryBuilder('c')
-                              ->orderBy('c.nombreComercial', 'ASC');
-                },
-                'choice_label' => 'nombreComercial',
-                'data' => $cliente?? null,
-            ])
-            ->add('estadoAtendido', CheckboxType::class, [
-                'required' => false,
-                'data' => $session->get('filtro-estado-atendido'),
-            ])
-            ->add('estadoSolucionado', CheckboxType::class, [
-                'required' => false,
-                'data' => $session->get('filtro-estado-solucionado')
-            ])
-            ->add('btnFiltrar', SubmitType::class, [
-                'label' => 'Filtrar',
-                'attr' => [
-                    'class' => 'btn btn-primary btn-bordered waves-effect w-md waves-light m-b-5'
-                ]
-            ])
+        $paginator = $this->get('knp_paginator');
+        $form = $this->createFormBuilder()
+            ->add('estadoAtendido', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroErrorEstadoAtendido'), 'required' => false])
+            ->add('estadoSolucionado', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroErrorEstadoSolucionado'), 'required' => false])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
 
-        $formFiltro->handleRequest($request);
-        $cliente = null;
-        if ($formFiltro->isSubmitted() && $formFiltro->isValid()) {
-            $this->filtrar($formFiltro);
-            $this->listarErrores($em);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnFiltrar')->isClicked()) {
+                $session->set('filtroErrorEstadoAtendido', $form->get('estadoAtendido')->getData());
+                $session->set('filtroErrorEstadoSolucionado', $form->get('estadoSolucionado')->getData());
+            }
         }
-        $query = $em->createQuery($this->strDqlLista);
-        $errores = $query->getResult();
-
-        return $this->render("Error/listar.html.twig", [
-            'errores' => $errores,
-            'form' => $formFiltro->createView(),
+        $arErrores = $paginator->paginate($em->getRepository(Error::class)->lista(), $request->query->getInt('page', 1), 30);
+        return $this->render('Error/lista.html.twig', [
+            'arErrores' => $arErrores,
+            'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/error/solucionar/{id}", name="error_solucionar")
+     */
+    public function solucionar(Request $request, $id) {
+
+        $em = $this->getDoctrine()->getManager();
+        $arError = $em->getRepository(Error::class)->find($id);
+        $form = $this->createFormBuilder()
+            ->add('comentario',TextareaType::class, ['required' => false,'label' => 'Comentario:'])
+            ->add('btnSolucionar', SubmitType::class, ['label' => 'Solucionar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnSolucionar')->isClicked()) {
+                $arError->setEstadoAtendido(1);
+                $arError->setEstadoSolucionado(1);
+                $em->persist($arError);
+                $em->flush();
+                echo "<script language='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+            }
+        }
+        return $this->render('Error/solucionar.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+
+
 
     /**
      * @Route("/error/atender/{codigoError}", name="errorAtender")

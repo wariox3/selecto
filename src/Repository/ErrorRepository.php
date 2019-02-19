@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Error;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @method Error|null find($id, $lockMode = null, $lockVersion = null)
@@ -147,6 +148,40 @@ class ErrorRepository extends ServiceEntityRepository
             $arrSinAtender['arrErrores'] = $arrayResultado;
         }
         return $arrSinAtender;
+    }
+
+
+    public function lista()
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Error::class, 'e')
+            ->select('e.codigoErrorPk')
+        ->addSelect('e.traza')
+        ->addSelect('e.mensaje')
+            ->addSelect('e.fecha')
+            ->addSelect('e.archivo')
+            ->addSelect('c.nombreComercial as clienteNombre')
+        ->leftJoin('e.clienteRel', 'c')
+        ->orderBy('e.fecha', 'DESC');
+
+        switch ($session->get('filtroErrorEstadoAtendido')) {
+            case '0':
+                $queryBuilder->andWhere("e.estadoAtendido = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("e.estadoAtendido = 1");
+                break;
+        }
+        switch ($session->get('filtroErrorEstadoSolucionado')) {
+            case '0':
+                $queryBuilder->andWhere("e.estadoSolucionado = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("e.estadoSolucionado = 1");
+                break;
+        }
+        $queryBuilder->setMaxResults(100);
+        return $queryBuilder;
     }
 
 }
