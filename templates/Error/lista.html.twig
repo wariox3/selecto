@@ -55,7 +55,7 @@
                 <div class="toggle" data-plugin-toggle>
                     {% for arError in arErrores %}
                         <section class="toggle">
-                            <label>{{ arError.codigoErrorPk }}-{{ arError.clienteNombre }} ({{ arError.fecha |date('Y-m-d H:i') }}): {{ arError.mensaje }} </label>
+                            <label>{{ arError.codigoErrorPk }}-{{ arError.clienteNombre }} ({{ arError.fecha |date('Y-m-d H:i') }}) {{ arError.usuario }}: {{ arError.mensaje }} </label>
                             <p>Archivo: {{ arError.archivo }} Linea: {{ arError.linea }} <br/>{{ arError.traza }}</p>
                             {% if arError.estadoSolucionado == 0 %}
                                 <div class="btn-group" style="float: right">

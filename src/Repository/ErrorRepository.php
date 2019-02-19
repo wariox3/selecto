@@ -163,6 +163,7 @@ class ErrorRepository extends ServiceEntityRepository
             ->addSelect('e.linea')
             ->addSelect('e.estadoAtendido')
             ->addSelect('e.estadoSolucionado')
+            ->addSelect('e.usuario')
             ->addSelect('c.nombreComercial as clienteNombre')
         ->leftJoin('e.clienteRel', 'c')
         ->orderBy('e.fecha', 'DESC');
