@@ -71,6 +71,7 @@
                                 <th title="Re-abierto">R_A</th>
                                 <th title="Escalado">ESC</th>
                                 <th title="Solucionado">SOL</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -99,6 +100,7 @@
                                             SI
                                         {% endif %}
                                     </td>
+                                    <td style="text-align: center"><a href="{{ path('caso_detalle', { 'id': arCaso.codigoCasoPk }) }}" class="btn btn-primary btn-xs"><i class="fa fa-share-square"></i></a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

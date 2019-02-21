@@ -64,6 +64,8 @@ class CasoController extends Controller {
         ]);
     }
 
+
+
     /**
      * @Route("/caso/solucionar/{id}", name="caso_solucionar")
      */
@@ -115,7 +117,51 @@ class CasoController extends Controller {
 
 
 
-
+    /**
+     * @Route("/caso/detalle/{id}", name="caso_detalle")
+     */
+    public function detalle(Request $request, $id)
+    {
+        $paginator = $this->get('knp_paginator');
+        $em = $this->getDoctrine()->getManager();
+        $arCaso = $em->getRepository(Caso::class)->find($id);
+        $form = $this->createFormBuilder()
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $arrControles = $request->request->all();
+            if ($form->get('btnAutorizar')->isClicked()) {
+                $em->getRepository(InvPedido::class)->actualizarDetalles($id, $arrControles);
+                $em->getRepository(InvPedido::class)->autorizar($arPedido);
+            }
+            if ($form->get('btnDesautorizar')->isClicked()) {
+                $em->getRepository(InvPedido::class)->desautorizar($arPedido);
+            }
+            if ($form->get('btnImprimir')->isClicked()) {
+                $objFormatopedido = new Pedido();
+                $objFormatopedido->Generar($em, $id);
+            }
+            if ($form->get('btnAprobar')->isClicked()) {
+                $em->getRepository(InvPedido::class)->aprobar($arPedido);
+            }
+            if ($form->get('btnAnular')->isClicked()) {
+                $em->getRepository(InvPedido::class)->anular($arPedido);
+            }
+            if ($form->get('btnEliminar')->isClicked()) {
+                $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository(InvPedidoDetalle::class)->eliminar($arPedido, $arrDetallesSeleccionados);
+                $em->getRepository(InvPedido::class)->liquidar($id);
+            }
+            if ($form->get('btnActualizarDetalle')->isClicked()) {
+                $em->getRepository(InvPedido::class)->actualizarDetalles($id, $arrControles);
+            }
+            return $this->redirect($this->generateUrl('inventario_movimiento_comercial_pedido_detalle', ['id' => $id]));
+        }
+        return $this->render('Caso/detalle.html.twig', [
+            'form' => $form->createView(),
+            'arCaso' => $arCaso
+        ]);
+    }
 
 
 
@@ -376,7 +422,7 @@ class CasoController extends Controller {
 	}
 
 	/**
-	 * @Route("/caso/detalle/{codigoCaso}",requirements={"codigoCaso":"\d+"}, name="casoDetalle")
+	 * @Route("/caso/detallesa/{codigoCaso}",requirements={"codigoCaso":"\d+"}, name="casoDetallesa")
 	 */
 	public function listaUno(Request $request, $codigoCaso) {
 		$em = $this->getDoctrine()->getManager();
