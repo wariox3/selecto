@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Entity\Cliente;
+use App\Entity\Configuracion;
 use App\Entity\Error;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -56,12 +57,13 @@ class ErrorController extends Controller
     /**
      * @Route("/error/solucionar/{id}", name="error_solucionar")
      */
-    public function solucionar(Request $request, $id) {
+    public function solucionar(Request $request, $id, \Swift_Mailer $mailer) {
 
         $em = $this->getDoctrine()->getManager();
         $arError = $em->getRepository(Error::class)->find($id);
         $form = $this->createFormBuilder()
             ->add('comentario',TextareaType::class, ['required' => false,'label' => 'Comentario:'])
+            ->add('enviarCorreo', CheckboxType::class,['required' => false])
             ->add('btnSolucionar', SubmitType::class, ['label' => 'Solucionar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
 
@@ -72,6 +74,22 @@ class ErrorController extends Controller
                 $arError->setEstadoSolucionado(1);
                 $em->persist($arError);
                 $em->flush();
+                if($form->get('enviarCorreo')->getData()) {
+                    if(filter_var($arError->getEmail(), FILTER_VALIDATE_EMAIL)){
+                        $arrConfiguracion = $em->getRepository(Configuracion::class)->envioCorreo();
+                        $message = (new \Swift_Message('Error atendido, procesado y solucionado'.' - '.$arError->getCodigoErrorPk()))
+                            ->setFrom($arrConfiguracion['correoEmpresa'])
+                            ->setTo($arError->getEmail())
+                            ->setBody(
+                                $this->renderView(
+                                    'Error/enviarCorreoSolucion.html.twig',
+                                    array('arError' => $arError)
+                                ),
+                                'text/html'
+                            );
+                        $mailer->send($message);
+                    }
+                }
                 echo "<script language='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
             }
         }
@@ -79,6 +97,23 @@ class ErrorController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
