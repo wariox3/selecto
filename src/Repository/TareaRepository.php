@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Repository;
+use App\Entity\Tarea;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * TareaRepository
@@ -99,6 +101,63 @@ class TareaRepository extends \Doctrine\ORM\EntityRepository
             $arrSinRevisar['arrTareas'] = $arrayResultado;
         }
         return $arrSinRevisar;
+    }
+
+    public function lista()
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Tarea::class, 't')
+            ->select('t.codigoTareaPk')
+            ->addSelect('p.nombre AS prioridad')
+            ->addSelect('tp.nombre AS tipo')
+            ->addSelect('t.codigoCasoFk')
+            ->addSelect('t.codigoUsuarioRegistraFk')
+            ->addSelect('t.fechaRegistro')
+            ->addSelect('t.codigoUsuarioAsignaFk')
+            ->addSelect('t.descripcion')
+            ->addSelect('t.fechaGestion')
+            ->addSelect('t.fechaSolucion')
+            ->addSelect('t.estadoEjecucion')
+            ->addSelect('t.estadoPausa')
+            ->addSelect('t.estadoIncomprensible')
+            ->addSelect('t.estadoTerminado')
+            ->leftJoin('t.tareaTipoRel', 'tp')
+            ->leftJoin('t.prioridadRel', 'p')
+        ->orderBy('t.codigoTareaPk', 'DESC');
+
+        switch ($session->get('filtroTareaEstadoEjecucion')) {
+            case '0':
+                $queryBuilder->andWhere("t.estadoEjecucion = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("t.estadoEjecucion = 1");
+                break;
+        }
+        switch ($session->get('filtroTareaEstadoTerminado')) {
+            case '0':
+                $queryBuilder->andWhere("t.estadoTerminado = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("t.estadoTerminado = 1");
+                break;
+        }
+        switch ($session->get('filtroTareaEstadoIncomprensible')) {
+            case '0':
+                $queryBuilder->andWhere("t.estadoIncomprensible = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("t.estadoIncomprensible = 1");
+                break;
+        }
+        switch ($session->get('filtroTareaEstadoPausa')) {
+            case '0':
+                $queryBuilder->andWhere("t.estadoPausa = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("t.estadoPausa = 1");
+                break;
+        }
+        return $queryBuilder;
     }
 
 }

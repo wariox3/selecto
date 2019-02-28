@@ -1,273 +1,35 @@
 {% extends 'base.html.twig' %}
-
-{% block body %}
-<div id="wrapper">
-    {{ include('bloquesGenerales/menuEncabezado.html.twig') }}
-
-    {{ include('bloquesGenerales/menuIzquierdo.html.twig') }}
 {% block content %}
-    {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
-    {{ form_errors(form) }}
-
-    <div class="row">
-        <div class="col-md-12" style="padding: 20px;">
-            <div class="panel panel-border panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Detalles Tarea: <span
-                                class="label label-primary">#{{ tarea.codigoTareaPk }} </span></h3><br>
-                    <div class="row">
-                        <div style="float: left">
-                            {{ form_widget(form.BtnEjecucion, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-                            {{ form_widget(form.BtnIncomprendido, { 'attr': {'class': 'btn btn-orange btn-sm'} }) }}
-
-                            {{ form_widget(form.BtnPausar, { 'attr': {'class': 'btn btn-danger btn-sm'} }) }}
-                            {{ form_widget(form.BtnReanudar, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-
-
-                            {{ form_widget(form.BtnResuelto, { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-
-                        </div>
-
-                        <div style="float: right">
-                            {% if tarea.estadoEjecucion == 1  %}
-                                <span class="label label-info">Ejecucion</span>
-                            {% endif %}
-                            {% if tarea.estadoPausa == 1  %}
-                                <span class="label label-danger">Pausado</span>
-                            {% endif %}
-                            {% if tarea.estadoIncomprensible == 1 %}
-                                <span class="label label-orange">Incomprensible</span>
-                            {% endif %}
-                            {% if tarea.estadoTerminado == 1 %}
-                                <span class="label label-info">Resuelto</span>
-                            {% endif %}
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <div class="panel-body">
-                    <br>
-                    <br>
-                    <div class="row">
-                        <h4>Informacion tarea:</h4>
-                        <br>
-                        <hr>
-                        <table width="100%" class="table table-condensed table-bordered">
-                            <tr>
-                                <td class="titulo">TIPO:</th>
-                                <td class="td-in-well">{{ tarea.tareaTipoRel.nombre }}</td>
-                                <td class="titulo">PRIORIDAD:</th>
-                                <td class="td-in-well">{{ tarea.prioridadRel.nombre }}</td>
-                                <td class="titulo">USUARIO REGISTRA:</th>
-                                <td class="td-in-well" align="right">{{ tarea.codigoUsuarioRegistraFk}}</td>
-                                <td class="titulo">FECHA REGISTRO:</th>
-                                <td class="td-in-well" align="right">{{ tarea.fechaRegistro|date('d/m/Y')}}</td>
-                                <td class="titulo">USUARIO ASIGNA:</th>
-                                <td class="td-in-well">
-                                    {% if tarea.codigoUsuarioAsignaFk != null %}
-
-                                        {{ tarea.codigoUsuarioAsignaFk }}
-
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td class="titulo">FECHA GESTION:</th>
-                                <td class="td-in-well">
-                                    {% if tarea.fechaGestion != null %}
-
-                                        {{ tarea.fechaGestion|date('d/m/Y') }}
-
-                                    {% endif %}
-                                </td>
-
-
-                                <td class="titulo">FECHA EJECUCION:</th>
-                                <td class="td-in-well">
-                                    {% if tarea.fechaEjecucion != null %}
-
-                                        {{ tarea.fechaEjecucion|date('d/m/Y') }}
-
-                                    {% endif %}
-                                </td>
-
-                                <td class="titulo">FECHA SOLUCION:</th>
-                                <td class="td-in-well">
-                                    {% if tarea.fechaSolucion != null %}
-
-                                        {{ tarea.fechaSolucion|date('d/m/Y') }}
-                                    {% endif %}
-                                </td>
-
-                                <td class="titulo">FECHA VERIFICACION:</th>
-                                <td class="td-in-well">
-                                    {% if tarea.fechaVerificado != null %}
-
-                                        {{ tarea.fechaVerificado|date('d/m/Y') }}
-
-                                    {% endif %}
-                                </td>
-
-                                <td class="titulo">CASO:</th>
-                                <td class="td-in-well">
-                                    {% if tarea.codigoCasoFk != null %}
-
-                                        <a href="{{ path('casoDetalle', { 'codigoCaso':   tarea.casoRel.codigoCasoPk}) }}" target="_blank">{{ tarea.casoRel.codigoCasoPk }}</a>
-
-                                    {% endif %}
-                                </td>
-
-                            </tr>
-
-                        </table>
-
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <h4>Descripción :</h4>
-                        {{ tarea.descripcion }}
-                    </div>
-                    <hr>
-
-                    <div>
-                        <h4>Comentarios:</h4>
-                        <div class="card-box">
-                            <div class="table-responsive">
-                                <table id="tarea-table" class="table table table-hover m-0 ">
-
-                                    <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Fecha registro</th>
-                                        <th>Comentario</th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    {% for arComentarios in arComentarios %}
-                                        <tr>
-                                            <td>{{ arComentarios.codigoComentarioPk }}</td>
-                                            <td>{{ arComentarios.fechaRegistro | date("Y/m/d H:i") }}</td>
-                                            <td>{{ arComentarios.comentario }}</td>
-
-                                        </tr>
-                                    {% endfor %}
-
-                                    </tbody>
-
-
-                                </table>
-                            </div> <!-- table-responsive -->
-                        </div> <!-- end card -->
-                        <br>
-
-                        <div class="row">
-
-                                <h4>Comentarios :</h4>
-                                {{ form_widget(form.comentario) }}
-
-                        </div>
-                        <div style="float: right ">
-                            {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-                        </div>
-                        <br>
-                        <hr>
-                        <h4>Tiempos tarea:</h4>
-
-                            <div class="card-box">
-                                <div class="table-responsive">
-                                    <table id="tarea-table" class="table table table-hover m-0 ">
-
-                                        <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Fecha/Hora inicio</th>
-                                            <th>Fecha/Hora fin</th>
-                                            <th>Minutos</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        {% for arTareaTiempos in arTareaTiempos %}
-                                            <tr>
-                                                <td>{{ arTareaTiempos.codigoTareaTiempoPk }}</td>
-                                                <td>{{ arTareaTiempos.fechaHoraInicio | date("Y/m/d H:i") }}</td>
-                                                <td>{{ arTareaTiempos.fechaHoraFin != null ? arTareaTiempos.fechaHoraFin | date("Y/m/d H:i"):"" }}</td>
-                                                <td style="text-align: center">{{ arTareaTiempos.minutos != null ? arTareaTiempos.minutos:"0" }}</td>
-
-                                            </tr>
-                                        {% endfor %}
-
-                                        </tbody>
-
-
-                                    </table>
-                                </div> <!-- table-responsive -->
-                            </div> <!-- end card -->
-                        <hr>
-
-                        <div>
-                            <h4>Devoluciones ( total {{ tarea.numeroDevoluciones != null ? tarea.numeroDevoluciones : "0"  }} ):</h4>
-
-                            <div class="card-box">
-                                <div class="table-responsive">
-                                    <table id="tarea-table" class="table table table-hover m-0 ">
-                                        <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Fecha</th>
-                                            <th>Comentarios</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        {% for arDevoluciones in arDevoluciones %}
-                                            <tr>
-                                                <td>{{ arDevoluciones.codigoTareaDevolucionPk }}</td>
-                                                <td>{{ arDevoluciones.fecha| date("Y/m/d H:i") }}</td>
-                                                <td>{{ arDevoluciones.comentarios }}</td>
-                                            </tr>
-                                        {% endfor %}
-
-                                        </tbody>
-                                    </table>
-                                </div> <!-- table-responsive -->
-                            </div> <!-- end card -->
-                        </div>
-
-
-<hr>
-
-
-                    </div>
-                </div>
-
-                <div class="panel-footer">
-                    <a class="btn btn-default btn-sm" href="{{ path('listaTareaUsuario') }}"
-                       style="float:left">VOLVER</a>
-                    <div style="float: right ">
-                        {{ form_widget(form.btnGuardar , { 'attr': {'class': 'btn btn-success btn-sm'} }) }}
-                    </div>
-                    <div class="clearfix"></div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    {{ form_rest(form) }}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <table width="100%" class="table table-condensed table-bordered tabla-datos">
+        <tr>
+            <td class="titulo">CODIGO:</td>
+            <td class="td-in-well">{{ arTarea.codigoTareaPk }}</td>
+            <td class="titulo">FECHA:</td>
+            <td class="td-in-well">{{ arTarea.fechaRegistro | date('Y-m-d H:i') }}</td>
+            <td class="titulo">TIPO:</td>
+            <td class="td-in-well">{{ arTarea.tareaTipoRel.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">PRIORIDAD:</td>
+            <td class="td-in-well">{{ arTarea.prioridadRel.nombre }}</td>
+            <td class="titulo">USUARIO REGISTRA:</td>
+            <td class="td-in-well">{{ arTarea.codigoUsuarioRegistraFk }}</td>
+            <td class="titulo">USUARIO ASIGNA:</td>
+            <td class="td-in-well">{{ arTarea.codigoUsuarioAsignaFk }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">FECHA GESTION:</td>
+            <td class="td-in-well">{{ arTarea.fechaGestion | date('Y-m-d H:i') }}</td>
+            <td class="titulo">FECHA EJECUCION:</td>
+            <td class="td-in-well">{{ arTarea.fechaEjecucion | date('Y-m-d H:i') }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+        </tr>
+        <tr>
+            <td class="titulo">DESCRIPCION:</td>
+            <td class="td-in-well" colspan="5">{{ arTarea.descripcion }}</td>
+        </tr>
+    </table>
     {{ form_end(form) }}
-
-
-
-
-    {{ include('bloquesGenerales/pie.html.twig') }}
-{% endblock %}
 {% endblock %}
