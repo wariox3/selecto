@@ -57,11 +57,6 @@ class Usuario implements UserInterface, \Serializable
 	 */
 	private $codigoClienteFk;
 
-    /**
-     * @ORM\Column(name="codigo_tarea_fk", type="integer", nullable=true)
-     */
-    private $codigoTareaFk;
-
 	/**
 	 * @ORM\Column(name="codigo_rol_fk", type="integer", nullable=true)
 	 */
@@ -78,7 +73,11 @@ class Usuario implements UserInterface, \Serializable
 //     */
 	private $rolRel;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="usuariosClienteRel")
+     * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
+     */
+    private $clienteRel;
 
 
 	/**
