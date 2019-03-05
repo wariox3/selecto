@@ -36,4 +36,9 @@ class Norma
      */
     protected $mallasNormaRel;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MatrizDetalle", mappedBy="normaRel")
+     */
+    protected $matricesDetallesNormaRel;
+
 }
