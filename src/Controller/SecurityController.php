@@ -44,7 +44,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/logout")
+     * @Route("/logout", name="logout")
      */
     public function logoutAction(){
         throw new \RuntimeException('Esta funcion jamas debe ser llamada directamente');

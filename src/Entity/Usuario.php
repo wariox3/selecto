@@ -58,7 +58,7 @@ class Usuario implements UserInterface, \Serializable
 	private $codigoClienteFk;
 
 	/**
-	 * @ORM\Column(name="codigo_rol_fk", type="integer", nullable=true)
+	 * @ORM\Column(name="codigo_rol_fk", type="string", length=20, nullable=true)
 	 */
 	private $codigoRolFk;
 
@@ -66,12 +66,6 @@ class Usuario implements UserInterface, \Serializable
      * @ORM\Column(name="control", type="boolean", nullable=true)
      */
     private $control;
-
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Rol", inversedBy="usuarioRolRel")
-//     * @ORM\JoinColumn(name="codigo_rol_fk", referencedColumnName="codigo_rol_pk")
-//     */
-	private $rolRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="usuariosClienteRel")
@@ -109,7 +103,7 @@ class Usuario implements UserInterface, \Serializable
 	public function getRoles()
 	{
 
-		return array('ROLE_USER');
+        return array($this->codigoRolFk);
 	}
 
 	public function getPassword()
@@ -258,22 +252,6 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getCodigoTareaFk()
-    {
-        return $this->codigoTareaFk;
-    }
-
-    /**
-     * @param mixed $codigoTareaFk
-     */
-    public function setCodigoTareaFk($codigoTareaFk): void
-    {
-        $this->codigoTareaFk = $codigoTareaFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoRolFk()
     {
         return $this->codigoRolFk;
@@ -306,21 +284,18 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getRolRel()
+    public function getClienteRel()
     {
-        return $this->rolRel;
+        return $this->clienteRel;
     }
 
     /**
-     * @param mixed $rolRel
+     * @param mixed $clienteRel
      */
-    public function setRolRel($rolRel): void
+    public function setClienteRel($clienteRel): void
     {
-        $this->rolRel = $rolRel;
+        $this->clienteRel = $clienteRel;
     }
-	/**
-	 * end métodos de la clase User del core.
-	 */
 
 
 
