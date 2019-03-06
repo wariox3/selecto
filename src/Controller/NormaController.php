@@ -35,6 +35,7 @@ class NormaController extends Controller
             if ($form->get('guardar')->isClicked()) {
                 $nombre = $arNorma->getNormaTipoRel()->getNombre() . " " . $arNorma->getNumero() . " de " . $arNorma->getFecha()->format('Y-m-d');
                 $arNorma->setNombre($nombre);
+                $arNorma->setGrupoRel($arNorma->getSubgrupoRel()->getGrupoRel());
                 $arNorma = $form->getData();
                 $em->persist($arNorma);
                 $em->flush();

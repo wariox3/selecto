@@ -27,7 +27,16 @@ class NormaRepository extends ServiceEntityRepository
             ->addSelect('n.codigoSubgrupoFk')
             ->addSelect('n.codigoEntidadFk')
             ->addSelect('n.codigoJurisdiccionFk')
-        ->addSelect('n.estadoDerogado');
+            ->addSelect('nt.nombre as normaTipoNombre')
+            ->addSelect('n.estadoDerogado')
+            ->addSelect('sg.nombre as subgrupoNombre')
+            ->addSelect('e.nombre as entidadNombre')
+            ->addSelect('j.nombre as jurisdiccionNombre')
+        ->leftJoin('n.grupoRel' , 'g')
+        ->leftJoin('n.normaTipoRel', 'nt')
+        ->leftJoin('n.subgrupoRel', 'sg')
+        ->leftJoin('n.entidadRel', 'e')
+        ->leftJoin('n.jurisdiccionRel', 'j');
 
         if ($session->get('filtroNormaCodigo') != '') {
             $queryBuilder->andWhere("n.codigoNormaPk = '{$session->get('filtroNormaCodigo')}'");

@@ -73,12 +73,12 @@
                             {% for arNorma in arNormas %}
                                 <tr>
                                     <td>{{ arNorma.codigoNormaPk }}</td>
-                                    <td>{{ arNorma.codigoNormaTipoFk }}</td>
+                                    <td>{{ arNorma.normaTipoNombre }}</td>
                                     <td>{{ arNorma.numero }}</td>
                                     <td>{{ arNorma.codigoGrupoFk }}</td>
-                                    <td>{{ arNorma.codigoSubgrupoFk }}</td>
-                                    <td>{{ arNorma.codigoEntidadFk }}</td>
-                                    <td>{{ arNorma.codigoJurisdiccionFk }}</td>
+                                    <td>{{ arNorma.subgrupoNombre }}</td>
+                                    <td>{{ arNorma.entidadNombre }}</td>
+                                    <td>{{ arNorma.jurisdiccionNombre }}</td>
                                     <td>{{ arNorma.nombre }}</td>
                                     <td>{{ arNorma.descripcion }}</td>
                                     <td>{{ arNorma.estadoDerogado ? 'SI':'NO' }}</td>
