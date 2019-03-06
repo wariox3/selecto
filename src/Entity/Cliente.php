@@ -20,7 +20,6 @@ class Cliente
     private $codigoClientePk;
 
     /**
-     * @var string
      * @ORM\Column(name="nombre_corto", type="string", length=255, nullable=true)
      */
     private $nombreCorto;

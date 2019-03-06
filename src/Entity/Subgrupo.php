@@ -14,15 +14,68 @@ class Subgrupo
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=30)
      */
     private $codigoSubgrupoPk;
 
     /**
-     * @var string
      * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
      */
     private $nombre;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Norma", mappedBy="subgrupoRel")
+     */
+    protected $normasSubgrupoRel;
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoSubgrupoPk()
+    {
+        return $this->codigoSubgrupoPk;
+    }
+
+    /**
+     * @param mixed $codigoSubgrupoPk
+     */
+    public function setCodigoSubgrupoPk($codigoSubgrupoPk): void
+    {
+        $this->codigoSubgrupoPk = $codigoSubgrupoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNormasSubgrupoRel()
+    {
+        return $this->normasSubgrupoRel;
+    }
+
+    /**
+     * @param mixed $normasSubgrupoRel
+     */
+    public function setNormasSubgrupoRel($normasSubgrupoRel): void
+    {
+        $this->normasSubgrupoRel = $normasSubgrupoRel;
+    }
+
+
 
 }
