@@ -26,11 +26,15 @@ class NormaController extends Controller
         $arNorma = new Norma();
         if ($id != 0) {
             $arNorma = $em->getRepository(Norma::class)->find($id);
+        } else {
+            $arNorma->setFecha(new \DateTime('now'));
         }
         $form = $this->createForm(NormaType::class, $arNorma);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
+                $nombre = $arNorma->getNormaTipoRel()->getNombre() . " " . $arNorma->getNumero() . " de " . $arNorma->getFecha()->format('Y-m-d');
+                $arNorma->setNombre($nombre);
                 $arNorma = $form->getData();
                 $em->persist($arNorma);
                 $em->flush();

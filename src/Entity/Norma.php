@@ -20,9 +20,24 @@ class Norma
     private $codigoNormaPk;
 
     /**
+     * @ORM\Column(name="codigo_norma_tipo_fk", type="string", length=30, nullable=true)
+     */
+    private $codigoNormaTipoFk;
+
+    /**
      * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
      */
     private $nombre;
+
+    /**
+     * @ORM\Column(name="numero", type="string", length=255, nullable=true)
+     */
+    private $numero;
+
+    /**
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
 
     /**
      * @ORM\Column(name="descripcion", type="text", nullable=true)
@@ -53,6 +68,12 @@ class Norma
      * @ORM\Column(name="estado_derogado", type="boolean", nullable=true, options={"default" : false})
      */
     private $estadoDerogado = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="NormaTipo", inversedBy="normasNormaTipoRel")
+     * @ORM\JoinColumn(name="codigo_norma_tipo_fk", referencedColumnName="codigo_norma_tipo_pk")
+     */
+    private $normaTipoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="normasGrupoRel")
@@ -310,6 +331,70 @@ class Norma
     public function setJurisdiccionRel($jurisdiccionRel): void
     {
         $this->jurisdiccionRel = $jurisdiccionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param mixed $numero
+     */
+    public function setNumero($numero): void
+    {
+        $this->numero = $numero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoNormaTipoFk()
+    {
+        return $this->codigoNormaTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoNormaTipoFk
+     */
+    public function setCodigoNormaTipoFk($codigoNormaTipoFk): void
+    {
+        $this->codigoNormaTipoFk = $codigoNormaTipoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNormaTipoRel()
+    {
+        return $this->normaTipoRel;
+    }
+
+    /**
+     * @param mixed $normaTipoRel
+     */
+    public function setNormaTipoRel($normaTipoRel): void
+    {
+        $this->normaTipoRel = $normaTipoRel;
     }
 
 

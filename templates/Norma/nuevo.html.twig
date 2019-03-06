@@ -15,9 +15,9 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Nombre:</label>
+                        <label class="col-sm-1 control-label">Tipo:</label>
                         <div class="col-sm-5">
-                            {{ form_widget(form.nombre) }}
+                            {{ form_widget(form.normaTipoRel) }}
                         </div>
                         <label class="col-sm-1 control-label">Grupo:</label>
                         <div class="col-sm-5">
@@ -25,9 +25,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Entidad:</label>
+                        <label class="col-sm-1 control-label">Numero:</label>
                         <div class="col-sm-5">
-                            {{ form_widget(form.entidadRel) }}
+                            {{ form_widget(form.numero) }}
                         </div>
                         <label class="col-sm-1 control-label">Subgrupo:</label>
                         <div class="col-sm-5">
@@ -35,12 +35,23 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-sm-1 control-label">Fecha:</label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.fecha) }}
+                        </div>
+                        <label class="col-sm-1 control-label">Entidad:</label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.entidadRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-5">
+
+                        </div>
                         <label class="col-sm-1 control-label">Jurisdiccion:</label>
                         <div class="col-sm-5">
                             {{ form_widget(form.jurisdiccionRel) }}
-                        </div>
-                        <label class="col-sm-1 control-label"></label>
-                        <div class="col-sm-5">
                         </div>
                     </div>
                     <div class="form-group">

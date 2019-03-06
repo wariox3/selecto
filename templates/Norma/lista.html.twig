@@ -56,6 +56,8 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Tipo</th>
+                                <th>Numero</th>
                                 <th>Grupo</th>
                                 <th>Subgrupo</th>
                                 <th>Entidad</th>
@@ -71,6 +73,8 @@
                             {% for arNorma in arNormas %}
                                 <tr>
                                     <td>{{ arNorma.codigoNormaPk }}</td>
+                                    <td>{{ arNorma.codigoNormaTipoFk }}</td>
+                                    <td>{{ arNorma.numero }}</td>
                                     <td>{{ arNorma.codigoGrupoFk }}</td>
                                     <td>{{ arNorma.codigoSubgrupoFk }}</td>
                                     <td>{{ arNorma.codigoEntidadFk }}</td>

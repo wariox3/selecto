@@ -19,6 +19,8 @@ class NormaRepository extends ServiceEntityRepository
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Norma::class, 'n')
             ->select('n.codigoNormaPk')
+            ->addSelect('n.codigoNormaTipoFk')
+            ->addSelect('n.numero')
             ->addSelect('n.nombre')
             ->addSelect('n.descripcion')
             ->addSelect('n.codigoGrupoFk')
