@@ -18,7 +18,7 @@ class NormaController extends Controller
 {
 
     /**
-     * @Route("/norma/nuevo/{id}", name="norma_nuevo")
+     * @Route("/admin/norma/nuevo/{id}", name="norma_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -44,7 +44,7 @@ class NormaController extends Controller
     }
 
     /**
-     * @Route("/norma/lista", name="norma_lista")
+     * @Route("/admin/norma/lista", name="norma_lista")
      */
     public function lista(Request $request) {
         $session = new Session();
@@ -75,7 +75,7 @@ class NormaController extends Controller
     }
 
     /**
-     * @Route("/norma/detalle/{id}", name="norma_detalle")
+     * @Route("/admin/norma/detalle/{id}", name="norma_detalle")
      */
     public function detalle(Request $request, $id)
     {
