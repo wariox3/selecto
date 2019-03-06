@@ -24,6 +24,17 @@ class Subgrupo
     private $nombre;
 
     /**
+     * @ORM\Column(name="codigo_grupo_fk", type="string", length=30, nullable=true)
+     */
+    private $codigoGrupoFk;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="subgruposGrupoRel")
+     * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
+     */
+    private $grupoRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="Norma", mappedBy="subgrupoRel")
      */
     protected $normasSubgrupoRel;
@@ -74,6 +85,38 @@ class Subgrupo
     public function setNormasSubgrupoRel($normasSubgrupoRel): void
     {
         $this->normasSubgrupoRel = $normasSubgrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * @param mixed $codigoGrupoFk
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk): void
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
+    }
+
+    /**
+     * @param mixed $grupoRel
+     */
+    public function setGrupoRel($grupoRel): void
+    {
+        $this->grupoRel = $grupoRel;
     }
 
 

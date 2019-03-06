@@ -24,6 +24,11 @@ class Grupo
     private $nombre;
 
     /**
+     * @ORM\OneToMany(targetEntity="Subgrupo", mappedBy="grupoRel")
+     */
+    protected $subgruposGrupoRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="Norma", mappedBy="grupoRel")
      */
     protected $normasGrupoRel;
@@ -74,6 +79,22 @@ class Grupo
     public function setNormasGrupoRel($normasGrupoRel): void
     {
         $this->normasGrupoRel = $normasGrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubgruposGrupoRel()
+    {
+        return $this->subgruposGrupoRel;
+    }
+
+    /**
+     * @param mixed $subgruposGrupoRel
+     */
+    public function setSubgruposGrupoRel($subgruposGrupoRel): void
+    {
+        $this->subgruposGrupoRel = $subgruposGrupoRel;
     }
 
 
