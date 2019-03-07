@@ -1,4 +1,4 @@
-{% extends 'base_admin.html.twig' %}
+{% extends 'base_sin_menu.html.twig' %}
 
 {% block content %}
     <div class="row">
@@ -53,10 +53,7 @@
                 </div>
                 <footer class="panel-footer">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('norma_lista') }}">Cancelar</a>
-                        </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
                         </div>
                     </div>

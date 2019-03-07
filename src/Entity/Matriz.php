@@ -25,8 +25,101 @@ class Matriz
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="MatrizDetalle", mappedBy="matrizRel")
+     * @ORM\Column(name="codigo_grupo_fk", type="string", length=30, nullable=true)
      */
-    protected $matricesDetallesMatrizRel;
+    private $codigoGrupoFk;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="matricesGrupoRel")
+     * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
+     */
+    private $grupoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Norma", mappedBy="matrizRel")
+     */
+    protected $normasMatrizRel;
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoMatrizPk()
+    {
+        return $this->codigoMatrizPk;
+    }
+
+    /**
+     * @param mixed $codigoMatrizPk
+     */
+    public function setCodigoMatrizPk($codigoMatrizPk): void
+    {
+        $this->codigoMatrizPk = $codigoMatrizPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * @param mixed $codigoGrupoFk
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk): void
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
+    }
+
+    /**
+     * @param mixed $grupoRel
+     */
+    public function setGrupoRel($grupoRel): void
+    {
+        $this->grupoRel = $grupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNormasMatrizRel()
+    {
+        return $this->normasMatrizRel;
+    }
+
+    /**
+     * @param mixed $normasMatrizRel
+     */
+    public function setNormasMatrizRel($normasMatrizRel): void
+    {
+        $this->normasMatrizRel = $normasMatrizRel;
+    }
+
+
 
 }

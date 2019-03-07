@@ -18,9 +18,9 @@ class NormaController extends Controller
 {
 
     /**
-     * @Route("/admin/norma/nuevo/{id}", name="norma_nuevo")
+     * @Route("/admin/norma/nuevo/{id}/{codigoMatriz}", name="norma_nuevo")
      */
-    public function nuevo(Request $request, $id)
+    public function nuevo(Request $request, $id, $codigoMatriz)
     {
         $em = $this->getDoctrine()->getManager();
         $arNorma = new Norma();

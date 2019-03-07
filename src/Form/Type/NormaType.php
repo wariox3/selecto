@@ -51,15 +51,12 @@ class NormaType extends AbstractType {
             ->add('subgrupoRel',EntityType::class,[
                 'required' => true,
                 'class' => Subgrupo::class,
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('s')
-                        ->orderBy('s.codigoGrupoFk', 'ASC');
+                        ->orderBy('s.codigoGrupoFk', 'ASC')
+                        ->where("s.codigoGrupoFk='" . $options['data']->getGrupoRel()->getCodigoGrupoPk() . "'");
                 },
-                'choice_label' => function($er){
-                    $subgrupo = $er->getNombre();
-                    return '[' . $er->getGrupoRel()->getNombre() . '] ' . $er->getNombre();
-                },
-                'label' => 'Subgrupo:'
+                'choice_label' => 'nombre',
             ])
             ->add('numero', TextType::class, array('required' => true))
             ->add('fecha', DateType::class)

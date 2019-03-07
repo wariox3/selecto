@@ -56,6 +56,7 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Matriz</th>
                                 <th>Tipo</th>
                                 <th>Numero</th>
                                 <th>Grupo</th>
@@ -73,6 +74,7 @@
                             {% for arNorma in arNormas %}
                                 <tr>
                                     <td>{{ arNorma.codigoNormaPk }}</td>
+                                    <td>{{ arNorma.matrizNombre }}</td>
                                     <td>{{ arNorma.normaTipoNombre }}</td>
                                     <td>{{ arNorma.numero }}</td>
                                     <td>{{ arNorma.codigoGrupoFk }}</td>
@@ -83,9 +85,7 @@
                                     <td>{{ arNorma.descripcion }}</td>
                                     <td>{{ arNorma.estadoDerogado ? 'SI':'NO' }}</td>
                                     <td style="text-align: center">
-                                        <a href="{{ path('norma_nuevo', { 'id': arNorma.codigoNormaPk }) }}">
-                                            <i class="fa fa-edit fa-lg"></i>
-                                        </a>
+                                        <a href="javascript:abrirVentana3('{{ path('matriz_norma_nuevo', {'id': arNorma.codigoNormaPk, 'codigoMatriz': arNorma.codigoMatrizFk}) }}', 'NuevaNorma', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
                                     </td>
                                     <td style="text-align: center">
                                         <a href="{{ path('norma_detalle', { 'id': arNorma.codigoNormaPk }) }}">
@@ -98,13 +98,6 @@
                         </table>
                     </div>
                 </div>
-                <footer class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-9 col-sm-offset-3" >
-                            <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="{{ path('norma_nuevo', {'id': 0}) }}">Nuevo</a>
-                        </div>
-                    </div>
-                </footer>
             </section>
         </div>
         {{ form_rest(form) }}

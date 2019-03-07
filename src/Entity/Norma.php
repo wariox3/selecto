@@ -20,6 +20,11 @@ class Norma
     private $codigoNormaPk;
 
     /**
+     * @ORM\Column(name="codigo_matriz_fk", type="integer", nullable=true)
+     */
+    private $codigoMatrizFk;
+
+    /**
      * @ORM\Column(name="codigo_norma_tipo_fk", type="string", length=30, nullable=true)
      */
     private $codigoNormaTipoFk;
@@ -70,6 +75,12 @@ class Norma
     private $estadoDerogado = false;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Matriz", inversedBy="normasMatrizRel")
+     * @ORM\JoinColumn(name="codigo_matriz_fk", referencedColumnName="codigo_matriz_pk")
+     */
+    private $matrizRel;
+
+    /**
      * @ORM\ManyToOne(targetEntity="NormaTipo", inversedBy="normasNormaTipoRel")
      * @ORM\JoinColumn(name="codigo_norma_tipo_fk", referencedColumnName="codigo_norma_tipo_pk")
      */
@@ -105,11 +116,6 @@ class Norma
     protected $mallasNormaRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="MatrizDetalle", mappedBy="normaRel")
-     */
-    protected $matricesDetallesNormaRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoNormaPk()
@@ -128,6 +134,38 @@ class Norma
     /**
      * @return mixed
      */
+    public function getCodigoMatrizFk()
+    {
+        return $this->codigoMatrizFk;
+    }
+
+    /**
+     * @param mixed $codigoMatrizFk
+     */
+    public function setCodigoMatrizFk($codigoMatrizFk): void
+    {
+        $this->codigoMatrizFk = $codigoMatrizFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoNormaTipoFk()
+    {
+        return $this->codigoNormaTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoNormaTipoFk
+     */
+    public function setCodigoNormaTipoFk($codigoNormaTipoFk): void
+    {
+        $this->codigoNormaTipoFk = $codigoNormaTipoFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getNombre()
     {
         return $this->nombre;
@@ -139,198 +177,6 @@ class Norma
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
-    /**
-     * @param mixed $descripcion
-     */
-    public function setDescripcion($descripcion): void
-    {
-        $this->descripcion = $descripcion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMallasNormaRel()
-    {
-        return $this->mallasNormaRel;
-    }
-
-    /**
-     * @param mixed $mallasNormaRel
-     */
-    public function setMallasNormaRel($mallasNormaRel): void
-    {
-        $this->mallasNormaRel = $mallasNormaRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMatricesDetallesNormaRel()
-    {
-        return $this->matricesDetallesNormaRel;
-    }
-
-    /**
-     * @param mixed $matricesDetallesNormaRel
-     */
-    public function setMatricesDetallesNormaRel($matricesDetallesNormaRel): void
-    {
-        $this->matricesDetallesNormaRel = $matricesDetallesNormaRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstadoDerogado()
-    {
-        return $this->estadoDerogado;
-    }
-
-    /**
-     * @param mixed $estadoDerogado
-     */
-    public function setEstadoDerogado($estadoDerogado): void
-    {
-        $this->estadoDerogado = $estadoDerogado;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoGrupoFk()
-    {
-        return $this->codigoGrupoFk;
-    }
-
-    /**
-     * @param mixed $codigoGrupoFk
-     */
-    public function setCodigoGrupoFk($codigoGrupoFk): void
-    {
-        $this->codigoGrupoFk = $codigoGrupoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoSubgrupoFk()
-    {
-        return $this->codigoSubgrupoFk;
-    }
-
-    /**
-     * @param mixed $codigoSubgrupoFk
-     */
-    public function setCodigoSubgrupoFk($codigoSubgrupoFk): void
-    {
-        $this->codigoSubgrupoFk = $codigoSubgrupoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGrupoRel()
-    {
-        return $this->grupoRel;
-    }
-
-    /**
-     * @param mixed $grupoRel
-     */
-    public function setGrupoRel($grupoRel): void
-    {
-        $this->grupoRel = $grupoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubgrupoRel()
-    {
-        return $this->subgrupoRel;
-    }
-
-    /**
-     * @param mixed $subgrupoRel
-     */
-    public function setSubgrupoRel($subgrupoRel): void
-    {
-        $this->subgrupoRel = $subgrupoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoEntidadFk()
-    {
-        return $this->codigoEntidadFk;
-    }
-
-    /**
-     * @param mixed $codigoEntidadFk
-     */
-    public function setCodigoEntidadFk($codigoEntidadFk): void
-    {
-        $this->codigoEntidadFk = $codigoEntidadFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoJurisdiccionFk()
-    {
-        return $this->codigoJurisdiccionFk;
-    }
-
-    /**
-     * @param mixed $codigoJurisdiccionFk
-     */
-    public function setCodigoJurisdiccionFk($codigoJurisdiccionFk): void
-    {
-        $this->codigoJurisdiccionFk = $codigoJurisdiccionFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEntidadRel()
-    {
-        return $this->entidadRel;
-    }
-
-    /**
-     * @param mixed $entidadRel
-     */
-    public function setEntidadRel($entidadRel): void
-    {
-        $this->entidadRel = $entidadRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getJurisdiccionRel()
-    {
-        return $this->jurisdiccionRel;
-    }
-
-    /**
-     * @param mixed $jurisdiccionRel
-     */
-    public function setJurisdiccionRel($jurisdiccionRel): void
-    {
-        $this->jurisdiccionRel = $jurisdiccionRel;
     }
 
     /**
@@ -368,17 +214,113 @@ class Norma
     /**
      * @return mixed
      */
-    public function getCodigoNormaTipoFk()
+    public function getDescripcion()
     {
-        return $this->codigoNormaTipoFk;
+        return $this->descripcion;
     }
 
     /**
-     * @param mixed $codigoNormaTipoFk
+     * @param mixed $descripcion
      */
-    public function setCodigoNormaTipoFk($codigoNormaTipoFk): void
+    public function setDescripcion($descripcion): void
     {
-        $this->codigoNormaTipoFk = $codigoNormaTipoFk;
+        $this->descripcion = $descripcion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * @param mixed $codigoGrupoFk
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk): void
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoSubgrupoFk()
+    {
+        return $this->codigoSubgrupoFk;
+    }
+
+    /**
+     * @param mixed $codigoSubgrupoFk
+     */
+    public function setCodigoSubgrupoFk($codigoSubgrupoFk): void
+    {
+        $this->codigoSubgrupoFk = $codigoSubgrupoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEntidadFk()
+    {
+        return $this->codigoEntidadFk;
+    }
+
+    /**
+     * @param mixed $codigoEntidadFk
+     */
+    public function setCodigoEntidadFk($codigoEntidadFk): void
+    {
+        $this->codigoEntidadFk = $codigoEntidadFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoJurisdiccionFk()
+    {
+        return $this->codigoJurisdiccionFk;
+    }
+
+    /**
+     * @param mixed $codigoJurisdiccionFk
+     */
+    public function setCodigoJurisdiccionFk($codigoJurisdiccionFk): void
+    {
+        $this->codigoJurisdiccionFk = $codigoJurisdiccionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstadoDerogado()
+    {
+        return $this->estadoDerogado;
+    }
+
+    /**
+     * @param mixed $estadoDerogado
+     */
+    public function setEstadoDerogado($estadoDerogado): void
+    {
+        $this->estadoDerogado = $estadoDerogado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMatrizRel()
+    {
+        return $this->matrizRel;
+    }
+
+    /**
+     * @param mixed $matrizRel
+     */
+    public function setMatrizRel($matrizRel): void
+    {
+        $this->matrizRel = $matrizRel;
     }
 
     /**
@@ -396,6 +338,87 @@ class Norma
     {
         $this->normaTipoRel = $normaTipoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
+    }
+
+    /**
+     * @param mixed $grupoRel
+     */
+    public function setGrupoRel($grupoRel): void
+    {
+        $this->grupoRel = $grupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubgrupoRel()
+    {
+        return $this->subgrupoRel;
+    }
+
+    /**
+     * @param mixed $subgrupoRel
+     */
+    public function setSubgrupoRel($subgrupoRel): void
+    {
+        $this->subgrupoRel = $subgrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntidadRel()
+    {
+        return $this->entidadRel;
+    }
+
+    /**
+     * @param mixed $entidadRel
+     */
+    public function setEntidadRel($entidadRel): void
+    {
+        $this->entidadRel = $entidadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJurisdiccionRel()
+    {
+        return $this->jurisdiccionRel;
+    }
+
+    /**
+     * @param mixed $jurisdiccionRel
+     */
+    public function setJurisdiccionRel($jurisdiccionRel): void
+    {
+        $this->jurisdiccionRel = $jurisdiccionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMallasNormaRel()
+    {
+        return $this->mallasNormaRel;
+    }
+
+    /**
+     * @param mixed $mallasNormaRel
+     */
+    public function setMallasNormaRel($mallasNormaRel): void
+    {
+        $this->mallasNormaRel = $mallasNormaRel;
+    }
+
 
 
 

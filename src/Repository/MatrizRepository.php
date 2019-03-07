@@ -18,40 +18,13 @@ class MatrizRepository extends ServiceEntityRepository
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Matriz::class, 'm')
-            ->select('m.codigoMatrizPk');
-
-        /*        switch ($session->get('filtroTareaEstadoEjecucion')) {
-                    case '0':
-                        $queryBuilder->andWhere("t.estadoEjecucion = 0");
-                        break;
-                    case '1':
-                        $queryBuilder->andWhere("t.estadoEjecucion = 1");
-                        break;
-                }
-                switch ($session->get('filtroTareaEstadoTerminado')) {
-                    case '0':
-                        $queryBuilder->andWhere("t.estadoTerminado = 0");
-                        break;
-                    case '1':
-                        $queryBuilder->andWhere("t.estadoTerminado = 1");
-                        break;
-                }
-                switch ($session->get('filtroTareaEstadoIncomprensible')) {
-                    case '0':
-                        $queryBuilder->andWhere("t.estadoIncomprensible = 0");
-                        break;
-                    case '1':
-                        $queryBuilder->andWhere("t.estadoIncomprensible = 1");
-                        break;
-                }
-                switch ($session->get('filtroTareaEstadoPausa')) {
-                    case '0':
-                        $queryBuilder->andWhere("t.estadoPausa = 0");
-                        break;
-                    case '1':
-                        $queryBuilder->andWhere("t.estadoPausa = 1");
-                        break;
-                }*/
+            ->select('m.codigoMatrizPk')
+        ->addSelect('m.nombre')
+            ->addSelect('g.nombre as grupoNombre')
+        ->leftJoin('m.grupoRel', 'g');
+        if ($session->get('filtroMatrizNombre') != '') {
+            $queryBuilder->andWhere("m.nombre LIKE '%{$session->get('filtroMatrizNombre')}%'");
+        }
         return $queryBuilder;
     }
 

@@ -34,6 +34,11 @@ class Grupo
     protected $normasGrupoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Matriz", mappedBy="grupoRel")
+     */
+    protected $matricesGrupoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoGrupoPk()
@@ -95,6 +100,22 @@ class Grupo
     public function setSubgruposGrupoRel($subgruposGrupoRel): void
     {
         $this->subgruposGrupoRel = $subgruposGrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMatricesGrupoRel()
+    {
+        return $this->matricesGrupoRel;
+    }
+
+    /**
+     * @param mixed $matricesGrupoRel
+     */
+    public function setMatricesGrupoRel($matricesGrupoRel): void
+    {
+        $this->matricesGrupoRel = $matricesGrupoRel;
     }
 
 

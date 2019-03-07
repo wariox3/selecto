@@ -3,6 +3,7 @@
 {% block content %}
     <div class="row">
         {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
@@ -15,43 +16,13 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label class="col-sm-1 control-label">Nombre:</label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.nombre) }}
+                        </div>
                         <label class="col-sm-1 control-label"></label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-5">
 
-                        </div>
-                        <label class="col-sm-1 control-label">Ejecucion:</label>
-                        <div class="col-sm-2">
-                            {{ form_widget(form.estadoEjecucion) }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label"></label>
-                        <div class="col-sm-8">
-
-                        </div>
-                        <label class="col-sm-1 control-label">Incomprensible:</label>
-                        <div class="col-sm-2">
-                            {{ form_widget(form.estadoIncomprensible) }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label"></label>
-                        <div class="col-sm-8">
-
-                        </div>
-                        <label class="col-sm-1 control-label">Pausa:</label>
-                        <div class="col-sm-2">
-                            {{ form_widget(form.estadoPausa) }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label"></label>
-                        <div class="col-sm-8">
-
-                        </div>
-                        <label class="col-sm-1 control-label">Terminado:</label>
-                        <div class="col-sm-2">
-                            {{ form_widget(form.estadoTerminado) }}
                         </div>
                     </div>
                 </div>
@@ -67,20 +38,15 @@
 
         <div class="col-md-12">
             <section class="panel">
-                <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                        <a href="#" class="fa fa-times"></a>
-                    </div>
-
-                    <h2 class="panel-title">Lista</h2>
-                </header>
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table table-condensed table-bordered table-hover mb-none">
                             <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Grupo</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -88,7 +54,18 @@
                             {% for arMatriz in arMatrices %}
                                 <tr>
                                     <td>{{ arMatriz.codigoMatrizPk }}</td>
-                                    <td style="text-align: center"><a href="{{ path('matriz_detalle', { 'id': arMatriz.codigoMatrizPk }) }}" class="btn btn-primary btn-xs"><i class="fa fa-share-square"></i></a></td>
+                                    <td>{{ arMatriz.nombre }}</td>
+                                    <td>{{ arMatriz.grupoNombre }}</td>
+                                    <td style="text-align: center">
+                                        <a href="{{ path('matriz_nuevo', { 'id': arMatriz.codigoMatrizPk }) }}">
+                                            <i class="fa fa-edit fa-lg"></i>
+                                        </a>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <a href="{{ path('matriz_detalle', { 'id': arMatriz.codigoMatrizPk }) }}">
+                                            <i class="fa fa-share-square fa-lg"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -97,8 +74,8 @@
                 </div>
                 <footer class="panel-footer">
                     <div class="row">
-                        <div class="col-sm-9 col-sm-offset-3">
-                            {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                        <div class="col-sm-9 col-sm-offset-3" >
+                            <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="{{ path('matriz_nuevo', {'id': 0}) }}">Nuevo</a>
                         </div>
                     </div>
                 </footer>
