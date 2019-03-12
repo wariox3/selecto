@@ -116,6 +116,11 @@ class Norma
     protected $mallasNormaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Articulo", mappedBy="normaRel")
+     */
+    protected $articulosNormaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoNormaPk()
@@ -417,6 +422,22 @@ class Norma
     public function setMallasNormaRel($mallasNormaRel): void
     {
         $this->mallasNormaRel = $mallasNormaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArticulosNormaRel()
+    {
+        return $this->articulosNormaRel;
+    }
+
+    /**
+     * @param mixed $articulosNormaRel
+     */
+    public function setArticulosNormaRel($articulosNormaRel): void
+    {
+        $this->articulosNormaRel = $articulosNormaRel;
     }
 
 

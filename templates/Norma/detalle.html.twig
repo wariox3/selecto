@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
-            <a class="btn btn-default btn-sm"
-               href="{{ path('norma_lista') }}">Volver</a>
+            <a class="btn btn-default btn-sm" href="{{ path('norma_lista') }}">Volver</a>
+            <a class="btn btn-default btn-sm" href="{{ path('matriz_detalle', {'id': arNorma.codigoMatrizFk}) }}">Volver matriz</a>
         </div>
     </div>
     <br/><br/>
@@ -30,5 +30,61 @@
             <td class="td-in-well" colspan="5">{{ arNorma.descripcion }}</td>
         </tr>
     </table>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabs tabs-primary">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#articulos" data-toggle="tab"><i class="fa fa-star"></i> Articulos</a></li>
+                    <li><a href="#recent1" data-toggle="tab">Otro</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="articulos" class="tab-pane active">
+                        <table class="table table-condensed table-bordered table-hover mb-none">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Obligacion</th>
+                                <th>Accion</th>
+                                <th title="Estado derogado">DER</th>
+                                <th title="Verificable">VER</th><th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arArticulo in arArticulos %}
+                                <tr>
+                                    <td>{{ arArticulo.codigoArticuloPk }}</td>
+                                    <td>{{ arArticulo.obligacion }}</td>
+                                    <td>{{ arArticulo.accionNombre }}</td>
+                                    <td>{{ arArticulo.estadoDerogado ? 'SI':'NO' }}</td>
+                                    <td>{{ arArticulo.verificable ? 'SI':'NO' }}</td>
+                                    <td style="text-align: center">
+                                        <a href="javascript:abrirVentana3('{{ path('norma_articulo_nuevo', {'id': arArticulo.codigoArticuloPk, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoArticulo', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
+                                    </td>
+                                    <td style="text-align: center">
+{#                                        <a href="{{ path('norma_detalle', { 'id': arNorma.codigoNormaPk }) }}">
+                                            <i class="fa fa-share-square fa-lg"></i>
+                                        </a>#}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <footer class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-9 col-sm-offset-3" >
+                                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="javascript:abrirVentana3('{{ path('norma_articulo_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevaArticulo', 600, 1200)">Nuevo</a>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                    <div id="recent1" class="tab-pane">
+                        <p>Recent</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
