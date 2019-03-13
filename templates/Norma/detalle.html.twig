@@ -4,7 +4,6 @@
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
             <a class="btn btn-default btn-sm" href="{{ path('norma_lista') }}">Volver</a>
-            <a class="btn btn-default btn-sm" href="{{ path('matriz_detalle', {'id': arNorma.codigoMatrizFk}) }}">Volver matriz</a>
         </div>
     </div>
     <br/><br/>
@@ -34,15 +33,18 @@
         <div class="col-md-12">
             <div class="tabs tabs-primary">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#articulos" data-toggle="tab"><i class="fa fa-star"></i> Articulos</a></li>
-                    <li><a href="#recent1" data-toggle="tab">Otro</a></li>
+                    <li class="active"><a href="#obligaciones" data-toggle="tab"><i class="fa fa-star"></i> Obligaciones</a></li>
+                    <li><a href="#vigencias" data-toggle="tab">Vigencias</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="articulos" class="tab-pane active">
+                    <div id="obligaciones" class="tab-pane active">
                         <table class="table table-condensed table-bordered table-hover mb-none">
                             <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Matriz</th>
+                                <th>Grupo</th>
+                                <th>Subgrupo</th>
                                 <th>Obligacion</th>
                                 <th>Accion</th>
                                 <th title="Estado derogado">DER</th>
@@ -51,15 +53,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for arArticulo in arArticulos %}
+                            {% for arObligacion in arObligaciones %}
                                 <tr>
-                                    <td>{{ arArticulo.codigoArticuloPk }}</td>
-                                    <td>{{ arArticulo.obligacion }}</td>
-                                    <td>{{ arArticulo.accionNombre }}</td>
-                                    <td>{{ arArticulo.estadoDerogado ? 'SI':'NO' }}</td>
-                                    <td>{{ arArticulo.verificable ? 'SI':'NO' }}</td>
+                                    <td>{{ arObligacion.codigoObligacionPk }}</td>
+                                    <td>{{ arObligacion.matrizNombre }}</td>
+                                    <td>{{ arObligacion.grupoNombre }}</td>
+                                    <td>{{ arObligacion.subgrupoNombre }}</td>
+                                    <td>{{ arObligacion.obligacion }}</td>
+                                    <td>{{ arObligacion.accionNombre }}</td>
+                                    <td>{{ arObligacion.estadoDerogado ? 'SI':'NO' }}</td>
+                                    <td>{{ arObligacion.verificable ? 'SI':'NO' }}</td>
                                     <td style="text-align: center">
-                                        <a href="javascript:abrirVentana3('{{ path('norma_articulo_nuevo', {'id': arArticulo.codigoArticuloPk, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoArticulo', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
+                                        <a href="javascript:abrirVentana3('{{ path('norma_obligacion_nuevo', {'id': arObligacion.codigoObligacionPk, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoObligacion', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
                                     </td>
                                     <td style="text-align: center">
 {#                                        <a href="{{ path('norma_detalle', { 'id': arNorma.codigoNormaPk }) }}">
@@ -73,12 +78,12 @@
                         <footer class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-9 col-sm-offset-3" >
-                                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="javascript:abrirVentana3('{{ path('norma_articulo_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevaArticulo', 600, 1200)">Nuevo</a>
+                                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="javascript:abrirVentana3('{{ path('norma_obligacion_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoObligacion', 600, 1200)">Nuevo</a>
                                 </div>
                             </div>
                         </footer>
                     </div>
-                    <div id="recent1" class="tab-pane">
+                    <div id="vigencias" class="tab-pane">
                         <p>Recent</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
                     </div>

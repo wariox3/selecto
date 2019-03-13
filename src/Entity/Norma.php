@@ -116,9 +116,9 @@ class Norma
     protected $mallasNormaRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="Articulo", mappedBy="normaRel")
+     * @ORM\OneToMany(targetEntity="Obligacion", mappedBy="normaRel")
      */
-    protected $articulosNormaRel;
+    protected $obligacionesNormaRel;
 
     /**
      * @return mixed
@@ -427,19 +427,18 @@ class Norma
     /**
      * @return mixed
      */
-    public function getArticulosNormaRel()
+    public function getObligacionesNormaRel()
     {
-        return $this->articulosNormaRel;
+        return $this->obligacionesNormaRel;
     }
 
     /**
-     * @param mixed $articulosNormaRel
+     * @param mixed $obligacionesNormaRel
      */
-    public function setArticulosNormaRel($articulosNormaRel): void
+    public function setObligacionesNormaRel($obligacionesNormaRel): void
     {
-        $this->articulosNormaRel = $articulosNormaRel;
+        $this->obligacionesNormaRel = $obligacionesNormaRel;
     }
-
 
 
 

@@ -15,19 +15,39 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Obligacion:</label>
-                        <div class="col-sm-11">
-                            {{ form_widget(form.obligacion, { 'attr': {'style':'height: 325px;'} }) }}
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-1 control-label">Accion:</label>
                         <div class="col-sm-5">
                             {{ form_widget(form.accionRel) }}
                         </div>
+                        <label class="col-sm-1 control-label">Grupo:</label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.grupoRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Matriz:</label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.matrizRel) }}
+                        </div>
+                        <label class="col-sm-1 control-label">Subgrupo:</label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.subgrupoRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-1 control-label"></label>
                         <div class="col-sm-5">
                             {{ form_widget(form.verificable) }}
+                        </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-5">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Obligacion:</label>
+                        <div class="col-sm-11">
+                            {{ form_widget(form.obligacion, { 'attr': {'style':'height: 325px;'} }) }}
                         </div>
                     </div>
                 </div>

@@ -39,6 +39,11 @@ class Grupo
     protected $matricesGrupoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Obligacion", mappedBy="grupoRel")
+     */
+    protected $obligacionesGrupoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoGrupoPk()

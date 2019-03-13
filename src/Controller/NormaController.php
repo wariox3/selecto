@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 
-use App\Entity\Articulo;
-use App\Form\Type\ArticuloType;
+use App\Entity\Obligacion;
+use App\Form\Type\ObligacionType;
 use App\Form\Type\NormaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -20,9 +20,9 @@ class NormaController extends Controller
 {
 
     /**
-     * @Route("/admin/norma/nuevo/{id}/{codigoMatriz}", name="norma_nuevo")
+     * @Route("/admin/norma/nuevo/{id}", name="norma_nuevo")
      */
-    public function nuevo(Request $request, $id, $codigoMatriz)
+    public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $arNorma = new Norma();
@@ -37,7 +37,6 @@ class NormaController extends Controller
             if ($form->get('guardar')->isClicked()) {
                 $nombre = $arNorma->getNormaTipoRel()->getNombre() . " " . $arNorma->getNumero() . " de " . $arNorma->getFecha()->format('Y-m-d');
                 $arNorma->setNombre($nombre);
-                $arNorma->setGrupoRel($arNorma->getSubgrupoRel()->getGrupoRel());
                 $arNorma = $form->getData();
                 $em->persist($arNorma);
                 $em->flush();
@@ -95,39 +94,39 @@ class NormaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }
-        $arArticulos = $paginator->paginate($em->getRepository(Articulo::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
+        $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
         return $this->render('Norma/detalle.html.twig', [
             'form' => $form->createView(),
             'arNorma' => $arNorma,
-            'arArticulos' => $arArticulos
+            'arObligaciones' => $arObligaciones
         ]);
     }
 
     /**
-     * @Route("/admin/norma/articulo/nuevo/{id}/{codigoNorma}", name="norma_articulo_nuevo")
+     * @Route("/admin/norma/obligacion/nuevo/{id}/{codigoNorma}", name="norma_obligacion_nuevo")
      */
-    public function nuevoArticulo(Request $request, $id, $codigoNorma)
+    public function nuevoObligacion(Request $request, $id, $codigoNorma)
     {
         $em = $this->getDoctrine()->getManager();
         $arNorma = $em->getRepository(Norma::class)->find($codigoNorma);
-        $arArticulo = new Articulo();
+        $arObligacion = new Obligacion();
         if ($id != 0) {
-            $arArticulo = $em->getRepository(Articulo::class)->find($id);
+            $arObligacion = $em->getRepository(Obligacion::class)->find($id);
         } else {
-            $arArticulo->setNormaRel($arNorma);
+            $arObligacion->setNormaRel($arNorma);
         }
-        $form = $this->createForm(ArticuloType::class, $arArticulo);
+        $form = $this->createForm(ObligacionType::class, $arObligacion);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
-                $arArticulo = $form->getData();
-                $em->persist($arArticulo);
+                $arObligacion = $form->getData();
+                $em->persist($arObligacion);
                 $em->flush();
                 echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
             }
         }
-        return $this->render('Norma/nuevoArticulo.html.twig', [
-            'arArticulo' => $arArticulo,
+        return $this->render('Norma/nuevoObligacion.html.twig', [
+            'arObligacion' => $arObligacion,
             'form' => $form->createView()
         ]);
     }

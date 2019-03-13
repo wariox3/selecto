@@ -48,16 +48,6 @@ class NormaType extends AbstractType {
                 'choice_label' => 'nombre',
                 'required' => true,
             ))
-            ->add('subgrupoRel',EntityType::class,[
-                'required' => true,
-                'class' => Subgrupo::class,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('s')
-                        ->orderBy('s.codigoGrupoFk', 'ASC')
-                        ->where("s.codigoGrupoFk='" . $options['data']->getGrupoRel()->getCodigoGrupoPk() . "'");
-                },
-                'choice_label' => 'nombre',
-            ])
             ->add('numero', TextType::class, array('required' => true))
             ->add('fecha', DateType::class)
             ->add('descripcion',TextareaType::class, array('required' => true))

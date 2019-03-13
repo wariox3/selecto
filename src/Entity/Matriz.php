@@ -41,6 +41,11 @@ class Matriz
     protected $normasMatrizRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Obligacion", mappedBy="matrizRel")
+     */
+    protected $obligacionesMatrizRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoMatrizPk()
@@ -118,6 +123,22 @@ class Matriz
     public function setNormasMatrizRel($normasMatrizRel): void
     {
         $this->normasMatrizRel = $normasMatrizRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObligacionesMatrizRel()
+    {
+        return $this->obligacionesMatrizRel;
+    }
+
+    /**
+     * @param mixed $obligacionesMatrizRel
+     */
+    public function setObligacionesMatrizRel($obligacionesMatrizRel): void
+    {
+        $this->obligacionesMatrizRel = $obligacionesMatrizRel;
     }
 
 

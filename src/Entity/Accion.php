@@ -24,9 +24,9 @@ class Accion
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="Articulo", mappedBy="accionRel")
+     * @ORM\OneToMany(targetEntity="Obligacion", mappedBy="accionRel")
      */
-    protected $articulosAccionRel;
+    protected $obligacionesAccionRel;
 
     /**
      * @return mixed
@@ -63,17 +63,17 @@ class Accion
     /**
      * @return mixed
      */
-    public function getArticulosAccionRel()
+    public function getObligacionesAccionRel()
     {
-        return $this->articulosAccionRel;
+        return $this->obligacionesAccionRel;
     }
 
     /**
-     * @param mixed $articulosAccionRel
+     * @param mixed $obligacionesAccionRel
      */
-    public function setArticulosAccionRel($articulosAccionRel): void
+    public function setObligacionesAccionRel($obligacionesAccionRel): void
     {
-        $this->articulosAccionRel = $articulosAccionRel;
+        $this->obligacionesAccionRel = $obligacionesAccionRel;
     }
 
 

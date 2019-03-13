@@ -40,6 +40,11 @@ class Subgrupo
     protected $normasSubgrupoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Obligacion", mappedBy="subgrupoRel")
+     */
+    protected $obligacionesSubgrupoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoSubgrupoPk()
