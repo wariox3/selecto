@@ -4,8 +4,10 @@ namespace App\Controller;
 
 
 use App\Entity\Obligacion;
+use App\Entity\Vigencia;
 use App\Form\Type\ObligacionType;
 use App\Form\Type\NormaType;
+use App\Form\Type\VigenciaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -95,10 +97,12 @@ class NormaController extends Controller
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }
         $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
+        $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
         return $this->render('Norma/detalle.html.twig', [
             'form' => $form->createView(),
             'arNorma' => $arNorma,
-            'arObligaciones' => $arObligaciones
+            'arObligaciones' => $arObligaciones,
+            'arVigencias' => $arVigencias
         ]);
     }
 
@@ -127,6 +131,35 @@ class NormaController extends Controller
         }
         return $this->render('Norma/nuevoObligacion.html.twig', [
             'arObligacion' => $arObligacion,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/norma/vigencia/nuevo/{id}/{codigoNorma}", name="norma_vigencia_nuevo")
+     */
+    public function nuevoVigencia(Request $request, $id, $codigoNorma)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arNorma = $em->getRepository(Norma::class)->find($codigoNorma);
+        $arVigencia = new Vigencia();
+        if ($id != 0) {
+            $arVigencia = $em->getRepository(Vigencia::class)->find($id);
+        } else {
+            $arVigencia->setNormaRel($arNorma);
+        }
+        $form = $this->createForm(VigenciaType::class, $arVigencia);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('guardar')->isClicked()) {
+                $arObligacion = $form->getData();
+                $em->persist($arObligacion);
+                $em->flush();
+                echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+            }
+        }
+        return $this->render('Norma/nuevoVigencia.html.twig', [
+            'arVigencia' => $arVigencia,
             'form' => $form->createView()
         ]);
     }

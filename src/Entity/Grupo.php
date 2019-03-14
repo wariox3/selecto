@@ -29,6 +29,11 @@ class Grupo
     protected $subgruposGrupoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Clasificacion", mappedBy="grupoRel")
+     */
+    protected $clasificacionesGrupoRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="Norma", mappedBy="grupoRel")
      */
     protected $normasGrupoRel;
@@ -121,6 +126,38 @@ class Grupo
     public function setMatricesGrupoRel($matricesGrupoRel): void
     {
         $this->matricesGrupoRel = $matricesGrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClasificacionesGrupoRel()
+    {
+        return $this->clasificacionesGrupoRel;
+    }
+
+    /**
+     * @param mixed $clasificacionesGrupoRel
+     */
+    public function setClasificacionesGrupoRel($clasificacionesGrupoRel): void
+    {
+        $this->clasificacionesGrupoRel = $clasificacionesGrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObligacionesGrupoRel()
+    {
+        return $this->obligacionesGrupoRel;
+    }
+
+    /**
+     * @param mixed $obligacionesGrupoRel
+     */
+    public function setObligacionesGrupoRel($obligacionesGrupoRel): void
+    {
+        $this->obligacionesGrupoRel = $obligacionesGrupoRel;
     }
 
 

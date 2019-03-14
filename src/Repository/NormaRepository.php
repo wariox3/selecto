@@ -28,6 +28,7 @@ class NormaRepository extends ServiceEntityRepository
             ->addSelect('n.codigoEntidadFk')
             ->addSelect('n.codigoJurisdiccionFk')
             ->addSelect('n.codigoMatrizFk')
+            ->addSelect('n.fecha')
             ->addSelect('nt.nombre as normaTipoNombre')
             ->addSelect('n.estadoDerogado')
             ->addSelect('e.nombre as entidadNombre')

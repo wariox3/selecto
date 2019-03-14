@@ -25,7 +25,7 @@
             <td class="td-in-well"></td>
         </tr>
         <tr>
-            <td class="titulo">DESCRIPCION:</td>
+            <td class="titulo">ASUNTO:</td>
             <td class="td-in-well" colspan="5">{{ arNorma.descripcion }}</td>
         </tr>
     </table>
@@ -84,8 +84,33 @@
                         </footer>
                     </div>
                     <div id="vigencias" class="tab-pane">
-                        <p>Recent</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+                        <table class="table table-condensed table-bordered table-hover mb-none">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Vigencia</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arVigencia in arVigencias %}
+                                <tr>
+                                    <td>{{ arVigencia.codigoVigenciaPk }}</td>
+                                    <td>{{ arVigencia.vigencia }}</td>
+                                    <td style="text-align: center">
+                                        <a href="javascript:abrirVentana3('{{ path('norma_vigencia_nuevo', {'id': arVigencia.codigoVigenciaPk, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoVigencia', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <footer class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-9 col-sm-offset-3" >
+                                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="javascript:abrirVentana3('{{ path('norma_vigencia_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoVigencia', 600, 1200)">Nuevo</a>
+                                </div>
+                            </div>
+                        </footer>
                     </div>
                 </div>
             </div>

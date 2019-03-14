@@ -60,6 +60,11 @@ class Obligacion
     private $codigoSubgrupoFk;
 
     /**
+     * @ORM\Column(name="codigo_clasificacion_fk", type="string", length=30, nullable=true)
+     */
+    private $codigoClasificacionFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Norma", inversedBy="obligacionesNormaRel")
      * @ORM\JoinColumn(name="codigo_norma_fk", referencedColumnName="codigo_norma_pk")
      */
@@ -82,6 +87,12 @@ class Obligacion
      * @ORM\JoinColumn(name="codigo_subgrupo_fk", referencedColumnName="codigo_subgrupo_pk")
      */
     private $subgrupoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Clasificacion", inversedBy="obligacionesClasificacionRel")
+     * @ORM\JoinColumn(name="codigo_clasificacion_fk", referencedColumnName="codigo_clasificacion_pk")
+     */
+    private $clasificacionRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="Matriz", inversedBy="obligacionesMatrizRel")
@@ -311,6 +322,38 @@ class Obligacion
     public function setGrupoRel($grupoRel): void
     {
         $this->grupoRel = $grupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoClasificacionFk()
+    {
+        return $this->codigoClasificacionFk;
+    }
+
+    /**
+     * @param mixed $codigoClasificacionFk
+     */
+    public function setCodigoClasificacionFk($codigoClasificacionFk): void
+    {
+        $this->codigoClasificacionFk = $codigoClasificacionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClasificacionRel()
+    {
+        return $this->clasificacionRel;
+    }
+
+    /**
+     * @param mixed $clasificacionRel
+     */
+    public function setClasificacionRel($clasificacionRel): void
+    {
+        $this->clasificacionRel = $clasificacionRel;
     }
 
 

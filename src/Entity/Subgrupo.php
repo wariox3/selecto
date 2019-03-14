@@ -45,6 +45,11 @@ class Subgrupo
     protected $obligacionesSubgrupoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Clasificacion", mappedBy="subgrupoRel")
+     */
+    protected $clasificacionesSubgrupoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoSubgrupoPk()
@@ -122,6 +127,38 @@ class Subgrupo
     public function setGrupoRel($grupoRel): void
     {
         $this->grupoRel = $grupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObligacionesSubgrupoRel()
+    {
+        return $this->obligacionesSubgrupoRel;
+    }
+
+    /**
+     * @param mixed $obligacionesSubgrupoRel
+     */
+    public function setObligacionesSubgrupoRel($obligacionesSubgrupoRel): void
+    {
+        $this->obligacionesSubgrupoRel = $obligacionesSubgrupoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClasificacionesSubgrupoRel()
+    {
+        return $this->clasificacionesSubgrupoRel;
+    }
+
+    /**
+     * @param mixed $clasificacionesSubgrupoRel
+     */
+    public function setClasificacionesSubgrupoRel($clasificacionesSubgrupoRel): void
+    {
+        $this->clasificacionesSubgrupoRel = $clasificacionesSubgrupoRel;
     }
 
 

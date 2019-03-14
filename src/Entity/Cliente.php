@@ -39,4 +39,86 @@ class Cliente
      */
     protected $usuariosClienteRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoClientePk()
+    {
+        return $this->codigoClientePk;
+    }
+
+    /**
+     * @param mixed $codigoClientePk
+     */
+    public function setCodigoClientePk($codigoClientePk): void
+    {
+        $this->codigoClientePk = $codigoClientePk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreCorto()
+    {
+        return $this->nombreCorto;
+    }
+
+    /**
+     * @param mixed $nombreCorto
+     */
+    public function setNombreCorto($nombreCorto): void
+    {
+        $this->nombreCorto = $nombreCorto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCentrosClienteRel()
+    {
+        return $this->centrosClienteRel;
+    }
+
+    /**
+     * @param mixed $centrosClienteRel
+     */
+    public function setCentrosClienteRel($centrosClienteRel): void
+    {
+        $this->centrosClienteRel = $centrosClienteRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMallasClienteRel()
+    {
+        return $this->mallasClienteRel;
+    }
+
+    /**
+     * @param mixed $mallasClienteRel
+     */
+    public function setMallasClienteRel($mallasClienteRel): void
+    {
+        $this->mallasClienteRel = $mallasClienteRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsuariosClienteRel()
+    {
+        return $this->usuariosClienteRel;
+    }
+
+    /**
+     * @param mixed $usuariosClienteRel
+     */
+    public function setUsuariosClienteRel($usuariosClienteRel): void
+    {
+        $this->usuariosClienteRel = $usuariosClienteRel;
+    }
+
+
+
 }

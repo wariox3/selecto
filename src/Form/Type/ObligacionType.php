@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\Accion;
+use App\Entity\Clasificacion;
 use App\Entity\Grupo;
 use App\Entity\Matriz;
 use App\Entity\Subgrupo;
@@ -47,6 +48,15 @@ class ObligacionType extends AbstractType {
                         ->orderBy('s.codigoGrupoFk', 'ASC');
                 },
                 'choice_label' => 'nombre',
+            ])
+            ->add('clasificacionRel',EntityType::class,[
+                'class' => Clasificacion::class,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => false,
             ])
             ->add('matrizRel',EntityType::class,[
                 'required' => true,

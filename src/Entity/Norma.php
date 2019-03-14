@@ -121,6 +121,11 @@ class Norma
     protected $obligacionesNormaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="Vigencia", mappedBy="normaRel")
+     */
+    protected $vigenciasNormaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoNormaPk()
@@ -438,6 +443,22 @@ class Norma
     public function setObligacionesNormaRel($obligacionesNormaRel): void
     {
         $this->obligacionesNormaRel = $obligacionesNormaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVigenciasNormaRel()
+    {
+        return $this->vigenciasNormaRel;
+    }
+
+    /**
+     * @param mixed $vigenciasNormaRel
+     */
+    public function setVigenciasNormaRel($vigenciasNormaRel): void
+    {
+        $this->vigenciasNormaRel = $vigenciasNormaRel;
     }
 
 

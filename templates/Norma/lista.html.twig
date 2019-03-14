@@ -58,10 +58,10 @@
                                 <th>Id</th>
                                 <th>Tipo</th>
                                 <th>Numero</th>
+                                <th title="Fecha de expedicion">Fecha Exp</th>
                                 <th>Entidad</th>
                                 <th>Jurisdiccion</th>
-                                <th>Nombre</th>
-                                <th>Descripcion</th>
+                                <th>Asunto</th>
                                 <th title="Estado derogado">DER</th>
                                 <th></th>
                                 <th></th>
@@ -73,9 +73,9 @@
                                     <td>{{ arNorma.codigoNormaPk }}</td>
                                     <td>{{ arNorma.normaTipoNombre }}</td>
                                     <td>{{ arNorma.numero }}</td>
+                                    <td>{{ arNorma.fecha | date('Y-m-d') }}</td>
                                     <td>{{ arNorma.entidadNombre }}</td>
                                     <td>{{ arNorma.jurisdiccionNombre }}</td>
-                                    <td>{{ arNorma.nombre }}</td>
                                     <td>{{ arNorma.descripcion }}</td>
                                     <td>{{ arNorma.estadoDerogado ? 'SI':'NO' }}</td>
                                     <td style="text-align: center">
