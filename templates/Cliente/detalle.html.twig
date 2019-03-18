@@ -1,0 +1,21 @@
+{% extends 'base_admin.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="{{ path('cliente_lista') }}">Volver</a>
+        </div>
+    </div>
+    <br><br>
+    <table width="100%" class="table table-condensed table-bordered tabla-datos ">
+        <tr>
+            <td  class="titulo">id</td>
+            <td class="td-in-well">{{ arCliente.codigoClientePk }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">nombre</td>
+            <td class="td-in-well">{{ arCliente.nombreCorto }}</td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+{% endblock %}

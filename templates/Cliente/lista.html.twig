@@ -51,13 +51,13 @@
 
                                 <td>{{ arCliente.nombreCorto }}</td>
                                 <td >
-                                    <a href="{{ path('norma_nuevo', { 'id': arCliente.codigoClientePk }) }}">
+                                    <a href="{{ path('cliente_nuevo', { 'id': arCliente.codigoClientePk }) }}">
                                         <i class="fa fa-edit fa-lg"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{ path('norma_detalle', { 'id':  arCliente.codigoClientePk  }) }}">
-                                        <i class="fa  fa-trash-o fa-lg"></i>
+                                    <a href="{{ path('cliente_detalle', { 'id': arCliente.codigoClientePk }) }}">
+                                        <i class="fa fa-share-square fa-lg"></i>
                                     </a>
                                 </td>
                             </tr>

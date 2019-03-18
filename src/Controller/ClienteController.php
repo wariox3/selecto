@@ -29,11 +29,9 @@ class ClienteController extends  Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
-                $nombre = $arCliente->getNombreCorto();
-
                 $em->persist($form->getData());
                 $em->flush();
-                return $this->redirect($this->generateUrl('cliente_lista'));
+                return $this->redirect($this->generateUrl('cliente_detalle', array('id' => $arCliente->getCodigoClientePk())));
             }
         }
         return $this->render('Cliente/nuevo.html.twig', [
@@ -61,5 +59,24 @@ class ClienteController extends  Controller
             'arClientes' => $arClientes,
             'form'=>$form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/admin/cliente/detalle/{id}", name="cliente_detalle")
+     */
+    public function detalle(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arCliente = $em->getRepository(Cliente::class)->find($id);
+        $form = $this->createFormBuilder()->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirect($this->generateUrl('cliente_detalle', ['id' => $id]));
+        }
+        return $this->render('Cliente/detalle.html.twig', [
+            'form' => $form->createView(),
+            'arCliente' => $arCliente,
+        ]);
+
     }
 }
