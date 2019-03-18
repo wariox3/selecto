@@ -31,9 +31,7 @@ class ClienteController extends  Controller
             if ($form->get('guardar')->isClicked()) {
                 $nombre = $arCliente->getNombreCorto();
 
-                $arCliente->setNombreCorto($nombre);
-                $arCliente = $form->getData();
-                $em->persist($arCliente);
+                $em->persist($form->getData());
                 $em->flush();
                 return $this->redirect($this->generateUrl('cliente_lista'));
             }
