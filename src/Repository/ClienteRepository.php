@@ -18,8 +18,9 @@ class ClienteRepository extends ServiceEntityRepository
     public function lista(){
 
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Cliente::class, 'm')
-            ->select('m.nombreCorto');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Cliente::class, 'c')
+            ->select('c.codigoClientePk')
+            ->addSelect('c.nombreCorto');
 
         return $queryBuilder;
 

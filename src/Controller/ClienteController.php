@@ -18,6 +18,33 @@ use Knp\Component\Pager\PaginatorInterface;
 class ClienteController extends  AbstractController
 {
 
+    /**
+    * @Route("/admin/cliente/nuevo/{id}", name="cliente_nuevo")
+     */
+    public function nuevo(Request $request, $id)
+    {
+     $em = $this->getDoctrine()->getManager();
+        $arCliente = new Cliente();
+        if ($id != 0 ){
+            $arCliente = $em->getRepository(Cliente::class)->find($id);
+        }
+        $form = $this->createForm(ClienteType::class, $arCliente);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('guardar')->isClicked()) {
+                $nombre = $arCliente->getNombreCorto();
+
+                $arCliente->setNombreCorto($nombre);
+                $arCliente = $form->getData();
+                $em->persist($arCliente);
+                $em->flush();
+                return $this->redirect($this->generateUrl('cliente_lista'));
+            }
+        }
+        return $this->render('Cliente/nuevo.html.twig', [
+            'form'=>$form->createView()
+        ]);
+    }
 
     /**
      * @Route("/admin/cliente/lista", name="cliente_lista")
@@ -33,6 +60,7 @@ class ClienteController extends  AbstractController
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
+
         return $this->render('Cliente/lista.html.twig', [
             'arClientes' => $arClientes,
             'form'=>$form->createView()
