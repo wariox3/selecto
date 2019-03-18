@@ -19,7 +19,6 @@ class ClienteRepository extends ServiceEntityRepository
 
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Cliente::class, 'm')
-            ->select('m.codigoclientepk')
             ->select('m.nombreCorto');
 
         return $queryBuilder;
