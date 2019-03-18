@@ -43,17 +43,12 @@
             <tbody>
                 {% for arCliente in arClientes %}
                     <tr>
-                        <td>{{ arCliente.codigoclientepk }}</td>
-
                         <td>{{ arCliente.nombreCorto }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
-
-
         {{ form_rest(form) }}
         {{ form_end(form) }}
     </div>
