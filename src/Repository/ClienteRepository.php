@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Cliente;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 
 class ClienteRepository extends ServiceEntityRepository
 {
@@ -13,5 +15,14 @@ class ClienteRepository extends ServiceEntityRepository
         parent::__construct($registry, Cliente::class);
     }
 
+    public function lista(){
 
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Cliente::class, 'm')
+            ->select('m.codigoclientepk')
+            ->select('m.nombreCorto');
+
+        return $queryBuilder;
+
+    }
 }
