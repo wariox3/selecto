@@ -6,16 +6,13 @@ use App\Entity\Cliente;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\Type\ClienteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Knp\Component\Pager\PaginatorInterface;
 
-
-class ClienteController extends  AbstractController
+class ClienteController extends  Controller
 {
 
     /**
@@ -49,10 +46,11 @@ class ClienteController extends  AbstractController
     /**
      * @Route("/admin/cliente/lista", name="cliente_lista")
      */
-    public function lista(Request $request,PaginatorInterface $paginator)
+    public function lista(Request $request )
     {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $arClientes= $paginator->paginate($em->getRepository(Cliente::class)->lista(),$request->query->getInt('page', 1), 500);
 
         $form = $this->createFormBuilder()
