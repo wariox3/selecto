@@ -21,8 +21,8 @@ class ClienteRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Cliente::class, 'c')
             ->select('c.codigoClientePk')
             ->addSelect('c.nombreCorto');
-        if ($session->get('filtroNombreCorto') != ''){
-            $queryBuilder->andWhere("c.nombreCorto LIKE '%{$session->get('filtroNombreCorto')}' ");
+        if ($session->get('filtroClienteNombreCorto') != ''){
+            $queryBuilder->andWhere("c.nombreCorto LIKE '%{$session->get('filtroClienteNombreCorto')}' ");
         }
 
         return $queryBuilder;

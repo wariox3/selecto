@@ -57,7 +57,7 @@ class ClienteController extends  Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
-               $session->set('filtroNombreCorto', $form->get('nombreCorto')->getData());
+               $session->set('filtroClienteNombreCorto', $form->get('nombreCorto')->getData());
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
