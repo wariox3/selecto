@@ -28,4 +28,16 @@ class MatrizRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function eliminar($arrSeleccionados)
+    {
+        $em =$this->getEntityManager();
+        foreach ($arrSeleccionados as $codigo){
+            $arRegistro = $this->getEntityManager()->getRepository(Matriz::class)->find($codigo);
+            if ($arRegistro){
+                $em->remove($arRegistro);
+            }
+        }
+        $em->flush();
+    }
+
 }

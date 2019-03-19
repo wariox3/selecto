@@ -74,11 +74,11 @@
         </div>
         <div class="panel-footer">
             <div class="row">
-                <div class="col-sm-6" >
-                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="{{ path('cliente_nuevo', {'id': 0}) }}">Nuevo</a>
-                </div>
-                <div class="col-sm-6" >
-                    {{ form_widget(form.btnEliminar) }}
+                <div class="col-sm-9 col-sm-offset-3" >
+                    <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group" aria-label="...">
+                        <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="{{ path('cliente_nuevo', {'id': 0}) }}">Nuevo</a>
+                        {{ form_widget(form.btnEliminar) }}
+                    </div>
                 </div>
             </div>
         </div>

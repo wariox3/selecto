@@ -56,6 +56,7 @@ class MatrizController extends Controller
         $form = $this->createFormBuilder()
             ->add('nombre', TextType::class, ['required' => false, 'data' => $session->get('filtroMatrizNombre')])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add( 'btnEliminar', SubmitType::class, ['label'=>'Eliminar', 'attr'=>['class'=> 'btn btn-sm btn-default']])
             ->getForm();
 
         $form->handleRequest($request);
@@ -64,6 +65,12 @@ class MatrizController extends Controller
                 $session->set('filtroMatrizNombre', $form->get('nombre')->getData());
             }
         }
+        if ($form->get('btnEliminar')->isClicked()){
+            $arrSeleccionados = $request->request->get('ChkSeleccionar');
+            $em->getRepository(Matriz::class )->eliminar($arrSeleccionados);
+            return $this->redirect($this->generateUrl('matriz_lista'));
+        }
+
         $arMatrices = $paginator->paginate($em->getRepository(Matriz::class)->lista(), $request->query->getInt('page', 1), 500);
         return $this->render('Matriz/lista.html.twig', [
             'arMatrices' => $arMatrices,
