@@ -47,7 +47,6 @@ class ClienteController extends  Controller
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $arClientes= $paginator->paginate($em->getRepository(Cliente::class)->lista(),$request->query->getInt('page', 1), 500);
 
         $form = $this->createFormBuilder()
             ->add( 'nombreCorto', TextType::class,['required' => false, 'data' => $session->get('filtroNombreCorto')])
@@ -55,6 +54,13 @@ class ClienteController extends  Controller
             ->getForm();
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnFiltrar')->isClicked()) {
+               $session->set('filtroNombreCorto', $form->get('nombreCorto')->getData());
+            }
+        }
+
+        $arClientes= $paginator->paginate($em->getRepository(Cliente::class)->lista(),$request->query->getInt('page', 1), 500);
         return $this->render('Cliente/lista.html.twig', [
             'arClientes' => $arClientes,
             'form'=>$form->createView()
