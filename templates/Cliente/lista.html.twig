@@ -42,6 +42,7 @@
                         <th class="text-center">Nombre</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,7 @@
                                         <i class="fa fa-share-square fa-lg"></i>
                                     </a>
                                 </td>
+                                <td style="text-align: center;"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arCliente.codigoClientePk }}"/></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -70,8 +72,11 @@
         </div>
         <footer class="panel-footer">
             <div class="row">
-                <div class="col-sm-9 col-sm-offset-3" >
+                <div class="col-sm-6" >
                     <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="{{ path('cliente_nuevo', {'id': 0}) }}">Nuevo</a>
+                </div>
+                <div class="col-sm-6" >
+                    {{ form_widget(form.btnEliminar) }}
                 </div>
             </div>
         </footer>

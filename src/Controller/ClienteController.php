@@ -49,14 +49,20 @@ class ClienteController extends  Controller
         $paginator = $this->get('knp_paginator');
 
         $form = $this->createFormBuilder()
-            ->add( 'nombreCorto', TextType::class,['required' => false, 'data' => $session->get('filtroNombreCorto')])
+            ->add('nombreCorto', TextType::class,['required' => false, 'data' => $session->get('filtroClienteNombreCorto')])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                $session->set('filtroNombreCorto', $form->get('nombreCorto')->getData());
+            }
+            if ($form->get('btnEliminar')->isClicked()) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository(Cliente::class)->eliminar($arrSeleccionados);
+                return $this->redirect($this->generateUrl('cliente_lista'));
             }
         }
 
