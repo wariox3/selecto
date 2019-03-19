@@ -66,7 +66,7 @@ class ClienteController extends  Controller
             }
         }
 
-        $arClientes= $paginator->paginate($em->getRepository(Cliente::class)->lista(),$request->query->getInt('page', 1), 500);
+        $arClientes= $paginator->paginate($em->getRepository(Cliente::class)->lista(),$request->query->getInt('page', 1), 30);
         return $this->render('Cliente/lista.html.twig', [
             'arClientes' => $arClientes,
             'form'=>$form->createView()

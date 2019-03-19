@@ -69,11 +69,10 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {{ knp_pagination_render(arClientes) }}
             </div>
-            {{ form_rest(form) }}
-            {{ form_end(form) }}
         </div>
-        <footer class="panel-footer">
+        <div class="panel-footer">
             <div class="row">
                 <div class="col-sm-6" >
                     <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="{{ path('cliente_nuevo', {'id': 0}) }}">Nuevo</a>
@@ -82,7 +81,9 @@
                     {{ form_widget(form.btnEliminar) }}
                 </div>
             </div>
-        </footer>
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </section>
 
 
