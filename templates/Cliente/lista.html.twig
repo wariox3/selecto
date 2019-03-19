@@ -51,17 +51,20 @@
                                 <td>{{ arCliente.codigoClientePk }}</td>
 
                                 <td>{{ arCliente.nombreCorto }}</td>
-                                <td >
+                                <td class="text-center">
                                     <a href="{{ path('cliente_nuevo', { 'id': arCliente.codigoClientePk }) }}">
                                         <i class="fa fa-edit fa-lg"></i>
                                     </a>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <a href="{{ path('cliente_detalle', { 'id': arCliente.codigoClientePk }) }}">
-                                        <i class="fa fa-share-square fa-lg"></i>
+                                        <i class="fa fa-eye fa-lg"></i>
                                     </a>
                                 </td>
-                                <td style="text-align: center;"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arCliente.codigoClientePk }}"/></td>
+                                <td class="text-center">
+
+                                    <input type="checkbox" name="ChkSeleccionar[]" value="{{ arCliente.codigoClientePk }}"/>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
