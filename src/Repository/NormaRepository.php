@@ -121,7 +121,7 @@ class NormaRepository extends ServiceEntityRepository
                 $em->flush();
             }
         } catch (\Exception $ex) {
-            Mensajes::info('No se puede eliminar la norma, ya que esta contiene vigencias y obligaciones, se deben eliminar estas primero.');
+            Mensajes::warning('No se puede eliminar la norma, ya que esta contiene vigencias y obligaciones, se deben eliminar estas primero.');
         }
     }
 
