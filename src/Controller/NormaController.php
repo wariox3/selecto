@@ -5,15 +5,17 @@ namespace App\Controller;
 
 use App\Entity\Obligacion;
 use App\Entity\Vigencia;
+use App\Entity\Norma;
 use App\Form\Type\ObligacionType;
 use App\Form\Type\NormaType;
 use App\Form\Type\VigenciaType;
+use App\Utilidades\Mensajes;
+use function PHPSTORM_META\type;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Entity\Norma;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -68,6 +70,8 @@ class NormaController extends Controller
 
             ->getForm();
         $form->handleRequest($request);
+        $arNormas = $paginator->paginate($em->getRepository(Norma::class)->lista(), $request->query->getInt('page', 1), 500);
+
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroNormaEstadoDerogado', $form->get('estadoDerogado')->getData());
@@ -75,8 +79,20 @@ class NormaController extends Controller
                 $session->set('filtroNormaNombre', $form->get('nombre')->getData());
                 $session->set('filtroNormaDescripcion', $form->get('descripcion')->getData());
             }
+
+            if($form->get('btnEliminar')->isClicked()){
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                if (is_array($arrSeleccionados)){
+                    $booRespuestaResitorio = $em->getRepository(Norma::class)->eliminar($arrSeleccionados);
+                    if (is_null($booRespuestaResitorio)){
+                        return $this->redirect($this->generateUrl('norma_lista'));
+                    }else{
+                        Mensajes::info('No se puede eliminar la norma, ya que esta contiene vigencias y obligaciones, se deben eliminar estas primero.');
+                        return $this->redirect($this->generateUrl('norma_lista'));
+                    }
+                }
+            }
         }
-        $arNormas = $paginator->paginate($em->getRepository(Norma::class)->lista(), $request->query->getInt('page', 1), 500);
         return $this->render('Norma/lista.html.twig', [
             'arNormas' => $arNormas,
             'form' => $form->createView()

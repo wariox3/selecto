@@ -62,6 +62,12 @@
                             <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
                         </div>
                     </header>
+                    {% for info  in app.session.flashBag.get('info') %}
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <strong> {{  info }}</strong>
+                        </div>
+                    {% endfor %}
                     {% block content %}
 
                     {% endblock %}

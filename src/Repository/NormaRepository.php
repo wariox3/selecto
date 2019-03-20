@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Norma;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -102,6 +104,22 @@ class NormaRepository extends ServiceEntityRepository
                 break;
         }
         return $queryBuilder;
+    }
+
+    public function Eliminar($arrSeleccionados)
+    {
+        $em = $this->getEntityManager();
+        foreach ($arrSeleccionados as $codigo) {
+            $arNorma = $this->getEntityManager()->getRepository(Norma::class)->find($codigo);
+           if ($arNorma) {
+                $em->remove($arNorma);
+           }
+        }
+        try{
+            $em->flush();
+        } catch (\Exception $ex) {
+            return false;
+        }
     }
 
 }
