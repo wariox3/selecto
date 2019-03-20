@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Norma;
 
+use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -108,17 +109,19 @@ class NormaRepository extends ServiceEntityRepository
 
     public function Eliminar($arrSeleccionados)
     {
-        $em = $this->getEntityManager();
-        foreach ($arrSeleccionados as $codigo) {
-            $arNorma = $this->getEntityManager()->getRepository(Norma::class)->find($codigo);
-           if ($arNorma) {
-                $em->remove($arNorma);
-           }
-        }
         try{
-            $em->flush();
+            if ($arrSeleccionados){
+                $em = $this->getEntityManager();
+                foreach ($arrSeleccionados as $codigo) {
+                    $arNorma = $this->getEntityManager()->getRepository(Norma::class)->find($codigo);
+                    if ($arNorma) {
+                        $em->remove($arNorma);
+                    }
+                }
+                $em->flush();
+            }
         } catch (\Exception $ex) {
-            return false;
+            Mensajes::info('No se puede eliminar la norma, ya que esta contiene vigencias y obligaciones, se deben eliminar estas primero.');
         }
     }
 

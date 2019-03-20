@@ -82,15 +82,8 @@ class NormaController extends Controller
 
             if($form->get('btnEliminar')->isClicked()){
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
-                if (is_array($arrSeleccionados)){
-                    $booRespuestaResitorio = $em->getRepository(Norma::class)->eliminar($arrSeleccionados);
-                    if (is_null($booRespuestaResitorio)){
-                        return $this->redirect($this->generateUrl('norma_lista'));
-                    }else{
-                        Mensajes::info('No se puede eliminar la norma, ya que esta contiene vigencias y obligaciones, se deben eliminar estas primero.');
-                        return $this->redirect($this->generateUrl('norma_lista'));
-                    }
-                }
+                $em->getRepository(Norma::class)->eliminar($arrSeleccionados);
+                return $this->redirect($this->generateUrl('norma_lista'));
             }
         }
         return $this->render('Norma/lista.html.twig', [
