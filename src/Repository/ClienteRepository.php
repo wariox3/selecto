@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Cliente;
+use App\Utilidades\AyudaEliminar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -31,14 +32,20 @@ class ClienteRepository extends ServiceEntityRepository
 
     public function eliminar($arrSeleccionados)
     {
-        $em = $this->getEntityManager();
-        foreach ($arrSeleccionados as $codigo) {
-            $arRegistro = $this->getEntityManager()->getRepository(Cliente::class)->find($codigo);
-            if ($arRegistro) {
-                $em->remove($arRegistro);
+        try{
+            if ($arrSeleccionados){
+                $em = $this->getEntityManager();
+                foreach ($arrSeleccionados as $codigo) {
+                    $arRegistro = $this->getEntityManager()->getRepository(Cliente::class)->find($codigo);
+                    if ($arRegistro) {
+                        $em->remove($arRegistro);
+                    }
+                }
+                $em->flush();
             }
+        }catch (\Exception $ex){
+            AyudaEliminar::tipoError((get_class($ex)));
         }
-        $em->flush();
     }
 
 }
