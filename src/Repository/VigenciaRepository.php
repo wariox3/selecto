@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Vigencia;
+use App\Utilidades\AyudaEliminar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -23,6 +24,11 @@ class VigenciaRepository extends ServiceEntityRepository
             ->addSelect('v.vigencia')
         ->where('v.codigoNormaFk = ' . $codigoNorma);
         return $queryBuilder;
+    }
+
+    public function Eliminar($arrVigenciasSeleccionados)
+    {
+        AyudaEliminar::eliminar(Vigencia::class, $arrVigenciasSeleccionados);
     }
 
 }

@@ -9,8 +9,6 @@ use App\Entity\Norma;
 use App\Form\Type\ObligacionType;
 use App\Form\Type\NormaType;
 use App\Form\Type\VigenciaType;
-use App\Utilidades\Mensajes;
-use function PHPSTORM_META\type;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -101,9 +99,19 @@ class NormaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arNorma = $em->getRepository(Norma::class)->find($id);
         $form = $this->createFormBuilder()
+            ->add('btnEliminarObligacion', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnEliminarVigencia', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnEliminarVigencia')->isClicked()) {
+                $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarVigencias');
+                $em->getRepository(Vigencia::class)->eliminar($arrVigenciasSeleccionados);
+            }
+            if ($form->get('btnEliminarObligacion')->isClicked()) {
+                $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarObligaciones');
+                $em->getRepository(Obligacion::class)->eliminar($arrVigenciasSeleccionados);
+            }
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }
         $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('page', 1), 500);

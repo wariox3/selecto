@@ -24,6 +24,10 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+#    App\Repository\:
+#        resource : '../src/Repository/*'
+
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\DataFixtures\:
@@ -31,4 +35,7 @@ services:
             tags: ['doctrine.fixture.orm']
 
 
-
+    ServiceAyudaEliminar:
+        public: true
+        class: App\Utilidades\AyudaEliminar
+        arguments: ['@doctrine.orm.entity_manager']

@@ -2,9 +2,45 @@
 
 namespace App\Utilidades;
 
+use App\Entity\Vigencia;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-final class AyudaEliminar
+class AyudaEliminar
 {
+    private $em;
+/*
+*/
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
+    public static function eliminar($entidad, $datosSeleccionados=[]) {
+        global $kernel;
+        $container = $kernel->getContainer();
+        $container->get("ServiceAyudaEliminar")->removerElementos($entidad, $datosSeleccionados);
+    }
+
+    public function removerElementos($entidad, $datosSeleccionados){
+        try{
+             if ($datosSeleccionados && is_array($datosSeleccionados)) {
+                 foreach ($datosSeleccionados as $codigo) {
+                     $em = $this->em;
+                     $arNorma = $em->getRepository($entidad)->find($codigo);
+                     if ($arNorma) {
+                        $this->em->remove($arNorma);
+                     }
+                 }
+                 $this->em->flush();
+             }
+         } catch (\Exception $ex) {
+             AyudaEliminar::tipoError((get_class($ex)));
+         }
+    }
+
     static function tipoError($classError)
     {
         switch ($classError){

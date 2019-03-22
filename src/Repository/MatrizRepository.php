@@ -31,22 +31,7 @@ class MatrizRepository extends ServiceEntityRepository
 
     public function eliminar($arrSeleccionados)
     {
-        try{
-            if ($arrSeleccionados){
-                $em =$this->getEntityManager();
-                foreach ($arrSeleccionados as $codigo){
-                    $arRegistro = $this->getEntityManager()->getRepository(Matriz::class)->find($codigo);
-                    if ($arRegistro){
-                        $em->remove($arRegistro);
-                    }
-                }
-                $em->flush();
-            }
-        } catch (\Exception $ex) {
-            AyudaEliminarnar::tipoError((get_class($ex)));
-        }
-
-
+        AyudaEliminar::eliminar(Matriz::class, $arrSeleccionados);
     }
 
 }

@@ -32,20 +32,7 @@ class ClienteRepository extends ServiceEntityRepository
 
     public function eliminar($arrSeleccionados)
     {
-        try{
-            if ($arrSeleccionados){
-                $em = $this->getEntityManager();
-                foreach ($arrSeleccionados as $codigo) {
-                    $arRegistro = $this->getEntityManager()->getRepository(Cliente::class)->find($codigo);
-                    if ($arRegistro) {
-                        $em->remove($arRegistro);
-                    }
-                }
-                $em->flush();
-            }
-        }catch (\Exception $ex){
-            AyudaEliminar::tipoError((get_class($ex)));
-        }
+        AyudaEliminar::eliminar(Cliente::class, $arrSeleccionados);
     }
 
 }

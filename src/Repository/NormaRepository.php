@@ -110,20 +110,7 @@ class NormaRepository extends ServiceEntityRepository
 
     public function Eliminar($arrSeleccionados)
     {
-        try{
-            if ($arrSeleccionados){
-                $em = $this->getEntityManager();
-                foreach ($arrSeleccionados as $codigo) {
-                    $arNorma = $this->getEntityManager()->getRepository(Norma::class)->find($codigo);
-                    if ($arNorma) {
-                        $em->remove($arNorma);
-                    }
-                }
-                $em->flush();
-            }
-        } catch (\Exception $ex) {
-                AyudaEliminar::tipoError((get_class($ex)));
-        }
+        AyudaEliminar::eliminar(Norma::class, $arrSeleccionados);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Obligacion;
+use App\Utilidades\AyudaEliminar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -102,4 +103,9 @@ class ObligacionRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function Eliminar($arrVigenciasSeleccionados)
+    {
+        AyudaEliminar::eliminar(Obligacion::class, $arrVigenciasSeleccionados);
+
+    }
 }

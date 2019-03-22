@@ -67,9 +67,7 @@
                                         <a href="javascript:abrirVentana3('{{ path('norma_obligacion_nuevo', {'id': arObligacion.codigoObligacionPk, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoObligacion', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
                                     </td>
                                     <td style="text-align: center">
-{#                                        <a href="{{ path('norma_detalle', { 'id': arNorma.codigoNormaPk }) }}">
-                                            <i class="fa fa-share-square fa-lg"></i>
-                                        </a>#}
+                                        <input type="checkbox" name="ChkSeleccionarObligaciones[]" value="{{ arObligacion.codigoObligacionPk }}"/>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -78,7 +76,10 @@
                         <footer class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-9 col-sm-offset-3" >
-                                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="javascript:abrirVentana3('{{ path('norma_obligacion_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoObligacion', 600, 1200)">Nuevo</a>
+                                    <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group" aria-label="...">
+                                        <a class="btn btn-sm btn-default" href="javascript:abrirVentana3('{{ path('norma_obligacion_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoObligacion', 600, 1200)">Nuevo</a>
+                                        {{ form_widget(form.btnEliminarObligacion) }}
+                                    </div>
                                 </div>
                             </div>
                         </footer>
@@ -90,6 +91,7 @@
                                 <th>Id</th>
                                 <th>Vigencia</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -100,14 +102,20 @@
                                     <td style="text-align: center">
                                         <a href="javascript:abrirVentana3('{{ path('norma_vigencia_nuevo', {'id': arVigencia.codigoVigenciaPk, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoVigencia', 600, 1200)"><i class="fa fa-edit fa-lg"></i></a>
                                     </td>
+                                    <td style="text-align: center">
+                                        <input type="checkbox" name="ChkSeleccionarVigencias[]" value="{{ arVigencia.codigoVigenciaPk }}"/>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                         <footer class="panel-footer">
                             <div class="row">
-                                <div class="col-sm-9 col-sm-offset-3" >
-                                    <a class="btn btn-sm btn-default" style="float: right; margin-right: 5px !important;" href="javascript:abrirVentana3('{{ path('norma_vigencia_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoVigencia', 600, 1200)">Nuevo</a>
+                                <div class="col-sm-9 col-sm-offset-3" style="float: right; margin-right: 5px !important;">
+                                    <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group" aria-label="...">
+                                        <a class="btn btn-sm btn-default"  href="javascript:abrirVentana3('{{ path('norma_vigencia_nuevo', {'id': 0, 'codigoNorma': arNorma.codigoNormaPk}) }}', 'NuevoVigencia', 600, 1200)">Nuevo</a>
+                                        {{ form_widget(form.btnEliminarVigencia) }}
+                                    </div>
                                 </div>
                             </div>
                         </footer>
