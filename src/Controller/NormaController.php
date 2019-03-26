@@ -12,6 +12,7 @@ use App\Form\Type\VigenciaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -95,15 +96,43 @@ class NormaController extends Controller
      */
     public function detalle(Request $request, $id)
     {
+        $session = new Session();
+
         $paginator = $this->get('knp_paginator');
         $em = $this->getDoctrine()->getManager();
         $arNorma = $em->getRepository(Norma::class)->find($id);
         $form = $this->createFormBuilder()
+
+            ->add('ObligacionMatriz', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionMatriz')])
+            ->add('ObligacionGrupo', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionGrupo')])
+            ->add('ObligacionSubgrupo', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionSubgrupo')])
+            ->add('ObligacionAccion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionAccion')])
+            ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
+            ->add('ObligacionVerificable', ChoiceType::class,
+                ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'],
+                    'data' => $session->get('filtroObligacionVerificable'),
+                    'required' => false])
+            ->add('ObligacionDerogado', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'],
+                'data' => $session->get('filtroObligacionDerogado'), 'required' => false])
+
+            ->add('btnFiltrarObligacion', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminarObligacion', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminarVigencia', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($form->get('btnFiltrarObligacion')->isClicked()) {
+                $session->set('filtroObligacionMatriz', $form->get('ObligacionMatriz')->getData());
+                $session->set('filtroObligacionGrupo', $form->get('ObligacionGrupo')->getData());
+                $session->set('filtroObligacionSubgrupo', $form->get('ObligacionSubgrupo')->getData());
+                $session->set('filtroObligacionAccion', $form->get('ObligacionAccion')->getData());
+                $session->set('filtroObligacion', $form->get('Obligacion')->getData());
+                $session->set('filtroObligacionVerificable', $form->get('ObligacionVerificable')->getData());
+                $session->set('filtroObligacionDerogado', $form->get('ObligacionDerogado')->getData());
+
+
+            }
             if ($form->get('btnEliminarVigencia')->isClicked()) {
                 $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarVigencias');
                 $em->getRepository(Vigencia::class)->eliminar($arrVigenciasSeleccionados);

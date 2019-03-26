@@ -79,6 +79,45 @@ class ObligacionRepository extends ServiceEntityRepository
             ->leftJoin('o.matrizRel' , 'm')
             ->leftJoin('o.grupoRel' , 'g')
         ->where('o.codigoNormaFk = ' . $codigoNorma);
+
+        if ($session->get('filtroObligacionMatriz') != '') {
+            $queryBuilder->andWhere("m.nombre = '{$session->get('filtroObligacionMatriz')}'");
+        }
+        if ($session->get('filtroObligacionGrupo') != '') {
+            $queryBuilder->andWhere("g.nombre = '{$session->get('filtroObligacionGrupo')}'");
+        }
+        if ($session->get('filtroObligacionSubgrupo') != '') {
+            $queryBuilder->andWhere("sg.nombre = '{$session->get('filtroObligacionSubgrupo')}'");
+        }
+        if ($session->get('filtroObligacionAccion') != '') {
+            $queryBuilder->andWhere("acc.nombre = '{$session->get('filtroObligacionAccion')}'");
+        }
+        if ($session->get('filtroObligacion') != '') {
+            $queryBuilder->andWhere("o.obligacion LIKE '%{$session->get('filtroObligacion')}%'");
+        }
+        if ($session->get('filtroObligacionVerificable') != '') {
+            switch ($session->get('filtroObligacionVerificable')){
+                case 0:
+                    $queryBuilder->andWhere('o.verificable = 0');
+                    break;
+                case 1:
+                    $queryBuilder->andWhere('o.verificable = 1');
+                    break;
+            }
+        }
+        if ($session->get('filtroObligacionDerogado') != '') {
+            switch ($session->get('filtroObligacionDerogado')){
+                case 0:
+                    $queryBuilder->andWhere('o.estadoDerogado = 0');
+                    break;
+                case 1:
+                    $queryBuilder->andWhere('o.estadoDerogado = 1');
+                    break;
+            }
+        }
+
+
+
         return $queryBuilder;
     }
 
