@@ -67,7 +67,7 @@ class MatrizController extends Controller
         }
         if ($form->get('btnEliminar')->isClicked()){
             $arrSeleccionados = $request->request->get('ChkSeleccionar');
-            $em->getRepository(Matriz::class )->eliminar($arrSeleccionados);
+            $this->get("UtilidadesModelo")->eliminar(Matriz::class, $arrSeleccionados);
             return $this->redirect($this->generateUrl('matriz_lista'));
         }
 

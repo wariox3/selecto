@@ -26,9 +26,6 @@ class VigenciaRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function Eliminar($arrVigenciasSeleccionados)
-    {
-        Modelo::eliminar(Vigencia::class, $arrVigenciasSeleccionados);
-    }
+
 
 }

@@ -108,9 +108,5 @@ class NormaRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function Eliminar($arrSeleccionados)
-    {
-        Modelo::eliminar(Norma::class, $arrSeleccionados);
-    }
 
 }

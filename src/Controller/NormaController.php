@@ -138,11 +138,13 @@ class NormaController extends Controller
             }
             if ($form->get('btnEliminarVigencia')->isClicked()) {
                 $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarVigencias');
-                $em->getRepository(Vigencia::class)->eliminar($arrVigenciasSeleccionados);
+                $this->get("UtilidadesModelo")->eliminar(Vigencia::class, $arrVigenciasSeleccionados);
+
             }
             if ($form->get('btnEliminarObligacion')->isClicked()) {
                 $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarObligaciones');
-                $em->getRepository(Obligacion::class)->eliminar($arrVigenciasSeleccionados);
+                $this->get("UtilidadesModelo")->eliminar(Obligacion::class, $arrVigenciasSeleccionados);
+
             }
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }

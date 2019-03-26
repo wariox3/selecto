@@ -142,9 +142,4 @@ class ObligacionRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function Eliminar($arrVigenciasSeleccionados)
-    {
-        Modelo::eliminar(Obligacion::class, $arrVigenciasSeleccionados);
-
-    }
 }

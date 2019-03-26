@@ -29,9 +29,4 @@ class MatrizRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function eliminar($arrSeleccionados)
-    {
-        Modelo::eliminar(Matriz::class, $arrSeleccionados);
-    }
-
 }
