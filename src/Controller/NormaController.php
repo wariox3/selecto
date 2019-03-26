@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 
+use App\Entity\Grupo;
 use App\Entity\Obligacion;
 use App\Entity\Vigencia;
 use App\Entity\Norma;
 use App\Form\Type\ObligacionType;
 use App\Form\Type\NormaType;
 use App\Form\Type\VigenciaType;
+use App\Utilidades\Mensajes;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\ORM\EntityRepository;
 
 class NormaController extends Controller
 {
@@ -69,8 +72,6 @@ class NormaController extends Controller
 
             ->getForm();
         $form->handleRequest($request);
-        $arNormas = $paginator->paginate($em->getRepository(Norma::class)->lista(), $request->query->getInt('page', 1), 500);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroNormaEstadoDerogado', $form->get('estadoDerogado')->getData());
@@ -81,10 +82,11 @@ class NormaController extends Controller
 
             if($form->get('btnEliminar')->isClicked()){
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
-                $em->getRepository(Norma::class)->eliminar($arrSeleccionados);
+                $this->get('UtilidadesModelo')->eliminar(Norma::class, $arrSeleccionados);
                 return $this->redirect($this->generateUrl('norma_lista'));
             }
         }
+        $arNormas = $paginator->paginate($em->getRepository(Norma::class)->lista(), $request->query->getInt('page', 1), 500);
         return $this->render('Norma/lista.html.twig', [
             'arNormas' => $arNormas,
             'form' => $form->createView()
@@ -105,16 +107,12 @@ class NormaController extends Controller
 
             ->add('ObligacionMatriz', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionMatriz')])
             ->add('ObligacionGrupo', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionGrupo')])
+            ->add('grupoRel', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo())
             ->add('ObligacionSubgrupo', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionSubgrupo')])
             ->add('ObligacionAccion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionAccion')])
             ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
-            ->add('ObligacionVerificable', ChoiceType::class,
-                ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'],
-                    'data' => $session->get('filtroObligacionVerificable'),
-                    'required' => false])
-            ->add('ObligacionDerogado', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'],
-                'data' => $session->get('filtroObligacionDerogado'), 'required' => false])
-
+            ->add('ObligacionVerificable', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionVerificable'), 'required' => false])
+            ->add('ObligacionDerogado', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionDerogado'), 'required' => false])
             ->add('btnFiltrarObligacion', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminarObligacion', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminarVigencia', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
@@ -123,8 +121,13 @@ class NormaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form->get('btnFiltrarObligacion')->isClicked()) {
+                $arGrupo = $form->get('grupoRel')->getData();
+                if($arGrupo) {
+                    $session->set('filtroGrupo', $arGrupo->getCodigoGrupoPk());
+                } else {
+                    $session->set('filtroGrupo', null);
+                }
                 $session->set('filtroObligacionMatriz', $form->get('ObligacionMatriz')->getData());
-                $session->set('filtroObligacionGrupo', $form->get('ObligacionGrupo')->getData());
                 $session->set('filtroObligacionSubgrupo', $form->get('ObligacionSubgrupo')->getData());
                 $session->set('filtroObligacionAccion', $form->get('ObligacionAccion')->getData());
                 $session->set('filtroObligacion', $form->get('Obligacion')->getData());

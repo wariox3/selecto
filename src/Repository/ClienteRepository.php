@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Cliente;
-use App\Utilidades\AyudaEliminar;
+use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -30,9 +30,5 @@ class ClienteRepository extends ServiceEntityRepository
 
     }
 
-    public function eliminar($arrSeleccionados)
-    {
-        AyudaEliminar::eliminar(Cliente::class, $arrSeleccionados);
-    }
 
 }

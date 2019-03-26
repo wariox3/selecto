@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Norma;
 
 use App\Utilidades\Mensajes;
-use App\Utilidades\AyudaEliminar;
+use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -52,7 +52,7 @@ class NormaRepository extends ServiceEntityRepository
         if ($session->get('filtroNormaDescripcion') != '') {
             $queryBuilder->andWhere("n.descripcion LIKE '%{$session->get('filtroNormaDescripcion')}%'");
         }
-        switch ($session->get('estadoDerogado')) {
+        switch ($session->get('filtroNormaEstadoDerogado')) {
             case '0':
                 $queryBuilder->andWhere("n.estadoDerogado = 0");
                 break;
@@ -110,7 +110,7 @@ class NormaRepository extends ServiceEntityRepository
 
     public function Eliminar($arrSeleccionados)
     {
-        AyudaEliminar::eliminar(Norma::class, $arrSeleccionados);
+        Modelo::eliminar(Norma::class, $arrSeleccionados);
     }
 
 }

@@ -35,7 +35,7 @@ services:
             tags: ['doctrine.fixture.orm']
 
 
-    ServiceAyudaEliminar:
+    UtilidadesModelo:
         public: true
-        class: App\Utilidades\AyudaEliminar
+        class: App\Utilidades\Modelo
         arguments: ['@doctrine.orm.entity_manager']

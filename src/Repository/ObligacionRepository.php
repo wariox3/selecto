@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Obligacion;
-use App\Utilidades\AyudaEliminar;
+use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -83,8 +83,8 @@ class ObligacionRepository extends ServiceEntityRepository
         if ($session->get('filtroObligacionMatriz') != '') {
             $queryBuilder->andWhere("m.nombre = '{$session->get('filtroObligacionMatriz')}'");
         }
-        if ($session->get('filtroObligacionGrupo') != '') {
-            $queryBuilder->andWhere("g.nombre = '{$session->get('filtroObligacionGrupo')}'");
+        if ($session->get('filtroGrupo') != '') {
+            $queryBuilder->andWhere("o.codigoGrupoFk = '{$session->get('filtroGrupo')}'");
         }
         if ($session->get('filtroObligacionSubgrupo') != '') {
             $queryBuilder->andWhere("sg.nombre = '{$session->get('filtroObligacionSubgrupo')}'");
@@ -144,7 +144,7 @@ class ObligacionRepository extends ServiceEntityRepository
 
     public function Eliminar($arrVigenciasSeleccionados)
     {
-        AyudaEliminar::eliminar(Obligacion::class, $arrVigenciasSeleccionados);
+        Modelo::eliminar(Obligacion::class, $arrVigenciasSeleccionados);
 
     }
 }

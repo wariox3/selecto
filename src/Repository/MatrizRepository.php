@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Matriz;
-use App\Utilidades\AyudaEliminar;
+use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -31,7 +31,7 @@ class MatrizRepository extends ServiceEntityRepository
 
     public function eliminar($arrSeleccionados)
     {
-        AyudaEliminar::eliminar(Matriz::class, $arrSeleccionados);
+        Modelo::eliminar(Matriz::class, $arrSeleccionados);
     }
 
 }

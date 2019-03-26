@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Vigencia;
-use App\Utilidades\AyudaEliminar;
+use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -28,7 +28,7 @@ class VigenciaRepository extends ServiceEntityRepository
 
     public function Eliminar($arrVigenciasSeleccionados)
     {
-        AyudaEliminar::eliminar(Vigencia::class, $arrVigenciasSeleccionados);
+        Modelo::eliminar(Vigencia::class, $arrVigenciasSeleccionados);
     }
 
 }

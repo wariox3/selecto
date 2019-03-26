@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Cliente;
 
 
+use App\Utilidades\Modelo;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -61,7 +62,7 @@ class ClienteController extends  Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->request->get('ChkSeleccionar');
-                $em->getRepository(Cliente::class)->eliminar($arrSeleccionados);
+                $this->get("UtilidadesModelo")->eliminar(Cliente::class, $arrSeleccionados);
                 return $this->redirect($this->generateUrl('cliente_lista'));
             }
         }
