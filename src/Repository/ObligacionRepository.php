@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Obligacion;
 use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -80,17 +81,17 @@ class ObligacionRepository extends ServiceEntityRepository
             ->leftJoin('o.grupoRel' , 'g')
         ->where('o.codigoNormaFk = ' . $codigoNorma);
 
-        if ($session->get('filtroObligacionMatriz') != '') {
-            $queryBuilder->andWhere("m.nombre = '{$session->get('filtroObligacionMatriz')}'");
+        if ($session->get('filtroMatriz') != '') {
+            $queryBuilder->andWhere("m.nombre = '{$session->get('filtroMatriz')}'");
         }
         if ($session->get('filtroGrupo') != '') {
             $queryBuilder->andWhere("o.codigoGrupoFk = '{$session->get('filtroGrupo')}'");
         }
-        if ($session->get('filtroObligacionSubgrupo') != '') {
-            $queryBuilder->andWhere("sg.nombre = '{$session->get('filtroObligacionSubgrupo')}'");
+        if ($session->get('filtroSubGrupo') != '') {
+            $queryBuilder->andWhere("sg.nombre = '{$session->get('filtroSubGrupo')}'");
         }
-        if ($session->get('filtroObligacionAccion') != '') {
-            $queryBuilder->andWhere("acc.nombre = '{$session->get('filtroObligacionAccion')}'");
+        if ($session->get('filtroAccion') != '') {
+            $queryBuilder->andWhere("acc.nombre = '{$session->get('filtroAccion')}'");
         }
         if ($session->get('filtroObligacion') != '') {
             $queryBuilder->andWhere("o.obligacion LIKE '%{$session->get('filtroObligacion')}%'");
@@ -115,8 +116,6 @@ class ObligacionRepository extends ServiceEntityRepository
                     break;
             }
         }
-
-
 
         return $queryBuilder;
     }

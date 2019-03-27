@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 
+use App\Entity\Accion;
 use App\Entity\Grupo;
+use App\Entity\Matriz;
 use App\Entity\Obligacion;
+use App\Entity\Subgrupo;
 use App\Entity\Vigencia;
 use App\Entity\Norma;
 use App\Form\Type\ObligacionType;
@@ -104,36 +107,64 @@ class NormaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arNorma = $em->getRepository(Norma::class)->find($id);
         $form = $this->createFormBuilder()
-
-            ->add('ObligacionMatriz', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionMatriz')])
-            ->add('ObligacionGrupo', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionGrupo')])
             ->add('grupoRel', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo())
-            ->add('ObligacionSubgrupo', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionSubgrupo')])
-            ->add('ObligacionAccion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacionAccion')])
+            ->add('matrisRel', EntityType::class, $em->getRepository(Matriz::class)->llenarCombo())
+            ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo())
+            ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo())
+            ->add('vigenciaRel', EntityType::class, $em->getRepository(Vigencia::class)->llenarCombo($id))
+
             ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
             ->add('ObligacionVerificable', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionVerificable'), 'required' => false])
             ->add('ObligacionDerogado', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionDerogado'), 'required' => false])
             ->add('btnFiltrarObligacion', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnFiltrarVigencia', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminarObligacion', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminarVigencia', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             if ($form->get('btnFiltrarObligacion')->isClicked()) {
                 $arGrupo = $form->get('grupoRel')->getData();
+                $arMatris = $form->get('matrisRel')->getData();
+                $arSubgrupo = $form->get('subGrupoRel')->getData();
+                $arAccion = $form->get('accionRel')->getData();
+
                 if($arGrupo) {
                     $session->set('filtroGrupo', $arGrupo->getCodigoGrupoPk());
                 } else {
                     $session->set('filtroGrupo', null);
                 }
-                $session->set('filtroObligacionMatriz', $form->get('ObligacionMatriz')->getData());
-                $session->set('filtroObligacionSubgrupo', $form->get('ObligacionSubgrupo')->getData());
-                $session->set('filtroObligacionAccion', $form->get('ObligacionAccion')->getData());
+                if($arMatris) {
+                    $session->set('filtroMatriz', $arMatris->getNombre());
+                } else {
+                    $session->set('filtroMatriz', null);
+                }
+                if($arSubgrupo) {
+                    $session->set('filtroSubGrupo', $arSubgrupo->getNombre());
+                } else {
+                    $session->set('filtroSubGrupo', null);
+                }
+                if($arAccion) {
+                    $session->set('filtroAccion', $arAccion->getNombre());
+                } else {
+                    $session->set('filtroAccion', null);
+                }
                 $session->set('filtroObligacion', $form->get('Obligacion')->getData());
                 $session->set('filtroObligacionVerificable', $form->get('ObligacionVerificable')->getData());
                 $session->set('filtroObligacionDerogado', $form->get('ObligacionDerogado')->getData());
+            }
+            if ($form->get('btnFiltrarVigencia')->isClicked()) {
+                $arVigencia = $form->get('vigenciaRel')->getData();
 
+               if ($arVigencia) {
+                    $session->set('filtroVigencia', $arVigencia->getCodigoVigenciaPk());
+                } else {
+                    $session->set('filtroVigencia', null);
+               }
+            }
+            if ($form->get('btnEliminarObligacion')->isClicked()) {
+                $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarObligaciones');
+                $this->get("UtilidadesModelo")->eliminar(Obligacion::class, $arrVigenciasSeleccionados);
 
             }
             if ($form->get('btnEliminarVigencia')->isClicked()) {
@@ -141,15 +172,11 @@ class NormaController extends Controller
                 $this->get("UtilidadesModelo")->eliminar(Vigencia::class, $arrVigenciasSeleccionados);
 
             }
-            if ($form->get('btnEliminarObligacion')->isClicked()) {
-                $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarObligaciones');
-                $this->get("UtilidadesModelo")->eliminar(Obligacion::class, $arrVigenciasSeleccionados);
-
-            }
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }
         $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
         $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
+
         return $this->render('Norma/detalle.html.twig', [
             'form' => $form->createView(),
             'arNorma' => $arNorma,

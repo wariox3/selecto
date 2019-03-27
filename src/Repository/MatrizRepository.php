@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Matriz;
 use App\Utilidades\Modelo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -29,4 +30,24 @@ class MatrizRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function llenarCombo()
+    {
+        $session = new Session();
+        $array = [
+            'class' => Matriz::class,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('g')
+                    ->orderBy('g.nombre', 'ASC');
+            },
+            'choice_label' => 'nombre',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "TODOS",
+            'data' => ""
+        ];
+        if ($session->get('filtroNorma')) {
+            $array['data'] = $this->getEntityManager()->getReference(Matriz::class, $session->get('filtroMatriz'));
+        }
+        return $array;
+    }
 }
