@@ -60,6 +60,7 @@ class NormaRepository extends ServiceEntityRepository
                 $queryBuilder->andWhere("n.estadoDerogado = 1");
                 break;
         }
+        $queryBuilder->orderBy('n.codigoNormaPk', 'DESC');
         return $queryBuilder;
     }
 
