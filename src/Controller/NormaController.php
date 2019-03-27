@@ -107,10 +107,10 @@ class NormaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arNorma = $em->getRepository(Norma::class)->find($id);
         $form = $this->createFormBuilder()
-            ->add('grupoRel', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo())
-            ->add('matrisRel', EntityType::class, $em->getRepository(Matriz::class)->llenarCombo())
-            ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo())
-            ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo())
+            ->add('matrisRel', EntityType::class, $em->getRepository(Matriz::class)->llenarCombo(), ['data'  => $session->get('filtroMatriz')])
+            ->add('grupoRel', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo(), ['data'  => $session->get('filtroGrupo')])
+            ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo(), ['data'  => $session->get('filtroSubGrupo')])
+            ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo(), ['data'  => $session->get('filtroAccion')])
             ->add('vigencia', TextType::class, ['required' => false, 'data' => $session->get('filtroVigencia')])
             ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
             ->add('ObligacionVerificable', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionVerificable'), 'required' => false])
@@ -134,17 +134,17 @@ class NormaController extends Controller
                     $session->set('filtroGrupo', null);
                 }
                 if($arMatris) {
-                    $session->set('filtroMatriz', $arMatris->getNombre());
+                    $session->set('filtroMatriz', $arMatris->getCodigoMatrizPk());
                 } else {
                     $session->set('filtroMatriz', null);
                 }
                 if($arSubgrupo) {
-                    $session->set('filtroSubGrupo', $arSubgrupo->getNombre());
+                    $session->set('filtroSubGrupo', $arSubgrupo->getCodigoSubGrupoPk());
                 } else {
                     $session->set('filtroSubGrupo', null);
                 }
                 if($arAccion) {
-                    $session->set('filtroAccion', $arAccion->getNombre());
+                    $session->set('filtroAccion', $arAccion->getCodigoAccionPk());
                 } else {
                     $session->set('filtroAccion', null);
                 }

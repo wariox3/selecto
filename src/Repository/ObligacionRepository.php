@@ -82,16 +82,16 @@ class ObligacionRepository extends ServiceEntityRepository
         ->where('o.codigoNormaFk = ' . $codigoNorma);
 
         if ($session->get('filtroMatriz') != '') {
-            $queryBuilder->andWhere("m.nombre = '{$session->get('filtroMatriz')}'");
+            $queryBuilder->andWhere("o.codigoMatrizFk = '{$session->get('filtroMatriz')}'");
         }
         if ($session->get('filtroGrupo') != '') {
             $queryBuilder->andWhere("o.codigoGrupoFk = '{$session->get('filtroGrupo')}'");
         }
         if ($session->get('filtroSubGrupo') != '') {
-            $queryBuilder->andWhere("sg.nombre = '{$session->get('filtroSubGrupo')}'");
+            $queryBuilder->andWhere("o.codigoSubgrupoFk = '{$session->get('filtroSubGrupo')}'");
         }
         if ($session->get('filtroAccion') != '') {
-            $queryBuilder->andWhere("acc.nombre = '{$session->get('filtroAccion')}'");
+            $queryBuilder->andWhere("o.codigoAccionFk = '{$session->get('filtroAccion')}'");
         }
         if ($session->get('filtroObligacion') != '') {
             $queryBuilder->andWhere("o.obligacion LIKE '%{$session->get('filtroObligacion')}%'");
