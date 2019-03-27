@@ -89,7 +89,7 @@ class NormaController extends Controller
                 return $this->redirect($this->generateUrl('norma_lista'));
             }
         }
-        $arNormas = $paginator->paginate($em->getRepository(Norma::class)->lista(), $request->query->getInt('page', 1), 500);
+        $arNormas = $paginator->paginate($em->getRepository(Norma::class)->lista(), $request->query->getInt('page', 1), 30);
         return $this->render('Norma/lista.html.twig', [
             'arNormas' => $arNormas,
             'form' => $form->createView()
@@ -167,8 +167,8 @@ class NormaController extends Controller
             }
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }
-        $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
-        $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('page', 1), 500);
+        $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('page', 1), 30);
+        $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('page', 1), 30);
 
         return $this->render('Norma/detalle.html.twig', [
             'form' => $form->createView(),

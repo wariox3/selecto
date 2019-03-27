@@ -128,6 +128,7 @@
                             {% endfor %}
                             </tbody>
                         </table>
+                        {{ knp_pagination_render(arObligaciones) }}
                         <footer class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-9 col-sm-offset-3" >
@@ -187,8 +188,11 @@
                                     </td>
                                 </tr>
                             {% endfor %}
+                            {{ knp_pagination_render(arVigencias) }}
+
                             </tbody>
                         </table>
+
                         <footer class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-9 col-sm-offset-3" style="float: right; margin-right: 5px !important;">
