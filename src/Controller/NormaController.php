@@ -111,8 +111,7 @@ class NormaController extends Controller
             ->add('matrisRel', EntityType::class, $em->getRepository(Matriz::class)->llenarCombo())
             ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo())
             ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo())
-            ->add('vigenciaRel', EntityType::class, $em->getRepository(Vigencia::class)->llenarCombo($id))
-
+            ->add('vigencia', TextType::class, ['required' => false, 'data' => $session->get('filtroVigencia')])
             ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
             ->add('ObligacionVerificable', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionVerificable'), 'required' => false])
             ->add('ObligacionDerogado', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionDerogado'), 'required' => false])
@@ -154,13 +153,7 @@ class NormaController extends Controller
                 $session->set('filtroObligacionDerogado', $form->get('ObligacionDerogado')->getData());
             }
             if ($form->get('btnFiltrarVigencia')->isClicked()) {
-                $arVigencia = $form->get('vigenciaRel')->getData();
-
-               if ($arVigencia) {
-                    $session->set('filtroVigencia', $arVigencia->getCodigoVigenciaPk());
-                } else {
-                    $session->set('filtroVigencia', null);
-               }
+                $session->set('filtroVigencia', $form->get('vigencia')->getData());
             }
             if ($form->get('btnEliminarObligacion')->isClicked()) {
                 $arrVigenciasSeleccionados = $request->request->get('ChkSeleccionarObligaciones');

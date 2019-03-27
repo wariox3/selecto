@@ -25,33 +25,11 @@ class VigenciaRepository extends ServiceEntityRepository
             ->addSelect('v.vigencia')
             ->where('v.codigoNormaFk = ' . $id);
              if ($session->get('filtroVigencia') != '') {
-                    $queryBuilder->andWhere("v.codigoVigenciaPk = {$session->get('filtroVigencia')}");
+                 $queryBuilder->andWhere("v.vigencia LIKE '%{$session->get('filtroVigencia')}%'");
              }
 
         return $queryBuilder;
     }
 
-    public function llenarCombo($id)
-    {
-        $codigoNormaFk= $id;
-        $session = new Session();
-        $array = [
-            'class' => Vigencia::class,
-            'query_builder' => function (EntityRepository $er) use ($codigoNormaFk) {
-                return $er->createQueryBuilder('v')
-                    ->where("v.codigoNormaFk =  {$codigoNormaFk}")
-                    ->orderBy('v.vigencia', 'ASC');
-            },
-            'choice_label' => 'vigencia',
-            'required' => false,
-            'empty_data' => "",
-            'placeholder' => "TODOS",
-            'data' => ""
-        ];
-        if ($session->get('filtroVigencia')) {
-            $array['data'] = $this->getEntityManager()->getReference(Vigencia::class, $session->get('filtroVigencia'));
-        }
-        return $array;
-    }
 
 }
