@@ -52,6 +52,7 @@ class NormaRepository extends ServiceEntityRepository
         if ($session->get('filtroNormaDescripcion') != '') {
             $queryBuilder->andWhere("n.descripcion LIKE '%{$session->get('filtroNormaDescripcion')}%'");
         }
+
         switch ($session->get('filtroNormaEstadoDerogado')) {
             case '0':
                 $queryBuilder->andWhere("n.estadoDerogado = 0");

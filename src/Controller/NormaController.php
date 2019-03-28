@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Accion;
+use App\Entity\Clasificacion;
 use App\Entity\Grupo;
 use App\Entity\Matriz;
 use App\Entity\Obligacion;
@@ -111,6 +112,8 @@ class NormaController extends Controller
             ->add('grupoRel', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo(), ['data'  => $session->get('filtroGrupo')])
             ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo(), ['data'  => $session->get('filtroSubGrupo')])
             ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo(), ['data'  => $session->get('filtroAccion')])
+            ->add('clasificacionRel', EntityType::class, $em->getRepository(Clasificacion::class)->llenarCombo(), ['data'  => $session->get('filtroClasificacion')])
+
             ->add('vigencia', TextType::class, ['required' => false, 'data' => $session->get('filtroVigencia')])
             ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
             ->add('ObligacionVerificable', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionVerificable'), 'required' => false])
@@ -127,6 +130,7 @@ class NormaController extends Controller
                 $arMatriz = $form->get('matrizRel')->getData();
                 $arSubgrupo = $form->get('subGrupoRel')->getData();
                 $arAccion = $form->get('accionRel')->getData();
+                $arclasificacion = $form->get('clasificacionRel')->getData();
 
                 if($arGrupo) {
                     $session->set('filtroGrupo', $arGrupo->getCodigoGrupoPk());
@@ -148,6 +152,12 @@ class NormaController extends Controller
                 } else {
                     $session->set('filtroAccion', null);
                 }
+                if($arclasificacion){
+                    $session->set('filtroClasificacion', $arclasificacion->getCodigoClasificacionPk());
+                }else{
+                    $session->set('filtroClasificacion', null);
+                }
+
                 $session->set('filtroObligacion', $form->get('Obligacion')->getData());
                 $session->set('filtroObligacionVerificable', $form->get('ObligacionVerificable')->getData());
                 $session->set('filtroObligacionDerogado', $form->get('ObligacionDerogado')->getData());
@@ -176,9 +186,9 @@ class NormaController extends Controller
         );
         $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('PageVigencia', 1), 30,
             array(
-                'pageParameterName' => 'Vigencia',
-                'sortFieldParameterName' => 'sortVigencia',
-                'sortDirectionParameterName' => 'directionVigencia',
+                'pageParameterName' => 'PageVigencia',
+                'sortFieldParameterName' => 'sortPageVigencia',
+                'sortDirectionParameterName' => 'directionPageVigencia',
             ));
 
         return $this->render('Norma/detalle.html.twig', [

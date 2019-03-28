@@ -107,6 +107,9 @@ class ObligacionRepository extends ServiceEntityRepository
                     break;
             }
         }
+        if($session->get('filtroClasificacion') != ''){
+            $queryBuilder->andWhere("o.codigoClasificacionFk = '{$session->get('filtroClasificacion')}'");
+        }
         if ($session->get('filtroObligacionDerogado') != '') {
             switch ($session->get('filtroObligacionDerogado')){
                 case 0:
