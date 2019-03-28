@@ -49,32 +49,20 @@
                             <div class="panel-body" >
                                 <div class="form-group">
                                     <label class="col-sm-1 control-label">Matriz:</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-2">
                                         {{ form_widget(form.matrisRel) }}
                                     </div>
                                     <label class="col-sm-1 control-label">Grupo:</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-2">
                                         {{ form_widget(form.grupoRel) }}
                                     </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-1 control-label">Subgrupo:</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-2">
                                         {{ form_widget(form.subGrupoRel) }}
                                     </div>
                                     <label class="col-sm-1 control-label">Acción:</label>
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-2">
                                         {{ form_widget(form.accionRel) }}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-1 control-label">Derogado:</label>
-                                    <div class="col-sm-5">
-                                        {{ form_widget(form.ObligacionDerogado) }}
-                                    </div>
-                                    <label class="col-sm-1 control-label">Verificable:</label>
-                                    <div class="col-sm-5">
-                                        {{ form_widget(form.ObligacionVerificable) }}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -82,6 +70,17 @@
                                     <div class="col-sm-5">
                                         {{ form_widget(form.Obligacion) }}
                                     </div>
+                                    <label class="col-sm-1 control-label">Derogado:</label>
+                                    <div class="col-sm-2">
+                                        {{ form_widget(form.ObligacionDerogado) }}
+                                    </div>
+                                    <label class="col-sm-1 control-label">Verificable:</label>
+                                    <div class="col-sm-2">
+                                        {{ form_widget(form.ObligacionVerificable) }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
                                 </div>
                             </div>
                             <footer class="panel-footer" style="display: none;">
