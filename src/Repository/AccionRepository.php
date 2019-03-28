@@ -31,7 +31,7 @@ class AccionRepository extends ServiceEntityRepository
             'placeholder' => "TODOS",
             'data' => ""
         ];
-        if ($session->get('subGrupoRel')) {
+        if ($session->get('filtroAccion')) {
             $array['data'] = $this->getEntityManager()->getReference(Accion::class, $session->get('filtroAccion'));
         }
         return $array;

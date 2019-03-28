@@ -107,7 +107,7 @@ class NormaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arNorma = $em->getRepository(Norma::class)->find($id);
         $form = $this->createFormBuilder()
-            ->add('matrisRel', EntityType::class, $em->getRepository(Matriz::class)->llenarCombo(), ['data'  => $session->get('filtroMatriz')])
+            ->add('matrizRel', EntityType::class, $em->getRepository(Matriz::class)->llenarCombo(), ['data'  => $session->get('filtroMatriz')])
             ->add('grupoRel', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo(), ['data'  => $session->get('filtroGrupo')])
             ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo(), ['data'  => $session->get('filtroSubGrupo')])
             ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo(), ['data'  => $session->get('filtroAccion')])
@@ -124,7 +124,7 @@ class NormaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrarObligacion')->isClicked()) {
                 $arGrupo = $form->get('grupoRel')->getData();
-                $arMatris = $form->get('matrisRel')->getData();
+                $arMatriz = $form->get('matrizRel')->getData();
                 $arSubgrupo = $form->get('subGrupoRel')->getData();
                 $arAccion = $form->get('accionRel')->getData();
 
@@ -133,8 +133,8 @@ class NormaController extends Controller
                 } else {
                     $session->set('filtroGrupo', null);
                 }
-                if($arMatris) {
-                    $session->set('filtroMatriz', $arMatris->getCodigoMatrizPk());
+                if($arMatriz) {
+                    $session->set('filtroMatriz', $arMatriz->getCodigoMatrizPk());
                 } else {
                     $session->set('filtroMatriz', null);
                 }
@@ -167,14 +167,14 @@ class NormaController extends Controller
             }
             return $this->redirect($this->generateUrl('norma_detalle', ['id' => $id]));
         }
-        $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('Obligacion', 1), 30,
+        $arObligaciones = $paginator->paginate($em->getRepository(Obligacion::class)->listaNorma($id), $request->query->getInt('PageObligacion', 1), 30,
             array(
-                'pageParameterName' => 'Obligacion',
-                'sortFieldParameterName' => 'sortObligacion',
-                'sortDirectionParameterName' => 'directionObligacion',
+                'pageParameterName' => 'PageObligacion',
+                'sortFieldParameterName' => 'sortPageObligacion',
+                'sortDirectionParameterName' => 'directionPageObligacion',
             )
         );
-        $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('Vigencia', 1), 30,
+        $arVigencias = $paginator->paginate($em->getRepository(Vigencia::class)->listaNorma($id), $request->query->getInt('PageVigencia', 1), 30,
             array(
                 'pageParameterName' => 'Vigencia',
                 'sortFieldParameterName' => 'sortVigencia',

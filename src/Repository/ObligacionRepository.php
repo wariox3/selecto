@@ -79,7 +79,8 @@ class ObligacionRepository extends ServiceEntityRepository
             ->leftJoin('o.subgrupoRel' , 'sg')
             ->leftJoin('o.matrizRel' , 'm')
             ->leftJoin('o.grupoRel' , 'g')
-        ->where('o.codigoNormaFk = ' . $codigoNorma);
+        ->where('o.codigoNormaFk = ' . $codigoNorma)
+        ->orderBy('o.codigoObligacionPk', 'DESC');
 
         if ($session->get('filtroMatriz') != '') {
             $queryBuilder->andWhere("o.codigoMatrizFk = '{$session->get('filtroMatriz')}'");

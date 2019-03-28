@@ -30,8 +30,8 @@ class SubgrupoRepository extends ServiceEntityRepository
             'placeholder' => "TODOS",
             'data' => ""
         ];
-        if ($session->get('subGrupoRel')) {
-            $array['data'] = $this->getEntityManager()->getReference(Subgrupo::class, $session->get('subGrupoRel'));
+        if ($session->get('filtroSubGrupo')) {
+            $array['data'] = $this->getEntityManager()->getReference(Subgrupo::class, $session->get('filtroSubGrupo'));
         }
         return $array;
     }

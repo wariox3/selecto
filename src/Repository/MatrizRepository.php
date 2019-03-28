@@ -45,7 +45,7 @@ class MatrizRepository extends ServiceEntityRepository
             'placeholder' => "TODOS",
             'data' => ""
         ];
-        if ($session->get('filtroNorma')) {
+        if ($session->get('filtroMatriz')) {
             $array['data'] = $this->getEntityManager()->getReference(Matriz::class, $session->get('filtroMatriz'));
         }
         return $array;
