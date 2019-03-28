@@ -21,6 +21,7 @@
             <link href="{{ asset('plantilla/vendor/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
             <link href="{{ asset('plantilla/vendor/magnific-popup/magnific-popup.css') }}" rel="stylesheet">
             <link href="{{ asset('plantilla/vendor/bootstrap-datepicker/css/datepicker3.css') }}" rel="stylesheet">
+            <link href="{{ asset('plantilla/vendor/select2/select2.css') }}" rel="stylesheet">
 
             <!-- Specific Page Vendor CSS -->
             <link href="{{ asset('plantilla/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css') }}" rel="stylesheet">
@@ -37,7 +38,6 @@
 
         {% endblock %}
         <script src="{{ asset('plantilla/vendor/modernizr/modernizr.js') }}"></script>
-
     </head>
     <body>
         {% block body %}
@@ -113,6 +113,8 @@
             <script src="{{ asset('plantilla/vendor/morris/morris.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/gauge/gauge.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/snap-svg/snap.svg.js') }}"></script>
+            <script src="{{ asset('plantilla/vendor/select2/select2.js') }}"></script>
+            <script src="{{ asset('plantilla/vendor/select2/select2_locale_es.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/liquid-meter/liquid.meter.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/jqvmap/jquery.vmap.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/jqvmap/data/jquery.vmap.sampledata.js') }}"></script>
@@ -135,7 +137,13 @@
 
             <!-- Examples -->
             <script src="{{ asset('plantilla/javascripts/dashboard/examples.dashboard.js') }}"></script>
-
+            <script>
+                $(()=>{
+                    $('select').select2({
+                        language: "es"
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>
