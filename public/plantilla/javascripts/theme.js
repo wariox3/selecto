@@ -751,22 +751,8 @@ window.theme = {};
 
 	$(function() {
 		$('.panel')
-			.on( 'click', '.panel-actions a.fa-caret-up', function( e ) {
-				e.preventDefault();
+			.on('click', '.panel-actions  a.fa-caret-down', function (e) {
 
-				var $this,
-					$panel;
-
-				$this = $( this );
-				$panel = $this.closest( '.panel' );
-
-				$this
-					.removeClass( 'fa-caret-up' )
-					.addClass( 'fa-caret-down' );
-
-				$panel.find('.panel-body, .panel-footer').slideDown( 200 );
-			})
-			.on( 'click', '.panel-actions a.fa-caret-down', function( e ) {
 				e.preventDefault();
 
 				var $this,
@@ -778,8 +764,29 @@ window.theme = {};
 				$this
 					.removeClass( 'fa-caret-down' )
 					.addClass( 'fa-caret-up' );
+				if ($(this).parent().hasClass('panelFiltro')){
+					$panel.find('.panel-body, .panel-footer').slideDown( 200 );
+				}else{
+					$panel.find('.panel-body, .panel-footer').slideUp( 200 );
+				}
+			})
+			.on('click', '.panel-actions a.fa-caret-up', function (e) {
+				e.preventDefault();
 
-				$panel.find('.panel-body, .panel-footer').slideUp( 200 );
+				var $this,
+					$panel;
+
+				$this = $( this );
+				$panel = $this.closest( '.panel' );
+
+				$this
+					.removeClass( 'fa-caret-up' )
+					.addClass( 'fa-caret-down' );
+				if ($(this).parent().hasClass('panelFiltro')){
+					$panel.find('.panel-body, .panel-footer').slideUp( 200 );
+				}else{
+					$panel.find('.panel-body, .panel-footer').slideDown( 200 );
+				}
 			})
 			.on( 'click', '.panel-actions a.fa-times', function( e ) {
 				e.preventDefault();
