@@ -22,8 +22,8 @@ class ClasificacionRepository extends ServiceEntityRepository
         $array = [
             'class' => Clasificacion::class,
             'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('sg')
-                    ->orderBy('sg.nombre', 'ASC');
+                return $er->createQueryBuilder('cl')
+                    ->orderBy('cl.nombre', 'ASC');
             },
             'choice_label' => 'nombre',
             'required' => false,

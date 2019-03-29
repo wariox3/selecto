@@ -1,6 +1,6 @@
 {% extends 'base_admin.html.twig' %}
 {% block content %}
-    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    {{ form_start(form) }}
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
             <a class="btn btn-default btn-sm" href="{{ path('norma_lista') }}">Volver</a>
@@ -101,6 +101,7 @@
                                 <th>Matriz</th>
                                 <th>Grupo</th>
                                 <th>Subgrupo</th>
+                                <th>Clasificación</th>
                                 <th>Obligacion</th>
                                 <th>Accion</th>
                                 <th title="Estado derogado">DER</th>
@@ -115,6 +116,7 @@
                                     <td>{{ arObligacion.matrizNombre }}</td>
                                     <td>{{ arObligacion.grupoNombre }}</td>
                                     <td>{{ arObligacion.subgrupoNombre }}</td>
+                                    <td>{{ arObligacion.clasificacion }}</td>
                                     <td>{{ arObligacion.obligacion }}</td>
                                     <td>{{ arObligacion.accionNombre }}</td>
                                     <td>{{ arObligacion.estadoDerogado ? 'SI':'NO' }}</td>

@@ -75,11 +75,14 @@ class ObligacionRepository extends ServiceEntityRepository
             ->addSelect('sg.nombre as subgrupoNombre')
             ->addSelect('m.nombre as matrizNombre')
             ->addSelect('g.nombre as grupoNombre')
+            ->addSelect('cl.nombre as clasificacion')
             ->leftJoin('o.accionRel' , 'acc')
             ->leftJoin('o.subgrupoRel' , 'sg')
             ->leftJoin('o.matrizRel' , 'm')
             ->leftJoin('o.grupoRel' , 'g')
-        ->where('o.codigoNormaFk = ' . $codigoNorma)
+            ->leftJoin('o.clasificacionRel' , 'cl')
+
+            ->where('o.codigoNormaFk = ' . $codigoNorma)
         ->orderBy('o.codigoObligacionPk', 'DESC');
 
         if ($session->get('filtroMatriz') != '') {
@@ -120,7 +123,6 @@ class ObligacionRepository extends ServiceEntityRepository
                     break;
             }
         }
-
         return $queryBuilder;
     }
 

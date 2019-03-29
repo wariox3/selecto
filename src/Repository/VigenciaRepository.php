@@ -23,10 +23,13 @@ class VigenciaRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Vigencia::class, 'v')
             ->select('v.codigoVigenciaPk')
             ->addSelect('v.vigencia')
-            ->where('v.codigoNormaFk = ' . $id);
-             if ($session->get('filtroVigencia') != '') {
+            ->where('v.codigoNormaFk = ' . $id)
+            ->orderBy('v.codigoVigenciaPk', 'DESC');
+
+            if ($session->get('filtroVigencia') != '') {
                  $queryBuilder->andWhere("v.vigencia LIKE '%{$session->get('filtroVigencia')}%'");
              }
+
 
         return $queryBuilder;
     }
