@@ -95,7 +95,10 @@
                             {% endfor %}
                             </tbody>
                         </table>
-                        {{ knp_pagination_render(arNormas) }}
+                        <div style="display: flex; flex-direction: row; align-items: center">
+                            <span style="margin-right: 4px">registros: {{ arNormas.getTotalItemCount }}</span>
+                            {{ knp_pagination_render(arNormas) }}
+                        </div>
                     </div>
                 </div>
 

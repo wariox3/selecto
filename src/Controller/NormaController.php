@@ -113,7 +113,6 @@ class NormaController extends Controller
             ->add('subGrupoRel', EntityType::class, $em->getRepository(Subgrupo::class)->llenarCombo(), ['data'  => $session->get('filtroSubGrupo')])
             ->add('accionRel', EntityType::class, $em->getRepository(Accion::class)->llenarCombo(), ['data'  => $session->get('filtroAccion')])
             ->add('clasificacionRel', EntityType::class, $em->getRepository(Clasificacion::class)->llenarCombo(), ['data'  => $session->get('filtroClasificacion')])
-
             ->add('vigencia', TextType::class, ['required' => false, 'data' => $session->get('filtroVigencia')])
             ->add('Obligacion', TextType::class, ['required' => false, 'data' => $session->get('filtroObligacion')])
             ->add('ObligacionVerificable', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroObligacionVerificable'), 'required' => false])
