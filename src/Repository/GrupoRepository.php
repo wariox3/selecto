@@ -15,6 +15,19 @@ class GrupoRepository extends ServiceEntityRepository
         parent::__construct($registry, Grupo::class);
     }
 
+    public function lista(){
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Grupo::class, 'gr')
+            ->select('gr.codigoGrupoPk')
+            ->addSelect('gr.nombre');
+        $queryBuilder->orderBy('gr.codigoGrupoPk', 'DESC');
+
+        if ($session->get('filtroNombre') != ''){
+            $queryBuilder->andWhere("gr.codigoGrupoPk = '{$session->get('filtroNombre')}'");
+        }
+        return $queryBuilder;
+
+    }
     public function llenarCombo()
     {
         $session = new Session();
