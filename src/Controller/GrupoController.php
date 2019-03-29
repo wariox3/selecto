@@ -28,9 +28,8 @@ class GrupoController extends Controller
         $paginator = $this->get('knp_paginator');
 
         $form = $this-> createFormBuilder()
-            ->add('nombre', EntityType::class, $em->getRepository(Grupo::class)->llenarCombo(), ['data'  => $session->get('filtroNombre')])
-
-           // ->add('nombre', TextType::class,['required' => false, 'data' => $session->get('filtroNombre')])
+             ->add('clave', TextType::class,['required' => false, 'data' => $session->get('filtroClave')])
+            ->add('nombre', TextType::class,['required' => false, 'data' => $session->get('filtroNombre')])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -39,12 +38,8 @@ class GrupoController extends Controller
         if ($form->isSubmitted() && $form->isValid()){
 
             if ($form->get('btnFiltrar')->isClicked()) {
-                $arGrupo = $form->get('nombre')->getData();
-                if($arGrupo) {
-                    $session->set('filtroNombre', $arGrupo->getCodigoGrupoPk());
-                } else {
-                    $session->set('filtroNombre', null);
-                }
+                $session->set('filtroClave', $form->get('clave')->getData());
+                $session->set('filtroNombre', $form->get('nombre')->getData());
             }
 
             if($form->get('btnEliminar')->isClicked()){
@@ -77,11 +72,11 @@ class GrupoController extends Controller
                 $arGrupo = $form->getData();
                 $em->persist($arGrupo);
                 $em->flush();
-                return $this->redirect($this->generateUrl('grupo_detalle', array('id' => $arGrupo->getCodigoMatrizPk())));
+                return $this->redirect($this->generateUrl('grupo_detalle', array('id' => $arGrupo->getCodigoGrupoPk())));
             }
         }
         return $this->render('Grupo/nuevo.html.twig', [
-            'arNorma' => $arGrupo,
+            'arGrupo' => $arGrupo,
             'form' => $form->createView()
         ]);
     }

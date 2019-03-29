@@ -13,8 +13,12 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label class="col-sm-1 control-label">Clave:</label>
+                        <div class="col-sm-2">
+                            {{ form_widget(form.clave) }}
+                        </div>
                         <label class="col-sm-1 control-label">Nombre:</label>
-                        <div class="col-sm-5">
+                        <div class="col-sm-2">
                             {{ form_widget(form.nombre) }}
                         </div>
                     </div>
