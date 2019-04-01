@@ -48,12 +48,12 @@
                                     <td>{{ arGrupo.codigoGrupoPk }}</td>
                                     <td>{{ arGrupo.nombre }}</td>
                                     <td class="text-center">
-                                        <a href="{{ path('grupo_nuevo', { 'id': arGrupo.codigoGrupoPk }) }}">
+                                        <a href="{{ path('grupo_nuevo', { 'id': arGrupo.codigoGrupoPk }) }}" title="editar nombre del grupo">
                                             <i class="fa fa-edit fa-lg"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ path('grupo_detalle', { 'id': arGrupo.codigoGrupoPk }) }}">
+                                        <a href="{{ path('grupo_detalle', { 'id': arGrupo.codigoGrupoPk }) }}" title="mostrar información">
                                             <i class="fa fa-eye fa-lg"></i>
                                         </a>
                                     </td>

@@ -60,10 +60,13 @@ class GrupoController extends Controller
      * @Route("/admin/grupo/nuevo/{id}", name="grupo_nuevo")
      */
     public function nuevo(Request $request, $id){
+        $session = new Session();
+        $session->set('booOcultar', true);
         $em = $this->getDoctrine()->getManager();
-        $arGrupo = new Grupo();
-        if($id != 0){
-            $arGrupo = $em->getRepository(Grupo::class)->find($id);
+        $arGrupo = $em->getRepository(Grupo::class)->find($id);
+        if (is_null($arGrupo)){
+            $session->set('booOcultar', false);
+            $arGrupo = new Grupo();
         }
         $form = $this->createForm(GrupoType::class, $arGrupo);
         $form->handleRequest($request);
@@ -75,6 +78,7 @@ class GrupoController extends Controller
                 return $this->redirect($this->generateUrl('grupo_detalle', array('id' => $arGrupo->getCodigoGrupoPk())));
             }
         }
+
         return $this->render('Grupo/nuevo.html.twig', [
             'arGrupo' => $arGrupo,
             'form' => $form->createView()
