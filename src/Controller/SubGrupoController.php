@@ -27,16 +27,19 @@ class SubGrupoController extends  Controller
         $form = $this-> createFormBuilder()
             ->add('clave', TextType::class,['required' => false, 'data' => $session->get('filtroClave')])
             ->add('nombre', TextType::class,['required' => false, 'data' => $session->get('filtroNombre')])
+            ->add('Grupo', TextType::class,['required' => false, 'data' => $session->get('filtroGrupo')])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
 
-        /*if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()){
 
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroClave', $form->get('clave')->getData());
                 $session->set('filtroNombre', $form->get('nombre')->getData());
+                $session->set('filtroGrupo', $form->get('Grupo')->getData());
+
             }
 
             if($form->get('btnEliminar')->isClicked()){
@@ -44,9 +47,9 @@ class SubGrupoController extends  Controller
                 $this->get("UtilidadesModelo")->eliminar(Grupo::class, $arGrupo);
 
             }
-        }*/
+        }
 
-        $arSubGrupos = $paginator->paginate($em->getRepository(Subgrupo::class)->lista(null),$request->query->getInt('page', 1));
+        $arSubGrupos = $paginator->paginate($em->getRepository(Subgrupo::class)->lista(),$request->query->getInt('page', 1));
         return $this->render('subGrupo/lista.html.twig', [
             'arSubGrupos' => $arSubGrupos,
             'form'=>$form->createView()

@@ -15,20 +15,17 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Nombre:</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-1 control-label">clave:</label>
+                        <div class="col-sm-3">
+                            {{ form_widget(form.clave) }}
                         </div>
-                        <label class="col-sm-1 control-label">Descripcion:</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-1 control-label">nombre:</label>
+                        <div class="col-sm-3">
+                            {{ form_widget(form.nombre) }}
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-6 control-label"></label>
-                        <label class="col-sm-1 control-label">Codigo</label>
-                        <div class="col-sm-2">
-                        </div>
-                        <label class="col-sm-1 control-label">Derogado:</label>
-                        <div class="col-sm-2">
+                        <label class="col-sm-1 control-label">Grupo:</label>
+                        <div class="col-sm-3">
+                            {{ form_widget(form.Grupo) }}
                         </div>
                     </div>
                 </div>
