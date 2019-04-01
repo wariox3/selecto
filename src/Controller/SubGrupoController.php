@@ -61,10 +61,12 @@ class SubGrupoController extends  Controller
      * @Route("/admin/subGrupo/nuevo/{id}", name="subGrupo_nuevo")
      */
     public function nuevo(Request $request, $id){
-       $em = $this->getDoctrine()->getManager();
-        $arSubGrupo = new Subgrupo();
-        if($id != 0){
-            $arSubGrupo = $em->getRepository(Subgrupo::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $booOcultarEmentos = true;
+        $arSubGrupo = $em->getRepository(Subgrupo::class)->find($id);
+        if(is_null($arSubGrupo)){
+            $booOcultarEmentos= false;
+            $arSubGrupo = new Subgrupo();
         }
         $form = $this->createForm(SubGrupoType::class, $arSubGrupo);
          $form->handleRequest($request);
@@ -78,7 +80,8 @@ class SubGrupoController extends  Controller
          }
         return $this->render('subGrupo/nuevo.html.twig', [
              'arSubGrupo' => $arSubGrupo,
-             'form' => $form->createView()
+             'form' => $form->createView(),
+            'booOcultarEmentos' => $booOcultarEmentos
         ]);
     }
 

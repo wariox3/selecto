@@ -15,10 +15,17 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Identificador:</label>
-                        <div class="col-sm-2">
-                            {{ form_widget(form.codigoSubgrupoPk) }}
-                        </div>
+                        {% if  booOcultarEmentos %}
+                            <label class="col-sm-1 control-label" style="display: none">Identificador:</label>
+                            <div class="col-sm-2" style="display: none">
+                                {{ form_widget(form.codigoSubgrupoPk) }}
+                            </div>
+                        {% else %}
+                            <label class="col-sm-1 control-label">Identificador:</label>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.codigoSubgrupoPk) }}
+                            </div>
+                        {% endif %}
                         <label class="col-sm-1 control-label">Nombre:</label>
                         <div class="col-sm-2">
                             {{ form_widget(form.nombre) }}

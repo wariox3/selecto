@@ -9,7 +9,6 @@
                 <header class="panel-heading">
                     <div class="panel-actions">
                         <a href="#" class="fa fa-caret-down"></a>
-                        <a href="#" class="fa fa-times"></a>
                     </div>
                     <h2 class="panel-title">Filtro de busqueda</h2>
                 </header>
@@ -61,7 +60,7 @@
                                     <td>{{ arSubGrupo.nombre }}</td>
                                     <td>{{ arSubGrupo.grupoNombre }}</td>
                                     <td class="text-center">
-                                        <a href="{{ path('subGrupo_nuevo', { 'id': arSubGrupo.codigoSubgrupoPk }) }}">
+                                        <a href="{{ path('subGrupo_nuevo', { 'id': arSubGrupo.codigoSubgrupoPk }) }}" title="editar nombre y grupo">
                                             <i class="fa fa-edit fa-lg"></i>
                                         </a>
                                     </td>
