@@ -63,9 +63,11 @@ class ClasificacionController  extends  Controller
      */
     public function nuevo(Request $request, $id){
        $em = $this->getDoctrine()->getManager();
-        $arclasificacion = new clasificacion();
-        if($id != 0){
-            $arclasificacion = $em->getRepository(clasificacion::class)->find($id);
+        $arclasificacion = $em->getRepository(clasificacion::class)->find($id);
+        $booOcultarElementos = true;
+        if(is_null($arclasificacion)){
+            $booOcultarElementos = false;
+            $arclasificacion = new clasificacion();
         }
         $form = $this->createForm(clasificacionType::class, $arclasificacion);
         $form->handleRequest($request);
@@ -79,7 +81,8 @@ class ClasificacionController  extends  Controller
         }
         return $this->render('clasificacion/nuevo.html.twig', [
             'arclasificacion' => $arclasificacion,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'booOcultarElementos'=> $booOcultarElementos
         ]);
     }
 
