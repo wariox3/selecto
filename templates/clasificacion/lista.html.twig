@@ -68,12 +68,12 @@
                                     <td>{{ arclasificacion.subgrupoNombre }}</td>
 
                                     <td class="text-center">
-                                        <a href="{{ path('subGrupo_nuevo', { 'id': arclasificacion.codigoClasificacionPk }) }}">
+                                        <a href="{{ path('clasificacion_detalle', { 'id': arclasificacion.codigoClasificacionPk }) }}">
                                             <i class="fa fa-edit fa-lg"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ path('subGrupo_detalle', { 'id': arclasificacion.codigoClasificacionPk }) }}">
+                                        <a href="{{ path('clasificacion_detalle', { 'id': arclasificacion.codigoClasificacionPk }) }}">
                                             <i class="fa fa-eye fa-lg"></i>
                                         </a>
                                     </td>
@@ -95,7 +95,7 @@
                     <div class="row">
                         <div class="col-sm-9 col-sm-offset-3" >
                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group" aria-label="...">
-                                <a class="btn btn-sm btn-default"  href="{{ path('subGrupo_nuevo', {'id': 0}) }}">Nuevo</a>
+                                <a class="btn btn-sm btn-default"  href="{{ path('clasificacion_nuevo', {'id': 0}) }}">Nuevo</a>
                                 {{ form_widget(form.btnEliminar) }}
                             </div>
                         </div>

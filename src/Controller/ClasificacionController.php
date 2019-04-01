@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Clasificacion;
 //use App\Form\Type\clasificacionType;
+use App\Form\Type\clasificacionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -61,7 +62,7 @@ class ClasificacionController  extends  Controller
      * @Route("/admin/clasificacion/nuevo/{id}", name="clasificacion_nuevo")
      */
     public function nuevo(Request $request, $id){
-       /* $em = $this->getDoctrine()->getManager();
+       $em = $this->getDoctrine()->getManager();
         $arclasificacion = new clasificacion();
         if($id != 0){
             $arclasificacion = $em->getRepository(clasificacion::class)->find($id);
@@ -79,7 +80,7 @@ class ClasificacionController  extends  Controller
         return $this->render('clasificacion/nuevo.html.twig', [
             'arclasificacion' => $arclasificacion,
             'form' => $form->createView()
-        ]);*/
+        ]);
     }
 
     /**
@@ -87,8 +88,8 @@ class ClasificacionController  extends  Controller
      */
     public function detalle(Request $request, $id)
     {
-       /* $em = $this->getDoctrine()->getManager();
-        $arclasificacions = $em->getRepository(clasificacion::class)->find($id);
+       $em = $this->getDoctrine()->getManager();
+        $arclasificacion = $em->getRepository(clasificacion::class)->find($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,7 +97,7 @@ class ClasificacionController  extends  Controller
         }
         return $this->render('clasificacion/detalle.html.twig', [
             'form' => $form->createView(),
-            'arclasificacions' => $arclasificacions,
-        ]);*/
+            'arclasificacion' => $arclasificacion,
+        ]);
     }
 }
