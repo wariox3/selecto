@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Subgrupo;
 //use App\Form\Type\GrupoType;
+use App\Form\Type\SubGrupoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -60,25 +61,25 @@ class SubGrupoController extends  Controller
      * @Route("/admin/subGrupo/nuevo/{id}", name="subGrupo_nuevo")
      */
     public function nuevo(Request $request, $id){
-       /* $em = $this->getDoctrine()->getManager();
-        $arGrupo = new Grupo();
+       $em = $this->getDoctrine()->getManager();
+        $arSubGrupo = new Subgrupo();
         if($id != 0){
-            $arGrupo = $em->getRepository(Grupo::class)->find($id);
+            $arSubGrupo = $em->getRepository(Subgrupo::class)->find($id);
         }
-        $form = $this->createForm(GrupoType::class, $arGrupo);
-        $form->handleRequest($request);
+        $form = $this->createForm(SubGrupoType::class, $arSubGrupo);
+         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            if ($form->get('guardar')->isClicked()) {
-                $arGrupo = $form->getData();
-                $em->persist($arGrupo);
-                $em->flush();
-                return $this->redirect($this->generateUrl('grupo_detalle', array('id' => $arGrupo->getCodigoGrupoPk())));
-            }
-        }
-        return $this->render('Grupo/nuevo.html.twig', [
-            'arGrupo' => $arGrupo,
-            'form' => $form->createView()
-        ]);*/
+             if ($form->get('guardar')->isClicked()) {
+                 $arSubGrupo = $form->getData();
+                 $em->persist($arSubGrupo);
+                 $em->flush();
+                 return $this->redirect($this->generateUrl('subGrupo_detalle', array('id' => $arSubGrupo->getCodigoSubgrupoPk())));
+             }
+         }
+        return $this->render('subGrupo/nuevo.html.twig', [
+             'arSubGrupo' => $arSubGrupo,
+             'form' => $form->createView()
+        ]);
     }
 
     /**
