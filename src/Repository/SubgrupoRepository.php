@@ -15,6 +15,20 @@ class SubgrupoRepository extends ServiceEntityRepository
         parent::__construct($registry, Subgrupo::class);
     }
 
+    public function lista(){
+
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Subgrupo::class, 'sg')
+            ->select('sg.codigoSubgrupoPk')
+            ->addSelect('sg.nombre')
+            ->addSelect('g.nombre as grupoNombre')
+            ->leftJoin('sg.grupoRel' , 'g');
+        $queryBuilder->orderBy('sg.codigoSubgrupoPk', 'DESC');
+        return $queryBuilder;
+
+    }
+
+
     public function llenarCombo()
     {
         $session = new Session();
