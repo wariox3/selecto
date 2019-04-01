@@ -16,6 +16,37 @@ class ClasificacionRepository extends ServiceEntityRepository
         parent::__construct($registry, Clasificacion::class);
     }
 
+    public function lista()
+    {
+
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Clasificacion::class, 'cl')
+            ->select('cl.codigoClasificacionPk')
+            ->addSelect('cl.nombre')
+            ->addSelect('g.nombre as grupoNombre')
+            ->addSelect('sg.nombre as subgrupoNombre')
+            ->leftJoin('cl.grupoRel', 'g')
+            ->leftJoin('cl.subgrupoRel', 'sg');
+        $queryBuilder->orderBy('cl.codigoClasificacionPk', 'DESC');
+
+        if ($session->get('filtroNombre') != '') {
+            $queryBuilder->andWhere("cl.nombre = '{$session->get('filtroNombre')}'");
+        }
+        if ($session->get('filtroClave') != '') {
+            $queryBuilder->andWhere("cl.codigoClasificacionPk = '{$session->get('filtroClave')}'");
+        }
+        if ($session->get('filtroGrupo') != '') {
+            $queryBuilder->andWhere("g.nombre = '{$session->get('filtroGrupo')}'");
+        }
+        if ($session->get('filtroSubGrupo') != ''){
+            $queryBuilder->andWhere("sg.nombre = '{$session->get('filtroSubGrupo')}'");
+        }
+
+        return $queryBuilder;
+
+    }
+
+
     public function llenarCombo()
     {
         $session = new Session();
