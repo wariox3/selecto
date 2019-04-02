@@ -2,7 +2,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Cliente;
+use App\Entity\Empresa;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;

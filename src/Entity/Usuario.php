@@ -53,9 +53,9 @@ class Usuario implements UserInterface, \Serializable
 	private $token;
 
 	/**
-	 * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+	 * @ORM\Column(name="codigo_empresa_fk", type="integer", nullable=true)
 	 */
-	private $codigoClienteFk;
+	private $codigoEmpresaFk;
 
 	/**
 	 * @ORM\Column(name="codigo_rol_fk", type="string", length=20, nullable=true)
@@ -68,10 +68,10 @@ class Usuario implements UserInterface, \Serializable
     private $control;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="usuariosClienteRel")
-     * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
+     * @ORM\ManyToOne(targetEntity="Empresa", inversedBy="usuariosEmpresaRel")
+     * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
-    private $clienteRel;
+    private $empresaRel;
 
 
 	/**
@@ -236,17 +236,17 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getCodigoClienteFk()
+    public function getCodigoEmpresaFk()
     {
-        return $this->codigoClienteFk;
+        return $this->codigoEmpresaFk;
     }
 
     /**
-     * @param mixed $codigoClienteFk
+     * @param mixed $codigoEmpresaFk
      */
-    public function setCodigoClienteFk($codigoClienteFk): void
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
-        $this->codigoClienteFk = $codigoClienteFk;
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
     /**
@@ -284,17 +284,17 @@ class Usuario implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getClienteRel()
+    public function getEmpresaRel()
     {
-        return $this->clienteRel;
+        return $this->empresaRel;
     }
 
     /**
-     * @param mixed $clienteRel
+     * @param mixed $empresaRel
      */
-    public function setClienteRel($clienteRel): void
+    public function setEmpresaRel($empresaRel): void
     {
-        $this->clienteRel = $clienteRel;
+        $this->empresaRel = $empresaRel;
     }
 
 
