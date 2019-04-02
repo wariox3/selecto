@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Clasificacion;
 use App\Entity\Grupo;
+use App\Entity\Subgrupo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -46,6 +47,18 @@ class ClasificacionRepository extends ServiceEntityRepository
 
     }
 
+    public function  detalle($id){
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Clasificacion::class, 'cl')
+            ->select('cl.codigoClasificacionPk')
+            ->addSelect('cl.nombre')
+            ->addSelect('g.nombre as grupoNombre')
+            ->addSelect('sg.nombre as subgrupoNombre')
+            ->leftJoin('cl.grupoRel', 'g')
+            ->leftJoin('cl.subgrupoRel', 'sg')
+            ->where("cl.codigoClasificacionPk = '{$id}'");
+        $query =$queryBuilder->getQuery();
+        return $query->getResult();
+    }
 
     public function llenarCombo()
     {

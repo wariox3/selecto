@@ -47,7 +47,6 @@ class SubgrupoRepository extends ServiceEntityRepository
             ->leftJoin('sg.grupoRel' , 'g')
             ->where("sg.codigoSubgrupoPk = '{$id}'");
         $query =$queryBuilder->getQuery();
-        //dd($queryBuilder->getQuery());
         return $query->getResult();
     }
 

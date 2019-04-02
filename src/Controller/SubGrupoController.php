@@ -92,7 +92,6 @@ class SubGrupoController extends  Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arSubGrupos=$em->getRepository(Subgrupo::class)->detalle($id);
-        //dd($arSubGrupos);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

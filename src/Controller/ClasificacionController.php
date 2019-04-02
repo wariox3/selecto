@@ -63,7 +63,7 @@ class ClasificacionController  extends  Controller
      */
     public function nuevo(Request $request, $id){
        $em = $this->getDoctrine()->getManager();
-        $arclasificacion = $em->getRepository(clasificacion::class)->find($id);
+       $arclasificacion = $em->getRepository(clasificacion::class)->detalle($id);
         $booOcultarElementos = true;
         if(is_null($arclasificacion)){
             $booOcultarElementos = false;
@@ -92,7 +92,7 @@ class ClasificacionController  extends  Controller
     public function detalle(Request $request, $id)
     {
        $em = $this->getDoctrine()->getManager();
-        $arclasificacion = $em->getRepository(clasificacion::class)->find($id);
+        $arclasificacion = $em->getRepository(clasificacion::class)->detalle($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

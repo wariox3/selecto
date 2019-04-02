@@ -10,11 +10,19 @@
     <table width="100%" class="table table-condensed table-bordered tabla-datos ">
         <tr>
             <td  class="titulo">id</td>
-            <td class="td-in-well">{{ arclasificacion.codigoClasificacionPk }}</td>
+            <td class="td-in-well">{{ arclasificacion[0].codigoClasificacionPk }}</td>
         </tr>
         <tr>
             <td  class="titulo">nombre</td>
-            <td class="td-in-well">{{ arclasificacion.nombre }}</td>
+            <td class="td-in-well">{{ arclasificacion[0].nombre }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">Grupo Asosiado</td>
+            <td class="td-in-well">{{ arclasificacion[0].grupoNombre }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">Subgrupo Asosiado</td>
+            <td class="td-in-well">{{ arclasificacion[0].subgrupoNombre }}</td>
         </tr>
     </table>
     {{ form_end(form) }}
