@@ -91,7 +91,8 @@ class SubGrupoController extends  Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arSubGrupos = $em->getRepository(Subgrupo::class)->find($id);
+        $arSubGrupos=$em->getRepository(Subgrupo::class)->detalle($id);
+        //dd($arSubGrupos);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

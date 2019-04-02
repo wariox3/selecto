@@ -9,12 +9,16 @@
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-datos ">
         <tr>
-            <td  class="titulo">id</td>
-            <td class="td-in-well">{{ arSubGrupos.codigoSubgrupoPk }}</td>
+            <td  class="titulo">Id</td>
+            <td class="td-in-well">{{ arSubGrupos[0].codigoSubgrupoPk }}</td>
         </tr>
         <tr>
-            <td  class="titulo">nombre</td>
-            <td class="td-in-well">{{ arSubGrupos.nombre }}</td>
+            <td  class="titulo">Nombre</td>
+            <td class="td-in-well">{{ arSubGrupos[0].nombre }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">Grupo Asosiado</td>
+            <td class="td-in-well">{{ arSubGrupos[0].grupoNombre }}</td>
         </tr>
     </table>
     {{ form_end(form) }}
