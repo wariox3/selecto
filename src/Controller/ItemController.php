@@ -19,11 +19,8 @@ class ItemController extends Controller
         $session = new Session();
         $em=$this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
+
         $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page',1),30);
-
-
-
-
         return $this->render('item/lista.html.twig', [
             'arItems' =>$arItems,
         ]);

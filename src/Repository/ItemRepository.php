@@ -23,6 +23,5 @@ class ItemRepository extends ServiceEntityRepository
             ->addSelect('i.descripcion');
         return $querybuilder;
 
-
     }
 }
