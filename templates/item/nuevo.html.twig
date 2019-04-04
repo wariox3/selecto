@@ -9,16 +9,16 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-                    <div class="panel-actions">
-                        <a href="#" class="fa fa-caret-down"></a>
-                    </div>
-                    <h2 class="panel-title">Informacion</h2>
+{#                    <div class="panel-actions">#}
+{#                        <a href="#" class="fa fa-caret-down"></a>#}
+{#                    </div>#}
+                    <h2 class="panel-title">Información</h2>
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono">Descripcion:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.descripcion) }}
+                        <label class="col-md-1 control-label" for="_telefono" >Descripción:</label>
+                        <div class="col-md-5" >
+                            {{ form_widget(form.descripcion,{'attr':{'autofocus': 'true' }}) }}
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,6 @@
             </section>
         </div>
     </div>
-{#    {{ form_rest(form) }}#}
     {{ form_end(form) }}
 {% endblock %}
 

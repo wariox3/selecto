@@ -15,12 +15,20 @@ class ItemRepository extends ServiceEntityRepository
         parent::__construct($registry, Item::class);
     }
 
-    public function lista($codigoItemPk ="", $descripcion="")
+    public function lista()
     {
         $session =new Session();
         $querybuilder=$this->getEntityManager()->createQueryBuilder()->from(Item::class,'i' )
             ->select('i.codigoItemPk')
             ->addSelect('i.descripcion');
+        $querybuilder->orderBy("i.codigoItemPk", 'DESC');
+
+        if ($session->get('filtroItemDescripcion')!='' || $session->get('filtroItemCodigoPk') !='')
+        {
+            $querybuilder->andWhere("i.codigoItemPk like '%{$session->get('filtroItemCodigoPk')}%'");
+            $querybuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
+
+        }
         return $querybuilder;
 
     }
