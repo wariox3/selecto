@@ -138,7 +138,7 @@
                 columns: [
                     ['Lulu', 46],
                     ['Olaf', 24],
-                    ['Item 3', 30]
+                    ['ItemType 3', 30]
                 ],
                 type : 'pie'
             },

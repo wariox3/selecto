@@ -31,4 +31,9 @@ services:
             tags: ['doctrine.fixture.orm']
 
 
+    UtilidadesModelo:
+        public: true
+        class: App\Utilidades\Modelo
+        arguments: ['@doctrine.orm.entity_manager']
+
 
