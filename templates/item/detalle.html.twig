@@ -5,13 +5,6 @@
 {% block content %}
 
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
-
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
-
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
             <a class="btn btn-default btn-sm" href="{{ path('item_lista') }}">Volver</a>

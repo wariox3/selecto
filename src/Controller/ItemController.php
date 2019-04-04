@@ -24,7 +24,7 @@ class ItemController extends Controller
         $paginator = $this->get('knp_paginator');
 
         $form = $this->createFormBuilder()
-            ->add('codigoItemPk', TextType::class, ['required' => false, 'data' => $session->get('filtroItemCodigoPk')])
+            ->add('codigoItem', TextType::class, ['required' => false, 'data' => $session->get('filtroItemCodigo')])
             ->add('descripcion', TextType::class, ['required' => false, 'data' => $session->get('filtroItemDescripcion')])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
@@ -34,26 +34,22 @@ class ItemController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form->get('btnFiltrar')->isClicked()) {
-                $session->set('filtroItemCodigoPk', $form->get('codigoItemPk')->getData());
+                $session->set('filtroItemCodigo', $form->get('codigoItem')->getData());
                 $session->set('filtroItemDescripcion', $form->get('descripcion')->getData());
             }
 
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(Item::class, $arItems);
-
                 return $this->redirect($this->generateUrl('item_lista'));
 
             }
-
         }
-
         $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page', 1), 30);
         return $this->render('item/lista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -75,17 +71,13 @@ class ItemController extends Controller
                 $em->persist($arItem);
                 $em->flush();
 
-
                 return $this->redirect($this->generateUrl('item_detalle', array('id' => $arItem->getCodigoItemPk())));
             }
-
         }
-
         return $this->render('item/nuevo.html.twig', [
             'arItem' => $arItem,
             'form' => $form->createView()
         ]);
-
     }
 
     /**

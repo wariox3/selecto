@@ -23,13 +23,15 @@ class ItemRepository extends ServiceEntityRepository
             ->addSelect('i.descripcion');
         $querybuilder->orderBy("i.codigoItemPk", 'DESC');
 
-        if ($session->get('filtroItemDescripcion')!='' || $session->get('filtroItemCodigoPk') !='')
+        if ($session->get('filtroItemCodigo') !='')
         {
-            $querybuilder->andWhere("i.codigoItemPk like '%{$session->get('filtroItemCodigoPk')}%'");
-            $querybuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
+            $querybuilder->andWhere("i.codigoItemPk  ='{$session->get('filtroItemCodigo')}'");
+        }
 
+        if ($session->get('filtroItemDescripcion')!='')
+        {
+            $querybuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
         }
         return $querybuilder;
-
     }
 }

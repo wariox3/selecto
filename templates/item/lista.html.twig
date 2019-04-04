@@ -15,20 +15,21 @@
                      <div class="form-group">
                          <label class="col-sm-1 control-label">Id:</label>
                          <div class="col-sm-2">
-                             {{ form_widget(form.codigoItemPk) }}
+                             {{ form_widget(form.codigoItem) }}
                          </div>
                          <label class="col-sm-1 control-label">Descripción:</label>
                          <div class="col-sm-2">
                              {{ form_widget(form.descripcion) }}
                          </div>
                      </div>
-                     <div class="panel-footer">
-                         <div class="row">
-                             <div class="col-sm-9 col-sm-offset-3">
-                                 {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
-                             </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
                          </div>
                      </div>
+                 </div>
              </section>
          </div>
 
@@ -70,22 +71,22 @@
                              {% endfor %}
                              </tbody>
                          </table>
-                     </div>
-                     <div class="panel-footer">
-                         <div class="row">
-                             <div class="col-sm-9 col-sm-offset-3">
-                                 <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
-                                      aria-label="...">
-                                     <a class="btn btn-sm btn-default"
-                                        href="{{ path('item_nuevo',{'id':0}) }}">Nuevo</a>
-                                     {{ form_widget(form.btnEliminar) }}
-                                 </div>
-                             </div>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arItems.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arItems) }}
                          </div>
                      </div>
-                     <div style="display: flex; flex-direction: row; align-items: center">
-                         <span style="margin-right: 4px">registros: {{ arItems.getTotalItemCount }}</span>
-                         {{ knp_pagination_render(arItems) }}
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                                  aria-label="...">
+                                 <a class="btn btn-sm btn-default"
+                                    href="{{ path('item_nuevo',{'id':0}) }}">Nuevo</a>
+                                 {{ form_widget(form.btnEliminar) }}
+                             </div>
+                         </div>
                      </div>
                  </div>
              </section>
