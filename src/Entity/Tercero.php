@@ -40,6 +40,7 @@ class Tercero
     protected $movimientosTerceroRel;
 
     /**
+     *
      * @return mixed
      */
     public function getCodigoTerceroPk()
