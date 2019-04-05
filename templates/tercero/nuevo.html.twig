@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+{#                    <div class="panel-actions">#}
+{#                        <a href="#" class="fa fa-caret-down"></a>#}
+{#                    </div>#}
+                    <h2 class="panel-title">Información</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono" >Nombre corto:</label>
+                        <div class="col-md-5" >
+                            {{ form_widget(form.nombreCorto) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="_telefono" >Cliente:</label>
+                        <div class="col-md-5" >
+                            {{ form_widget(form.cliente) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="_telefono" >Proveedor:</label>
+                        <div class="col-md-5" >
+                            {{ form_widget(form.proveedor) }}
+                        </div>
+
+                    </div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('tercero_lista') }}">Cancelar</a>
+                        </div>
+                        <div class="col-sm-6">
+                            {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

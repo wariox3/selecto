@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block content %}
+
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="{{ path('movimiento_lista') }}">Volver</a>
+        </div>
+    </div>
+    <br><br>
+    <table width="100%" class="table table-condensed table-bordered tabla-datos ">
+        <tr>
+            <td  class="titulo">Id movimiento</td>
+            <td class="td-in-well">{{ arMovimiento.codigoMovimientoPk }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">Id tercero</td>
+            <td class="td-in-well">{{ arMovimiento.codigoTerceroFk }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">Fecha</td>
+            <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

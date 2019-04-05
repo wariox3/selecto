@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+ {% block content %}
+     {{ form_start(form) }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+                 <div class="panel-body">
+                     <div class="form-group">
+                         <label class="col-sm-1 control-label">Id movimiento:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.codigoMovimiento) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Id tercero:</label>
+                         <div class="col-sm-2">
+                             {#                             form_widget(form.codigoTerceroPk) }}#}
+                         </div>
+                         <label class="col-sm-1 control-label">Fecha:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.fecha) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-body">
+                     <div class="table-responsive">
+                         <table class="table table-bordered mb-none">
+                             <thead>
+                             <tr>
+                                 <th class="text-center">Id movimineto</th>
+                                 <th class="text-center">Id tercero</th>
+                                 <th class="text-center">Fecha</th>
+                                 <th></th>
+                                 <th></th>
+                                 <th></th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             {% for movimiento in arMovimientos %}
+                                 <tr>
+                                     <td>{{ movimiento.codigoMovimientoPk }}</td>
+                                     <td>{{ movimiento.tercero }}</td>
+                                     <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
+                                     <td class="text-center"><a
+                                                 href="{{ path('movimiento_nuevo', { 'id': movimiento.codigoMovimientoPk }) }}"
+                                                 title="editar descripcion"><i
+                                                     class="fa fa-edit fa-lg"></i></a></td>
+                                     <td class="text-center"><a
+                                                 href="{{ path('movimiento_detalle', { 'id': movimiento.codigoMovimientoPk }) }}"
+                                                 title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
+                                     <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
+                                                                    value="{{ movimiento.codigoMovimientoPk }}"/></td>
+                                 </tr>
+                             {% endfor %}
+                             </tbody>
+                         </table>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arMovimientos.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arMovimientos) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                                  aria-label="...">
+                                 <a class="btn btn-sm btn-default"
+                                    href="{{ path('movimiento_nuevo',{'id':0}) }}">Nuevo
+                                 </a>
+                                 {{ form_widget(form.btnEliminar) }}
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

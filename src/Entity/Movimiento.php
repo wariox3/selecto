@@ -20,7 +20,7 @@ class Movimiento
     private $codigoMovimientoPk;
 
     /**
-     * @ORM\Column(name="fecha", type="datetime", nullable=true)
+     * @ORM\Column(name="fecha", type="date", nullable=true)
      */
     private $fecha;
 
@@ -34,6 +34,7 @@ class Movimiento
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     private $terceroRel;
+
 
     /**
      * @return mixed
