@@ -19,33 +19,39 @@ class TerceroRepository extends ServiceEntityRepository
     public function lista()
     {
         $session =new Session();
-        $querybuilder=$this->getEntityManager()->createQueryBuilder()->from(Tercero::class,'t' )
+        $queryBuilder=$this->getEntityManager()->createQueryBuilder()->from(Tercero::class,'t' )
             ->select('t.codigoTerceroPk')
             ->addSelect('t.nombreCorto')
         ->addSelect('t.cliente')
         ->addSelect('t.proveedor');
-        $querybuilder->orderBy("t.codigoTerceroPk", 'DESC');
+        $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');
 
-        if ($session->get('filtroTerceroCodigo') !='')
-        {
-            $querybuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");
+        if ($session->get('filtroTerceroCodigo') !='') {
+            $queryBuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");
         }
 
-        if ($session->get('filtroTerceroNombreCorto')!='')
-        {
-            $querybuilder->andWhere("t.nombreCorto like '%{$session->get('filtroTerceroNombreCorto')}%'");
+        if ($session->get('filtroTerceroNombreCorto')!='') {
+            $queryBuilder->andWhere("t.nombreCorto like '%{$session->get('filtroTerceroNombreCorto')}%'");
         }
 
-        if ($session->get('filtroTerceroCliente')!='')
-        {
-            $querybuilder->andWhere("t.cliente like '%{$session->get('filtroTerceroCliente')}%'");
+        switch ($session->get('filtroTerceroCliente')) {
+            case '0':
+                $queryBuilder->andWhere("t.cliente = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("t.cliente = 1");
+                break;
         }
 
-        if ($session->get('filtroTerceroProveedor')!='')
-        {
-            $querybuilder->andWhere("t.proveedor like '%{$session->get('filtroTerceroProveedor')}%'");
+        switch ($session->get('filtroTerceroProveedor')) {
+            case '0':
+                $queryBuilder->andWhere("t.proveedor = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("t.proveedor = 1");
+                break;
         }
-        return $querybuilder;
+        return $queryBuilder;
 
     }
 }

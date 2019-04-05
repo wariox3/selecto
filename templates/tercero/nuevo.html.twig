@@ -2,30 +2,39 @@
 
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+
     <div class="row">
+
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-{#                    <div class="panel-actions">#}
-{#                        <a href="#" class="fa fa-caret-down"></a>#}
-{#                    </div>#}
-                    <h2 class="panel-title">Información</h2>
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                        <a href="#" class="fa fa-times"></a>
+                    </div>
+                    <h2 class="panel-title">Informacion</h2>
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono" >Nombre corto:</label>
-                        <div class="col-md-5" >
+                        <label class="col-sm-1 control-label">Nombre corto:</label>
+                        <div class="col-sm-5">
                             {{ form_widget(form.nombreCorto) }}
                         </div>
-                        <label class="col-md-1 control-label" for="_telefono" >Cliente:</label>
-                        <div class="col-md-5" >
-                            {{ form_widget(form.cliente) }}
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-5">
+
                         </div>
-                        <label class="col-md-1 control-label" for="_telefono" >Proveedor:</label>
-                        <div class="col-md-5" >
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.cliente) }}
                             {{ form_widget(form.proveedor) }}
                         </div>
+                        <label class="col-sm-1 control-label"></label>
+                        <div class="col-sm-5">
 
+                        </div>
                     </div>
                 </div>
                 <footer class="panel-footer">
