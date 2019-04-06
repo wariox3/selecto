@@ -21,6 +21,71 @@
             <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
         </tr>
     </table>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#detalles" data-toggle="tab">Detalles</a></li>
+    </ul>
+    <br/>
+    <section class="panel">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-none">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Item</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                   OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for arMovimientoDetalle  in arMovimientoDetalles %}
+                        <tr>
+                            <td>{{ arMovimientoDetalle.codigoMovimientoDetallePk }}</td>
+                            <input type="hidden"
+                                   name="arrCodigo[]"
+                                   value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}">
+                            <td>{{ arMovimientoDetalle.item }}</td>
+                            <td>{{ arMovimientoDetalle.cantidad }}</td>
+                            <input type="number"
+                                   name="arrCantidad[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]"
+                                   value="{{ arMovimientoDetalle.cantidad }}"
+                                   style="text-align: right; width:90px"
+                                   size="10">
+
+                            <td style="text-align: center;">
+                                <input type="number"
+                                       name="arrValor[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]"
+                                       value="{{ arMovimientoDetalle.precio }}"
+                                       style="text-align: right; width:90px"
+                                       size="10">
+                            </td>
+                            <td>{{ arMovimientoDetalle.subtotal }}</td>
+                            <td style="text-align: center;"><input type="checkbox" style="text-align: right;"
+                                                                   name="ChkSeleccionar[]"
+                                                                   value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}"/>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                         aria-label="...">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-sm"
+                               href="javascript:abrirVentana3('{{ path('movimiento_detalle_nuevo', {'id':arMovimiento.codigoMovimientoPk }) }}', 'MovimientoAdicionarDetalle', 600, 900)">Nuevo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     {{ form_end(form) }}
 {% endblock %}
 

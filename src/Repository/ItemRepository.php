@@ -20,6 +20,7 @@ class ItemRepository extends ServiceEntityRepository
         $session =new Session();
         $querybuilder=$this->getEntityManager()->createQueryBuilder()->from(Item::class,'i' )
             ->select('i.codigoItemPk')
+            ->addSelect('i.descripcion')
             ->addSelect('i.descripcion');
         $querybuilder->orderBy("i.codigoItemPk", 'DESC');
 

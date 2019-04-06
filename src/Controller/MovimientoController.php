@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Item;
 use App\Entity\Movimiento;
+use App\Entity\MovimientoDetalle;
 use App\Entity\Tercero;
 use App\Form\Type\ItemType;
 use App\Form\Type\MovimientoType;
+use function Complex\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -98,14 +100,72 @@ class MovimientoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
-        $form = $this->createFormBuilder()->getForm();
+        $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $form = $this->createFormBuilder()
+            ->add('btnActualizar', SubmitType::class, $arrBtnActualizar)
+            ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $arrControles = $request->request->all();
+            $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
+            if ($form->get('btnActualizar')->isClicked()) {
+                $em->getRepository(MovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
+            }
             return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
         }
+        $arMovimientoDetalles = $em->getRepository(MovimientoDetalle::class)->lista($id);
         return $this->render('Movimiento/detalle.html.twig', [
             'form' => $form->createView(),
             'arMovimiento' => $arMovimiento,
+            'arMovimientoDetalles' => $arMovimientoDetalles
+
+        ]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/Movimiento/detalle/nuevo/{id}", name="movimiento_detalle_nuevo")
+     */
+    public function detalleNuevo(Request $request, $id)
+    {
+        $session = new Session();
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
+
+        $form = $this->createFormBuilder()
+            ->add('txtCodigoItem', TextType::class, array('required' => false, 'label' => 'codigo item'))
+            ->add('txtDescripcion', TextType::class, array('required' => false, 'label' => 'descripcion'))
+            ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+        }
+            if ($form->get('btnGuardar')->isClicked()) {
+                $arrItems = $request->request->get('itemCantidad');
+                if (count($arrItems) > 0) {
+                    foreach ($arrItems as $codigoItem => $cantidad) {
+                        $arItem = $em->getRepository(Item::class)->find($codigoItem);
+                        if ($cantidad != '' && $cantidad != 0) {
+                            $arMovimientoDetalle = new MovimientoDetalle();
+                            $arMovimientoDetalle->setMovimientoRel($arMovimiento);
+                            $arMovimientoDetalle->setItemRel($arItem);
+                            $arMovimientoDetalle->setCantidad($cantidad);
+                            $em->persist($arMovimientoDetalle);
+                        }
+                        $em->flush();
+                        echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+                    }
+                }
+            }
+        $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page', 1), 50);
+        return $this->render('Movimiento/detalleNuevo.html.twig', [
+            'form' => $form->createView(),
+            'arItems' => $arItems
         ]);
     }
 }
