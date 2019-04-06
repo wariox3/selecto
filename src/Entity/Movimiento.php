@@ -30,10 +30,30 @@ class Movimiento
     private $codigoTerceroFk;
 
     /**
+     * @ORM\Column(name="subtotal", type="float", nullable=true, options={"default" : 0})
+     */
+    private $subtotal;
+
+    /**
+     * @ORM\Column(name="total_bruto", type="float", nullable=true, options={"default" : 0})
+     */
+    private $totalBruto;
+
+    /**
+     * @ORM\Column(name="total_neto", type="float", nullable=true, options={"default" : 0})
+     */
+    private $totalNeto;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     private $terceroRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
+     */
+    protected $movimientosDetallesMovimientoRel;
 
 
     /**
@@ -98,6 +118,70 @@ class Movimiento
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDetallesMovimientoRel()
+    {
+        return $this->movimientosDetallesMovimientoRel;
+    }
+
+    /**
+     * @param mixed $movimientosDetallesMovimientoRel
+     */
+    public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
+    {
+        $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubtotal()
+    {
+        return $this->subtotal;
+    }
+
+    /**
+     * @param mixed $subtotal
+     */
+    public function setSubtotal($subtotal): void
+    {
+        $this->subtotal = $subtotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalBruto()
+    {
+        return $this->totalBruto;
+    }
+
+    /**
+     * @param mixed $totalBruto
+     */
+    public function setTotalBruto($totalBruto): void
+    {
+        $this->totalBruto = $totalBruto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalNeto()
+    {
+        return $this->totalNeto;
+    }
+
+    /**
+     * @param mixed $totalNeto
+     */
+    public function setTotalNeto($totalNeto): void
+    {
+        $this->totalNeto = $totalNeto;
     }
 
 

@@ -25,6 +25,11 @@ class Item
     private $descripcion;
 
     /**
+     * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="itemRel")
+     */
+    protected $movimientosDetallesItemRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoItemPk()
@@ -55,6 +60,23 @@ class Item
     {
         $this->descripcion = $descripcion;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDetallesItemRel()
+    {
+        return $this->movimientosDetallesItemRel;
+    }
+
+    /**
+     * @param mixed $movimientosDetallesItemRel
+     */
+    public function setMovimientosDetallesItemRel($movimientosDetallesItemRel): void
+    {
+        $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
+    }
+
 
 
 }
