@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TerceroController extends Controller
 {
     /**
-     * @Route("/tercero/lista", name="tercero_lista")
+     * @Route("/Tercero/lista", name="tercero_lista")
      */
     public function lista(Request $request)
     {
@@ -32,7 +32,7 @@ class TerceroController extends Controller
             ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroTerceroNombreCorto')])
             ->add('cliente', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroTerceroCliente'), 'required' => false])
             ->add('proveedor', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroTerceroProveedor'), 'required' => false])
-            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -54,14 +54,14 @@ class TerceroController extends Controller
             }
         }
         $arTerceros = $paginator->paginate($em->getRepository(Tercero::class)->lista(), $request->query->getInt('page', 1), 30);
-        return $this->render('tercero/lista.html.twig', [
+        return $this->render('Tercero/lista.html.twig', [
             'arTerceros' => $arTerceros,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/tercero/nuevo/{id}", name="tercero_nuevo")
+     * @Route("/Tercero/nuevo/{id}", name="tercero_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -84,14 +84,14 @@ class TerceroController extends Controller
 
         }
 //        dd($form);
-        return $this->render('tercero/nuevo.html.twig', [
+        return $this->render('Tercero/nuevo.html.twig', [
             'arTercero' => $arTercero,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/tercero/detalle/{id}", name="tercero_detalle")
+     * @Route("/Tercero/detalle/{id}", name="tercero_detalle")
      */
     public function detalle(Request $request, $id)
     {
@@ -102,7 +102,7 @@ class TerceroController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('tercero_detalle', ['id' => $id]));
         }
-        return $this->render('tercero/detalle.html.twig', [
+        return $this->render('Tercero/detalle.html.twig', [
             'form' => $form->createView(),
             'arTercero' => $arTercero,
         ]);

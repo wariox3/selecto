@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="row">
@@ -13,17 +12,9 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono" >Id movimiento:</label>
-                        <div class="col-md-5" >
-                            {{ form_widget(form.codigoMovimientoPk) }}
-                        </div>
-                        <label class="col-md-1 control-label" for="_telefono" >Id tercero:</label>
+                        <label class="col-md-1 control-label" for="_telefono" >Tercero:</label>
                         <div class="col-md-5" >
                             {{ form_widget(form.terceroRel) }}
-                        </div>
-                        <label class="col-md-1 control-label" for="_telefono" >fecha:</label>
-                        <div class="col-md-5" >
-                            {{ form_widget(form.fecha) }}
                         </div>
                     </div>
                 </div>

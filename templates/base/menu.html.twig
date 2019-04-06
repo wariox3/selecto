@@ -14,11 +14,17 @@
         <div class="nano-content">
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
-                    <li class="nav-active">
-                        <a href="{{ path('inicio') }}">
-                            <i class="fa fa-home" aria-hidden="true"></i>
-                            <span>Dashboard</span>
+                    <li class="nav-parent">
+                        <a>
+                            <i class="fa fa-align-left" aria-hidden="true"></i>
+                            <span>Movimiento</span>
                         </a>
+                        <ul class="nav nav-children" style="">
+                            <li>
+                                <a href="{{ path('movimiento_lista') }}" class="waves-effect">
+                                    Movimiento</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-parent">
                         <a>
@@ -36,17 +42,11 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-parent">
-                        <a>
-                            <i class="fa fa-align-left" aria-hidden="true"></i>
-                            <span>Movimiento</span>
+                    <li class="nav-active">
+                        <a href="{{ path('inicio') }}">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
                         </a>
-                        <ul class="nav nav-children" style="">
-                            <li>
-                                <a href="{{ path('movimiento_lista') }}" class="waves-effect">
-                                    Movimiento</a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </nav>

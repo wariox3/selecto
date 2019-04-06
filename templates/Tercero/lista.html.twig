@@ -25,7 +25,7 @@
                          <div class="col-sm-2">
 
                          </div>
-                         <label class="col-sm-1 control-label">cliente:</label>
+                         <label class="col-sm-1 control-label">Cliente:</label>
                          <div class="col-sm-2">
                              {{ form_widget(form.cliente) }}
                          </div>
@@ -55,10 +55,10 @@
                          <table class="table table-bordered mb-none">
                              <thead>
                              <tr>
-                                 <th>Id</th>
-                                 <th>Nombre corto</th>
-                                 <th title="Cliente" class="text-center">Cli</th>
-                                 <th title="Proveedor" class="text-center">Pro</th>
+                                 <th>ID</th>
+                                 <th>NOMBRE</th>
+                                 <th title="Cliente">CLI</th>
+                                 <th title="Proveedor">PRO</th>
                                  <th></th>
                                  <th></th>
                                  <th></th>
@@ -73,7 +73,7 @@
                                      <td>{{ tercero.proveedor ? 'SI':'NO' }}</td>
                                      <td><a
                                                  href="{{ path('tercero_nuevo', { 'id': tercero.codigoTerceroPk }) }}"
-                                                 title="editar descripcion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                                 title="editar nombre"><i class="fa fa-edit fa-lg"></i></a></td>
                                      <td><a
                                                  href="{{ path('tercero_detalle', { 'id': tercero.codigoTerceroPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>

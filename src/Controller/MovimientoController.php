@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Item;
 use App\Entity\Movimiento;
+use App\Entity\Tercero;
 use App\Form\Type\ItemType;
 use App\Form\Type\MovimientoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,21 +26,33 @@ class MovimientoController extends Controller
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-
-
         $form = $this->createFormBuilder()
-            ->add('codigoMovimiento', TextType::class, ['required' => false, 'data' => $session->get('filtroCodigoMovimiento')])
-            ->add('fecha', DateType::class, ['required' => false, 'data' => $session->get('filtroFechaMovimiento')])
-//            ->add('terceroRel', EntityType::class,array('class' => 'Tercero',
-//                'choice_label'=> 'Id Tercero','required' => false, 'data' => $session->get('filtroCodigoTercero')))
-            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaDesde') ? date_create($session->get('filtroMovimientoFechaDesde')) : null])
+            ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaHasta') ? date_create($session->get('filtroMovimientoFechaHasta')) : null])
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(Tercero::class)->llenarCombo())
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
             ->getForm();
-
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnFiltrar')->isClicked()) {
+                $session->set('filtroMovimientoFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
+                $session->set('filtroMovimientoFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
+                $arTercero = $form->get('cboTerceroRel')->getData();
+                if ($arTercero) {
+                    $session->set('filtroMovimientoTercero', $arTercero->getCodigoTerceroPk());
+                } else {
+                    $session->set('filtroMovimientoTercero', null);
+                }
+            }
+            if ($form->get('btnEliminar')->isClicked()) {
+                $arItems = $request->request->get('ChkSeleccionar');
+                $this->get("UtilidadesModelo")->eliminar(Movimiento::class, $arItems);
+                return $this->redirect($this->generateUrl('movimiento_lista'));
+            }
+        }
 
         $arMovimientos = $paginator->paginate($em->getRepository(Movimiento::class)->lista(), $request->query->getInt('page', 1), 30);
-        //dd($arMovimientos);
         return $this->render('Movimiento/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
             'form' => $form->createView()
@@ -59,8 +72,12 @@ class MovimientoController extends Controller
         $form = $this->createForm(MovimientoType::class, $arMovimiento);
         $form->handleRequest($request);
 
+//        dd($request->request->get('terceroRel'));
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
+                if ($id == 0) {
+                    $arMovimiento->setFecha(new \DateTime('now'));
+                }
                 $arMovimiento = $form->getData();
                 $em->persist($arMovimiento);
                 $em->flush();

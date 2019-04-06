@@ -40,8 +40,8 @@
                          <table class="table table-bordered mb-none">
                              <thead>
                              <tr>
-                                 <th class="text-center">Id</th>
-                                 <th class="text-center">Descripción</th>
+                                 <th>ID</th>
+                                 <th>DESCRIPCION</th>
                                  <th></th>
                                  <th></th>
                                  <th></th>
@@ -52,11 +52,11 @@
                                  <tr>
                                      <td>{{ item.codigoItemPk }}</td>
                                      <td>{{ item.descripcion }}</td>
-                                     <td class="text-center"><a
+                                     <td><a
                                                  href="{{ path('item_nuevo', { 'id': item.codigoItemPk }) }}"
                                                  title="editar descripcion"><i
                                                      class="fa fa-edit fa-lg"></i></a></td>
-                                     <td class="text-center"><a
+                                     <td><a
                                                  href="{{ path('item_detalle', { 'id': item.codigoItemPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
                                      <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"

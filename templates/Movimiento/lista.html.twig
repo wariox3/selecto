@@ -13,17 +13,25 @@
                  </header>
                  <div class="panel-body">
                      <div class="form-group">
-                         <label class="col-sm-1 control-label">Id movimiento:</label>
-                         <div class="col-sm-2">
-                             {{ form_widget(form.codigoMovimiento) }}
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Tercero:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.cboTerceroRel) }}
+                             </div>
                          </div>
-                         <label class="col-sm-1 control-label">Id tercero:</label>
-                         <div class="col-sm-2">
-                             {#                             form_widget(form.codigoTerceroPk) }}#}
+                     </div>
+                     <div class="form-group">
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Desde:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.fechaDesde) }}
+                             </div>
                          </div>
-                         <label class="col-sm-1 control-label">Fecha:</label>
-                         <div class="col-sm-2">
-                             {{ form_widget(form.fecha) }}
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Hasta:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.fechaHasta) }}
+                             </div>
                          </div>
                      </div>
                  </div>
@@ -44,9 +52,9 @@
                          <table class="table table-bordered mb-none">
                              <thead>
                              <tr>
-                                 <th class="text-center">Id movimineto</th>
-                                 <th class="text-center">Id tercero</th>
-                                 <th class="text-center">Fecha</th>
+                                 <th>ID</th>
+                                 <th>TERCERO</th>
+                                 <th>FECHA</th>
                                  <th></th>
                                  <th></th>
                                  <th></th>
@@ -58,14 +66,14 @@
                                      <td>{{ movimiento.codigoMovimientoPk }}</td>
                                      <td>{{ movimiento.tercero }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
-                                     <td class="text-center"><a
+                                     <td><a
                                                  href="{{ path('movimiento_nuevo', { 'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="editar descripcion"><i
                                                      class="fa fa-edit fa-lg"></i></a></td>
-                                     <td class="text-center"><a
+                                     <td><a
                                                  href="{{ path('movimiento_detalle', { 'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
-                                     <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
+                                     <td><input type="checkbox" name="ChkSeleccionar[]"
                                                                     value="{{ movimiento.codigoMovimientoPk }}"/></td>
                                  </tr>
                              {% endfor %}

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Item;
 use App\Entity\Tercero;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -53,5 +54,25 @@ class TerceroRepository extends ServiceEntityRepository
         }
         return $queryBuilder;
 
+    }
+
+    public function llenarCombo(){
+        $session = new Session();
+        $array = [
+            'class' => Tercero::class,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('t')
+                    ->orderBy('t.nombreCorto', 'ASC');
+            },
+            'choice_label' => 'nombreCorto',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "TODOS",
+            'data' => ""
+        ];
+        if ($session->get('filtroTercero')) {
+            $array['data'] = $this->getEntityManager()->getReference(Tercero::class, $session->get('filtroTercero'));
+        }
+        return $array;
     }
 }

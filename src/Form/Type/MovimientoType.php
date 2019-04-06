@@ -19,17 +19,16 @@ class MovimientoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('codigoMovimientoPk',TextType::class, array('required' => true))
-            ->add('fecha', DateType::class)
             ->add('terceroRel',EntityType::class,[
                 'required' => true,
                 'class' => Tercero::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
-                        ->orderBy('t.codigoTerceroPk', 'ASC');
+                        ->orderBy('t.nombreCorto', 'ASC');
                 },
-                'choice_label' => 'codigoTerceroPk',
+                'choice_label' => 'nombreCorto',
             ])
             ->add('guardar', SubmitType::class, array('label' => 'Guardar' ));
+
     }
 }

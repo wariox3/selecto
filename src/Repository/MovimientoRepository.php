@@ -19,28 +19,21 @@ class MovimientoRepository extends ServiceEntityRepository
     public function lista()
     {
         $session = new Session();
-        $querybuildermovimiento = $this->getEntityManager()->createQueryBuilder()->from(Movimiento::class, 'm')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Movimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
             ->addSelect('m.fecha')
-            ->addSelect('terceroRel.codigoTerceroPk as tercero')
-            ->leftJoin("m.terceroRel", "terceroRel");
-
-        $querybuildermovimiento->orderBy("m.codigoMovimientoPk", 'DESC');
-        return $querybuildermovimiento;
-
-
-
-//        $querybuildertercero->orderBy("i.codigoItemPk", 'DESC');
-
-//        if ($session->get('filtroItemCodigo') !='')
-//        {
-//            $querybuilder->andWhere("i.codigoItemPk  ='{$session->get('filtroItemCodigo')}'");
-//        }
-//
-//        if ($session->get('filtroItemDescripcion')!='')
-//        {
-//            $querybuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
-//        }
-//        r
+            ->addSelect('t.nombreCorto AS tercero')
+            ->leftJoin("m.terceroRel", "t");
+        if ($session->get('filtroMovimientoFechaDesde') != null) {
+            $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroMovimientoFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroMovimientoFechaHasta') != null) {
+            $queryBuilder->andWhere("m.fecha <= '{$session->get('filtroMovimientoFechaHasta')} 23:59:59'");
+        }
+        if($session->get('filtroMovimientoTercero')) {
+            $queryBuilder->andWhere("m.codigoTerceroFk = '" . $session->get('filtroMovimientoTercero') . "'");
+        }
+        $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
+        return $queryBuilder;
     }
 }
