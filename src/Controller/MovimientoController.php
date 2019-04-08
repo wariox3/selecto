@@ -8,12 +8,14 @@ use App\Entity\MovimientoDetalle;
 use App\Entity\Tercero;
 use App\Form\Type\ItemType;
 use App\Form\Type\MovimientoType;
+use App\Formatos\Factura;
 use function Complex\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -94,15 +96,41 @@ class MovimientoController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/Movimiento/detalle/{id}", name="movimiento_detalle")
      */
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
+        $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
         $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAprobado = ['label' => 'Aprobado', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        if ($arMovimiento->getEstadoAutorizado()) {
+            $arrBtnAutorizar['disabled'] = true;
+            $arrBtnEliminar['disabled'] = true;
+            $arrBtnAprobado['disabled'] = false;
+            $arrBtnActualizar['disabled'] = true;
+            $arrBtnDesautorizar['disabled'] = false;
+        }
+        if ($arMovimiento->getEstadoAprobado()) {
+            $arrBtnDesautorizar['disabled'] = true;
+            $arrBtnAprobado['disabled'] = true;
+        }
         $form = $this->createFormBuilder()
+            ->add('btnEliminar', SubmitType::class, $arrBtnEliminar)
             ->add('btnActualizar', SubmitType::class, $arrBtnActualizar)
+            ->add('btnImprimir', SubmitType::class, ['label' => 'Imprimir', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnAprobado', SubmitType::class, $arrBtnAprobado)
+            ->add('btnAutorizar', SubmitType::class, $arrBtnAutorizar)
+            ->add('btnDesautorizar', SubmitType::class, $arrBtnDesautorizar)
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,17 +138,37 @@ class MovimientoController extends Controller
             $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
             if ($form->get('btnActualizar')->isClicked()) {
                 $em->getRepository(MovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
+                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
-            return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
+            if ($form->get('btnAprobado')->isClicked()) {
+                $em->getRepository(Movimiento::class)->aprobado($arMovimiento);
+                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnAutorizar')->isClicked()) {
+                $em->getRepository(Movimiento::class)->autorizar($arMovimiento);
+                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnDesautorizar')->isClicked()) {
+                $em->getRepository(Movimiento::class)->desautorizar($arMovimiento);
+                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnEliminar')->isClicked()) {
+                $em->getRepository(MovimientoDetalle::class)->eliminar($arMovimiento, $arrDetallesSeleccionados);
+                $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnImprimir')->isClicked()) {
+                $objFormato = new Factura();
+                $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+            }
         }
-        $arMovimientoDetalles = $em->getRepository(MovimientoDetalle::class)->lista($id);
+
+        $arMovimientoDetalles = $paginator->paginate($em->getRepository(MovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
         return $this->render('Movimiento/detalle.html.twig', [
             'form' => $form->createView(),
             'arMovimiento' => $arMovimiento,
             'arMovimientoDetalles' => $arMovimientoDetalles
-
         ]);
-
     }
 
     /**
@@ -145,23 +193,24 @@ class MovimientoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
         }
-            if ($form->get('btnGuardar')->isClicked()) {
-                $arrItems = $request->request->get('itemCantidad');
-                if (count($arrItems) > 0) {
-                    foreach ($arrItems as $codigoItem => $cantidad) {
-                        $arItem = $em->getRepository(Item::class)->find($codigoItem);
-                        if ($cantidad != '' && $cantidad != 0) {
-                            $arMovimientoDetalle = new MovimientoDetalle();
-                            $arMovimientoDetalle->setMovimientoRel($arMovimiento);
-                            $arMovimientoDetalle->setItemRel($arItem);
-                            $arMovimientoDetalle->setCantidad($cantidad);
-                            $em->persist($arMovimientoDetalle);
-                        }
-                        $em->flush();
-                        echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+        if ($form->get('btnGuardar')->isClicked()) {
+            $arrItems = $request->request->get('itemCantidad');
+            if (count($arrItems) > 0) {
+                foreach ($arrItems as $codigoItem => $cantidad) {
+                    $arItem = $em->getRepository(Item::class)->find($codigoItem);
+                    if ($cantidad != '' && $cantidad != 0) {
+                        $arMovimientoDetalle = new MovimientoDetalle();
+                        $arMovimientoDetalle->setMovimientoRel($arMovimiento);
+                        $arMovimientoDetalle->setItemRel($arItem);
+                        $arMovimientoDetalle->setCantidad($cantidad);
+                        $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
+                        $em->persist($arMovimientoDetalle);
                     }
+                    $em->flush();
+                    echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
                 }
             }
+        }
         $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page', 1), 50);
         return $this->render('Movimiento/detalleNuevo.html.twig', [
             'form' => $form->createView(),

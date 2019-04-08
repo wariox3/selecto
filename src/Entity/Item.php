@@ -25,6 +25,11 @@ class Item
     private $descripcion;
 
     /**
+     * @ORM\Column(name="porcentaje_iva", type="integer", nullable=true)
+     */
+    private $porcentajeIva = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="itemRel")
      */
     protected $movimientosDetallesItemRel;
@@ -77,6 +82,20 @@ class Item
         $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPorcentajeIva()
+    {
+        return $this->porcentajeIva;
+    }
 
+    /**
+     * @param mixed $porcentajeIva
+     */
+    public function setPorcentajeIva($porcentajeIva): void
+    {
+        $this->porcentajeIva = $porcentajeIva;
+    }
 
 }

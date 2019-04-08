@@ -18,21 +18,21 @@ class ItemRepository extends ServiceEntityRepository
     public function lista()
     {
         $session =new Session();
-        $querybuilder=$this->getEntityManager()->createQueryBuilder()->from(Item::class,'i' )
+        $queryBuilder=$this->getEntityManager()->createQueryBuilder()->from(Item::class,'i' )
             ->select('i.codigoItemPk')
             ->addSelect('i.descripcion')
             ->addSelect('i.descripcion');
-        $querybuilder->orderBy("i.codigoItemPk", 'DESC');
+        $queryBuilder->orderBy("i.codigoItemPk", 'DESC');
 
         if ($session->get('filtroItemCodigo') !='')
         {
-            $querybuilder->andWhere("i.codigoItemPk  ='{$session->get('filtroItemCodigo')}'");
+            $queryBuilder->andWhere("i.codigoItemPk  ='{$session->get('filtroItemCodigo')}'");
         }
 
         if ($session->get('filtroItemDescripcion')!='')
         {
-            $querybuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
+            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
         }
-        return $querybuilder;
+        return $queryBuilder;
     }
 }

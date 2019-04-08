@@ -25,24 +25,49 @@ class Movimiento
     private $fecha;
 
     /**
+     * @ORM\Column(name="numero", type="integer", nullable=true)
+     */
+    private $numero = 0;
+
+    /**
      * @ORM\Column(name="codigo_tercero_fk", type="integer", nullable=true)
      */
     private $codigoTerceroFk;
 
     /**
-     * @ORM\Column(name="subtotal", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
      */
-    private $subtotal;
+    private $vrSubtotal;
 
     /**
-     * @ORM\Column(name="total_bruto", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="vr_total_bruto", type="float", nullable=true, options={"default" : 0})
      */
-    private $totalBruto;
+    private $vrTotalBruto;
 
     /**
-     * @ORM\Column(name="total_neto", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="vr_total_neto", type="float", nullable=true, options={"default" : 0})
      */
-    private $totalNeto;
+    private $vrTotalNeto;
+
+    /**
+     * @ORM\Column(name="vr_iva", type="float", nullable=true)
+     */
+    private $vrIva;
+
+    /**
+     * @ORM\Column(name="estado_autorizado", type="boolean", options={"default":false})
+     */
+    private $estadoAutorizado = false;
+
+    /**
+     * @ORM\Column(name="estado_aprobado", type="boolean", options={"default":false})
+     */
+    private $estadoAprobado = false;
+
+    /**
+     * @ORM\Column(name="estado_anulado", type="boolean", options={"default":false})
+     */
+    private $estadoAnulado = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="movimientosTerceroRel")
@@ -54,7 +79,6 @@ class Movimiento
      * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
      */
     protected $movimientosDetallesMovimientoRel;
-
 
     /**
      * @return mixed
@@ -107,6 +131,54 @@ class Movimiento
     /**
      * @return mixed
      */
+    public function getVrSubtotal()
+    {
+        return $this->vrSubtotal;
+    }
+
+    /**
+     * @param mixed $vrSubtotal
+     */
+    public function setVrSubtotal($vrSubtotal): void
+    {
+        $this->vrSubtotal = $vrSubtotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotalBruto()
+    {
+        return $this->vrTotalBruto;
+    }
+
+    /**
+     * @param mixed $vrTotalBruto
+     */
+    public function setVrTotalBruto($vrTotalBruto): void
+    {
+        $this->vrTotalBruto = $vrTotalBruto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotalNeto()
+    {
+        return $this->vrTotalNeto;
+    }
+
+    /**
+     * @param mixed $vrTotalNeto
+     */
+    public function setVrTotalNeto($vrTotalNeto): void
+    {
+        $this->vrTotalNeto = $vrTotalNeto;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTerceroRel()
     {
         return $this->terceroRel;
@@ -139,51 +211,81 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getSubtotal()
+    public function getEstadoAutorizado()
     {
-        return $this->subtotal;
+        return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $subtotal
+     * @param mixed $estadoAutorizado
      */
-    public function setSubtotal($subtotal): void
+    public function setEstadoAutorizado($estadoAutorizado): void
     {
-        $this->subtotal = $subtotal;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotalBruto()
-    {
-        return $this->totalBruto;
-    }
-
-    /**
-     * @param mixed $totalBruto
-     */
-    public function setTotalBruto($totalBruto): void
-    {
-        $this->totalBruto = $totalBruto;
+        $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
      * @return mixed
      */
-    public function getTotalNeto()
+    public function getEstadoAprobado()
     {
-        return $this->totalNeto;
+        return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $totalNeto
+     * @param mixed $estadoAprobado
      */
-    public function setTotalNeto($totalNeto): void
+    public function setEstadoAprobado($estadoAprobado): void
     {
-        $this->totalNeto = $totalNeto;
+        $this->estadoAprobado = $estadoAprobado;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEstadoAnulado()
+    {
+        return $this->estadoAnulado;
+    }
 
+    /**
+     * @param mixed $estadoAnulado
+     */
+    public function setEstadoAnulado($estadoAnulado): void
+    {
+        $this->estadoAnulado = $estadoAnulado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param mixed $numero
+     */
+    public function setNumero($numero): void
+    {
+        $this->numero = $numero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
+    }
+
+    /**
+     * @param mixed $vrIva
+     */
+    public function setVrIva($vrIva): void
+    {
+        $this->vrIva = $vrIva;
+    }
 
 }

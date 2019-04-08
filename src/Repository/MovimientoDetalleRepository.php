@@ -19,13 +19,16 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
 
     public function lista($id)
     {
-        $session = new Session();
+//        $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
             ->addSelect('i.descripcion as item')
             ->addSelect(' md.cantidad')
-            ->addSelect('md.precio')
-            ->addSelect('md.subtotal')
+            ->addSelect('md.vrPrecio')
+            ->addSelect('md.vrSubtotal')
+            ->addSelect('md.porcentajeIva')
+            ->addSelect('md.vrIva')
+            ->addSelect('md.vrTotal')
             ->leftJoin("md.itemRel", "i")
             ->where('md.codigoMovimientoFk = '. $id);
 
@@ -49,17 +52,31 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
             foreach ($arrCodigo as $codigoMovimientoDetalle) {
                 $arMovimientoDetalle = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
                 $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
-                $arMovimientoDetalle->setPrecio($arrPrecio[$codigoMovimientoDetalle]);
-                $arMovimientoDetalle->setSubtotal($arMovimientoDetalle->getPrecio() * $arMovimientoDetalle->getCantidad());
+                $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
+                $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
+                $arMovimientoDetalle->setVrIva($arMovimientoDetalle->getVrSubtotal() * $arMovimientoDetalle->getPorcentajeIva() /100);
+                $arMovimientoDetalle->setvrTotal($arMovimientoDetalle->getVrSubtotal() + $arMovimientoDetalle->getVrIva());
                 $em->persist($arMovimientoDetalle);
                 $em->flush();
             }
-//            if ($mensajeError == "") {
-//                $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
-//                $this->getEntityManager()->flush();
-//            } else {
-//                Mensajes::error($mensajeError);
-//            }
+
+                $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+                $this->getEntityManager()->flush();
+
+    }
+
+    public function eliminar($arMovimiento, $arrSeleccionados)
+    {
+        $em = $this->getEntityManager();
+        if (count($arrSeleccionados) > 0) {
+            foreach ($arrSeleccionados as $codigoMovimientoDetalle) {
+                $arMovimientoDetalle = $em->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
+                if ($arMovimientoDetalle) {
+                    $em->remove($arMovimientoDetalle);
+                }
+            }
+            $em->flush();
+        }
     }
 
 }

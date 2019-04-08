@@ -35,19 +35,29 @@ class MovimientoDetalle
     private $cantidad = 0;
 
     /**
-     * @ORM\Column(name="precio", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="vr_precio", type="float", nullable=true, options={"default" : 0})
      */
-    private $precio = 0;
+    private $vrPrecio = 0;
 
     /**
-     * @ORM\Column(name="subtotal", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
      */
-    private $subtotal;
+    private $vrSubtotal;
 
     /**
-     * @ORM\Column(name="total", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="porcentaje_iva", type="float", nullable=true, options={"default" : 0})
      */
-    private $total;
+    private $porcentajeIva = 0;
+
+    /**
+     * @ORM\Column(name="vr_iva", type="float", nullable=true)
+     */
+    private $vrIva = 0;
+
+    /**
+     * @ORM\Column(name="vr_total", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrTotal;
 
     /**
      * @ORM\ManyToOne(targetEntity="Movimiento", inversedBy="movimientosDetallesMovimientoRel")
@@ -75,6 +85,22 @@ class MovimientoDetalle
     public function setCodigoMovimientoDetallePk($codigoMovimientoDetallePk): void
     {
         $this->codigoMovimientoDetallePk = $codigoMovimientoDetallePk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoMovimientoFk()
+    {
+        return $this->codigoMovimientoFk;
+    }
+
+    /**
+     * @param mixed $codigoMovimientoFk
+     */
+    public function setCodigoMovimientoFk($codigoMovimientoFk): void
+    {
+        $this->codigoMovimientoFk = $codigoMovimientoFk;
     }
 
     /**
@@ -112,49 +138,65 @@ class MovimientoDetalle
     /**
      * @return mixed
      */
-    public function getPrecio()
+    public function getVrPrecio()
     {
-        return $this->precio;
+        return $this->vrPrecio;
     }
 
     /**
-     * @param mixed $precio
+     * @param mixed $vrPrecio
      */
-    public function setPrecio($precio): void
+    public function setVrPrecio($vrPrecio): void
     {
-        $this->precio = $precio;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubtotal()
-    {
-        return $this->subtotal;
-    }
-
-    /**
-     * @param mixed $subtotal
-     */
-    public function setSubtotal($subtotal): void
-    {
-        $this->subtotal = $subtotal;
+        $this->vrPrecio = $vrPrecio;
     }
 
     /**
      * @return mixed
      */
-    public function getTotal()
+    public function getVrSubtotal()
     {
-        return $this->total;
+        return $this->vrSubtotal;
     }
 
     /**
-     * @param mixed $total
+     * @param mixed $vrSubtotal
      */
-    public function setTotal($total): void
+    public function setVrSubtotal($vrSubtotal): void
     {
-        $this->total = $total;
+        $this->vrSubtotal = $vrSubtotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotal()
+    {
+        return $this->vrTotal;
+    }
+
+    /**
+     * @param mixed $vrTotal
+     */
+    public function setVrTotal($vrTotal): void
+    {
+        $this->vrTotal = $vrTotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientoRel()
+    {
+        return $this->movimientoRel;
+    }
+
+    /**
+     * @param mixed $movimientoRel
+     */
+    public function setMovimientoRel($movimientoRel): void
+    {
+        $this->movimientoRel = $movimientoRel;
     }
 
     /**
@@ -176,36 +218,33 @@ class MovimientoDetalle
     /**
      * @return mixed
      */
-    public function getCodigoMovimientoFk()
+    public function getPorcentajeIva()
     {
-        return $this->codigoMovimientoFk;
+        return $this->porcentajeIva;
     }
 
     /**
-     * @param mixed $codigoMovimientoFk
+     * @param mixed $porcentajeIva
      */
-    public function setCodigoMovimientoFk($codigoMovimientoFk): void
+    public function setPorcentajeIva($porcentajeIva): void
     {
-        $this->codigoMovimientoFk = $codigoMovimientoFk;
+        $this->porcentajeIva = $porcentajeIva;
     }
 
     /**
      * @return mixed
      */
-    public function getMovimientoRel()
+    public function getVrIva()
     {
-        return $this->movimientoRel;
+        return $this->vrIva;
     }
 
     /**
-     * @param mixed $movimientoRel
+     * @param mixed $vrIva
      */
-    public function setMovimientoRel($movimientoRel): void
+    public function setVrIva($vrIva): void
     {
-        $this->movimientoRel = $movimientoRel;
+        $this->vrIva = $vrIva;
     }
-
-
-
 
 }
