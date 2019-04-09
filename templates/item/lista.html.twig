@@ -41,7 +41,9 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Referencia</th>
                                  <th>Descripcion</th>
+                                 <th>% IVA</th>
                                  <th></th>
                                  <th></th>
                                  <th></th>
@@ -51,7 +53,9 @@
                              {% for item in arItems %}
                                  <tr>
                                      <td>{{ item.codigoItemPk }}</td>
+                                     <td>{{ item.referencia }}</td>
                                      <td>{{ item.descripcion }}</td>
+                                     <td>{{ item.porcentajeIva }}</td>
                                      <td><a
                                                  href="{{ path('item_nuevo', { 'id': item.codigoItemPk }) }}"
                                                  title="editar descripcion"><i

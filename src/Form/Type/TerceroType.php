@@ -17,6 +17,14 @@ class TerceroType extends AbstractType
     {
         $builder
             ->add('nombreCorto', TextType::class, array('required' => true))
+            ->add('numeroIdentificacion', TextType::class, array('required'=> true))
+            ->add('primerNombre', TextType::class, array('required'=> true))
+            ->add('segundoNombre', TextType::class, array('required'=> true))
+            ->add('primerApellido', TextType::class, array('required'=> true))
+            ->add('segundoApellido', TextType::class, array('required'=> true))
+            ->add('direccion', TextType::class, array('required'=> true))
+            ->add('telefono', TextType::class, array('required'=> true))
+            ->add('celular', TextType::class, array('required'=> true))
             ->add('cliente', CheckboxType::class, array('required' => false, 'label' => 'cliente'))
             ->add('proveedor', CheckboxType::class, array('required' => false, 'label' => 'proveedor'))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

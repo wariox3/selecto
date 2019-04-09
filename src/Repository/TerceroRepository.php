@@ -19,19 +19,23 @@ class TerceroRepository extends ServiceEntityRepository
 
     public function lista()
     {
-        $session =new Session();
-        $queryBuilder=$this->getEntityManager()->createQueryBuilder()->from(Tercero::class,'t' )
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Tercero::class, 't')
             ->select('t.codigoTerceroPk')
             ->addSelect('t.nombreCorto')
-        ->addSelect('t.cliente')
-        ->addSelect('t.proveedor');
+            ->addSelect('t.numeroIdentificacion')
+            ->addSelect('t.telefono')
+            ->addSelect('t.direccion')
+            ->addSelect('t.celular')
+            ->addSelect('t.cliente')
+            ->addSelect('t.proveedor');
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');
 
-        if ($session->get('filtroTerceroCodigo') !='') {
+        if ($session->get('filtroTerceroCodigo') != '') {
             $queryBuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");
         }
 
-        if ($session->get('filtroTerceroNombreCorto')!='') {
+        if ($session->get('filtroTerceroNombreCorto') != '') {
             $queryBuilder->andWhere("t.nombreCorto like '%{$session->get('filtroTerceroNombreCorto')}%'");
         }
 
@@ -56,7 +60,8 @@ class TerceroRepository extends ServiceEntityRepository
 
     }
 
-    public function llenarCombo(){
+    public function llenarCombo()
+    {
         $session = new Session();
         $array = [
             'class' => Tercero::class,

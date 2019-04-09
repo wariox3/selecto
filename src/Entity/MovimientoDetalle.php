@@ -45,6 +45,11 @@ class MovimientoDetalle
     private $vrSubtotal;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="porcentaje_iva", type="float", nullable=true, options={"default" : 0})
      */
     private $porcentajeIva = 0;
@@ -170,6 +175,54 @@ class MovimientoDetalle
     /**
      * @return mixed
      */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPorcentajeIva()
+    {
+        return $this->porcentajeIva;
+    }
+
+    /**
+     * @param mixed $porcentajeIva
+     */
+    public function setPorcentajeIva($porcentajeIva): void
+    {
+        $this->porcentajeIva = $porcentajeIva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
+    }
+
+    /**
+     * @param mixed $vrIva
+     */
+    public function setVrIva($vrIva): void
+    {
+        $this->vrIva = $vrIva;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getVrTotal()
     {
         return $this->vrTotal;
@@ -213,38 +266,6 @@ class MovimientoDetalle
     public function setItemRel($itemRel): void
     {
         $this->itemRel = $itemRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPorcentajeIva()
-    {
-        return $this->porcentajeIva;
-    }
-
-    /**
-     * @param mixed $porcentajeIva
-     */
-    public function setPorcentajeIva($porcentajeIva): void
-    {
-        $this->porcentajeIva = $porcentajeIva;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVrIva()
-    {
-        return $this->vrIva;
-    }
-
-    /**
-     * @param mixed $vrIva
-     */
-    public function setVrIva($vrIva): void
-    {
-        $this->vrIva = $vrIva;
     }
 
 }

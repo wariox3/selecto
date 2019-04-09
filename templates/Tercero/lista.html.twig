@@ -56,7 +56,11 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Nombre</th>
+                                 <th>Nombre corto</th>
+                                 <th>Identificacion</th>
+                                 <th>Telefono</th>
+                                 <th>Direccion</th>
+                                 <th>Celular</th>
                                  <th title="Cliente">Cli</th>
                                  <th title="Proveedor">Pro</th>
                                  <th></th>
@@ -69,6 +73,10 @@
                                  <tr>
                                      <td>{{ tercero.codigoTerceroPk }}</td>
                                      <td>{{ tercero.nombreCorto }}</td>
+                                     <td>{{ tercero.numeroIdentificacion }}</td>
+                                     <td>{{ tercero.telefono }}</td>
+                                     <td>{{ tercero.direccion }}</td>
+                                     <td>{{ tercero.celular }}</td>
                                      <td>{{ tercero.cliente ? 'SI':'NO' }}</td>
                                      <td>{{ tercero.proveedor ? 'SI':'NO' }}</td>
                                      <td><a
@@ -77,7 +85,8 @@
                                      <td><a
                                                  href="{{ path('tercero_detalle', { 'id': tercero.codigoTerceroPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
-                                     <td><input type="checkbox" name="ChkSeleccionar[]" value="{{ tercero.codigoTerceroPk }}"/></td>
+                                     <td><input type="checkbox" name="ChkSeleccionar[]"
+                                                value="{{ tercero.codigoTerceroPk }}"/></td>
                                  </tr>
                              {% endfor %}
                              </tbody>

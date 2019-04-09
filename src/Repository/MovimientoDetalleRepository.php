@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
-use App\Entity\Tercero;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -33,6 +32,42 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
             ->where('md.codigoMovimientoFk = '. $id);
 
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function informe()
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
+            ->select('md.codigoMovimientoDetallePk')
+            ->addSelect('i.descripcion as item')
+            ->addSelect('m.fecha as movimientofecha')
+            ->addSelect('m.numero as movimientonumero')
+            ->addSelect('t.nombreCorto as tercero')
+            ->addSelect(' md.cantidad')
+            ->addSelect('md.vrPrecio')
+            ->addSelect('md.vrSubtotal')
+            ->addSelect('md.porcentajeIva')
+            ->addSelect('md.vrIva')
+            ->addSelect('md.vrTotal')
+            ->leftJoin('md.movimientoRel', 'm')
+            ->leftJoin('m.terceroRel', 't')
+            ->leftJoin("md.itemRel", "i");
+        if ($session->get('filtroInformeMovimientoFechaDesde') != null) {
+            $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroInformeMovimientoFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroInformeMovimientoFechaHasta') != null) {
+            $queryBuilder->andWhere("m.fecha <= '{$session->get('filtroInformeMovimientoFechaHasta')} 23:59:59'");
+        }
+        if ($session->get('filtroMovimientoNumero') !='') {
+            $queryBuilder->andWhere("m.numero = '{$session->get('filtroMovimientoNumero')}'");
+        }
+
+        $queryBuilder->orderBy("m.fecha", 'DESC');
+
+        return $queryBuilder;
+
+
+//        return $queryBuilder->getQuery()->getResult();
     }
 
     /**

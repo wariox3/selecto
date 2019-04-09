@@ -13,21 +13,48 @@
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-datos ">
         <tr>
-            <td  class="titulo">ID:</td>
-            <td class="td-in-well">{{ arTercero.codigoTerceroPk }}</td>
+            <td>PRIMER NOMBRE</td>
+            <td class="td-in-well">{{ arTercero.primerNombre }}</td>
+            <td>SEGUNDO NOMBRE</td>
+            <td class="td-in-well">{{ arTercero.segundoNombre }}</td>
         </tr>
         <tr>
-            <td  class="titulo">NOMBRE CORTO:</td>
+            <td>PRIMER APELLIDO</td>
+            <td class="td-in-well">{{ arTercero.primerApellido }}</td>
+            <td>SEGUNDO APELLIDO</td>
+            <td class="td-in-well">{{ arTercero.segundoApellido }}</td>
+        </tr>
+        <tr>
+            <td>IDENTIFICACION</td>
+            <td class="td-in-well">{{ arTercero.numeroIdentificacion }}</td>
+            <td>TELEFONO</td>
+            <td class="td-in-well">{{ arTercero.telefono }}</td>
+        </tr>
+        <tr>
+            <td>DIRECCION</td>
+            <td class="td-in-well">{{ arTercero.direccion }}</td>
+            <td>CELULAR</td>
+            <td class="td-in-well">{{ arTercero.celular }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">NOMBRE CORTO:</td>
             <td class="td-in-well">{{ arTercero.nombreCorto }}</td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td  class="titulo">CLIENTE:</td>
+            <td class="titulo">CLIENTE:</td>
             <td class="td-in-well">{{ arTercero.cliente }}</td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td  class="titulo">PROVEEDOR:</td>
+            <td class="titulo">PROVEEDOR:</td>
             <td class="td-in-well">{{ arTercero.proveedor }}</td>
+            <td></td>
+            <td></td>
         </tr>
+
     </table>
     {{ form_end(form) }}
 

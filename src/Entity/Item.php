@@ -25,6 +25,16 @@ class Item
     private $descripcion;
 
     /**
+     * @ORM\Column(name="referencia", type="string",length=50, nullable=true)
+     */
+    private $referencia;
+
+    /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="porcentaje_iva", type="integer", nullable=true)
      */
     private $porcentajeIva = 0;
@@ -69,17 +79,33 @@ class Item
     /**
      * @return mixed
      */
-    public function getMovimientosDetallesItemRel()
+    public function getReferencia()
     {
-        return $this->movimientosDetallesItemRel;
+        return $this->referencia;
     }
 
     /**
-     * @param mixed $movimientosDetallesItemRel
+     * @param mixed $referencia
      */
-    public function setMovimientosDetallesItemRel($movimientosDetallesItemRel): void
+    public function setReferencia($referencia): void
     {
-        $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
+        $this->referencia = $referencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
     /**
@@ -98,4 +124,19 @@ class Item
         $this->porcentajeIva = $porcentajeIva;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDetallesItemRel()
+    {
+        return $this->movimientosDetallesItemRel;
+    }
+
+    /**
+     * @param mixed $movimientosDetallesItemRel
+     */
+    public function setMovimientosDetallesItemRel($movimientosDetallesItemRel): void
+    {
+        $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
+    }
 }

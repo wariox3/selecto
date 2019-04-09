@@ -13,9 +13,13 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono" >Referencia:</label>
+                        <div class="col-md-5" >
+                            {{ form_widget(form.referencia) }}
+                        </div>
                         <label class="col-md-1 control-label" for="_telefono" >Descripción:</label>
                         <div class="col-md-5" >
-                            {{ form_widget(form.descripcion,{'attr':{'autofocus': 'true' }}) }}
+                            {{ form_widget(form.descripcion) }}
                         </div>
                     </div>
                 </div>

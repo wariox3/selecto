@@ -20,9 +20,47 @@ class Tercero
     private $codigoTerceroPk;
 
     /**
+     * @ORM\Column(name="numero_identificacion", type="string", length=80)
+     */
+    private $numeroIdentificacion;
+
+    /**
      * @ORM\Column(name="nombre_corto", type="string", length=150, nullable=true)
      */
     private $nombreCorto;
+
+    /**
+     * @ORM\Column(name="primer_nombre", type="string", length=50, nullable=true)
+     */
+    private $primerNombre;
+
+    /**
+     * @ORM\Column(name="segundo_nombre", type="string", length=50, nullable=true)
+     */
+    private $segundoNombre;
+
+    /**
+     * @ORM\Column(name="primer_apellido", type="string", length=50, nullable=true)
+     */
+    private $primerApellido;
+
+    /**
+     * @ORM\Column(name="segundo_apellido", type="string", length=50, nullable=true)
+     */
+    private $segundoApellido;
+
+    /**
+     * @ORM\Column(name="direccion", type="string", length=80,nullable=true)
+     */
+    private $direccion;
+    /**
+     * @ORM\Column(name="telefono", type="string", length=20,nullable=true)
+     */
+    private $telefono;
+    /**
+     * @ORM\Column(name="celular", type="string", length=20, nullable=true)
+     */
+    private $celular;
 
     /**
      * @ORM\Column(name="cliente", type="boolean", nullable=true, options={"default" : false})
@@ -35,12 +73,16 @@ class Tercero
     private $proveedor = false;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\OneToMany(targetEntity="Movimiento", mappedBy="terceroRel")
      */
     protected $movimientosTerceroRel;
 
     /**
-     *
      * @return mixed
      */
     public function getCodigoTerceroPk()
@@ -59,6 +101,22 @@ class Tercero
     /**
      * @return mixed
      */
+    public function getNumeroIdentificacion()
+    {
+        return $this->numeroIdentificacion;
+    }
+
+    /**
+     * @param mixed $numeroIdentificacion
+     */
+    public function setNumeroIdentificacion($numeroIdentificacion): void
+    {
+        $this->numeroIdentificacion = $numeroIdentificacion;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getNombreCorto()
     {
         return $this->nombreCorto;
@@ -70,6 +128,118 @@ class Tercero
     public function setNombreCorto($nombreCorto): void
     {
         $this->nombreCorto = $nombreCorto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrimerNombre()
+    {
+        return $this->primerNombre;
+    }
+
+    /**
+     * @param mixed $primerNombre
+     */
+    public function setPrimerNombre($primerNombre): void
+    {
+        $this->primerNombre = $primerNombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSegundoNombre()
+    {
+        return $this->segundoNombre;
+    }
+
+    /**
+     * @param mixed $segundoNombre
+     */
+    public function setSegundoNombre($segundoNombre): void
+    {
+        $this->segundoNombre = $segundoNombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrimerApellido()
+    {
+        return $this->primerApellido;
+    }
+
+    /**
+     * @param mixed $primerApellido
+     */
+    public function setPrimerApellido($primerApellido): void
+    {
+        $this->primerApellido = $primerApellido;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSegundoApellido()
+    {
+        return $this->segundoApellido;
+    }
+
+    /**
+     * @param mixed $segundoApellido
+     */
+    public function setSegundoApellido($segundoApellido): void
+    {
+        $this->segundoApellido = $segundoApellido;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * @param mixed $direccion
+     */
+    public function setDireccion($direccion): void
+    {
+        $this->direccion = $direccion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * @param mixed $telefono
+     */
+    public function setTelefono($telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCelular()
+    {
+        return $this->celular;
+    }
+
+    /**
+     * @param mixed $celular
+     */
+    public function setCelular($celular): void
+    {
+        $this->celular = $celular;
     }
 
     /**
@@ -107,6 +277,22 @@ class Tercero
     /**
      * @return mixed
      */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMovimientosTerceroRel()
     {
         return $this->movimientosTerceroRel;
@@ -119,7 +305,4 @@ class Tercero
     {
         $this->movimientosTerceroRel = $movimientosTerceroRel;
     }
-
-
-
 }

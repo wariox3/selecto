@@ -6,6 +6,7 @@ use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -134,6 +135,30 @@ class MovimientoRepository extends ServiceEntityRepository
             ->where("md.codigoMovimientoFk = {$codigoMovimiento} ");
         $resultado =  $queryBuilder->getQuery()->getSingleResult();
         return $resultado[1];
+    }
+
+    /**
+     * @return array
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function llenarCombo(){
+        $session = new Session();
+        $array = [
+            'class' => Movimiento::class,
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('m')
+                    ->orderBy('m.numero', 'ASC');
+            },
+            'choice_label' => 'numero',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "TODOS",
+            'data' => ""
+        ];
+        if ($session->get('filtroMovimiento')) {
+            $array['data'] = $this->getEntityManager()->getReference(Movimiento::class, $session->get('filtroMovimiento'));
+        }
+        return $array;
     }
 
 }

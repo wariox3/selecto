@@ -55,6 +55,21 @@ class Movimiento
     private $vrIva;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
+     * @ORM\Column(name="digito_verificacion", type="string", length=1, nullable=true)
+     */
+    private $digitoVerificacion;
+
+    /**
+     * @ORM\Column(name="email", type="string", length=80, nullable=true)
+     */
+    private $email;
+
+    /**
      * @ORM\Column(name="estado_autorizado", type="boolean", options={"default":false})
      */
     private $estadoAutorizado = false;
@@ -110,6 +125,22 @@ class Movimiento
     public function setFecha($fecha): void
     {
         $this->fecha = $fecha;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param mixed $numero
+     */
+    public function setNumero($numero): void
+    {
+        $this->numero = $numero;
     }
 
     /**
@@ -179,33 +210,65 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getTerceroRel()
+    public function getVrIva()
     {
-        return $this->terceroRel;
+        return $this->vrIva;
     }
 
     /**
-     * @param mixed $terceroRel
+     * @param mixed $vrIva
      */
-    public function setTerceroRel($terceroRel): void
+    public function setVrIva($vrIva): void
     {
-        $this->terceroRel = $terceroRel;
+        $this->vrIva = $vrIva;
     }
 
     /**
      * @return mixed
      */
-    public function getMovimientosDetallesMovimientoRel()
+    public function getCodigoEmpresaFk()
     {
-        return $this->movimientosDetallesMovimientoRel;
+        return $this->codigoEmpresaFk;
     }
 
     /**
-     * @param mixed $movimientosDetallesMovimientoRel
+     * @param mixed $codigoEmpresaFk
      */
-    public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
-        $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDigitoVerificacion()
+    {
+        return $this->digitoVerificacion;
+    }
+
+    /**
+     * @param mixed $digitoVerificacion
+     */
+    public function setDigitoVerificacion($digitoVerificacion): void
+    {
+        $this->digitoVerificacion = $digitoVerificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
     }
 
     /**
@@ -259,33 +322,34 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getNumero()
+    public function getTerceroRel()
     {
-        return $this->numero;
+        return $this->terceroRel;
     }
 
     /**
-     * @param mixed $numero
+     * @param mixed $terceroRel
      */
-    public function setNumero($numero): void
+    public function setTerceroRel($terceroRel): void
     {
-        $this->numero = $numero;
+        $this->terceroRel = $terceroRel;
     }
 
     /**
      * @return mixed
      */
-    public function getVrIva()
+    public function getMovimientosDetallesMovimientoRel()
     {
-        return $this->vrIva;
+        return $this->movimientosDetallesMovimientoRel;
     }
 
     /**
-     * @param mixed $vrIva
+     * @param mixed $movimientosDetallesMovimientoRel
      */
-    public function setVrIva($vrIva): void
+    public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
     {
-        $this->vrIva = $vrIva;
+        $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
     }
+
 
 }
