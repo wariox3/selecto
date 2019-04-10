@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Item;
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
 use App\Utilidades\Mensajes;
@@ -93,13 +94,34 @@ class MovimientoRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function aprobado($arMovimiento){
+    public function aprobar($arMovimiento){
+        $em = $this->getEntityManager();
         if ($arMovimiento->getEstadoAnulado() == 0) {
+            $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
         } else {
             Mensajes::error('El registro se encuentra anulado');
+        }
+    }
+
+    /**
+     * @param $arMovimiento Movimiento
+     * @param $arItem Item
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function afectar($arMovimiento){
+
+        $em = $this->getEntityManager();
+        $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
+        foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
+            $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
+                $existenciaAnterior = $arItem->getCantidadExistencia();
+                $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
+                $em->persist($arItem);
+                $em->flush();
         }
     }
 

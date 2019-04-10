@@ -6,20 +6,24 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-{#                    <div class="panel-actions">#}
-{#                        <a href="#" class="fa fa-caret-down"></a>#}
-{#                    </div>#}
+                    {#                    <div class="panel-actions">#}
+                    {#                        <a href="#" class="fa fa-caret-down"></a>#}
+                    {#                    </div>#}
                     <h2 class="panel-title">Información</h2>
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono" >Referencia:</label>
-                        <div class="col-md-5" >
+                        <label class="col-md-1 control-label" for="_telefono">Referencia:</label>
+                        <div class="col-md-5">
                             {{ form_widget(form.referencia) }}
                         </div>
-                        <label class="col-md-1 control-label" for="_telefono" >Descripción:</label>
-                        <div class="col-md-5" >
+                        <label class="col-md-1 control-label" for="_telefono">Descripción:</label>
+                        <div class="col-md-5">
                             {{ form_widget(form.descripcion) }}
+                        </div>
+                        <label class="col-md-1 control-label">Existencia</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.cantidadExistencia) }}
                         </div>
                     </div>
                 </div>

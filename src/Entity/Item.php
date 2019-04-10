@@ -30,6 +30,11 @@ class Item
     private $referencia;
 
     /**
+     * @ORM\Column(name="cantidad_existencia", type="integer", nullable=true, options={"default" : 0})
+     */
+    private $cantidadExistencia = 0;
+
+    /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
      */
     private $codigoEmpresaFk;
@@ -95,6 +100,22 @@ class Item
     /**
      * @return mixed
      */
+    public function getCantidadExistencia()
+    {
+        return $this->cantidadExistencia;
+    }
+
+    /**
+     * @param mixed $cantidadExistencia
+     */
+    public function setCantidadExistencia($cantidadExistencia): void
+    {
+        $this->cantidadExistencia = $cantidadExistencia;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCodigoEmpresaFk()
     {
         return $this->codigoEmpresaFk;
@@ -139,4 +160,5 @@ class Item
     {
         $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
     }
+
 }

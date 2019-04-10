@@ -63,6 +63,16 @@ class Tercero
     private $celular;
 
     /**
+     * @ORM\Column(name="digito_verificacion", type="string", length=1, nullable=true)
+     */
+    private $digitoVerificacion;
+
+    /**
+     * @ORM\Column(name="email", type="string", length=80, nullable=true)
+     */
+    private $email;
+
+    /**
      * @ORM\Column(name="cliente", type="boolean", nullable=true, options={"default" : false})
      */
     private $cliente = false;
@@ -245,6 +255,38 @@ class Tercero
     /**
      * @return mixed
      */
+    public function getDigitoVerificacion()
+    {
+        return $this->digitoVerificacion;
+    }
+
+    /**
+     * @param mixed $digitoVerificacion
+     */
+    public function setDigitoVerificacion($digitoVerificacion): void
+    {
+        $this->digitoVerificacion = $digitoVerificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCliente()
     {
         return $this->cliente;
@@ -305,4 +347,6 @@ class Tercero
     {
         $this->movimientosTerceroRel = $movimientosTerceroRel;
     }
+
+
 }

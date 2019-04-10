@@ -17,8 +17,16 @@
             <td class="td-in-well">{{ arItem.codigoItemPk }}</td>
         </tr>
         <tr>
+            <td  class="titulo">REFERENCIA</td>
+            <td class="td-in-well">{{ arItem.referencia }}</td>
+        </tr>
+        <tr>
             <td  class="titulo">DESCRIPCION</td>
             <td class="td-in-well">{{ arItem.descripcion }}</td>
+        </tr>
+        <tr>
+            <td  class="titulo">EXISTENCIA</td>
+            <td class="td-in-well">{{ arItem.cantidadExistencia }}</td>
         </tr>
     </table>
     {{ form_end(form) }}

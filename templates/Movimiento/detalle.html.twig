@@ -7,7 +7,6 @@
             {{ form_widget(form.btnDesautorizar) }}
             {{ form_widget(form.btnAprobado) }}
             {{ form_widget(form.btnImprimir) }}
-
     </div>
     <div style="float:right">
         {% if arMovimiento.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
@@ -106,15 +105,10 @@
                                                                    name="ChkSeleccionar[]"
                                                                    value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}"/>
                             </td>
-
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                {#                <div style="display: flex; flex-direction: row;">#}
-                {#                    <span style="margin-right: 4px">registros: {{ arMovimientoDetalles.getTotalItemCount }}</span>#}
-                {#                    {{ knp_pagination_render(arMovimientoDetalles) }}#}
-                {#                </div>#}
             </div>
             <div style="display: flex; flex-direction: row;">
                 <span style="margin-right: 4px">registros: {{ arMovimientoDetalles.getTotalItemCount }}</span>

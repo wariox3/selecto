@@ -43,6 +43,7 @@
                                  <th>Id</th>
                                  <th>Referencia</th>
                                  <th>Descripcion</th>
+                                 <th>Existencia</th>
                                  <th>% IVA</th>
                                  <th></th>
                                  <th></th>
@@ -55,6 +56,7 @@
                                      <td>{{ item.codigoItemPk }}</td>
                                      <td>{{ item.referencia }}</td>
                                      <td>{{ item.descripcion }}</td>
+                                     <td>{{ item.cantidadExistencia }}</td>
                                      <td>{{ item.porcentajeIva }}</td>
                                      <td><a
                                                  href="{{ path('item_nuevo', { 'id': item.codigoItemPk }) }}"

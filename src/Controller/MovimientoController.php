@@ -9,6 +9,7 @@ use App\Entity\Tercero;
 use App\Form\Type\ItemType;
 use App\Form\Type\MovimientoType;
 use App\Formatos\Factura;
+use App\Utilidades\Mensajes;
 use function Complex\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -75,8 +76,6 @@ class MovimientoController extends Controller
         }
         $form = $this->createForm(MovimientoType::class, $arMovimiento);
         $form->handleRequest($request);
-
-//        dd($request->request->get('terceroRel'));
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 if ($id == 0) {
@@ -85,7 +84,6 @@ class MovimientoController extends Controller
                 $arMovimiento = $form->getData();
                 $em->persist($arMovimiento);
                 $em->flush();
-
                 return $this->redirect($this->generateUrl('movimiento_detalle', array('id' => $arMovimiento->getCodigoMovimientoPk())));
             }
         }
@@ -141,7 +139,8 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAprobado')->isClicked()) {
-                $em->getRepository(Movimiento::class)->aprobado($arMovimiento);
+                $em->getRepository(Movimiento::class)->aprobar($arMovimiento);
+
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAutorizar')->isClicked()) {
@@ -162,7 +161,6 @@ class MovimientoController extends Controller
                 $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
             }
         }
-
         $arMovimientoDetalles = $paginator->paginate($em->getRepository(MovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
         return $this->render('Movimiento/detalle.html.twig', [
             'form' => $form->createView(),
@@ -182,8 +180,8 @@ class MovimientoController extends Controller
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
+        $respuesta = '';
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
-
         $form = $this->createFormBuilder()
             ->add('txtCodigoItem', TextType::class, array('required' => false, 'label' => 'codigo item'))
             ->add('txtDescripcion', TextType::class, array('required' => false, 'label' => 'descripcion'))
@@ -199,15 +197,24 @@ class MovimientoController extends Controller
                 foreach ($arrItems as $codigoItem => $cantidad) {
                     $arItem = $em->getRepository(Item::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
-                        $arMovimientoDetalle = new MovimientoDetalle();
-                        $arMovimientoDetalle->setMovimientoRel($arMovimiento);
-                        $arMovimientoDetalle->setItemRel($arItem);
-                        $arMovimientoDetalle->setCantidad($cantidad);
-                        $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
-                        $em->persist($arMovimientoDetalle);
+                        if ( $cantidad <= $arItem->getCantidadExistencia()) {
+                            $arMovimientoDetalle = new MovimientoDetalle();
+                            $arMovimientoDetalle->setMovimientoRel($arMovimiento);
+                            $arMovimientoDetalle->setItemRel($arItem);
+                            $arMovimientoDetalle->setCantidad($cantidad);
+                            $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
+                            $em->persist($arMovimientoDetalle);
+                        }else {
+                            $respuesta = "La cantidad seleccionada para el item: " . $arItem->getDescripcion() . " no puede ser mayor a las existencias del mismo.";
+                            break;
+                        }
                     }
+                }
+                if ($respuesta == '') {
                     $em->flush();
                     echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+                } else {
+                    Mensajes::error($respuesta);
                 }
             }
         }
@@ -217,6 +224,7 @@ class MovimientoController extends Controller
             'arItems' => $arItems
         ]);
     }
+
 }
 
 

@@ -22,8 +22,8 @@ class ItemRepository extends ServiceEntityRepository
             ->select('i.codigoItemPk')
             ->addSelect('i.descripcion')
             ->addSelect('i.referencia')
+            ->addSelect('i.cantidadExistencia')
             ->addSelect('i.porcentajeIva');
-//            ->addSelect('i.descripcion');
         $queryBuilder->orderBy("i.codigoItemPk", 'DESC');
 
         if ($session->get('filtroItemCodigo') != '') {

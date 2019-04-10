@@ -35,6 +35,11 @@ class Movimiento
     private $codigoTerceroFk;
 
     /**
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoDocumentoFk;
+
+    /**
      * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
      */
     private $vrSubtotal;
@@ -60,16 +65,6 @@ class Movimiento
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\Column(name="digito_verificacion", type="string", length=1, nullable=true)
-     */
-    private $digitoVerificacion;
-
-    /**
-     * @ORM\Column(name="email", type="string", length=80, nullable=true)
-     */
-    private $email;
-
-    /**
      * @ORM\Column(name="estado_autorizado", type="boolean", options={"default":false})
      */
     private $estadoAutorizado = false;
@@ -91,9 +86,15 @@ class Movimiento
     private $terceroRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="movimientosDocumentoRel")
+     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     */
+    protected $documentoRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
      */
-    protected $movimientosDetallesMovimientoRel;
+    protected $movimientoDetalleMovimientoRel;
 
     /**
      * @return mixed
@@ -157,6 +158,22 @@ class Movimiento
     public function setCodigoTerceroFk($codigoTerceroFk): void
     {
         $this->codigoTerceroFk = $codigoTerceroFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
     }
 
     /**
@@ -242,38 +259,6 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getDigitoVerificacion()
-    {
-        return $this->digitoVerificacion;
-    }
-
-    /**
-     * @param mixed $digitoVerificacion
-     */
-    public function setDigitoVerificacion($digitoVerificacion): void
-    {
-        $this->digitoVerificacion = $digitoVerificacion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email): void
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getEstadoAutorizado()
     {
         return $this->estadoAutorizado;
@@ -338,17 +323,33 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getMovimientosDetallesMovimientoRel()
+    public function getDocumentoRel()
     {
-        return $this->movimientosDetallesMovimientoRel;
+        return $this->documentoRel;
     }
 
     /**
-     * @param mixed $movimientosDetallesMovimientoRel
+     * @param mixed $documentoRel
      */
-    public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
+    public function setDocumentoRel($documentoRel): void
     {
-        $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+        $this->documentoRel = $documentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientoDetalleMovimientoRel()
+    {
+        return $this->movimientoDetalleMovimientoRel;
+    }
+
+    /**
+     * @param mixed $movimientoDetalleMovimientoRel
+     */
+    public function setMovimientoDetalleMovimientoRel($movimientoDetalleMovimientoRel): void
+    {
+        $this->movimientoDetalleMovimientoRel = $movimientoDetalleMovimientoRel;
     }
 
 

@@ -77,6 +77,7 @@ class ItemController extends Controller
         return $this->render('item/nuevo.html.twig', [
             'arItem' => $arItem,
             'form' => $form->createView()
+
         ]);
     }
 
