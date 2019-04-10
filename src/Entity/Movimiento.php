@@ -94,7 +94,7 @@ class Movimiento
     /**
      * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
      */
-    protected $movimientoDetalleMovimientoRel;
+    protected $movimientosDetallesMovimientoRel;
 
     /**
      * @return mixed

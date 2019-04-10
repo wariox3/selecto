@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Documento;
 use App\Entity\Item;
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
@@ -24,9 +25,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class MovimientoController extends Controller
 {
     /**
-     * @Route("/Movimiento/lista", name="movimiento_lista")
+     * @Route("/movimiento/lista/{documento}", name="movimiento_lista")
      */
-    public function lista(Request $request)
+    public function lista(Request $request, $documento)
     {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
@@ -57,23 +58,26 @@ class MovimientoController extends Controller
             }
         }
 
-        $arMovimientos = $paginator->paginate($em->getRepository(Movimiento::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arMovimientos = $paginator->paginate($em->getRepository(Movimiento::class)->lista($documento), $request->query->getInt('page', 1), 30);
         return $this->render('Movimiento/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
+            'documento' => $documento,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/Movimiento/nuevo/{id}", name="movimiento_nuevo")
+     * @Route("/movimiento/nuevo/{id}/{documento}", name="movimiento_nuevo")
      */
-    public function nuevo(Request $request, $id)
+    public function nuevo(Request $request, $id, $documento)
     {
         $em = $this->getDoctrine()->getManager();
         $arMovimiento = new Movimiento();
+        $arDocumento = $em->getRepository(Documento::class)->find($documento);
         if ($id != 0) {
             $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
         }
+        $arMovimiento->setDocumentoRel($arDocumento);
         $form = $this->createForm(MovimientoType::class, $arMovimiento);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,6 +93,7 @@ class MovimientoController extends Controller
         }
         return $this->render('Movimiento/nuevo.html.twig', [
             'arMovimiento' => $arMovimiento,
+            'documento' => $documento,
             'form' => $form->createView()
         ]);
     }
@@ -99,11 +104,12 @@ class MovimientoController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @Route("/Movimiento/detalle/{id}", name="movimiento_detalle")
+     * @Route("/movimiento/detalle/{id}", name="movimiento_detalle")
      */
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        /** @var  $arMovimiento Movimiento */
         $paginator = $this->get('knp_paginator');
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
         $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
@@ -173,7 +179,7 @@ class MovimientoController extends Controller
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/Movimiento/detalle/nuevo/{id}", name="movimiento_detalle_nuevo")
+     * @Route("/movimiento/detalle/nuevo/{id}", name="movimiento_detalle_nuevo")
      */
     public function detalleNuevo(Request $request, $id)
     {

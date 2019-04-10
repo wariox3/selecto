@@ -21,7 +21,7 @@
                 <footer class="panel-footer">
                     <div class="row">
                         <div class="col-sm-6">
-                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('movimiento_lista') }}">Cancelar</a>
+                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('movimiento_lista',{'documento': documento}) }}">Cancelar</a>
                         </div>
                         <div class="col-sm-6">
                             {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}

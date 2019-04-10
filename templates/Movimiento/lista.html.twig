@@ -67,11 +67,11 @@
                                      <td>{{ movimiento.tercero }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
                                      <td><a
-                                                 href="{{ path('movimiento_nuevo', { 'id': movimiento.codigoMovimientoPk }) }}"
+                                                 href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="editar descripcion"><i
                                                      class="fa fa-edit fa-lg"></i></a></td>
                                      <td><a
-                                                 href="{{ path('movimiento_detalle', { 'id': movimiento.codigoMovimientoPk }) }}"
+                                                 href="{{ path('movimiento_detalle', {'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
                                      <td><input type="checkbox" name="ChkSeleccionar[]"
                                                                     value="{{ movimiento.codigoMovimientoPk }}"/></td>
@@ -91,7 +91,7 @@
                              <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                   aria-label="...">
                                  <a class="btn btn-sm btn-default"
-                                    href="{{ path('movimiento_nuevo',{'id':0}) }}">Nuevo
+                                    href="{{ path('movimiento_nuevo',{'documento': documento,'id':0}) }}">Nuevo
                                  </a>
                                  {{ form_widget(form.btnEliminar) }}
                              </div>

@@ -2,7 +2,7 @@
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-group" style="float:left">
-            <a class="btn btn-default btn-sm" href="{{ path('movimiento_lista') }}">Volver</a>
+            <a class="btn btn-default btn-sm" href="{{ path('movimiento_lista', {'documento': arMovimiento.documentoRel.codigoDocumentoPk}) }}">Volver</a>
             {{ form_widget(form.btnAutorizar) }}
             {{ form_widget(form.btnDesautorizar) }}
             {{ form_widget(form.btnAprobado) }}

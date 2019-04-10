@@ -27,8 +27,12 @@
                         </a>
                         <ul class="nav nav-children" style="">
                             <li>
-                                <a href="{{ path('movimiento_lista') }}" class="waves-effect">
+                                <a href="{{ path('movimiento_lista', {'documento':'FAC'}) }}" class="waves-effect">
                                     Movimiento</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('movimiento_lista', {'documento':'ENT'}) }}" class="waves-effect">
+                                    Entrada</a>
                             </li>
                         </ul>
                     </li>

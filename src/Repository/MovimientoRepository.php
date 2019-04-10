@@ -19,14 +19,15 @@ class MovimientoRepository extends ServiceEntityRepository
         parent::__construct($registry, Movimiento::class);
     }
 
-    public function lista()
+    public function lista($documento)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Movimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
             ->addSelect('m.fecha')
             ->addSelect('t.nombreCorto AS tercero')
-            ->leftJoin("m.terceroRel", "t");
+            ->leftJoin("m.terceroRel", "t")
+        ->where("m.codigoDocumentoFk = '" . $documento . "'");
         if ($session->get('filtroMovimientoFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroMovimientoFechaDesde')} 00:00:00'");
         }
