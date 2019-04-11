@@ -15,6 +15,7 @@ use function Complex\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\SubmitButton;
@@ -190,7 +191,7 @@ class MovimientoController extends Controller
         $respuesta = '';
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
         $form = $this->createFormBuilder()
-            ->add('txtCodigoItem', TextType::class, ['label' => 'Codigo: ', 'required' => false])
+            ->add('txtCodigoItem', IntegerType::class, ['label' => 'Codigo: ', 'required' => false])
             ->add('txtDescripcion', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroInvBuscarItemDescripcion')])
             ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])

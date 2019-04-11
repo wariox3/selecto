@@ -35,7 +35,7 @@ class MovimientoRepository extends ServiceEntityRepository
             $queryBuilder->andWhere("m.fecha <= '{$session->get('filtroMovimientoFechaHasta')} 23:59:59'");
         }
         if ($session->get('filtroMovimientoTercero')) {
-            $queryBuilder->andWhere("m.codigoTerceroFk = '" . $session->get('filtroMovimientoTercero') . "''");
+            $queryBuilder->andWhere("m.codigoTerceroFk = '{$session->get('filtroMovimientoTercero')}'");
         }
         $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
         return $queryBuilder;
