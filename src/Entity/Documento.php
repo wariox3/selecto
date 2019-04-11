@@ -110,22 +110,6 @@ class Documento
     /**
      * @return mixed
      */
-    public function getMovimientoDocumentoRel()
-    {
-        return $this->movimientoDocumentoRel;
-    }
-
-    /**
-     * @param mixed $movimientoDocumentoRel
-     */
-    public function setMovimientoDocumentoRel($movimientoDocumentoRel): void
-    {
-        $this->movimientoDocumentoRel = $movimientoDocumentoRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getOperacionInventario()
     {
         return $this->operacionInventario;
@@ -154,5 +138,8 @@ class Documento
     {
         $this->movimientosDocumentoRel = $movimientosDocumentoRel;
     }
+
+
+
 
 }

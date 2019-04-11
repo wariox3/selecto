@@ -27,7 +27,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.fecha')
             ->addSelect('t.nombreCorto AS tercero')
             ->leftJoin('m.terceroRel', 't')
-        ->where("m.codigoDocumentoFk = '" . $documento . "'");
+            ->where("m.codigoDocumentoFk = '" . $documento . "'");
         if ($session->get('filtroMovimientoFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroMovimientoFechaDesde')} 00:00:00'");
         }
@@ -78,8 +78,9 @@ class MovimientoRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function autorizar($arMovimiento){
-        if($this->getEntityManager()->getRepository(Movimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0){
+    public function autorizar($arMovimiento)
+    {
+        if ($this->getEntityManager()->getRepository(Movimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
             $arMovimiento->setEstadoAutorizado(1);
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
@@ -95,7 +96,8 @@ class MovimientoRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function aprobar($arMovimiento){
+    public function aprobar($arMovimiento)
+    {
         $em = $this->getEntityManager();
         if ($arMovimiento->getEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
@@ -113,7 +115,8 @@ class MovimientoRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function afectar($arMovimiento){
+    public function afectar($arMovimiento)
+    {
 
         $em = $this->getEntityManager();
 
@@ -122,13 +125,12 @@ class MovimientoRepository extends ServiceEntityRepository
             $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
             $existenciaAnterior = $arItem->getCantidadExistencia();
             if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
-
                 $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
-                $em->persist($arItem);
-                $em->flush();
-            }elseif ($arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
+            } elseif ($arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
                 $arItem->setCantidadExistencia($existenciaAnterior + $arMovimientoDetalle->getCantidad());
             }
+            $em->persist($arItem);
+            $em->flush();
         }
     }
 
@@ -139,13 +141,14 @@ class MovimientoRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function desautorizar($arMovimiento){
+    public function desautorizar($arMovimiento)
+    {
         if ($arMovimiento->getEstadoAprobado() == 0) {
             $arMovimiento->setEstadoAutorizado(0);
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
 
-        }else {
+        } else {
             Mensajes::error('El registro ya se encuentra aprobado');
         }
 
@@ -162,7 +165,7 @@ class MovimientoRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
             ->select("COUNT(md.codigoMovimientoDetallePk)")
             ->where("md.codigoMovimientoFk = {$codigoMovimiento} ");
-        $resultado =  $queryBuilder->getQuery()->getSingleResult();
+        $resultado = $queryBuilder->getQuery()->getSingleResult();
         return $resultado[1];
     }
 
@@ -170,7 +173,8 @@ class MovimientoRepository extends ServiceEntityRepository
      * @return array
      * @throws \Doctrine\ORM\ORMException
      */
-    public function llenarCombo(){
+    public function llenarCombo()
+    {
         $session = new Session();
         $array = [
             'class' => Movimiento::class,

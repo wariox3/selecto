@@ -25,8 +25,8 @@ class TerceroType extends AbstractType
             ->add('segundoApellido', TextType::class, array('required'=> false))
             ->add('direccion', TextType::class, array('required'=> true))
             ->add('telefono', TextType::class, array('required'=> true))
-            ->add('email', TextType::class, array('required' => true))
-            ->add('celular', TextType::class, array('required'=> true))
+            ->add('email', TextType::class, array('required' => false))
+            ->add('celular', TextType::class, array('required'=> false))
             ->add('cliente', CheckboxType::class, array('required' => false, 'label' => 'cliente'))
             ->add('proveedor', CheckboxType::class, array('required' => false, 'label' => 'proveedor'))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

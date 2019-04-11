@@ -55,7 +55,7 @@ class Factura extends \FPDF
 //        } catch (\Exception $exception) {
 //        }
         //INFORMACIÓN EMPRESA
-        $this->Cell(190, 7, utf8_decode("ORDEN DE COMPRA"), 0, 0, 'C', 1);
+        $this->Cell(190, 7, utf8_decode("FACTURA DE VENTA"), 0, 0, 'C', 1);
         $this->SetXY(10, 18);
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(20, 4, "EMPRESA:", 0, 0, 'L', 1);

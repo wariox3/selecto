@@ -44,6 +44,12 @@
             <td class="td-in-well">Total Neto</td>
             <td>{{ arMovimiento.vrTotalNeto | number_format (0, '.', ',') }}</td>
         </tr>
+        <tr>
+            <td class="titulo">DOCUMENTO</td>
+            <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
+            <td class="td-in-well"></td>
+            <td></td>
+        </tr>
     </table>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#detalles" data-toggle="tab">Detalles</a></li>

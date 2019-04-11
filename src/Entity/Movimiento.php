@@ -35,7 +35,7 @@ class Movimiento
     private $codigoTerceroFk;
 
     /**
-     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=5, nullable=true)
      */
     private $codigoDocumentoFk;
 
@@ -339,18 +339,19 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getMovimientoDetalleMovimientoRel()
+    public function getMovimientosDetallesMovimientoRel()
     {
-        return $this->movimientoDetalleMovimientoRel;
+        return $this->movimientosDetallesMovimientoRel;
     }
 
     /**
-     * @param mixed $movimientoDetalleMovimientoRel
+     * @param mixed $movimientosDetallesMovimientoRel
      */
-    public function setMovimientoDetalleMovimientoRel($movimientoDetalleMovimientoRel): void
+    public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
     {
-        $this->movimientoDetalleMovimientoRel = $movimientoDetalleMovimientoRel;
+        $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
     }
+
 
 
 }

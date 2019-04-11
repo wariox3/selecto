@@ -25,13 +25,11 @@ class ItemRepository extends ServiceEntityRepository
             ->addSelect('i.cantidadExistencia')
             ->addSelect('i.porcentajeIva');
         $queryBuilder->orderBy("i.codigoItemPk", 'DESC');
-
-        if ($session->get('filtroItemCodigo') != '') {
-            $queryBuilder->andWhere("i.codigoItemPk  ='{$session->get('filtroItemCodigo')}'");
+        if ($session->get('filtroInvBucarItemCodigo') != '') {
+            $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroInvBucarItemCodigo')}");
         }
-
-        if ($session->get('filtroItemDescripcion') != '') {
-            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
+        if ($session->get('filtroInvBuscarItemDescripcion') != '') {
+            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroInvBuscarItemDescripcion')}%'");
         }
         return $queryBuilder;
     }

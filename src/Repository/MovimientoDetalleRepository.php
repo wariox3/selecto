@@ -42,6 +42,7 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('i.descripcion as item')
             ->addSelect('m.fecha as movimientofecha')
             ->addSelect('m.numero as movimientonumero')
+            ->addSelect('d.nombre as documento')
             ->addSelect('t.nombreCorto as tercero')
             ->addSelect(' md.cantidad')
             ->addSelect('md.vrPrecio')
@@ -50,6 +51,7 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')
             ->leftJoin('md.movimientoRel', 'm')
+            ->leftJoin('m.documentoRel', 'd')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin("md.itemRel", "i");
         if ($session->get('filtroInformeMovimientoFechaDesde') != null) {

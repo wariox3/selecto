@@ -115,7 +115,7 @@ class MovimientoController extends Controller
         $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
         $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
-        $arrBtnAprobado = ['label' => 'Aprobado', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
         if ($arMovimiento->getEstadoAutorizado()) {
             $arrBtnAutorizar['disabled'] = true;
@@ -151,6 +151,7 @@ class MovimientoController extends Controller
             }
             if ($form->get('btnAutorizar')->isClicked()) {
                 $em->getRepository(Movimiento::class)->autorizar($arMovimiento);
+                $em->getRepository(MovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnDesautorizar')->isClicked()) {
@@ -189,13 +190,17 @@ class MovimientoController extends Controller
         $respuesta = '';
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
         $form = $this->createFormBuilder()
-            ->add('txtCodigoItem', TextType::class, array('required' => false, 'label' => 'codigo item'))
-            ->add('txtDescripcion', TextType::class, array('required' => false, 'label' => 'descripcion'))
+            ->add('txtCodigoItem', TextType::class, ['label' => 'Codigo: ', 'required' => false])
+            ->add('txtDescripcion', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroInvBuscarItemDescripcion')])
             ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnFiltrar')->isClicked()) {
+                $session->set('filtroInvBucarItemCodigo', $form->get('txtCodigoItem')->getData());
+                $session->set('filtroInvBuscarItemDescripcion', $form->get('txtDescripcion')->getData());
+            }
         }
         if ($form->get('btnGuardar')->isClicked()) {
             $arrItems = $request->request->get('itemCantidad');
@@ -203,7 +208,7 @@ class MovimientoController extends Controller
                 foreach ($arrItems as $codigoItem => $cantidad) {
                     $arItem = $em->getRepository(Item::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
-                        if ($arMovimiento->getdocumentoRel()->getcodigoDocumentoPk() == 'ENT' or 'COM' || $cantidad <= $arItem->getCantidadExistencia()) {
+                        if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
                             $arMovimientoDetalle = new MovimientoDetalle();
                             $arMovimientoDetalle->setMovimientoRel($arMovimiento);
                             $arMovimientoDetalle->setItemRel($arItem);
