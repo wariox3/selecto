@@ -57,11 +57,12 @@
                              <tr>
                                  <th>Id</th>
                                  <th>Nombre corto</th>
+                                 <th>Digito</th>
                                  <th>Identificacion</th>
                                  <th>Telefono</th>
                                  <th>Direccion</th>
                                  <th>Celular</th>
-                                 <th>Celular</th>
+                                 <th>Email</th>
                                  <th title="Cliente">Cli</th>
                                  <th title="Proveedor">Pro</th>
                                  <th></th>
@@ -74,10 +75,12 @@
                                  <tr>
                                      <td>{{ tercero.codigoTerceroPk }}</td>
                                      <td>{{ tercero.nombreCorto }}</td>
+                                     <td>{{ tercero.digitoVerificacion }}</td>
                                      <td>{{ tercero.numeroIdentificacion }}</td>
                                      <td>{{ tercero.telefono }}</td>
                                      <td>{{ tercero.direccion }}</td>
                                      <td>{{ tercero.celular }}</td>
+                                     <td>{{ tercero.email }}</td>
                                      <td>{{ tercero.cliente ? 'SI':'NO' }}</td>
                                      <td>{{ tercero.proveedor ? 'SI':'NO' }}</td>
                                      <td><a

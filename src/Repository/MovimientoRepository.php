@@ -26,7 +26,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->select('m.codigoMovimientoPk')
             ->addSelect('m.fecha')
             ->addSelect('t.nombreCorto AS tercero')
-            ->leftJoin("m.terceroRel", "t")
+            ->leftJoin('m.terceroRel', 't')
         ->where("m.codigoDocumentoFk = '" . $documento . "'");
         if ($session->get('filtroMovimientoFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroMovimientoFechaDesde')} 00:00:00'");
@@ -116,13 +116,19 @@ class MovimientoRepository extends ServiceEntityRepository
     public function afectar($arMovimiento){
 
         $em = $this->getEntityManager();
+
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
             $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
-                $existenciaAnterior = $arItem->getCantidadExistencia();
+            $existenciaAnterior = $arItem->getCantidadExistencia();
+            if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
+
                 $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
                 $em->persist($arItem);
                 $em->flush();
+            }elseif ($arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
+                $arItem->setCantidadExistencia($existenciaAnterior + $arMovimientoDetalle->getCantidad());
+            }
         }
     }
 

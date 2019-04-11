@@ -17,6 +17,10 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="row">
+                            <label class="col-sm-2 control-label">Digito verificacion:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.digitoVerificacion) }}
+                            </div>
                             <label class="col-sm-2 control-label">Identificacion:</label>
                             <div class="col-sm-3">
                                 {{ form_widget(form.numeroIdentificacion) }}
@@ -65,6 +69,13 @@
                             <label class="col-sm-2 control-label">Celular:</label>
                             <div class="col-sm-3">
                                 {{ form_widget(form.celular) }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">Email:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.email) }}
                             </div>
                         </div>
                         <br>

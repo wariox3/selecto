@@ -34,6 +34,11 @@ class Documento
     private $consecutivo = 0;
 
     /**
+     * @ORM\Column(name="operacion_inventario", type="smallint", nullable=true, options={"default" : 0})
+     */
+    private $operacionInventario = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity="Movimiento", mappedBy="documentoRel")
      */
     protected $movimientosDocumentoRel;
@@ -116,6 +121,38 @@ class Documento
     public function setMovimientoDocumentoRel($movimientoDocumentoRel): void
     {
         $this->movimientoDocumentoRel = $movimientoDocumentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOperacionInventario()
+    {
+        return $this->operacionInventario;
+    }
+
+    /**
+     * @param mixed $operacionInventario
+     */
+    public function setOperacionInventario($operacionInventario): void
+    {
+        $this->operacionInventario = $operacionInventario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDocumentoRel()
+    {
+        return $this->movimientosDocumentoRel;
+    }
+
+    /**
+     * @param mixed $movimientosDocumentoRel
+     */
+    public function setMovimientosDocumentoRel($movimientosDocumentoRel): void
+    {
+        $this->movimientosDocumentoRel = $movimientosDocumentoRel;
     }
 
 }

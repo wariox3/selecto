@@ -27,6 +27,8 @@ class TerceroRepository extends ServiceEntityRepository
             ->addSelect('t.telefono')
             ->addSelect('t.direccion')
             ->addSelect('t.celular')
+            ->addSelect('t.email')
+            ->addSelect('t.digitoVerificacion')
             ->addSelect('t.cliente')
             ->addSelect('t.proveedor');
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');

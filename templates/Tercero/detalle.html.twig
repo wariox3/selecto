@@ -13,6 +13,12 @@
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-datos ">
         <tr>
+            <td>DIGITO</td>
+            <td class="td-in-well">{{ arTercero.digitoVerificacion }}</td>
+            <td>IDENTIFICACION</td>
+            <td class="td-in-well">{{ arTercero.numeroIdentificacion }}</td>
+        </tr>
+        <tr>
             <td>PRIMER NOMBRE</td>
             <td class="td-in-well">{{ arTercero.primerNombre }}</td>
             <td>SEGUNDO NOMBRE</td>
@@ -25,32 +31,33 @@
             <td class="td-in-well">{{ arTercero.segundoApellido }}</td>
         </tr>
         <tr>
-            <td>IDENTIFICACION</td>
-            <td class="td-in-well">{{ arTercero.numeroIdentificacion }}</td>
-            <td>TELEFONO</td>
-            <td class="td-in-well">{{ arTercero.telefono }}</td>
-        </tr>
-        <tr>
+            <td class="titulo">NOMBRE CORTO:</td>
+            <td class="td-in-well">{{ arTercero.nombreCorto }}</td>
             <td>DIRECCION</td>
             <td class="td-in-well">{{ arTercero.direccion }}</td>
+        </tr>
+
+        <tr>
+            <td>TELEFONO</td>
+            <td class="td-in-well">{{ arTercero.telefono }}</td>
             <td>CELULAR</td>
             <td class="td-in-well">{{ arTercero.celular }}</td>
         </tr>
         <tr>
-            <td class="titulo">NOMBRE CORTO:</td>
-            <td class="td-in-well">{{ arTercero.nombreCorto }}</td>
+            <td>EMAIL</td>
+            <td class="td-in-well">{{ arTercero.email }}</td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td class="titulo">CLIENTE:</td>
-            <td class="td-in-well">{{ arTercero.cliente }}</td>
+            <td class="td-in-well">{{ arTercero.cliente ? 'SI':'NO' }}</td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td class="titulo">PROVEEDOR:</td>
-            <td class="td-in-well">{{ arTercero.proveedor }}</td>
+            <td class="td-in-well">{{ arTercero.proveedor ? 'SI':'NO' }}</td>
             <td></td>
             <td></td>
         </tr>
