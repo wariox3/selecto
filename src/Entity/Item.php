@@ -14,8 +14,8 @@ class Item
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="codigo_item_pk", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoItemPk;
 
@@ -160,5 +160,4 @@ class Item
     {
         $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
     }
-
 }

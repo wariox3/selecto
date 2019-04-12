@@ -23,13 +23,33 @@ class ItemRepository extends ServiceEntityRepository
             ->addSelect('i.descripcion')
             ->addSelect('i.referencia')
             ->addSelect('i.cantidadExistencia')
-            ->addSelect('i.porcentajeIva');
-        $queryBuilder->orderBy("i.codigoItemPk", 'DESC');
-        if ($session->get('filtroInvBucarItemCodigo') != '') {
-            $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroInvBucarItemCodigo')}");
+            ->addSelect('i.porcentajeIva')
+            ->orderBy('i.codigoItemPk', 'ASC');
+//            ->leftJoin("i.movimientosDetallesItemRel", "md");
+//        $queryBuilder->orderBy("i.codigoItemPk", 'DESC');
+        if ($session->get('filtroItemCodigo') != '') {
+            $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroItemCodigo')}");
         }
-        if ($session->get('filtroInvBuscarItemDescripcion') != '') {
-            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroInvBuscarItemDescripcion')}%'");
+        if ($session->get('filtroItemDescripcion') != '') {
+            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
+        }
+        return $queryBuilder;
+    }
+
+    public function existencia()
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Item::class, 'i')
+            ->select('i.codigoItemPk')
+            ->addSelect('i.referencia')
+            ->addSelect('i.descripcion')
+            ->addSelect('i.cantidadExistencia')
+            ->orderBy('i.codigoItemPk', 'ASC');
+        if ($session->get('filtroItemReferencia') != '') {
+            $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
+        }
+        if ($session->get('filtroItemDescripcion') != '') {
+            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
         }
         return $queryBuilder;
     }

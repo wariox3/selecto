@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Item;
-use App\Entity\Movimiento;
 use App\Entity\Tercero;
-use App\Form\Type\ItemType;
 use App\Form\Type\TerceroType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,31 +23,26 @@ class TerceroController extends Controller
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-
         $form = $this->createFormBuilder()
             ->add('codigoTercero', TextType::class, ['required' => false, 'data' => $session->get('filtroTerceroCodigo')])
             ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroTerceroNombreCorto')])
             ->add('cliente', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroTerceroCliente'), 'required' => false])
             ->add('proveedor', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroTerceroProveedor'), 'required' => false])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
-            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroTerceroCodigo', $form->get('codigoTercero')->getData());
                 $session->set('filtroTerceroNombreCorto', $form->get('nombreCorto')->getData());
                 $session->set('filtroTerceroCliente', $form->get('cliente')->getData());
                 $session->set('filtroTerceroProveedor', $form->get('proveedor')->getData());
             }
-
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(Tercero::class, $arItems);
                 return $this->redirect($this->generateUrl('tercero_lista'));
-
             }
         }
         $arTerceros = $paginator->paginate($em->getRepository(Tercero::class)->lista(), $request->query->getInt('page', 1), 30);
@@ -72,18 +64,14 @@ class TerceroController extends Controller
         }
         $form = $this->createForm(TerceroType::class, $arTercero);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arTercero = $form->getData();
                 $em->persist($arTercero);
                 $em->flush();
-
                 return $this->redirect($this->generateUrl('tercero_detalle', array('id' => $arTercero->getCodigoTerceroPk())));
             }
-
         }
-//        dd($form);
         return $this->render('Tercero/nuevo.html.twig', [
             'arTercero' => $arTercero,
             'form' => $form->createView()
@@ -107,6 +95,4 @@ class TerceroController extends Controller
             'arTercero' => $arTercero,
         ]);
     }
-
-
 }

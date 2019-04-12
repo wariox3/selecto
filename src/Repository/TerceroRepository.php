@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Item;
 use App\Entity\Tercero;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
@@ -32,15 +31,12 @@ class TerceroRepository extends ServiceEntityRepository
             ->addSelect('t.cliente')
             ->addSelect('t.proveedor');
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');
-
         if ($session->get('filtroTerceroCodigo') != '') {
             $queryBuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");
         }
-
         if ($session->get('filtroTerceroNombreCorto') != '') {
             $queryBuilder->andWhere("t.nombreCorto like '%{$session->get('filtroTerceroNombreCorto')}%'");
         }
-
         switch ($session->get('filtroTerceroCliente')) {
             case '0':
                 $queryBuilder->andWhere("t.cliente = 0");
@@ -49,7 +45,6 @@ class TerceroRepository extends ServiceEntityRepository
                 $queryBuilder->andWhere("t.cliente = 1");
                 break;
         }
-
         switch ($session->get('filtroTerceroProveedor')) {
             case '0':
                 $queryBuilder->andWhere("t.proveedor = 0");
@@ -59,7 +54,6 @@ class TerceroRepository extends ServiceEntityRepository
                 break;
         }
         return $queryBuilder;
-
     }
 
     public function llenarCombo()

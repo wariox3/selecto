@@ -18,7 +18,7 @@ class ItemType extends AbstractType
         $builder
 //            ->add('codigoItemPk', TextareaType::class, array('required' => true))
             ->add('descripcion', TextareaType::class, array('required' => true))
-            ->add('referencia', TextType::class, array('required'=> true))
+            ->add('referencia', TextType::class, array('required' => true))
             ->add('cantidadExistencia', TextType::class, array('required' => true))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }

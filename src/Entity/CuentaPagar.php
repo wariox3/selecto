@@ -5,19 +5,24 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MovimientoType
+ * CuentaPagarType
  *
- * @ORM\Table(name="movimiento")
- * @ORM\Entity(repositoryClass="App\Repository\MovimientoRepository")
+ * @ORM\Table(name="cuenta_pagar")
+ * @ORM\Entity(repositoryClass="App\Repository\CuentaPagarRepository")
  */
-class Movimiento
+class CuentaPagar
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_movimiento_pk", type="integer")
+     * @ORM\Column(name="codigo_cuenta_cobrar_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $codigoMovimientoPk;
+    private $codigoCuentaCobrarPk;
+
+    /**
+     * @ORM\Column(name="numero_documento", type="integer", nullable=true)
+     */
+    private $numeroDocumento = 0;
 
     /**
      * @ORM\Column(name="fecha", type="date", nullable=true)
@@ -25,19 +30,19 @@ class Movimiento
     private $fecha;
 
     /**
-     * @ORM\Column(name="numero", type="integer", nullable=true)
+     * @ORM\Column(name="fecha_vence", type="date", nullable=true)
      */
-    private $numero = 0;
+    private $fechaVence;
+
+    /**
+     * @ORM\Column(name="operacion", type="smallint", nullable=true, options={"default" : 0})
+     */
+    private $operacion = 0;
 
     /**
      * @ORM\Column(name="codigo_tercero_fk", type="integer", nullable=true)
      */
     private $codigoTerceroFk;
-
-    /**
-     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoDocumentoFk;
 
     /**
      * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
@@ -50,9 +55,19 @@ class Movimiento
     private $vrTotalBruto;
 
     /**
-     * @ORM\Column(name="vr_total_neto", type="float", nullable=true, options={"default" : 0})
+     * @ORM\Column(name="vr_abono", type="float", nullable=true, options={"default" : 0})
      */
-    private $vrTotalNeto;
+    private $vrAbono;
+
+    /**
+     * @ORM\Column(name="vr_saldo_original", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrSaldoOriginal;
+
+    /**
+     * @ORM\Column(name="vr_saldo", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrSaldo;
 
     /**
      * @ORM\Column(name="vr_iva", type="float", nullable=true)
@@ -60,9 +75,9 @@ class Movimiento
     private $vrIva;
 
     /**
-     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     * @ORM\Column(name="vr_saldo_operado", type="float", nullable=true, options={"default" : 0})
      */
-    private $codigoEmpresaFk;
+    private $vrSaldoOperado = 0;
 
     /**
      * @ORM\Column(name="estado_autorizado", type="boolean", options={"default":false})
@@ -80,36 +95,41 @@ class Movimiento
     private $estadoAnulado = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="movimientosTerceroRel")
+     * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="cuentaCobroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     private $terceroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="movimientosDocumentoRel")
-     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     * @return mixed
      */
-    protected $documentoRel;
+    public function getCodigoCuentaCobrarPk()
+    {
+        return $this->codigoCuentaCobrarPk;
+    }
 
     /**
-     * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
+     * @param mixed $codigoCuentaCobrarPk
      */
-    protected $movimientosDetallesMovimientoRel;
+    public function setCodigoCuentaCobrarPk($codigoCuentaCobrarPk): void
+    {
+        $this->codigoCuentaCobrarPk = $codigoCuentaCobrarPk;
+    }
 
     /**
      * @return mixed
      */
-    public function getCodigoMovimientoPk()
+    public function getNumeroDocumento()
     {
-        return $this->codigoMovimientoPk;
+        return $this->numeroDocumento;
     }
 
     /**
-     * @param mixed $codigoMovimientoPk
+     * @param mixed $numeroDocumento
      */
-    public function setCodigoMovimientoPk($codigoMovimientoPk): void
+    public function setNumeroDocumento($numeroDocumento): void
     {
-        $this->codigoMovimientoPk = $codigoMovimientoPk;
+        $this->numeroDocumento = $numeroDocumento;
     }
 
     /**
@@ -131,17 +151,33 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getNumero()
+    public function getFechaVence()
     {
-        return $this->numero;
+        return $this->fechaVence;
     }
 
     /**
-     * @param mixed $numero
+     * @param mixed $fechaVence
      */
-    public function setNumero($numero): void
+    public function setFechaVence($fechaVence): void
     {
-        $this->numero = $numero;
+        $this->fechaVence = $fechaVence;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOperacion()
+    {
+        return $this->operacion;
+    }
+
+    /**
+     * @param mixed $operacion
+     */
+    public function setOperacion($operacion): void
+    {
+        $this->operacion = $operacion;
     }
 
     /**
@@ -158,22 +194,6 @@ class Movimiento
     public function setCodigoTerceroFk($codigoTerceroFk): void
     {
         $this->codigoTerceroFk = $codigoTerceroFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoDocumentoFk()
-    {
-        return $this->codigoDocumentoFk;
-    }
-
-    /**
-     * @param mixed $codigoDocumentoFk
-     */
-    public function setCodigoDocumentoFk($codigoDocumentoFk): void
-    {
-        $this->codigoDocumentoFk = $codigoDocumentoFk;
     }
 
     /**
@@ -211,17 +231,49 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getVrTotalNeto()
+    public function getVrAbono()
     {
-        return $this->vrTotalNeto;
+        return $this->vrAbono;
     }
 
     /**
-     * @param mixed $vrTotalNeto
+     * @param mixed $vrAbono
      */
-    public function setVrTotalNeto($vrTotalNeto): void
+    public function setVrAbono($vrAbono): void
     {
-        $this->vrTotalNeto = $vrTotalNeto;
+        $this->vrAbono = $vrAbono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSaldoOriginal()
+    {
+        return $this->vrSaldoOriginal;
+    }
+
+    /**
+     * @param mixed $vrSaldoOriginal
+     */
+    public function setVrSaldoOriginal($vrSaldoOriginal): void
+    {
+        $this->vrSaldoOriginal = $vrSaldoOriginal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSaldo()
+    {
+        return $this->vrSaldo;
+    }
+
+    /**
+     * @param mixed $vrSaldo
+     */
+    public function setVrSaldo($vrSaldo): void
+    {
+        $this->vrSaldo = $vrSaldo;
     }
 
     /**
@@ -243,17 +295,17 @@ class Movimiento
     /**
      * @return mixed
      */
-    public function getCodigoEmpresaFk()
+    public function getVrSaldoOperado()
     {
-        return $this->codigoEmpresaFk;
+        return $this->vrSaldoOperado;
     }
 
     /**
-     * @param mixed $codigoEmpresaFk
+     * @param mixed $vrSaldoOperado
      */
-    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    public function setVrSaldoOperado($vrSaldoOperado): void
     {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
+        $this->vrSaldoOperado = $vrSaldoOperado;
     }
 
     /**
@@ -318,37 +370,5 @@ class Movimiento
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDocumentoRel()
-    {
-        return $this->documentoRel;
-    }
-
-    /**
-     * @param mixed $documentoRel
-     */
-    public function setDocumentoRel($documentoRel): void
-    {
-        $this->documentoRel = $documentoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMovimientosDetallesMovimientoRel()
-    {
-        return $this->movimientosDetallesMovimientoRel;
-    }
-
-    /**
-     * @param mixed $movimientosDetallesMovimientoRel
-     */
-    public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
-    {
-        $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
     }
 }

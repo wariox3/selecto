@@ -7,18 +7,15 @@ use App\Entity\Item;
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
 use App\Entity\Tercero;
-use App\Form\Type\ItemType;
 use App\Form\Type\MovimientoType;
 use App\Formatos\Factura;
 use App\Utilidades\Mensajes;
-use function Complex\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +35,7 @@ class MovimientoController extends Controller
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaHasta') ? date_create($session->get('filtroMovimientoFechaHasta')) : null])
             ->add('cboTerceroRel', EntityType::class, $em->getRepository(Tercero::class)->llenarCombo())
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
-            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,7 +55,6 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_lista'));
             }
         }
-
         $arMovimientos = $paginator->paginate($em->getRepository(Movimiento::class)->lista($documento), $request->query->getInt('page', 1), 30);
         return $this->render('Movimiento/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
@@ -147,7 +143,6 @@ class MovimientoController extends Controller
             }
             if ($form->get('btnAprobado')->isClicked()) {
                 $em->getRepository(Movimiento::class)->aprobar($arMovimiento);
-
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAutorizar')->isClicked()) {
@@ -192,15 +187,15 @@ class MovimientoController extends Controller
         $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
         $form = $this->createFormBuilder()
             ->add('txtCodigoItem', IntegerType::class, ['label' => 'Codigo: ', 'required' => false])
-            ->add('txtDescripcion', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroInvBuscarItemDescripcion')])
+            ->add('txtDescripcion', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroItemDescripcion')])
             ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
-            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
-                $session->set('filtroInvBucarItemCodigo', $form->get('txtCodigoItem')->getData());
-                $session->set('filtroInvBuscarItemDescripcion', $form->get('txtDescripcion')->getData());
+                $session->set('filtroItemCodigo', $form->get('txtCodigoItem')->getData());
+                $session->set('filtroItemDescripcion', $form->get('txtDescripcion')->getData());
             }
         }
         if ($form->get('btnGuardar')->isClicked()) {
@@ -236,7 +231,6 @@ class MovimientoController extends Controller
             'arItems' => $arItems
         ]);
     }
-
 }
 
 

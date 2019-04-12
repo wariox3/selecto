@@ -29,6 +29,11 @@ class Documento
     private $abreviatura;
 
     /**
+     * @ORM\Column(name="genera_cartera", type="boolean", options={"default":false})
+     */
+    private $generaCartera = false;
+
+    /**
      * @ORM\Column(name="consecutivo", type="integer")
      */
     private $consecutivo = 0;
@@ -139,7 +144,19 @@ class Documento
         $this->movimientosDocumentoRel = $movimientosDocumentoRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getGeneraCartera()
+    {
+        return $this->generaCartera;
+    }
 
-
-
+    /**
+     * @param mixed $generaCartera
+     */
+    public function setGeneraCartera($generaCartera): void
+    {
+        $this->generaCartera = $generaCartera;
+    }
 }

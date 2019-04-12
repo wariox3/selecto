@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MovimientoType
+ * MovimientoDetalleType
  *
  * @ORM\Table(name="movimiento_detalle")
  * @ORM\Entity(repositoryClass="App\Repository\MovimientoDetalleRepository")
@@ -14,8 +14,8 @@ class MovimientoDetalle
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="codigo_movimiento_detalle_pk", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoMovimientoDetallePk;
 
@@ -267,5 +267,4 @@ class MovimientoDetalle
     {
         $this->itemRel = $itemRel;
     }
-
 }

@@ -14,8 +14,8 @@ class Tercero
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="codigo_tercero_pk", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoTerceroPk;
 
@@ -93,19 +93,16 @@ class Tercero
     protected $movimientosTerceroRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="CuentaCobrar", mappedBy="terceroRel")
+     */
+    protected $cuentaCobroRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoTerceroPk()
     {
         return $this->codigoTerceroPk;
-    }
-
-    /**
-     * @param mixed $codigoTerceroPk
-     */
-    public function setCodigoTerceroPk($codigoTerceroPk): void
-    {
-        $this->codigoTerceroPk = $codigoTerceroPk;
     }
 
     /**
@@ -348,5 +345,19 @@ class Tercero
         $this->movimientosTerceroRel = $movimientosTerceroRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobroRel()
+    {
+        return $this->cuentaCobroRel;
+    }
 
+    /**
+     * @param mixed $cuentaCobroRel
+     */
+    public function setCuentaCobroRel($cuentaCobroRel): void
+    {
+        $this->cuentaCobroRel = $cuentaCobroRel;
+    }
 }

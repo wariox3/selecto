@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
-
-
-
 {% block content %}
-
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
@@ -36,7 +32,6 @@
             <td>DIRECCION</td>
             <td class="td-in-well">{{ arTercero.direccion }}</td>
         </tr>
-
         <tr>
             <td>TELEFONO</td>
             <td class="td-in-well">{{ arTercero.telefono }}</td>
@@ -61,10 +56,8 @@
             <td></td>
             <td></td>
         </tr>
-
     </table>
     {{ form_end(form) }}
-
 {% endblock %}
 
 

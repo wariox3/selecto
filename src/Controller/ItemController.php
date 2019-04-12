@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class ItemController extends Controller
 {
     /**
@@ -19,30 +18,26 @@ class ItemController extends Controller
      */
     public function lista(Request $request)
     {
+
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-
         $form = $this->createFormBuilder()
             ->add('codigoItem', TextType::class, ['required' => false, 'data' => $session->get('filtroItemCodigo')])
             ->add('descripcion', TextType::class, ['required' => false, 'data' => $session->get('filtroItemDescripcion')])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
-            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn brtn-sm btn-default']])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroItemCodigo', $form->get('codigoItem')->getData());
                 $session->set('filtroItemDescripcion', $form->get('descripcion')->getData());
             }
-
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(Item::class, $arItems);
                 return $this->redirect($this->generateUrl('item_lista'));
-
             }
         }
         $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page', 1), 30);
@@ -57,6 +52,7 @@ class ItemController extends Controller
      */
     public function nuevo(Request $request, $id)
     {
+
         $em = $this->getDoctrine()->getManager();
         $arItem = new Item();
         if ($id != 0) {
@@ -64,20 +60,17 @@ class ItemController extends Controller
         }
         $form = $this->createForm(ItemType::class, $arItem);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arItem = $form->getData();
                 $em->persist($arItem);
                 $em->flush();
-
                 return $this->redirect($this->generateUrl('item_detalle', array('id' => $arItem->getCodigoItemPk())));
             }
         }
         return $this->render('item/nuevo.html.twig', [
             'arItem' => $arItem,
             'form' => $form->createView()
-
         ]);
     }
 
@@ -98,6 +91,4 @@ class ItemController extends Controller
             'arItem' => $arItem,
         ]);
     }
-
-
 }

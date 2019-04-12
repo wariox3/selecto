@@ -29,8 +29,7 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')
             ->leftJoin("md.itemRel", "i")
-            ->where('md.codigoMovimientoFk = '. $id);
-
+            ->where('md.codigoMovimientoFk = ' . $id);
         return $queryBuilder->getQuery()->getResult();
     }
 
@@ -39,12 +38,15 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
-            ->addSelect('i.descripcion as item')
+            ->addSelect('md.codigoItemFk as itemCodigoPk')
+            ->addSelect('i.referencia as itemReferencia')
+            ->addSelect('i.cantidadExistencia as itemExistencia')
+            ->addSelect('i.descripcion as itemDescripcion')
             ->addSelect('m.fecha as movimientofecha')
             ->addSelect('m.numero as movimientonumero')
             ->addSelect('d.nombre as documento')
             ->addSelect('t.nombreCorto as tercero')
-            ->addSelect(' md.cantidad')
+            ->addSelect('md.cantidad')
             ->addSelect('md.vrPrecio')
             ->addSelect('md.vrSubtotal')
             ->addSelect('md.porcentajeIva')
@@ -60,16 +62,14 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
         if ($session->get('filtroInformeMovimientoFechaHasta') != null) {
             $queryBuilder->andWhere("m.fecha <= '{$session->get('filtroInformeMovimientoFechaHasta')} 23:59:59'");
         }
-        if ($session->get('filtroMovimientoNumero') !='') {
+        if ($session->get('filtroMovimientoNumero') != '') {
             $queryBuilder->andWhere("m.numero = '{$session->get('filtroMovimientoNumero')}'");
         }
-
+        if ($session->get('filtroItemReferencia') != '') {
+            $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
+        }
         $queryBuilder->orderBy("m.fecha", 'DESC');
-
         return $queryBuilder;
-
-
-//        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -83,23 +83,21 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
     public function actualizarDetalles($arrControles, $form, $arMovimiento)
     {
         $em = $this->getEntityManager();
-            $arrCantidad = $arrControles['arrCantidad'];
-            $arrPrecio = $arrControles['arrValor'];
-            $arrCodigo = $arrControles['arrCodigo'];
-            foreach ($arrCodigo as $codigoMovimientoDetalle) {
-                $arMovimientoDetalle = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
-                $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
-                $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
-                $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
-                $arMovimientoDetalle->setVrIva($arMovimientoDetalle->getVrSubtotal() * $arMovimientoDetalle->getPorcentajeIva() /100);
-                $arMovimientoDetalle->setvrTotal($arMovimientoDetalle->getVrSubtotal() + $arMovimientoDetalle->getVrIva());
-                $em->persist($arMovimientoDetalle);
-                $em->flush();
-            }
-
-                $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
-                $this->getEntityManager()->flush();
-
+        $arrCantidad = $arrControles['arrCantidad'];
+        $arrPrecio = $arrControles['arrValor'];
+        $arrCodigo = $arrControles['arrCodigo'];
+        foreach ($arrCodigo as $codigoMovimientoDetalle) {
+            $arMovimientoDetalle = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
+            $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
+            $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
+            $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
+            $arMovimientoDetalle->setVrIva($arMovimientoDetalle->getVrSubtotal() * $arMovimientoDetalle->getPorcentajeIva() / 100);
+            $arMovimientoDetalle->setvrTotal($arMovimientoDetalle->getVrSubtotal() + $arMovimientoDetalle->getVrIva());
+            $em->persist($arMovimientoDetalle);
+            $em->flush();
+        }
+        $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+        $this->getEntityManager()->flush();
     }
 
     public function eliminar($arMovimiento, $arrSeleccionados)
@@ -115,5 +113,4 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
             $em->flush();
         }
     }
-
 }

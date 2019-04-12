@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\CuentaCobrar;
+use App\Entity\CuentaPagar;
 use App\Entity\Item;
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
@@ -52,8 +54,6 @@ class MovimientoRepository extends ServiceEntityRepository
         $vrSubtotalGlobal = 0;
         $vrTotalBrutoGlobal = 0;
         $vrIvaGlobal = 0;
-
-
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $vrSubtotal = $arMovimientoDetalle->getVrSubtotal();
@@ -102,6 +102,37 @@ class MovimientoRepository extends ServiceEntityRepository
         if ($arMovimiento->getEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
+            if ($arMovimiento->getDocumentoRel()->getGeneraCartera() && $arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
+                $arCuentaCobrar = New CuentaCobrar();
+                $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
+                $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
+                $arCuentaCobrar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
+                $arCuentaCobrar->setVrIva($arMovimiento->getVrIva());
+                $arCuentaCobrar->setNumeroDocumento($arMovimiento->getNumero());
+                $arCuentaCobrar->setFecha($arMovimiento->getFecha());
+                $arCuentaCobrar->setFechaVence($arMovimiento->getFecha());
+                $arCuentaCobrar->setVrSaldo($arMovimiento->getVrTotalNeto());
+                $arCuentaCobrar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
+                $arCuentaCobrar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
+                $arCuentaCobrar->setVrSaldoOperado($arCuentaCobrar->getVrSaldo() * $arCuentaCobrar->getOperacion());
+                $arCuentaCobrar->setEstadoAutorizado(1);
+                $em->persist($arCuentaCobrar);
+            } elseif ($arMovimiento->getDocumentoRel()->getGeneraCartera() && $arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
+                $arCuentaPagar = New CuentaPagar();
+                $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
+                $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());
+                $arCuentaPagar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
+                $arCuentaPagar->setVrIva($arMovimiento->getVrIva());
+                $arCuentaPagar->setNumeroDocumento($arMovimiento->getNumero());
+                $arCuentaPagar->setFecha($arMovimiento->getFecha());
+                $arCuentaPagar->setFechaVence($arMovimiento->getFecha());
+                $arCuentaPagar->setVrSaldo($arMovimiento->getVrTotalNeto());
+                $arCuentaPagar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
+                $arCuentaPagar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
+                $arCuentaPagar->setVrSaldoOperado($arCuentaPagar->getVrSaldo() * $arCuentaPagar->getOperacion());
+                $arCuentaPagar->setEstadoAutorizado(1);
+                $em->persist($arCuentaPagar);
+            }
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
         } else {
@@ -119,7 +150,6 @@ class MovimientoRepository extends ServiceEntityRepository
     {
 
         $em = $this->getEntityManager();
-
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
             $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
@@ -151,7 +181,6 @@ class MovimientoRepository extends ServiceEntityRepository
         } else {
             Mensajes::error('El registro ya se encuentra aprobado');
         }
-
     }
 
     /**
@@ -193,5 +222,4 @@ class MovimientoRepository extends ServiceEntityRepository
         }
         return $array;
     }
-
 }

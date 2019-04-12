@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Usuario implements UserInterface, \Serializable
 {
 
-
 	/**
 	 * @ORM\Column(name="codigo_usuario_pk",type="string")
 	 * @ORM\Id
@@ -296,7 +295,4 @@ class Usuario implements UserInterface, \Serializable
     {
         $this->empresaRel = $empresaRel;
     }
-
-
-
 }

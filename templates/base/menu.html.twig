@@ -9,7 +9,6 @@
             <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
         </div>
     </div>
-
     <div class="nano">
         <div class="nano-content">
             <nav id="menu" class="nav-main" role="navigation">
@@ -20,7 +19,6 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-
                     <li class="nav-parent">
                         <a>
                             <i class="fa fa-align-left" aria-hidden="true"></i>
@@ -34,19 +32,23 @@
                                 </a>
                                 <ul class="nav nav-children" style="">
                                     <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'ENT'}) }}" class="waves-effect">
+                                        <a href="{{ path('movimiento_lista', {'documento':'ENT'}) }}"
+                                           class="waves-effect">
                                             Entrada</a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'COM'}) }}" class="waves-effect">
+                                        <a href="{{ path('movimiento_lista', {'documento':'COM'}) }}"
+                                           class="waves-effect">
                                             Compra</a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'SAL'}) }}" class="waves-effect">
+                                        <a href="{{ path('movimiento_lista', {'documento':'SAL'}) }}"
+                                           class="waves-effect">
                                             Salida</a>
                                     </li>
                                     <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'FAC'}) }}" class="waves-effect">
+                                        <a href="{{ path('movimiento_lista', {'documento':'FAC'}) }}"
+                                           class="waves-effect">
                                             Factura</a>
                                     </li>
                                 </ul>
@@ -74,8 +76,12 @@
                                 </a>
                                 <ul class="nav nav-children" style="">
                                     <li>
-                                        <a href="{{ path('informe_movimiento_lista') }}" class="waves-effect">
+                                        <a href="{{ path('informe_movimiento_lista_Detalle') }}" class="waves-effect">
                                             Detalle</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('informe_existencia_lista') }}" class="waves-effect">
+                                            Existencias</a>
                                     </li>
                                 </ul>
                             </li>
