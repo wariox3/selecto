@@ -102,36 +102,38 @@ class MovimientoRepository extends ServiceEntityRepository
         if ($arMovimiento->getEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
-            if ($arMovimiento->getDocumentoRel()->getGeneraCartera() && $arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
-                $arCuentaCobrar = New CuentaCobrar();
-                $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
-                $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
-                $arCuentaCobrar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
-                $arCuentaCobrar->setVrIva($arMovimiento->getVrIva());
-                $arCuentaCobrar->setNumeroDocumento($arMovimiento->getNumero());
-                $arCuentaCobrar->setFecha($arMovimiento->getFecha());
-                $arCuentaCobrar->setFechaVence($arMovimiento->getFecha());
-                $arCuentaCobrar->setVrSaldo($arMovimiento->getVrTotalNeto());
-                $arCuentaCobrar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
-                $arCuentaCobrar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
-                $arCuentaCobrar->setVrSaldoOperado($arCuentaCobrar->getVrSaldo() * $arCuentaCobrar->getOperacion());
-                $arCuentaCobrar->setEstadoAutorizado(1);
-                $em->persist($arCuentaCobrar);
-            } elseif ($arMovimiento->getDocumentoRel()->getGeneraCartera() && $arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
-                $arCuentaPagar = New CuentaPagar();
-                $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
-                $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());
-                $arCuentaPagar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
-                $arCuentaPagar->setVrIva($arMovimiento->getVrIva());
-                $arCuentaPagar->setNumeroDocumento($arMovimiento->getNumero());
-                $arCuentaPagar->setFecha($arMovimiento->getFecha());
-                $arCuentaPagar->setFechaVence($arMovimiento->getFecha());
-                $arCuentaPagar->setVrSaldo($arMovimiento->getVrTotalNeto());
-                $arCuentaPagar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
-                $arCuentaPagar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
-                $arCuentaPagar->setVrSaldoOperado($arCuentaPagar->getVrSaldo() * $arCuentaPagar->getOperacion());
-                $arCuentaPagar->setEstadoAutorizado(1);
-                $em->persist($arCuentaPagar);
+            if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
+                if ($arMovimiento->getCodigoDocumentoFk() == 'COM') {
+                    $arCuentaPagar = New CuentaPagar();
+                    $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
+                    $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());
+                    $arCuentaPagar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
+                    $arCuentaPagar->setVrIva($arMovimiento->getVrIva());
+                    $arCuentaPagar->setNumeroDocumento($arMovimiento->getNumero());
+                    $arCuentaPagar->setFecha($arMovimiento->getFecha());
+                    $arCuentaPagar->setFechaVence($arMovimiento->getFecha());
+                    $arCuentaPagar->setVrSaldo($arMovimiento->getVrTotalNeto());
+                    $arCuentaPagar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
+                    $arCuentaPagar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
+                    $arCuentaPagar->setVrSaldoOperado($arCuentaPagar->getVrSaldo() * $arCuentaPagar->getOperacion());
+                    $arCuentaPagar->setEstadoAutorizado(1);
+                    $em->persist($arCuentaPagar);
+                } else {
+                    $arCuentaCobrar = New CuentaCobrar();
+                    $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
+                    $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
+                    $arCuentaCobrar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
+                    $arCuentaCobrar->setVrIva($arMovimiento->getVrIva());
+                    $arCuentaCobrar->setNumeroDocumento($arMovimiento->getNumero());
+                    $arCuentaCobrar->setFecha($arMovimiento->getFecha());
+                    $arCuentaCobrar->setFechaVence($arMovimiento->getFecha());
+                    $arCuentaCobrar->setVrSaldo($arMovimiento->getVrTotalNeto());
+                    $arCuentaCobrar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
+                    $arCuentaCobrar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
+                    $arCuentaCobrar->setVrSaldoOperado($arCuentaCobrar->getVrSaldo() * $arCuentaCobrar->getOperacion());
+                    $arCuentaCobrar->setEstadoAutorizado(1);
+                    $em->persist($arCuentaCobrar);
+                }
             }
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
