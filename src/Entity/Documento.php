@@ -44,19 +44,31 @@ class Documento
     private $operacionInventario = 0;
 
     /**
+     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="integer", nullable=true)
+     */
+    private $codigoCuentaCobrarTipoFk;
+
+    /**
+     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="integer", nullable=true)
+     */
+    private $codigoCuentaPagarTipoFk;
+
+    /**
      * @ORM\OneToMany(targetEntity="Movimiento", mappedBy="documentoRel")
      */
     protected $movimientosDocumentoRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="CuentaPagarTipo", mappedBy="documentoPagarTipoRel")
+     * @ORM\ManyToOne(targetEntity="CuentaCobrarTipo", inversedBy="documentoCobrarTipoRel")
+     * @ORM\JoinColumn(name="codigo_cuenta_cobrar_tipo_fk", referencedColumnName="codigo_cuenta_cobrar_tipo_pk")
      */
-    protected $cuentaPagarTipoDocumentoRel;
+    protected $cuentaCobrarTipoDocumentoRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="CuentaCobrarTipo", mappedBy="documentoCobrarTipoRel")
+     * @ORM\ManyToOne(targetEntity="CuentaPagarTipo", inversedBy="documentoPagarTipoRel")
+     * @ORM\JoinColumn(name="codigo_cuenta_pagar_tipo_fk", referencedColumnName="codigo_cuenta_pagar_tipo_pk")
      */
-    protected $cuentaCobarTipoDocumentoRel;
+    protected $cuentaPagarTipoDocumentoRel;
 
     /**
      * @return mixed
@@ -157,6 +169,38 @@ class Documento
     /**
      * @return mixed
      */
+    public function getCodigoCuentaCobrarTipoFk()
+    {
+        return $this->codigoCuentaCobrarTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaCobrarTipoFk
+     */
+    public function setCodigoCuentaCobrarTipoFk($codigoCuentaCobrarTipoFk): void
+    {
+        $this->codigoCuentaCobrarTipoFk = $codigoCuentaCobrarTipoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaPagarTipoFk()
+    {
+        return $this->codigoCuentaPagarTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaPagarTipoFk
+     */
+    public function setCodigoCuentaPagarTipoFk($codigoCuentaPagarTipoFk): void
+    {
+        $this->codigoCuentaPagarTipoFk = $codigoCuentaPagarTipoFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMovimientosDocumentoRel()
     {
         return $this->movimientosDocumentoRel;
@@ -168,6 +212,22 @@ class Documento
     public function setMovimientosDocumentoRel($movimientosDocumentoRel): void
     {
         $this->movimientosDocumentoRel = $movimientosDocumentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobrarTipoDocumentoRel()
+    {
+        return $this->cuentaCobrarTipoDocumentoRel;
+    }
+
+    /**
+     * @param mixed $cuentaCobrarTipoDocumentoRel
+     */
+    public function setCuentaCobrarTipoDocumentoRel($cuentaCobrarTipoDocumentoRel): void
+    {
+        $this->cuentaCobrarTipoDocumentoRel = $cuentaCobrarTipoDocumentoRel;
     }
 
     /**
@@ -185,23 +245,5 @@ class Documento
     {
         $this->cuentaPagarTipoDocumentoRel = $cuentaPagarTipoDocumentoRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getCuentaCobarTipoDocumentoRel()
-    {
-        return $this->cuentaCobarTipoDocumentoRel;
-    }
-
-    /**
-     * @param mixed $cuentaCobarTipoDocumentoRel
-     */
-    public function setCuentaCobarTipoDocumentoRel($cuentaCobarTipoDocumentoRel): void
-    {
-        $this->cuentaCobarTipoDocumentoRel = $cuentaCobarTipoDocumentoRel;
-    }
-
-
 
 }

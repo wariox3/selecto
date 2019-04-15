@@ -68,13 +68,13 @@ class MovimientoDetalle
      * @ORM\ManyToOne(targetEntity="Movimiento", inversedBy="movimientosDetallesMovimientoRel")
      * @ORM\JoinColumn(name="codigo_movimiento_fk", referencedColumnName="codigo_movimiento_pk")
      */
-    private $movimientoRel;
+    protected $movimientoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="Item", inversedBy="movimientosDetallesItemRel")
      * @ORM\JoinColumn(name="codigo_item_fk", referencedColumnName="codigo_item_pk")
      */
-    private $itemRel;
+    protected $itemRel;
 
     /**
      * @return mixed

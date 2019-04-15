@@ -83,7 +83,7 @@ class Movimiento
      * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
-    private $terceroRel;
+    protected $terceroRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="Documento", inversedBy="movimientosDocumentoRel")
@@ -351,4 +351,5 @@ class Movimiento
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
     }
+
 }

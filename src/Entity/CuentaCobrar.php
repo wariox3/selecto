@@ -103,13 +103,13 @@ class CuentaCobrar
      * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="cuentaCobroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
-    private $terceroRel;
+    protected $terceroRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="CuentaCobrarTipo", inversedBy="cuentaCobroRel")
      * @ORM\JoinColumn(name="codigo_cuenta_cobrar_tipo_fk", referencedColumnName="codigo_cuenta_cobrar_tipo_pk")
      */
-    private $cuentaCobroTipoRel;
+    protected $cuentaCobroTipoRel;
 
     /**
      * @return mixed
@@ -414,4 +414,5 @@ class CuentaCobrar
     {
         $this->cuentaCobroTipoRel = $cuentaCobroTipoRel;
     }
+
 }

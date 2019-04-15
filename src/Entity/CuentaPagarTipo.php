@@ -40,15 +40,14 @@ class CuentaPagarTipo
     private $prefijo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="cuentaPagarTipoDocumentoRel")
-     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
-     */
-    private $documentoPagarTipoRel;
-
-    /**
      * @ORM\OneToMany(targetEntity="CuentaPagar", mappedBy="cuentaPagarTipoRel")
      */
     protected $cuentaPagarRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Documento", mappedBy="cuentaPagarTipoDocumentoRel")
+     */
+    protected $documentoPagarTipoRel;
 
     /**
      * @return mixed
@@ -133,22 +132,6 @@ class CuentaPagarTipo
     /**
      * @return mixed
      */
-    public function getDocumentoPagarTipoRel()
-    {
-        return $this->documentoPagarTipoRel;
-    }
-
-    /**
-     * @param mixed $documentoPagarTipoRel
-     */
-    public function setDocumentoPagarTipoRel($documentoPagarTipoRel): void
-    {
-        $this->documentoPagarTipoRel = $documentoPagarTipoRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCuentaPagarRel()
     {
         return $this->cuentaPagarRel;
@@ -162,6 +145,20 @@ class CuentaPagarTipo
         $this->cuentaPagarRel = $cuentaPagarRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDocumentoPagarTipoRel()
+    {
+        return $this->documentoPagarTipoRel;
+    }
 
+    /**
+     * @param mixed $documentoPagarTipoRel
+     */
+    public function setDocumentoPagarTipoRel($documentoPagarTipoRel): void
+    {
+        $this->documentoPagarTipoRel = $documentoPagarTipoRel;
+    }
 
 }

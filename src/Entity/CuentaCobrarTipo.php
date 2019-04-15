@@ -50,10 +50,9 @@ class CuentaCobrarTipo
     protected $cuentaCobroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="cuentaCobarTipoDocumentoRel")
-     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     * @ORM\OneToMany(targetEntity="Documento", mappedBy="cuentaCobrarTipoDocumentoRel")
      */
-    private $documentoCobrarTipoRel;
+    protected $documentoCobrarTipoRel;
 
     /**
      * @return mixed
@@ -182,7 +181,5 @@ class CuentaCobrarTipo
     {
         $this->documentoCobrarTipoRel = $documentoCobrarTipoRel;
     }
-
-
 
 }
