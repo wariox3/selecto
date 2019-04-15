@@ -20,6 +20,11 @@ class CuentaCobrarTipo
     private $codigoCuentaCobrarTipoPk;
 
     /**
+     * @ORM\Column(name="codigo_documento_fk", type="integer", length=10, nullable=true)
+     */
+    private $codigoDocumentoFk;
+
+    /**
      * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
      */
     private $nombre;
@@ -45,6 +50,12 @@ class CuentaCobrarTipo
     protected $cuentaCobroRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="cuentaCobarTipoDocumentoRel")
+     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     */
+    private $documentoCobarTipoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoCuentaCobrarTipoPk()
@@ -58,6 +69,22 @@ class CuentaCobrarTipo
     public function setCodigoCuentaCobrarTipoPk($codigoCuentaCobrarTipoPk): void
     {
         $this->codigoCuentaCobrarTipoPk = $codigoCuentaCobrarTipoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
     }
 
     /**
@@ -138,5 +165,21 @@ class CuentaCobrarTipo
     public function setCuentaCobroRel($cuentaCobroRel): void
     {
         $this->cuentaCobroRel = $cuentaCobroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocumentoCobarTipoRel()
+    {
+        return $this->documentoCobarTipoRel;
+    }
+
+    /**
+     * @param mixed $documentoCobarTipoRel
+     */
+    public function setDocumentoCobarTipoRel($documentoCobarTipoRel): void
+    {
+        $this->documentoCobarTipoRel = $documentoCobarTipoRel;
     }
 }

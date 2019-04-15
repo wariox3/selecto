@@ -20,6 +20,11 @@ class CuentaPagarTipo
     private $codigoCuentaPagarTipoPk;
 
     /**
+     * @ORM\Column(name="codigo_documento_fk", type="integer", length=10, nullable=true)
+     */
+    private $codigoDocumentoFk;
+
+    /**
      * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
      */
     private $nombre;
@@ -35,6 +40,12 @@ class CuentaPagarTipo
     private $prefijo;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="cuentaPagarTipoDocumentoRel")
+     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     */
+    private $documentoPagarTipoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoCuentaPagarTipoPk()
@@ -48,6 +59,22 @@ class CuentaPagarTipo
     public function setCodigoCuentaPagarTipoPk($codigoCuentaPagarTipoPk): void
     {
         $this->codigoCuentaPagarTipoPk = $codigoCuentaPagarTipoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
     }
 
     /**
@@ -98,6 +125,20 @@ class CuentaPagarTipo
         $this->prefijo = $prefijo;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDocumentoPagarTipoRel()
+    {
+        return $this->documentoPagarTipoRel;
+    }
 
+    /**
+     * @param mixed $documentoPagarTipoRel
+     */
+    public function setDocumentoPagarTipoRel($documentoPagarTipoRel): void
+    {
+        $this->documentoPagarTipoRel = $documentoPagarTipoRel;
+    }
 
 }

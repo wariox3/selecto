@@ -49,6 +49,16 @@ class Documento
     protected $movimientosDocumentoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="CuentaPagarTipo", mappedBy="documentoPagarTipoRel")
+     */
+    protected $cuentaPagarTipoDocumentoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CuentaCobrarTipo", mappedBy="documentoCobrarTipoRel")
+     */
+    protected $cuentaCobrarTipoDocumentoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoDocumentoPk()
@@ -94,6 +104,22 @@ class Documento
     public function setAbreviatura($abreviatura): void
     {
         $this->abreviatura = $abreviatura;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeneraCartera()
+    {
+        return $this->generaCartera;
+    }
+
+    /**
+     * @param mixed $generaCartera
+     */
+    public function setGeneraCartera($generaCartera): void
+    {
+        $this->generaCartera = $generaCartera;
     }
 
     /**
@@ -147,16 +173,32 @@ class Documento
     /**
      * @return mixed
      */
-    public function getGeneraCartera()
+    public function getCuentaPagarTipoDocumentoRel()
     {
-        return $this->generaCartera;
+        return $this->cuentaPagarTipoDocumentoRel;
     }
 
     /**
-     * @param mixed $generaCartera
+     * @param mixed $cuentaPagarTipoDocumentoRel
      */
-    public function setGeneraCartera($generaCartera): void
+    public function setCuentaPagarTipoDocumentoRel($cuentaPagarTipoDocumentoRel): void
     {
-        $this->generaCartera = $generaCartera;
+        $this->cuentaPagarTipoDocumentoRel = $cuentaPagarTipoDocumentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobrarTipoDocumentoRel()
+    {
+        return $this->cuentaCobrarTipoDocumentoRel;
+    }
+
+    /**
+     * @param mixed $cuentaCobrarTipoDocumentoRel
+     */
+    public function setCuentaCobrarTipoDocumentoRel($cuentaCobrarTipoDocumentoRel): void
+    {
+        $this->cuentaCobrarTipoDocumentoRel = $cuentaCobrarTipoDocumentoRel;
     }
 }
