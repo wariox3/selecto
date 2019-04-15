@@ -20,7 +20,7 @@ class CuentaPagarTipo
     private $codigoCuentaPagarTipoPk;
 
     /**
-     * @ORM\Column(name="codigo_documento_fk", type="integer", length=10, nullable=true)
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=5, nullable=true)
      */
     private $codigoDocumentoFk;
 
@@ -44,6 +44,11 @@ class CuentaPagarTipo
      * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
      */
     private $documentoPagarTipoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CuentaPagar", mappedBy="cuentaPagarTipoRel")
+     */
+    protected $cuentaPagarRel;
 
     /**
      * @return mixed
@@ -140,5 +145,23 @@ class CuentaPagarTipo
     {
         $this->documentoPagarTipoRel = $documentoPagarTipoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaPagarRel()
+    {
+        return $this->cuentaPagarRel;
+    }
+
+    /**
+     * @param mixed $cuentaPagarRel
+     */
+    public function setCuentaPagarRel($cuentaPagarRel): void
+    {
+        $this->cuentaPagarRel = $cuentaPagarRel;
+    }
+
+
 
 }

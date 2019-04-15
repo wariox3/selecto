@@ -56,7 +56,7 @@ class Documento
     /**
      * @ORM\OneToMany(targetEntity="CuentaCobrarTipo", mappedBy="documentoCobrarTipoRel")
      */
-    protected $cuentaCobrarTipoDocumentoRel;
+    protected $cuentaCobarTipoDocumentoRel;
 
     /**
      * @return mixed
@@ -189,16 +189,19 @@ class Documento
     /**
      * @return mixed
      */
-    public function getCuentaCobrarTipoDocumentoRel()
+    public function getCuentaCobarTipoDocumentoRel()
     {
-        return $this->cuentaCobrarTipoDocumentoRel;
+        return $this->cuentaCobarTipoDocumentoRel;
     }
 
     /**
-     * @param mixed $cuentaCobrarTipoDocumentoRel
+     * @param mixed $cuentaCobarTipoDocumentoRel
      */
-    public function setCuentaCobrarTipoDocumentoRel($cuentaCobrarTipoDocumentoRel): void
+    public function setCuentaCobarTipoDocumentoRel($cuentaCobarTipoDocumentoRel): void
     {
-        $this->cuentaCobrarTipoDocumentoRel = $cuentaCobrarTipoDocumentoRel;
+        $this->cuentaCobarTipoDocumentoRel = $cuentaCobarTipoDocumentoRel;
     }
+
+
+
 }

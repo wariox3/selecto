@@ -415,4 +415,6 @@ class CuentaPagar
         $this->cuentaPagarTipoRel = $cuentaPagarTipoRel;
     }
 
+
+
 }
