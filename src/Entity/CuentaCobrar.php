@@ -20,6 +20,11 @@ class CuentaCobrar
     private $codigoCuentaCobrarPk;
 
     /**
+     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="integer", length=10, nullable=true)
+     */
+    private $codigoCuentaCobrarTipoFk;
+
+    /**
      * @ORM\Column(name="numero_documento", type="integer", nullable=true)
      */
     private $numeroDocumento = 0;
@@ -101,6 +106,12 @@ class CuentaCobrar
     private $terceroRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CuentaCobrarTipo", inversedBy="cuentaCobroRel")
+     * @ORM\JoinColumn(name="codigo_cuenta_cobrar_tipo_fk", referencedColumnName="codigo_cuenta_cobrar_tipo_pk")
+     */
+    private $cuentaCobroTipoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoCuentaCobrarPk()
@@ -114,6 +125,22 @@ class CuentaCobrar
     public function setCodigoCuentaCobrarPk($codigoCuentaCobrarPk): void
     {
         $this->codigoCuentaCobrarPk = $codigoCuentaCobrarPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaCobrarTipoFk()
+    {
+        return $this->codigoCuentaCobrarTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaCobrarTipoFk
+     */
+    public function setCodigoCuentaCobrarTipoFk($codigoCuentaCobrarTipoFk): void
+    {
+        $this->codigoCuentaCobrarTipoFk = $codigoCuentaCobrarTipoFk;
     }
 
     /**
@@ -370,5 +397,21 @@ class CuentaCobrar
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobroTipoRel()
+    {
+        return $this->cuentaCobroTipoRel;
+    }
+
+    /**
+     * @param mixed $cuentaCobroTipoRel
+     */
+    public function setCuentaCobroTipoRel($cuentaCobroTipoRel): void
+    {
+        $this->cuentaCobroTipoRel = $cuentaCobroTipoRel;
     }
 }

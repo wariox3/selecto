@@ -14,10 +14,15 @@ class CuentaPagar
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_cuenta_cobrar_pk", type="integer")
+     * @ORM\Column(name="codigo_cuenta_pagar_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $codigoCuentaCobrarPk;
+    private $codigoCuentaPagarPk;
+
+    /**
+     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="integer", length=10, nullable=true)
+     */
+    private $codigoCuentaPagarTipoFk;
 
     /**
      * @ORM\Column(name="numero_documento", type="integer", nullable=true)
@@ -101,19 +106,41 @@ class CuentaPagar
     private $terceroRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="CuentaPagarTipo", inversedBy="cuentaPagarRel")
+     * @ORM\JoinColumn(name="codigo_cuenta_pagar_tipo_pk", referencedColumnName="codigo_cuenta_pagar_tipo_pk")
+     */
+    private $cuentaPagarTipoRel;
+
+    /**
      * @return mixed
      */
-    public function getCodigoCuentaCobrarPk()
+    public function getCodigoCuentaPagarPk()
     {
-        return $this->codigoCuentaCobrarPk;
+        return $this->codigoCuentaPagarPk;
     }
 
     /**
-     * @param mixed $codigoCuentaCobrarPk
+     * @param mixed $codigoCuentaPagarPk
      */
-    public function setCodigoCuentaCobrarPk($codigoCuentaCobrarPk): void
+    public function setCodigoCuentaPagarPk($codigoCuentaPagarPk): void
     {
-        $this->codigoCuentaCobrarPk = $codigoCuentaCobrarPk;
+        $this->codigoCuentaPagarPk = $codigoCuentaPagarPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaPagarTipoFk()
+    {
+        return $this->codigoCuentaPagarTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaPagarTipoFk
+     */
+    public function setCodigoCuentaPagarTipoFk($codigoCuentaPagarTipoFk): void
+    {
+        $this->codigoCuentaPagarTipoFk = $codigoCuentaPagarTipoFk;
     }
 
     /**
@@ -370,5 +397,21 @@ class CuentaPagar
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaPagarTipoRel()
+    {
+        return $this->cuentaPagarTipoRel;
+    }
+
+    /**
+     * @param mixed $cuentaPagarTipoRel
+     */
+    public function setCuentaPagarTipoRel($cuentaPagarTipoRel): void
+    {
+        $this->cuentaPagarTipoRel = $cuentaPagarTipoRel;
     }
 }
