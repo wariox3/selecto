@@ -35,11 +35,6 @@ class CuentaPagarTipo
     private $prefijo;
 
     /**
-     * @ORM\OneToMany(targetEntity="CuentaPagar", mappedBy="cuentaPagarTipoRel")
-     */
-    protected $cuentaPagarRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoCuentaPagarTipoPk()
@@ -103,19 +98,6 @@ class CuentaPagarTipo
         $this->prefijo = $prefijo;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCuentaPagarRel()
-    {
-        return $this->cuentaPagarRel;
-    }
 
-    /**
-     * @param mixed $cuentaPagarRel
-     */
-    public function setCuentaPagarRel($cuentaPagarRel): void
-    {
-        $this->cuentaPagarRel = $cuentaPagarRel;
-    }
+
 }

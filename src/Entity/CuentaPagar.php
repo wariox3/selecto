@@ -20,7 +20,7 @@ class CuentaPagar
     private $codigoCuentaPagarPk;
 
     /**
-     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="integer", length=10, nullable=true)
+     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="integer", nullable=true)
      */
     private $codigoCuentaPagarTipoFk;
 
@@ -107,7 +107,7 @@ class CuentaPagar
 
     /**
      * @ORM\ManyToOne(targetEntity="CuentaPagarTipo", inversedBy="cuentaPagarRel")
-     * @ORM\JoinColumn(name="codigo_cuenta_pagar_tipo_pk", referencedColumnName="codigo_cuenta_pagar_tipo_pk")
+     * @ORM\JoinColumn(name="codigo_cuenta_pagar_tipo_fk", referencedColumnName="codigo_cuenta_pagar_tipo_pk")
      */
     private $cuentaPagarTipoRel;
 
@@ -414,4 +414,5 @@ class CuentaPagar
     {
         $this->cuentaPagarTipoRel = $cuentaPagarTipoRel;
     }
+
 }
