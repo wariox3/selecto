@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\CuentaCobrar;
+use App\Entity\CuentaCobrarTipo;
 use App\Entity\CuentaPagar;
+use App\Entity\CuentaPagarTipo;
 use App\Entity\Item;
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
@@ -104,6 +106,7 @@ class MovimientoRepository extends ServiceEntityRepository
             $arMovimiento->setEstadoAprobado(1);
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
                 if ($arMovimiento->getCodigoDocumentoFk() == 'COM') {
+                    $arCuentaPagarTipo= $em->getRepository(CuentaPagarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaPagarTipoFk());
                     $arCuentaPagar = New CuentaPagar();
                     $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());
@@ -114,11 +117,12 @@ class MovimientoRepository extends ServiceEntityRepository
                     $arCuentaPagar->setFechaVence($arMovimiento->getFecha());
                     $arCuentaPagar->setVrSaldo($arMovimiento->getVrTotalNeto());
                     $arCuentaPagar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
-                    $arCuentaPagar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
+                    $arCuentaPagar->setOperacion($arCuentaPagarTipo->getOperacion());
                     $arCuentaPagar->setVrSaldoOperado($arCuentaPagar->getVrSaldo() * $arCuentaPagar->getOperacion());
                     $arCuentaPagar->setEstadoAutorizado(1);
                     $em->persist($arCuentaPagar);
                 } else {
+                    $arCuentaCobrarTipo = $em->getRepository(CuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
                     $arCuentaCobrar = New CuentaCobrar();
                     $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
@@ -129,11 +133,12 @@ class MovimientoRepository extends ServiceEntityRepository
                     $arCuentaCobrar->setFechaVence($arMovimiento->getFecha());
                     $arCuentaCobrar->setVrSaldo($arMovimiento->getVrTotalNeto());
                     $arCuentaCobrar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
-                    $arCuentaCobrar->setOperacion($arMovimiento->getDocumentoRel()->getOperacionInventario());
+                    $arCuentaCobrar->setOperacion($arCuentaCobrarTipo->getOperacion());
                     $arCuentaCobrar->setVrSaldoOperado($arCuentaCobrar->getVrSaldo() * $arCuentaCobrar->getOperacion());
                     $arCuentaCobrar->setEstadoAutorizado(1);
                     $em->persist($arCuentaCobrar);
                 }
+
             }
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
