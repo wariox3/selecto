@@ -14,15 +14,9 @@ class CuentaPagarTipo
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_cuenta_pagar_tipo_pk", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_cuenta_pagar_tipo_pk", type="string", length=5)
      */
     private $codigoCuentaPagarTipoPk;
-
-    /**
-     * @ORM\Column(name="codigo_documento_fk", type="string", length=5, nullable=true)
-     */
-    private $codigoDocumentoFk;
 
     /**
      * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
@@ -63,22 +57,6 @@ class CuentaPagarTipo
     public function setCodigoCuentaPagarTipoPk($codigoCuentaPagarTipoPk): void
     {
         $this->codigoCuentaPagarTipoPk = $codigoCuentaPagarTipoPk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoDocumentoFk()
-    {
-        return $this->codigoDocumentoFk;
-    }
-
-    /**
-     * @param mixed $codigoDocumentoFk
-     */
-    public function setCodigoDocumentoFk($codigoDocumentoFk): void
-    {
-        $this->codigoDocumentoFk = $codigoDocumentoFk;
     }
 
     /**

@@ -44,12 +44,12 @@ class Documento
     private $operacionInventario = 0;
 
     /**
-     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="string", length=5, nullable=true)
      */
     private $codigoCuentaCobrarTipoFk;
 
     /**
-     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="string", length=5, nullable=true)
      */
     private $codigoCuentaPagarTipoFk;
 

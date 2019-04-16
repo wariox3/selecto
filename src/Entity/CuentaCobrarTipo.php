@@ -8,21 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
  * CuentaCobrarTipoType
  *
  * @ORM\Table(name="cuenta_cobrar_tipo")
- * @ORM\Entity(repositoryClass="App\Repository\CuentaCobrarTipóRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CuentaCobrarTipoRepository")
  */
 class CuentaCobrarTipo
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_pk", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_pk", type="string", length=5)
      */
     private $codigoCuentaCobrarTipoPk;
-
-    /**
-     * @ORM\Column(name="codigo_documento_fk", type="string", length=5, nullable=true)
-     */
-    private $codigoDocumentoFk;
 
     /**
      * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
@@ -68,22 +62,6 @@ class CuentaCobrarTipo
     public function setCodigoCuentaCobrarTipoPk($codigoCuentaCobrarTipoPk): void
     {
         $this->codigoCuentaCobrarTipoPk = $codigoCuentaCobrarTipoPk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoDocumentoFk()
-    {
-        return $this->codigoDocumentoFk;
-    }
-
-    /**
-     * @param mixed $codigoDocumentoFk
-     */
-    public function setCodigoDocumentoFk($codigoDocumentoFk): void
-    {
-        $this->codigoDocumentoFk = $codigoDocumentoFk;
     }
 
     /**

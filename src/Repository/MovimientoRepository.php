@@ -106,7 +106,7 @@ class MovimientoRepository extends ServiceEntityRepository
             $arMovimiento->setEstadoAprobado(1);
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
                 if ($arMovimiento->getCodigoDocumentoFk() == 'COM') {
-                    $arCuentaPagarTipo= $em->getRepository(CuentaPagarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaPagarTipoFk());
+                    $arCuentaPagarTipo = $em->getRepository(CuentaPagarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaPagarTipoFk());
                     $arCuentaPagar = New CuentaPagar();
                     $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());

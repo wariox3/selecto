@@ -20,7 +20,7 @@ class CuentaCobrar
     private $codigoCuentaCobrarPk;
 
     /**
-     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="integer", length=10, nullable=true)
+     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="string", length=5, nullable=true)
      */
     private $codigoCuentaCobrarTipoFk;
 
