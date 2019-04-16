@@ -37,6 +37,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Item</th>
+                                <th>Existencia</th>
                                 <th>Cantidad</th>
                             </tr>
                             </thead>
@@ -45,6 +46,7 @@
                                 <tr>
                                     <td>{{ arItem.codigoItemPk }}</td>
                                     <td>{{ arItem.descripcion }}</td>
+                                    <td>{{ arItem.cantidadExistencia }}</td>
                                     <td style="text-align: center;"><input type="number"
                                                                            name="itemCantidad[{{ arItem.codigoItemPk }}]"
                                                                            size="10" style="width:70px"></td>

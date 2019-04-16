@@ -108,6 +108,7 @@ class MovimientoRepository extends ServiceEntityRepository
                 if ($arMovimiento->getCodigoDocumentoFk() == 'COM') {
                     $arCuentaPagarTipo = $em->getRepository(CuentaPagarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaPagarTipoFk());
                     $arCuentaPagar = New CuentaPagar();
+                    $arCuentaPagar->setCuentaPagarTipoRel($arCuentaPagarTipo);
                     $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());
                     $arCuentaPagar->setVrTotalBruto($arMovimiento->getVrTotalBruto());
@@ -124,6 +125,7 @@ class MovimientoRepository extends ServiceEntityRepository
                 } else {
                     $arCuentaCobrarTipo = $em->getRepository(CuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
                     $arCuentaCobrar = New CuentaCobrar();
+                    $arCuentaCobrar->setCuentaCobroTipoRel($arCuentaCobrarTipo);
                     $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
                     $arCuentaCobrar->setVrTotalBruto($arMovimiento->getVrTotalBruto());

@@ -83,24 +83,27 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
     public function actualizarDetalles($arrControles, $form, $arMovimiento)
     {
         $em = $this->getEntityManager();
-        $arrCantidad = $arrControles['arrCantidad'];
-        $arrPrecio = $arrControles['arrValor'];
-        $arrCodigo = $arrControles['arrCodigo'];
-        foreach ($arrCodigo as $codigoMovimientoDetalle) {
-            $arMovimientoDetalle = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
-            $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
-            $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
-            $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
-            $arMovimientoDetalle->setVrIva($arMovimientoDetalle->getVrSubtotal() * $arMovimientoDetalle->getPorcentajeIva() / 100);
-            $arMovimientoDetalle->setvrTotal($arMovimientoDetalle->getVrSubtotal() + $arMovimientoDetalle->getVrIva());
-            $em->persist($arMovimientoDetalle);
-            $em->flush();
+        if ($this->getEntityManager()->getRepository(Movimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
+            $arrCantidad = $arrControles['arrCantidad'];
+            $arrPrecio = $arrControles['arrValor'];
+            $arrCodigo = $arrControles['arrCodigo'];
+            foreach ($arrCodigo as $codigoMovimientoDetalle) {
+                $arMovimientoDetalle = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
+                $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
+                $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
+                $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
+                $arMovimientoDetalle->setVrIva($arMovimientoDetalle->getVrSubtotal() * $arMovimientoDetalle->getPorcentajeIva() / 100);
+                $arMovimientoDetalle->setvrTotal($arMovimientoDetalle->getVrSubtotal() + $arMovimientoDetalle->getVrIva());
+                $em->persist($arMovimientoDetalle);
+                $em->flush();
+            }
+            $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+            $this->getEntityManager()->flush();
         }
-        $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
-        $this->getEntityManager()->flush();
     }
 
-    public function eliminar($arMovimiento, $arrSeleccionados)
+    public
+    function eliminar($arMovimiento, $arrSeleccionados)
     {
         $em = $this->getEntityManager();
         if (count($arrSeleccionados) > 0) {
