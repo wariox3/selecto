@@ -21,7 +21,9 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
 //        $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
-            ->addSelect('i.descripcion as item')
+            ->addSelect('i.codigoItemPk as item' )
+            ->addSelect('i.descripcion as descripcion')
+            ->addSelect('i.referencia as referencia')
             ->addSelect(' md.cantidad')
             ->addSelect('md.vrPrecio')
             ->addSelect('md.vrSubtotal')
