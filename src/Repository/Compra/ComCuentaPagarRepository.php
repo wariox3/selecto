@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Compra;
 
-use App\Entity\Documento;
+use App\Entity\Compra\ComCuentaPagar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DocumentoRepository extends ServiceEntityRepository
+
+class ComCuentaPagarRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Documento::class);
+        parent::__construct($registry, ComCuentaPagar::class);
     }
+
 }

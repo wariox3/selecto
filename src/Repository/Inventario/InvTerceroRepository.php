@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Inventario;
 
-use App\Entity\Tercero;
+use App\Entity\Inventario\InvTercero;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-class TerceroRepository extends ServiceEntityRepository
+class InvTerceroRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Tercero::class);
+        parent::__construct($registry, InvTercero::class);
     }
 
     public function lista()
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Tercero::class, 't')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvTercero::class, 't')
             ->select('t.codigoTerceroPk')
             ->addSelect('t.nombreCorto')
             ->addSelect('t.numeroIdentificacion')
@@ -60,7 +60,7 @@ class TerceroRepository extends ServiceEntityRepository
     {
         $session = new Session();
         $array = [
-            'class' => Tercero::class,
+            'class' => InvTercero::class,
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('t')
                     ->orderBy('t.nombreCorto', 'ASC');
@@ -72,7 +72,7 @@ class TerceroRepository extends ServiceEntityRepository
             'data' => ""
         ];
         if ($session->get('filtroTercero')) {
-            $array['data'] = $this->getEntityManager()->getReference(Tercero::class, $session->get('filtroTercero'));
+            $array['data'] = $this->getEntityManager()->getReference(InvTercero::class, $session->get('filtroTercero'));
         }
         return $array;
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Inventario;
 
-use App\Entity\Item;
+use App\Entity\Inventario\InvItem;
 use App\Form\Type\ItemType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ItemController extends Controller
+class InvItemController extends Controller
 {
     /**
      * @Route("/item/lista", name="item_lista")
@@ -36,11 +36,11 @@ class ItemController extends Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(Item::class, $arItems);
+                $this->get("UtilidadesModelo")->eliminar(InvItem::class, $arItems);
                 return $this->redirect($this->generateUrl('item_lista'));
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 30);
         return $this->render('item/lista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()
@@ -54,15 +54,16 @@ class ItemController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $arItem = new Item();
+        $arItem = new InvItem();
         if ($id != 0) {
-            $arItem = $em->getRepository(Item::class)->find($id);
+            $arItem = $em->getRepository(InvItem::class)->find($id);
         }
         $form = $this->createForm(ItemType::class, $arItem);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arItem = $form->getData();
+                $arItem->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
                 $em->persist($arItem);
                 $em->flush();
                 return $this->redirect($this->generateUrl('item_detalle', array('id' => $arItem->getCodigoItemPk())));
@@ -80,7 +81,7 @@ class ItemController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arItem = $em->getRepository(Item::class)->find($id);
+        $arItem = $em->getRepository(InvItem::class)->find($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

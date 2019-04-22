@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Inventario;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * MovimientoType
  *
  * @ORM\Table(name="movimiento")
- * @ORM\Entity(repositoryClass="App\Repository\MovimientoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvMovimientoRepository")
  */
-class Movimiento
+class InvMovimiento
 {
     /**
      * @ORM\Id
@@ -80,19 +80,19 @@ class Movimiento
     private $estadoAnulado = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="movimientosTerceroRel")
+     * @ORM\ManyToOne(targetEntity="InvTercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Documento", inversedBy="movimientosDocumentoRel")
+     * @ORM\ManyToOne(targetEntity="InvDocumento", inversedBy="movimientosDocumentoRel")
      * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
      */
     protected $documentoRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="movimientoRel")
+     * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="movimientoRel")
      */
     protected $movimientosDetallesMovimientoRel;
 
@@ -351,5 +351,4 @@ class Movimiento
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Inventario;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * DocumentoType
  *
  * @ORM\Table(name="documento")
- * @ORM\Entity(repositoryClass="App\Repository\DocumentoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvDocumentoRepository")
  */
-class Documento
+class InvDocumento
 {
     /**
      * @ORM\Id
@@ -54,18 +54,18 @@ class Documento
     private $codigoCuentaPagarTipoFk;
 
     /**
-     * @ORM\OneToMany(targetEntity="Movimiento", mappedBy="documentoRel")
+     * @ORM\OneToMany(targetEntity="InvMovimiento", mappedBy="documentoRel")
      */
     protected $movimientosDocumentoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CuentaCobrarTipo", inversedBy="documentoCobrarTipoRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cartera\CarCuentaCobrarTipo", inversedBy="documentoCobrarTipoRel")
      * @ORM\JoinColumn(name="codigo_cuenta_cobrar_tipo_fk", referencedColumnName="codigo_cuenta_cobrar_tipo_pk")
      */
     protected $cuentaCobrarTipoDocumentoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CuentaPagarTipo", inversedBy="documentoPagarTipoRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compra\ComCuentaPagarTipo", inversedBy="documentoPagarTipoRel")
      * @ORM\JoinColumn(name="codigo_cuenta_pagar_tipo_fk", referencedColumnName="codigo_cuenta_pagar_tipo_pk")
      */
     protected $cuentaPagarTipoDocumentoRel;
@@ -245,5 +245,4 @@ class Documento
     {
         $this->cuentaPagarTipoDocumentoRel = $cuentaPagarTipoDocumentoRel;
     }
-
 }

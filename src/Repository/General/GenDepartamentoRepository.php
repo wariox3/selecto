@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\General;
 
-use App\Entity\CuentaCobrar;
+use App\Entity\General\GenDepartamento;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 
-class CuentaCobrarRepository extends ServiceEntityRepository
+class GenDepartamentoRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CuentaCobrar::class);
+        parent::__construct($registry, GenDepartamento::class);
     }
 
 }

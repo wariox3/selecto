@@ -4,7 +4,7 @@
 namespace App\Form\Type;
 
 
-use App\Entity\Tercero;
+use App\Entity\Inventario\InvTercero;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +19,7 @@ class MovimientoType extends AbstractType
         $builder
             ->add('terceroRel', EntityType::class, [
                 'required' => true,
-                'class' => Tercero::class,
+                'class' => InvTercero::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.nombreCorto', 'ASC');

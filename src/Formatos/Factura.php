@@ -158,8 +158,8 @@ class Factura extends \FPDF
     {
         /**
          * @var $arMovimiento Movimiento
-//         * @var $arMovimientoDetalles MovimientoDetalle
-//         */
+         * //         * @var $arMovimientoDetalles MovimientoDetalle
+* //         */
         $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
         $y = 178;
         $x = 181;

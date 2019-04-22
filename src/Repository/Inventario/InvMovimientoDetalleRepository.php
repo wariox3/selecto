@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Inventario;
 
-use App\Entity\Movimiento;
-use App\Entity\MovimientoDetalle;
+use App\Entity\Inventario\InvMovimiento;
+use App\Entity\Inventario\InvMovimientoDetalle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-class MovimientoDetalleRepository extends ServiceEntityRepository
+class InvMovimientoDetalleRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, MovimientoDetalle::class);
+        parent::__construct($registry, InvMovimientoDetalle::class);
     }
 
     public function lista($id)
     {
 //        $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
             ->addSelect('i.descripcion as item')
             ->addSelect(' md.cantidad')
@@ -36,7 +36,7 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
     public function informe()
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
             ->addSelect('md.codigoItemFk as itemCodigoPk')
             ->addSelect('i.referencia as itemReferencia')
@@ -75,20 +75,20 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
     /**
      * @param $arrControles
      * @param $form
-     * @param $arMovimiento Movimiento
-     * @param $arMovimientoDetalle MovimientoDetalle
+     * @param $arMovimiento InvMovimiento
+     * @param $arMovimientoDetalle InvMovimientoDetalle
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function actualizarDetalles($arrControles, $form, $arMovimiento)
     {
         $em = $this->getEntityManager();
-        if ($this->getEntityManager()->getRepository(Movimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
+        if ($this->getEntityManager()->getRepository(InvMovimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
             $arrCantidad = $arrControles['arrCantidad'];
             $arrPrecio = $arrControles['arrValor'];
             $arrCodigo = $arrControles['arrCodigo'];
             foreach ($arrCodigo as $codigoMovimientoDetalle) {
-                $arMovimientoDetalle = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
+                $arMovimientoDetalle = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->find($codigoMovimientoDetalle);
                 $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
                 $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
                 $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
@@ -97,18 +97,17 @@ class MovimientoDetalleRepository extends ServiceEntityRepository
                 $em->persist($arMovimientoDetalle);
                 $em->flush();
             }
-            $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+            $em->getRepository(InvMovimiento::class)->liquidar($arMovimiento);
             $this->getEntityManager()->flush();
         }
     }
 
-    public
-    function eliminar($arMovimiento, $arrSeleccionados)
+    public function eliminar($arMovimiento, $arrSeleccionados)
     {
         $em = $this->getEntityManager();
         if (count($arrSeleccionados) > 0) {
             foreach ($arrSeleccionados as $codigoMovimientoDetalle) {
-                $arMovimientoDetalle = $em->getRepository(MovimientoDetalle::class)->find($codigoMovimientoDetalle);
+                $arMovimientoDetalle = $em->getRepository(InvMovimientoDetalle::class)->find($codigoMovimientoDetalle);
                 if ($arMovimientoDetalle) {
                     $em->remove($arMovimientoDetalle);
                 }

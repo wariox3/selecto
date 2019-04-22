@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Cartera;
 
-use App\Entity\CuentaCobrarTipo;
+use App\Entity\Cartera\CarCuentaCobrar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 
-class CuentaCobrarTipoRepository extends ServiceEntityRepository
+class CarCuentaCobrarRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CuentaCobrarTipo::class);
+        parent::__construct($registry, CarCuentaCobrar::class);
     }
-
 }

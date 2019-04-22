@@ -15,7 +15,7 @@
         {% if arMovimiento.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
     </div>
     <div style="float:right">
-        {% if arMovimiento.estadoAprobado == true %}<span class="badge badge-success">Aprobado</span>{% endif %}
+        {% if arMovimiento.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
     </div>
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-datos ">
@@ -65,8 +65,8 @@
                         <th>Item</th>
                         <th>Cantidad</th>
                         <th>Precio</th>
-                        <th>Porcentaje IVA</th>
                         <th>Subtotal</th>
+                        <th>%</th>
                         <th>IVA</th>
                         <th>Total</th>
                         <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
@@ -103,8 +103,8 @@
                                        size="10">
                             </td>
                                 {% endif %}
-                            <td>{{ arMovimientoDetalle.porcentajeIva }}</td>
                             <td>{{ arMovimientoDetalle.vrSubtotal | number_format (0, '.', ',')}}</td>
+                            <td>{{ arMovimientoDetalle.porcentajeIva }}</td>
                             <td>{{ arMovimientoDetalle.vrIva | number_format (0, '.', ',') }}</td>
                             <td>{{ arMovimientoDetalle.vrTotal | number_format (0, '.', ',') }}</td>
                             <td style="text-align: center;"><input type="checkbox" style="text-align: right;"

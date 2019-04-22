@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Inventario;
 
-use App\Entity\Item;
+use App\Entity\Inventario\InvItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-class ItemRepository extends ServiceEntityRepository
+class InvItemRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Item::class);
+        parent::__construct($registry, InvItem::class);
     }
 
     public function lista()
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Item::class, 'i')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvItem::class, 'i')
             ->select('i.codigoItemPk')
             ->addSelect('i.descripcion')
             ->addSelect('i.referencia')
@@ -39,7 +39,7 @@ class ItemRepository extends ServiceEntityRepository
     public function existencia()
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Item::class, 'i')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvItem::class, 'i')
             ->select('i.codigoItemPk')
             ->addSelect('i.referencia')
             ->addSelect('i.descripcion')

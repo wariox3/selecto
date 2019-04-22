@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Compra;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * CuentaPagarTipoType
  *
  * @ORM\Table(name="cuenta_pagar_tipo")
- * @ORM\Entity(repositoryClass="App\Repository\CuentaPagarTipoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Compra\ComCuentaPagarTipoRepository")
  */
-class CuentaPagarTipo
+class ComCuentaPagarTipo
 {
     /**
      * @ORM\Id
@@ -34,12 +34,12 @@ class CuentaPagarTipo
     private $prefijo;
 
     /**
-     * @ORM\OneToMany(targetEntity="CuentaPagar", mappedBy="cuentaPagarTipoRel")
+     * @ORM\OneToMany(targetEntity="ComCuentaPagar", mappedBy="cuentaPagarTipoRel")
      */
     protected $cuentaPagarRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="Documento", mappedBy="cuentaPagarTipoDocumentoRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvDocumento", mappedBy="cuentaPagarTipoDocumentoRel")
      */
     protected $documentoPagarTipoRel;
 
@@ -138,5 +138,4 @@ class CuentaPagarTipo
     {
         $this->documentoPagarTipoRel = $documentoPagarTipoRel;
     }
-
 }

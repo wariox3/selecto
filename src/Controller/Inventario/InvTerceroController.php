@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Inventario;
 
-use App\Entity\Tercero;
+use App\Entity\Inventario\InvTercero;
 use App\Form\Type\TerceroType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class TerceroController extends Controller
+class InvTerceroController extends Controller
 {
     /**
      * @Route("/Tercero/lista", name="tercero_lista")
@@ -41,11 +41,11 @@ class TerceroController extends Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(Tercero::class, $arItems);
+                $this->get("UtilidadesModelo")->eliminar(InvTercero::class, $arItems);
                 return $this->redirect($this->generateUrl('tercero_lista'));
             }
         }
-        $arTerceros = $paginator->paginate($em->getRepository(Tercero::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arTerceros = $paginator->paginate($em->getRepository(InvTercero::class)->lista(), $request->query->getInt('page', 1), 30);
         return $this->render('Tercero/lista.html.twig', [
             'arTerceros' => $arTerceros,
             'form' => $form->createView()
@@ -58,15 +58,17 @@ class TerceroController extends Controller
     public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arTercero = new Tercero();
+        $arTercero = new InvTercero();
         if ($id != 0) {
-            $arTercero = $em->getRepository(Tercero::class)->find($id);
+            $arTercero = $em->getRepository(InvTercero::class)->find($id);
         }
         $form = $this->createForm(TerceroType::class, $arTercero);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
+                if ($form->get('cliente'))
                 $arTercero = $form->getData();
+                $arTercero->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                 $em->persist($arTercero);
                 $em->flush();
                 return $this->redirect($this->generateUrl('tercero_detalle', array('id' => $arTercero->getCodigoTerceroPk())));
@@ -84,7 +86,7 @@ class TerceroController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arTercero = $em->getRepository(Tercero::class)->find($id);
+        $arTercero = $em->getRepository(InvTercero::class)->find($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

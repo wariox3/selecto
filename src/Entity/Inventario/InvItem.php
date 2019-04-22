@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Inventario;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * ItemType
  *
  * @ORM\Table(name="item")
- * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvItemRepository")
  */
-class Item
+class InvItem
 {
     /**
      * @ORM\Id
@@ -45,7 +45,7 @@ class Item
     private $porcentajeIva = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="MovimientoDetalle", mappedBy="itemRel")
+     * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="itemRel")
      */
     protected $movimientosDetallesItemRel;
 

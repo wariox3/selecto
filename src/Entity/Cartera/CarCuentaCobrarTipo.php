@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Cartera;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * CuentaCobrarTipoType
  *
  * @ORM\Table(name="cuenta_cobrar_tipo")
- * @ORM\Entity(repositoryClass="App\Repository\CuentaCobrarTipoRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Cartera\CarCuentaCobrarTipoRepository")
  */
-class CuentaCobrarTipo
+class CarCuentaCobrarTipo
 {
     /**
      * @ORM\Id
@@ -39,12 +39,12 @@ class CuentaCobrarTipo
     private $prefijo;
 
     /**
-     * @ORM\OneToMany(targetEntity="CuentaCobrar", mappedBy="cuentaCobroTipoRel")
+     * @ORM\OneToMany(targetEntity="CarCuentaCobrar", mappedBy="cuentaCobroTipoRel")
      */
     protected $cuentaCobroRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="Documento", mappedBy="cuentaCobrarTipoDocumentoRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvDocumento", mappedBy="cuentaCobrarTipoDocumentoRel")
      */
     protected $documentoCobrarTipoRel;
 
@@ -159,5 +159,4 @@ class CuentaCobrarTipo
     {
         $this->documentoCobrarTipoRel = $documentoCobrarTipoRel;
     }
-
 }

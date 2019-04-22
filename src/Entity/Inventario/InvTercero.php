@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Inventario;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * TerceroType
  *
  * @ORM\Table(name="tercero")
- * @ORM\Entity(repositoryClass="App\Repository\TerceroRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvTerceroRepository")
  */
-class Tercero
+class InvTercero
 {
     /**
      * @ORM\Id
@@ -23,6 +23,11 @@ class Tercero
      * @ORM\Column(name="numero_identificacion", type="string", length=80)
      */
     private $numeroIdentificacion;
+
+    /**
+     * @ORM\Column(name="codigo_identificacion_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoIdentificacionFk;
 
     /**
      * @ORM\Column(name="nombre_corto", type="string", length=150, nullable=true)
@@ -88,14 +93,19 @@ class Tercero
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\OneToMany(targetEntity="Movimiento", mappedBy="terceroRel")
+     * @ORM\OneToMany(targetEntity="InvMovimiento", mappedBy="terceroRel")
      */
     protected $movimientosTerceroRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="CuentaCobrar", mappedBy="terceroRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Cartera\CarCuentaCobrar", mappedBy="terceroRel")
      */
-    protected $cuentaCobroRel;
+    private $cuentaCobroRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComCuentaPagar", mappedBy="terceroRel")
+     */
+    private $cuentaPagarRel;
 
     /**
      * @return mixed
@@ -103,6 +113,14 @@ class Tercero
     public function getCodigoTerceroPk()
     {
         return $this->codigoTerceroPk;
+    }
+
+    /**
+     * @param mixed $codigoTerceroPk
+     */
+    public function setCodigoTerceroPk($codigoTerceroPk): void
+    {
+        $this->codigoTerceroPk = $codigoTerceroPk;
     }
 
     /**
@@ -119,6 +137,22 @@ class Tercero
     public function setNumeroIdentificacion($numeroIdentificacion): void
     {
         $this->numeroIdentificacion = $numeroIdentificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoIdentificacionFk()
+    {
+        return $this->codigoIdentificacionFk;
+    }
+
+    /**
+     * @param mixed $codigoIdentificacionFk
+     */
+    public function setCodigoIdentificacionFk($codigoIdentificacionFk): void
+    {
+        $this->codigoIdentificacionFk = $codigoIdentificacionFk;
     }
 
     /**
@@ -359,5 +393,21 @@ class Tercero
     public function setCuentaCobroRel($cuentaCobroRel): void
     {
         $this->cuentaCobroRel = $cuentaCobroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaPagarRel()
+    {
+        return $this->cuentaPagarRel;
+    }
+
+    /**
+     * @param mixed $cuentaPagarRel
+     */
+    public function setCuentaPagarRel($cuentaPagarRel): void
+    {
+        $this->cuentaPagarRel = $cuentaPagarRel;
     }
 }

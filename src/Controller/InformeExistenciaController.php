@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Item;
+use App\Entity\Inventario\InvItem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,7 +34,7 @@ class InformeExistenciaController extends Controller
 
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(Item::class)->existencia(), $request->query->getInt('page', 1), 50);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->existencia(), $request->query->getInt('page', 1), 50);
         return $this->render('Informe/InformeExistenciaLista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()

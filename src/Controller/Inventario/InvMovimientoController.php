@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Inventario;
 
-use App\Entity\Documento;
-use App\Entity\Item;
-use App\Entity\Movimiento;
-use App\Entity\MovimientoDetalle;
-use App\Entity\Tercero;
+use App\Entity\Inventario\InvDocumento;
+use App\Entity\Inventario\InvItem;
+use App\Entity\Inventario\InvMovimiento;
+use App\Entity\Inventario\InvMovimientoDetalle;
+use App\Entity\Inventario\InvTercero;
 use App\Form\Type\MovimientoType;
 use App\Formatos\Factura;
 use App\Utilidades\Mensajes;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MovimientoController extends Controller
+class InvMovimientoController extends Controller
 {
     /**
      * @Route("/movimiento/lista/{documento}", name="movimiento_lista")
@@ -33,7 +33,7 @@ class MovimientoController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaDesde') ? date_create($session->get('filtroMovimientoFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaHasta') ? date_create($session->get('filtroMovimientoFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(Tercero::class)->llenarCombo())
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -51,11 +51,11 @@ class MovimientoController extends Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(Movimiento::class, $arItems);
+                $this->get("UtilidadesModelo")->eliminar(InvMovimiento::class, $arItems);
                 return $this->redirect($this->generateUrl('movimiento_lista'));
             }
         }
-        $arMovimientos = $paginator->paginate($em->getRepository(Movimiento::class)->lista($documento), $request->query->getInt('page', 1), 30);
+        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->lista($documento), $request->query->getInt('page', 1), 30);
         return $this->render('Movimiento/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
             'documento' => $documento,
@@ -69,10 +69,10 @@ class MovimientoController extends Controller
     public function nuevo(Request $request, $id, $documento)
     {
         $em = $this->getDoctrine()->getManager();
-        $arMovimiento = new Movimiento();
-        $arDocumento = $em->getRepository(Documento::class)->find($documento);
+        $arMovimiento = new InvMovimiento();
+        $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
         if ($id != 0) {
-            $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
+            $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         }
         $arMovimiento->setDocumentoRel($arDocumento);
         $form = $this->createForm(MovimientoType::class, $arMovimiento);
@@ -99,6 +99,8 @@ class MovimientoController extends Controller
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/movimiento/detalle/{id}", name="movimiento_detalle")
@@ -106,9 +108,9 @@ class MovimientoController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        /** @var  $arMovimiento Movimiento */
+        /** @var  $arMovimiento InvMovimiento */
         $paginator = $this->get('knp_paginator');
-        $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
+        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
         $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
@@ -138,25 +140,25 @@ class MovimientoController extends Controller
             $arrControles = $request->request->all();
             $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
             if ($form->get('btnActualizar')->isClicked()) {
-                $em->getRepository(MovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
+                $em->getRepository(InvMovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAprobado')->isClicked()) {
-                $em->getRepository(Movimiento::class)->aprobar($arMovimiento);
+                $em->getRepository(InvMovimiento::class)->aprobar($arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAutorizar')->isClicked()) {
-                $em->getRepository(Movimiento::class)->autorizar($arMovimiento);
-                $em->getRepository(MovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
+                $em->getRepository(InvMovimiento::class)->autorizar($arMovimiento);
+                $em->getRepository(InvMovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnDesautorizar')->isClicked()) {
-                $em->getRepository(Movimiento::class)->desautorizar($arMovimiento);
+                $em->getRepository(InvMovimiento::class)->desautorizar($arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnEliminar')->isClicked()) {
-                $em->getRepository(MovimientoDetalle::class)->eliminar($arMovimiento, $arrDetallesSeleccionados);
-                $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+                $em->getRepository(InvMovimientoDetalle::class)->eliminar($arMovimiento, $arrDetallesSeleccionados);
+                $em->getRepository(InvMovimiento::class)->liquidar($arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnImprimir')->isClicked()) {
@@ -164,7 +166,7 @@ class MovimientoController extends Controller
                 $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
             }
         }
-        $arMovimientoDetalles = $paginator->paginate($em->getRepository(MovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
+        $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
         return $this->render('Movimiento/detalle.html.twig', [
             'form' => $form->createView(),
             'arMovimiento' => $arMovimiento,
@@ -184,7 +186,7 @@ class MovimientoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $respuesta = '';
-        $arMovimiento = $em->getRepository(Movimiento::class)->find($id);
+        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         $form = $this->createFormBuilder()
             ->add('txtCodigoItem', IntegerType::class, ['label' => 'Codigo: ', 'required' => false])
             ->add('txtDescripcion', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroItemDescripcion')])
@@ -202,10 +204,10 @@ class MovimientoController extends Controller
             $arrItems = $request->request->get('itemCantidad');
             if (count($arrItems) > 0) {
                 foreach ($arrItems as $codigoItem => $cantidad) {
-                    $arItem = $em->getRepository(Item::class)->find($codigoItem);
+                    $arItem = $em->getRepository(InvItem::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
                         if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
-                            $arMovimientoDetalle = new MovimientoDetalle();
+                            $arMovimientoDetalle = new InvMovimientoDetalle();
                             $arMovimientoDetalle->setMovimientoRel($arMovimiento);
                             $arMovimientoDetalle->setItemRel($arItem);
                             $arMovimientoDetalle->setCantidad($cantidad);
@@ -225,7 +227,7 @@ class MovimientoController extends Controller
                 }
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(Item::class)->lista(), $request->query->getInt('page', 1), 50);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 50);
         return $this->render('Movimiento/detalleNuevo.html.twig', [
             'form' => $form->createView(),
             'arItems' => $arItems

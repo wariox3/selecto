@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Compra;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CuentaCobrarType
+ * CuentaPagarType
  *
- * @ORM\Table(name="cuenta_cobrar")
- * @ORM\Entity(repositoryClass="App\Repository\CuentaCobrarRepository")
+ * @ORM\Table(name="cuenta_pagar")
+ * @ORM\Entity(repositoryClass="App\Repository\Compra\ComCuentaPagarRepository")
  */
-class CuentaCobrar
+class ComCuentaPagar
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_cuenta_cobrar_pk", type="integer")
+     * @ORM\Column(name="codigo_cuenta_pagar_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $codigoCuentaCobrarPk;
+    private $codigoCuentaPagarPk;
 
     /**
-     * @ORM\Column(name="codigo_cuenta_cobrar_tipo_fk", type="string", length=5, nullable=true)
+     * @ORM\Column(name="codigo_cuenta_pagar_tipo_fk", type="string", length=5, nullable=true)
      */
-    private $codigoCuentaCobrarTipoFk;
+    private $codigoCuentaPagarTipoFk;
 
     /**
      * @ORM\Column(name="numero_documento", type="integer", nullable=true)
@@ -80,6 +80,11 @@ class CuentaCobrar
     private $vrIva;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="vr_saldo_operado", type="float", nullable=true, options={"default" : 0})
      */
     private $vrSaldoOperado = 0;
@@ -100,47 +105,47 @@ class CuentaCobrar
     private $estadoAnulado = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tercero", inversedBy="cuentaCobroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="cuentaPagarRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CuentaCobrarTipo", inversedBy="cuentaCobroRel")
-     * @ORM\JoinColumn(name="codigo_cuenta_cobrar_tipo_fk", referencedColumnName="codigo_cuenta_cobrar_tipo_pk")
+     * @ORM\ManyToOne(targetEntity="ComCuentaPagarTipo", inversedBy="cuentaPagarRel")
+     * @ORM\JoinColumn(name="codigo_cuenta_pagar_tipo_fk", referencedColumnName="codigo_cuenta_pagar_tipo_pk")
      */
-    protected $cuentaCobroTipoRel;
+    protected $cuentaPagarTipoRel;
 
     /**
      * @return mixed
      */
-    public function getCodigoCuentaCobrarPk()
+    public function getCodigoCuentaPagarPk()
     {
-        return $this->codigoCuentaCobrarPk;
+        return $this->codigoCuentaPagarPk;
     }
 
     /**
-     * @param mixed $codigoCuentaCobrarPk
+     * @param mixed $codigoCuentaPagarPk
      */
-    public function setCodigoCuentaCobrarPk($codigoCuentaCobrarPk): void
+    public function setCodigoCuentaPagarPk($codigoCuentaPagarPk): void
     {
-        $this->codigoCuentaCobrarPk = $codigoCuentaCobrarPk;
+        $this->codigoCuentaPagarPk = $codigoCuentaPagarPk;
     }
 
     /**
      * @return mixed
      */
-    public function getCodigoCuentaCobrarTipoFk()
+    public function getCodigoCuentaPagarTipoFk()
     {
-        return $this->codigoCuentaCobrarTipoFk;
+        return $this->codigoCuentaPagarTipoFk;
     }
 
     /**
-     * @param mixed $codigoCuentaCobrarTipoFk
+     * @param mixed $codigoCuentaPagarTipoFk
      */
-    public function setCodigoCuentaCobrarTipoFk($codigoCuentaCobrarTipoFk): void
+    public function setCodigoCuentaPagarTipoFk($codigoCuentaPagarTipoFk): void
     {
-        $this->codigoCuentaCobrarTipoFk = $codigoCuentaCobrarTipoFk;
+        $this->codigoCuentaPagarTipoFk = $codigoCuentaPagarTipoFk;
     }
 
     /**
@@ -322,6 +327,22 @@ class CuentaCobrar
     /**
      * @return mixed
      */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getVrSaldoOperado()
     {
         return $this->vrSaldoOperado;
@@ -402,17 +423,16 @@ class CuentaCobrar
     /**
      * @return mixed
      */
-    public function getCuentaCobroTipoRel()
+    public function getCuentaPagarTipoRel()
     {
-        return $this->cuentaCobroTipoRel;
+        return $this->cuentaPagarTipoRel;
     }
 
     /**
-     * @param mixed $cuentaCobroTipoRel
+     * @param mixed $cuentaPagarTipoRel
      */
-    public function setCuentaCobroTipoRel($cuentaCobroTipoRel): void
+    public function setCuentaPagarTipoRel($cuentaPagarTipoRel): void
     {
-        $this->cuentaCobroTipoRel = $cuentaCobroTipoRel;
+        $this->cuentaPagarTipoRel = $cuentaPagarTipoRel;
     }
-
 }

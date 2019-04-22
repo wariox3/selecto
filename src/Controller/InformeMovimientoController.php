@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\MovimientoDetalle;
+use App\Entity\Inventario\InvMovimientoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -37,7 +37,7 @@ class InformeMovimientoController extends Controller
 
             }
         }
-        $arMovimientoDetalles = $paginator->paginate($em->getRepository(MovimientoDetalle::class)->informe(), $request->query->getInt('page', 1), 50);
+        $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->informe(), $request->query->getInt('page', 1), 50);
         return $this->render('Informe/InformeMovimientoLista.html.twig', [
             'arMovimientoDetalles' => $arMovimientoDetalles,
             'form' => $form->createView()

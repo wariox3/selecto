@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Inventario;
 
-use App\Entity\CuentaPagarTipo;
+use App\Entity\Inventario\InvDocumento;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-
-class CuentaPagarTipoRepository extends ServiceEntityRepository
+class InvDocumentoRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, CuentaPagarTipo::class);
+        parent::__construct($registry, InvDocumento::class);
     }
-
 }

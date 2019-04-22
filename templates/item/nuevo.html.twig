@@ -12,23 +12,22 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Descripción:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.descripcion) }}
+                        </div>
                         <label class="col-md-1 control-label" for="_telefono">Referencia:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.referencia) }}
                         </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-1 control-label">% IVA</label>
                         <div class="col-md-1">
                             {{ form_widget(form.porcentajeIva) }}
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono">Descripción:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.descripcion) }}
-                        </div>
-                    </div>
                 </div>
-
                 <footer class="panel-footer">
                     <div class="row">
                         <div class="col-sm-6">

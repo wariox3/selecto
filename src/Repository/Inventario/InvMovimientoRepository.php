@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Inventario;
 
-use App\Entity\CuentaCobrar;
-use App\Entity\CuentaCobrarTipo;
-use App\Entity\CuentaPagar;
-use App\Entity\CuentaPagarTipo;
-use App\Entity\Item;
-use App\Entity\Movimiento;
-use App\Entity\MovimientoDetalle;
+use App\Entity\Cartera\CarCuentaCobrar;
+use App\Entity\Cartera\CarCuentaCobrarTipo;
+use App\Entity\Compra\ComCuentaPagar;
+use App\Entity\Compra\ComCuentaPagarTipo;
+use App\Entity\Inventario\InvItem;
+use App\Entity\Inventario\InvMovimiento;
+use App\Entity\Inventario\InvMovimientoDetalle;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
@@ -16,17 +16,17 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
-class MovimientoRepository extends ServiceEntityRepository
+class InvMovimientoRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Movimiento::class);
+        parent::__construct($registry, InvMovimiento::class);
     }
 
     public function lista($documento)
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Movimiento::class, 'm')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
             ->addSelect('m.fecha')
             ->addSelect('t.nombreCorto AS tercero')
@@ -46,7 +46,7 @@ class MovimientoRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $arMovimiento Movimiento
+     * @param $arMovimiento InvMovimiento
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -56,7 +56,7 @@ class MovimientoRepository extends ServiceEntityRepository
         $vrSubtotalGlobal = 0;
         $vrTotalBrutoGlobal = 0;
         $vrIvaGlobal = 0;
-        $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
+        $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $vrSubtotal = $arMovimientoDetalle->getVrSubtotal();
             $vrSubtotalGlobal += $vrSubtotal;
@@ -74,7 +74,7 @@ class MovimientoRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $arMovimiento Movimiento
+     * @param $arMovimiento InvMovimiento
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
@@ -82,17 +82,15 @@ class MovimientoRepository extends ServiceEntityRepository
      */
     public function autorizar($arMovimiento)
     {
-        if ($this->getEntityManager()->getRepository(Movimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
+        if ($this->getEntityManager()->getRepository(InvMovimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
             $arMovimiento->setEstadoAutorizado(1);
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
-        } else {
-            Mensajes::error('El registro no tiene detalles');
         }
     }
 
     /**
-     * @param $arMovimiento Movimiento
+     * @param $arMovimiento InvMovimiento
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
@@ -106,8 +104,8 @@ class MovimientoRepository extends ServiceEntityRepository
             $arMovimiento->setEstadoAprobado(1);
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
                 if ($arMovimiento->getCodigoDocumentoFk() == 'COM') {
-                    $arCuentaPagarTipo = $em->getRepository(CuentaPagarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaPagarTipoFk());
-                    $arCuentaPagar = New CuentaPagar();
+                    $arCuentaPagarTipo = $em->getRepository(ComCuentaPagarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaPagarTipoFk());
+                    $arCuentaPagar = New ComCuentaPagar();
                     $arCuentaPagar->setCuentaPagarTipoRel($arCuentaPagarTipo);
                     $arCuentaPagar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaPagar->setVrSubtotal($arMovimiento->getVrSubtotal());
@@ -123,8 +121,8 @@ class MovimientoRepository extends ServiceEntityRepository
                     $arCuentaPagar->setEstadoAutorizado(1);
                     $em->persist($arCuentaPagar);
                 } else {
-                    $arCuentaCobrarTipo = $em->getRepository(CuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
-                    $arCuentaCobrar = New CuentaCobrar();
+                    $arCuentaCobrarTipo = $em->getRepository(CarCuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
+                    $arCuentaCobrar = New CarCuentaCobrar();
                     $arCuentaCobrar->setCuentaCobroTipoRel($arCuentaCobrarTipo);
                     $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
                     $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
@@ -150,8 +148,8 @@ class MovimientoRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $arMovimiento Movimiento
-     * @param $arItem Item
+     * @param $arMovimiento InvMovimiento
+     * @param $arItem InvItem
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -159,9 +157,9 @@ class MovimientoRepository extends ServiceEntityRepository
     {
 
         $em = $this->getEntityManager();
-        $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
+        $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
-            $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
+            $arItem = $this->getEntityManager()->getRepository(InvItem::class)->find($arMovimientoDetalle->getCodigoItemFk());
             $existenciaAnterior = $arItem->getCantidadExistencia();
             if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
                 $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
@@ -174,7 +172,7 @@ class MovimientoRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $arMovimiento Movimiento
+     * @param $arMovimiento InvMovimiento
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
@@ -200,7 +198,7 @@ class MovimientoRepository extends ServiceEntityRepository
      */
     public function contarDetalles($codigoMovimiento)
     {
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(MovimientoDetalle::class, 'md')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select("COUNT(md.codigoMovimientoDetallePk)")
             ->where("md.codigoMovimientoFk = {$codigoMovimiento} ");
         $resultado = $queryBuilder->getQuery()->getSingleResult();
@@ -215,7 +213,7 @@ class MovimientoRepository extends ServiceEntityRepository
     {
         $session = new Session();
         $array = [
-            'class' => Movimiento::class,
+            'class' => InvMovimiento::class,
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('m')
                     ->orderBy('m.numero', 'ASC');
@@ -227,7 +225,7 @@ class MovimientoRepository extends ServiceEntityRepository
             'data' => ""
         ];
         if ($session->get('filtroMovimiento')) {
-            $array['data'] = $this->getEntityManager()->getReference(Movimiento::class, $session->get('filtroMovimiento'));
+            $array['data'] = $this->getEntityManager()->getReference(InvMovimiento::class, $session->get('filtroMovimiento'));
         }
         return $array;
     }
