@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
+                    <h2 class="panel-title">Filtro de busqueda</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-1 control-label">Numero:</label>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.txtCuentaCobrar) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-1 control-label">Desde:</label>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.fechaDesde) }}
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <label class="col-sm-1 control-label">Hasta:</label>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.fechaHasta) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <br/>
+        <div class="col-md-12">
+            <section class="panel">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-none">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Tipo</th>
+                                <th>Documento</th>
+                                <th>Fecha</th>
+                                <th>Fecha Vence</th>
+                                <th>Operacion</th>
+                                <th>Tercero</th>
+                                <th>Subtotal</th>
+                                <th>Total</th>
+                                <th>Abono</th>
+                                <th>Saldo Original</th>
+                                <th>Saldo</th>
+                                <th>Valor IVA</th>
+                                <th>Saldo Operado</th>
+                                <th>Autorizado</th>
+                                <th>Aprobado</th>
+                                <th>Anulado</th>
+                                <th>Empresa</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arCuentaCobrar  in arCuentasCobrar %}
+                                <tr>
+                                    <td>{{ arCuentaCobrar.codigoCuentaCobrarPk }}</td>
+                                    <td>{{ arCuentaCobrar.codigoCuentaCobrarTipoFk }}</td>
+                                    <td>{{ arCuentaCobrar.numeroDocumento }}</td>
+                                    <td>{{ arCuentaCobrar.fecha|date('Y-m-d') }}</td>
+                                    <td>{{ arCuentaCobrar.fechaVence|date('Y-m-d') }}</td>
+                                    <td>{{ arCuentaCobrar.operacion }}</td>
+                                    <td>{{ arCuentaCobrar.codigoTerceroFk }}</td>
+                                    <td>{{ arCuentaCobrar.vrSubtotal | number_format(0, '.', ',') }}</td>
+                                    <td>{{ arCuentaCobrar.vrTotalBruto }}</td>
+                                    <td>{{ arCuentaCobrar.vrAbono | number_format (0, '.', ',') }}</td>
+                                    <td>{{ arCuentaCobrar.vrSaldoOriginal | number_format (0, '.', ',') }}</td>
+                                    <td>{{ arCuentaCobrar.vrSaldo | number_format (0, '.', ',') }}</td>
+                                    <td>{{ arCuentaCobrar.vrIva | number_format (0, '.', ',') }}</td>
+                                    <td>{{ arCuentaCobrar.vrSaldoOperado | number_format (0, '.', ',') }}</td>
+                                    <td>{{ arCuentaCobrar.estadoAutorizado ? 'SI':'NO' }}</td>
+                                    <td>{{ arCuentaCobrar.estadoAprobado ? 'SI':'NO' }}</td>
+                                    <td>{{ arCuentaCobrar.estadoAnulado ? 'SI':'NO' }}</td>
+                                    <td>{{ arCuentaCobrar.codigoEmpresaFk }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; flex-direction: row;">
+                        <span style="margin-right: 4px">registros: {{ arCuentasCobrar.getTotalItemCount }}</span>
+                        {{ knp_pagination_render(arCuentasCobrar) }}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

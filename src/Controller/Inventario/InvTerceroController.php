@@ -4,6 +4,7 @@ namespace App\Controller\Inventario;
 
 use App\Entity\Inventario\InvTercero;
 use App\Form\Type\TerceroType;
+use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -59,19 +60,26 @@ class InvTerceroController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arTercero = new InvTercero();
+//        $respuesta = '';
         if ($id != 0) {
             $arTercero = $em->getRepository(InvTercero::class)->find($id);
         }
         $form = $this->createForm(TerceroType::class, $arTercero);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             if ($form->get('guardar')->isClicked()) {
-                if ($form->get('cliente'))
-                $arTercero = $form->getData();
-                $arTercero->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
-                $em->persist($arTercero);
-                $em->flush();
-                return $this->redirect($this->generateUrl('tercero_detalle', array('id' => $arTercero->getCodigoTerceroPk())));
+                if ($arTercero->getCliente() == true || $arTercero->getProveedor() == true) {
+
+                    $arTercero = $form->getData();
+                    $arTercero->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+                    $em->persist($arTercero);
+                    $em->flush();
+                    return $this->redirect($this->generateUrl('tercero_detalle', array('id' => $arTercero->getCodigoTerceroPk())));
+                } else {
+                    $respuesta = "Debe seleccionar un campo: cliente, proveedor o ambos";
+                    Mensajes::error($respuesta);
+                }
             }
         }
         return $this->render('Tercero/nuevo.html.twig', [

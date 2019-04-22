@@ -28,8 +28,10 @@ class TerceroType extends AbstractType
             ->add('telefono', TextType::class, array('required' => true))
             ->add('email', TextType::class, array('required' => false))
             ->add('celular', TextType::class, array('required' => false))
-            ->add('cliente', CheckboxType::class, array('required' => true, 'label' => 'Cliente'))
-            ->add('proveedor', CheckboxType::class, array('required' => true, 'label' => 'Proveedor'))
+            ->add('cliente', CheckboxType::class, array('required' => false, 'label' => 'Cliente'))
+            ->add('proveedor', CheckboxType::class, array('required' => false, 'label' => 'Proveedor'))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
+
+
     }
 }

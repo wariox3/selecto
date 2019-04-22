@@ -5,6 +5,7 @@ namespace App\Repository\Compra;
 use App\Entity\Compra\ComCuentaPagar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class ComCuentaPagarRepository extends ServiceEntityRepository
@@ -14,4 +15,38 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
         parent::__construct($registry, ComCuentaPagar::class);
     }
 
+    public function informe()
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComCuentaPagar::class, 'cp')
+            ->select('cp.codigoCuentaPagarPk')
+            ->addSelect('cp.codigoCuentaPagarTipoFk')
+            ->addSelect('cp.numeroDocumento')
+            ->addSelect('cp.fecha')
+            ->addSelect('cp.fechaVence')
+            ->addSelect('cp.operacion')
+            ->addSelect('cp.codigoTerceroFk')
+            ->addSelect('cp.vrSubtotal')
+            ->addSelect('cp.vrTotalBruto')
+            ->addSelect('cp.vrAbono')
+            ->addSelect('cp.vrSaldoOriginal')
+            ->addSelect('cp.vrSaldo')
+            ->addSelect('cp.vrIva')
+            ->addSelect('cp.vrSaldoOperado')
+            ->addSelect('cp.estadoAutorizado')
+            ->addSelect('cp.estadoAprobado')
+            ->addSelect('cp.estadoAnulado')
+            ->addSelect('cp.codigoEmpresaFk');
+        if ($session->get('filtroInformeCuentasPagarFechaDesde') != null) {
+            $queryBuilder->andWhere("cp.fecha >= '{$session->get('filtroInformeCuentasPagarFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroInformeCuentasPagarFechaHasta') != null) {
+            $queryBuilder->andWhere("cp.fecha <= '{$session->get('filtroInformeCuentasPagarFechaHasta')} 23:59:59'");
+        }
+        if ($session->get('filtroInformeCuentasPagarCodigo') != '') {
+            $queryBuilder->andWhere("cp.codigoCuentaPagarPk = '{$session->get('filtroInformeCuentasPagarCodigo')}'");
+        }
+        $queryBuilder->orderBy('cp.fecha','DESC');
+        return $queryBuilder;
+    }
 }
