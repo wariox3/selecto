@@ -41,6 +41,11 @@ class GenCiudad
     protected $departamentoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvTercero", mappedBy="ciudadRel")
+     */
+    private $ciudadTerceroRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoCiudadPk()
@@ -118,5 +123,21 @@ class GenCiudad
     public function setDepartamentoRel($departamentoRel): void
     {
         $this->departamentoRel = $departamentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadTerceroRel()
+    {
+        return $this->ciudadTerceroRel;
+    }
+
+    /**
+     * @param mixed $ciudadTerceroRel
+     */
+    public function setCiudadTerceroRel($ciudadTerceroRel): void
+    {
+        $this->ciudadTerceroRel = $ciudadTerceroRel;
     }
 }

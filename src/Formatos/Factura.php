@@ -6,7 +6,6 @@ use App\Entity\Inventario\InvFacturaTipo;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
 use App\Entity\Inventario\InvTercero;
-use App\Entity\Movimiento;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class Factura extends \FPDF
@@ -25,7 +24,7 @@ class Factura extends \FPDF
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
         /** @var  $arMovimiento Movimiento */
-        $arMovimiento = $em->getRepository(Movimiento::class)->find($codigoMovimiento);
+        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
         ob_clean();
         $pdf = new Factura('P', 'mm', 'letter');
         $pdf->AliasNbPages();
@@ -45,7 +44,7 @@ class Factura extends \FPDF
 
     public function Header()
     {
-        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
+        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $this->SetFillColor(200, 200, 200);
         $this->SetFont('Arial', 'B', 10);
         //Logo
@@ -132,13 +131,13 @@ class Factura extends \FPDF
     public function Body($pdf)
     {
         /**
-         * @var $arMovimiento Movimiento
-         * @var $arMovimientoDetalles MovimientoDetalle
+         * @var $arMovimiento InvMovimiento
+         * @var $arMovimientoDetalles InvMovimientoDetalle
          */
-        $arMovimiento = self::$em->getRepository('App:Movimiento')->find(self::$codigoMovimiento);
-        $arMovimientoDetalles = self::$em->getRepository('App:MovimientoDetalle')->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
+        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
+        $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
         $pdf->SetFont('Arial', '', 7);
-        /** @var  $arMovimientoDetalle MovimientoDetalle */
+        /** @var  $arMovimientoDetalle InvMovimientoDetalle */
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(10);
             $pdf->Cell(10, 6, $arMovimientoDetalle->getCodigoItemFk(), 1, 0, 'L');
@@ -157,10 +156,10 @@ class Factura extends \FPDF
     public function Footer()
     {
         /**
-         * @var $arMovimiento Movimiento
-         * //         * @var $arMovimientoDetalles MovimientoDetalle
+         * @var $arMovimiento InvMovimiento
+         * //         * @var $arMovimientoDetalles InvMovimientoDetalle
 * //         */
-        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
+        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $y = 178;
         $x = 181;
 

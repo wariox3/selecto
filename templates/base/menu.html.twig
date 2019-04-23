@@ -94,10 +94,19 @@
                             <span>Cartera</span>
                         </a>
                         <ul class="nav nav-children" style="">
-                            <li>
-                                <a href="{{ path('informe_cuentas_cobrar') }}" class="waves-effect">
-                                    Informe</a>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-align-left" aria-hidden="true"></i>
+                                    <span>Informe</span>
+                                </a>
+                                <ul class="nav nav-children" style="">
+                                    <li>
+                                        <a href="{{ path('informe_cuentas_cobrar') }}" class="waves-effect">
+                                            Cuenta por cobrar</a>
+                                    </li>
+                                </ul>
                             </li>
+
                         </ul>
                     </li>
                     <li class="nav-parent">
@@ -106,10 +115,19 @@
                             <span>Compra</span>
                         </a>
                         <ul class="nav nav-children" style="">
-                            <li>
-                                <a href="{{ path('informe_cuentas_pagar') }}" class="waves-effect">
-                                    Informe</a>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-align-left" aria-hidden="true"></i>
+                                    <span>Informe</span>
+                                </a>
+                                <ul class="nav nav-children" style="">
+                                    <li>
+                                        <a href="{{ path('informe_cuentas_pagar') }}" class="waves-effect">
+                                            Cuenta por pagar</a>
+                                    </li>
+                                </ul>
                             </li>
+
                         </ul>
                     </li>
                 </ul>

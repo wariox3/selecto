@@ -39,8 +39,8 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Referencia</th>
                                  <th>Descripcion</th>
+                                 <th>Referencia</th>
                                  <th>Existencia</th>
                                  <th>% IVA</th>
                                  <th></th>
@@ -52,8 +52,8 @@
                              {% for item in arItems %}
                                  <tr>
                                      <td>{{ item.codigoItemPk }}</td>
-                                     <td>{{ item.referencia }}</td>
                                      <td>{{ item.descripcion }}</td>
+                                     <td>{{ item.referencia }}</td>
                                      <td>{{ item.cantidadExistencia }}</td>
                                      <td>{{ item.porcentajeIva }}</td>
                                      <td><a

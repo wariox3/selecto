@@ -30,6 +30,11 @@ class InvTercero
     private $codigoIdentificacionFk;
 
     /**
+     * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
+     */
+    private $codigoCiudadFk;
+
+    /**
      * @ORM\Column(name="nombre_corto", type="string", length=150, nullable=true)
      */
     private $nombreCorto;
@@ -108,6 +113,12 @@ class InvTercero
     private $cuentaPagarRel;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="ciudadTerceroRel")
+     * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
+     */
+    protected $ciudadRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoTerceroPk()
@@ -153,6 +164,22 @@ class InvTercero
     public function setCodigoIdentificacionFk($codigoIdentificacionFk): void
     {
         $this->codigoIdentificacionFk = $codigoIdentificacionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCiudadFk()
+    {
+        return $this->codigoCiudadFk;
+    }
+
+    /**
+     * @param mixed $codigoCiudadFk
+     */
+    public function setCodigoCiudadFk($codigoCiudadFk): void
+    {
+        $this->codigoCiudadFk = $codigoCiudadFk;
     }
 
     /**
@@ -409,5 +436,21 @@ class InvTercero
     public function setCuentaPagarRel($cuentaPagarRel): void
     {
         $this->cuentaPagarRel = $cuentaPagarRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadRel()
+    {
+        return $this->ciudadRel;
+    }
+
+    /**
+     * @param mixed $ciudadRel
+     */
+    public function setCiudadRel($ciudadRel): void
+    {
+        $this->ciudadRel = $ciudadRel;
     }
 }

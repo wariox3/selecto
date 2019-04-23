@@ -24,12 +24,14 @@ class InvTerceroRepository extends ServiceEntityRepository
             ->addSelect('t.nombreCorto')
             ->addSelect('t.numeroIdentificacion')
             ->addSelect('t.telefono')
+            ->addSelect('c.nombre AS ciudad')
             ->addSelect('t.direccion')
             ->addSelect('t.celular')
             ->addSelect('t.email')
             ->addSelect('t.digitoVerificacion')
             ->addSelect('t.cliente')
-            ->addSelect('t.proveedor');
+            ->addSelect('t.proveedor')
+        ->leftJoin('t.ciudadRel', 'c');
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');
         if ($session->get('filtroTerceroCodigo') != '') {
             $queryBuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");

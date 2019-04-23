@@ -54,11 +54,12 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Nombre corto</th>
                                  <th>Digito</th>
                                  <th>Identificacion</th>
-                                 <th>Telefono</th>
+                                 <th>Nombre corto</th>
+                                 <th>Ciudad</th>
                                  <th>Direccion</th>
+                                 <th>Telefono</th>
                                  <th>Celular</th>
                                  <th>Email</th>
                                  <th title="Cliente">Cli</th>
@@ -72,11 +73,12 @@
                              {% for tercero in arTerceros %}
                                  <tr>
                                      <td>{{ tercero.codigoTerceroPk }}</td>
-                                     <td>{{ tercero.nombreCorto }}</td>
                                      <td>{{ tercero.digitoVerificacion }}</td>
                                      <td>{{ tercero.numeroIdentificacion }}</td>
-                                     <td>{{ tercero.telefono }}</td>
+                                     <td>{{ tercero.nombreCorto }}</td>
+                                     <td>{{ tercero.ciudad }}</td>
                                      <td>{{ tercero.direccion }}</td>
+                                     <td>{{ tercero.telefono }}</td>
                                      <td>{{ tercero.celular }}</td>
                                      <td>{{ tercero.email }}</td>
                                      <td>{{ tercero.cliente ? 'SI':'NO' }}</td>

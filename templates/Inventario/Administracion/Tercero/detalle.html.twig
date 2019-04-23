@@ -29,8 +29,8 @@
         <tr>
             <td class="titulo">NOMBRE CORTO:</td>
             <td class="td-in-well">{{ arTercero.nombreCorto }}</td>
-            <td>DIRECCION</td>
-            <td class="td-in-well">{{ arTercero.direccion }}</td>
+            <td>EMAIL</td>
+            <td class="td-in-well">{{ arTercero.email }}</td>
         </tr>
         <tr>
             <td>TELEFONO</td>
@@ -39,10 +39,10 @@
             <td class="td-in-well">{{ arTercero.celular }}</td>
         </tr>
         <tr>
-            <td>EMAIL</td>
-            <td class="td-in-well">{{ arTercero.email }}</td>
-            <td></td>
-            <td></td>
+            <td>CIUDAD</td>
+            <td class="td-in-well">{{ arTercero.ciudadRel.nombre | default('') }}</td>
+            <td>DIRECCION</td>
+            <td class="td-in-well">{{ arTercero.direccion }}</td>
         </tr>
         <tr>
             <td class="titulo">CLIENTE:</td>

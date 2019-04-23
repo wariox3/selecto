@@ -51,8 +51,8 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Tercero</th>
                                  <th>Fecha</th>
+                                 <th>Tercero</th>
                                  <th></th>
                                  <th></th>
                                  <th></th>
@@ -62,8 +62,8 @@
                              {% for movimiento in arMovimientos %}
                                  <tr>
                                      <td>{{ movimiento.codigoMovimientoPk }}</td>
-                                     <td>{{ movimiento.tercero }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
+                                     <td>{{ movimiento.tercero }}</td>
                                      <td><a
                                                  href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="editar descripcion"><i
