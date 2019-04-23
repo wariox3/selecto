@@ -4,6 +4,7 @@ namespace App\Controller\Inventario\Administracion;
 
 use App\Entity\Inventario\InvItem;
 use App\Form\Type\ItemType;
+use App\General\General;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,6 +27,7 @@ class ItemController extends Controller
             ->add('codigoItem', TextType::class, ['required' => false, 'data' => $session->get('filtroItemCodigo')])
             ->add('descripcion', TextType::class, ['required' => false, 'data' => $session->get('filtroItemDescripcion')])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
+            ->add('btnExcel', SubmitType::class, array('label' => 'Excel'))
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -38,6 +40,9 @@ class ItemController extends Controller
                 $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(InvItem::class, $arItems);
                 return $this->redirect($this->generateUrl('item_lista'));
+            }
+            if ($form->get('btnExcel')->isClicked()) {
+                General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->lista())->execute(), "Items");
             }
         }
         $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 30);
@@ -66,7 +71,7 @@ class ItemController extends Controller
                 $arItem->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
                 $em->persist($arItem);
                 $em->flush();
-                return $this->redirect($this->generateUrl('item_detalle', array('id' => $arItem->getCodigoItemPk())));
+                return $this->redirect($this->generateUrl('item_lista', array('id' => $arItem->getCodigoItemPk())));
             }
         }
         return $this->render('Inventario/Administracion/Item/nuevo.html.twig', [

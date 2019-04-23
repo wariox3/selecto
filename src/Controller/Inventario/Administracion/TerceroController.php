@@ -75,7 +75,7 @@ class TerceroController extends Controller
                     $arTercero->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                     $em->persist($arTercero);
                     $em->flush();
-                    return $this->redirect($this->generateUrl('tercero_detalle', array('id' => $arTercero->getCodigoTerceroPk())));
+                    return $this->redirect($this->generateUrl('tercero_lista', array('id' => $arTercero->getCodigoTerceroPk())));
                 } else {
                     $respuesta = "Debe seleccionar un campo: cliente, proveedor o ambos";
                     Mensajes::error($respuesta);
