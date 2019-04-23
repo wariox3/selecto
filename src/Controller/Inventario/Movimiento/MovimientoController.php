@@ -8,7 +8,10 @@ use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
 use App\Entity\Inventario\InvTercero;
 use App\Form\Type\MovimientoType;
+use App\Formatos\Compra;
+use App\Formatos\Entrada;
 use App\Formatos\Factura;
+use App\Formatos\Salida;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -163,8 +166,19 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnImprimir')->isClicked()) {
-                $objFormato = new Factura();
-                $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                if ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'SAL') {
+                    $objFormato = new Salida();
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'FAC') {
+                    $objFormato = new Factura();
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'COM') {
+                    $objFormato = new Compra();
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                } else {
+                    $objFormato = new Entrada();
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                }
             }
         }
         $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);

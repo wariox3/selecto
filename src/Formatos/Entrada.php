@@ -9,7 +9,7 @@ use App\Entity\Inventario\InvTercero;
 use App\Utilidades\Estandares;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Factura extends \FPDF
+class Entrada extends \FPDF
 {
 
     public static $em;
@@ -24,10 +24,10 @@ class Factura extends \FPDF
     {
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
-        /** @var  $arMovimiento Movimiento */
+        /** @var  $arMovimiento InvMovimiento */
         $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
         ob_clean();
-        $pdf = new Factura('P', 'mm', 'letter');
+        $pdf = new Entrada('P', 'mm', 'letter');
         $pdf->AliasNbPages();
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 40);
@@ -40,7 +40,7 @@ class Factura extends \FPDF
         $pdf->SetTextColor(0, 0, 0);
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        $pdf->Output("Factura_{$arMovimiento->getNumero()}_{$arMovimiento->getTerceroRel()->getNombreCorto()}.pdf", 'D');
+        $pdf->Output("Entrada de almacen{$arMovimiento->getNumero()}_{$arMovimiento->getTerceroRel()->getNombreCorto()}.pdf", 'D');
     }
 
     public function Header()
@@ -55,7 +55,7 @@ class Factura extends \FPDF
 //        } catch (\Exception $exception) {
 //        }
         //INFORMACIÓN EMPRESA
-        Estandares::generarEncabezado($this, 'FACTURA DE VENTA', self::$em);
+        Estandares::generarEncabezado($this, 'ENTRADA DE ALMACEN', self::$em);
 
         //ENCABEZADO ORDEN DE COMPRA
         $intY = 40;
@@ -72,20 +72,19 @@ class Factura extends \FPDF
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(55, 4, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
-
         $this->SetXY(10, $intY + 4);
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200, 200, 200);
         $this->Cell(40, 4, "TERCERO:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 8);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4,  $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
+        $this->Cell(55, 4, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200, 200, 200);
         $this->Cell(40, 4, '', 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4,  '', 1, 'L', 1);
+        $this->Cell(55, 4, '', 1, 'L', 1);
 
         $this->EncabezadoDetalles();
 
@@ -140,82 +139,33 @@ class Factura extends \FPDF
             $pdf->Ln();
             $pdf->SetAutoPageBreak(true, 15);
         }
+
+        $pdf->SetFont('Arial', '', 7);
+        //TOTALES
+        $pdf->Ln(2);
+        $pdf->Cell(145, 4, "", 0, 0, 'R');
+        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFillColor(236, 236, 236);
+        $pdf->Cell(20, 4, "SUBTOTAL:", 1, 0, 'R', true);
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(25, 4, number_format($arMovimiento->getVrSubtotal(), 0, '.', ','), 1, 0, 'R');
+        $pdf->Ln();
+        $pdf->Cell(145, 4, "", 0, 0, 'R');
+        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->Cell(20, 4, "IVA:", 1, 0, 'R', true);
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(25, 4, number_format($arMovimiento->getVrIva(), 0, '.', ','), 1, 0, 'R');
+        $pdf->Ln();
+        $pdf->Cell(145, 4, "", 0, 0, 'R');
+        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->Cell(20, 4, "TOTAL:", 1, 0, 'R', true);
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(25, 4, number_format($arMovimiento->getVrTotalNeto(), 0, '.', ','), 1, 0, 'R');
+        $pdf->Ln(-8);
     }
 
     public function Footer()
     {
-        /**
-         * @var $arMovimiento InvMovimiento
-         * //         * @var $arMovimientoDetalles InvMovimientoDetalle
-* //         */
-        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
-        $y = 178;
-        $x = 181;
-
-        $this->SetXY(151, 174.5);
-        $this->SetFont('Arial', 'B', 7);
-        $this->Cell(30, 3, 'SUBTOTAL:', 0, 0, 'R');
-        $this->SetFont('Arial', '', 7);
-        $this->SetX($x);
-        $this->SetFont('Arial', '', 7);
-        $this->Cell(20, 3, number_format($arMovimiento->getVrSubtotal(), 0, '.', ','), 0, 0, 'R');
-
-        $this->SetXY(151, $y);
-        $this->SetFont('Arial', 'B', 7);
-        $this->Cell(30, 3, 'IVA:', 0, 0, 'R');
-        $this->SetX($x);
-        $this->SetFont('Arial', '', 7);
-        $this->Cell(20, 3,number_format($arMovimiento->getVrIva()), 0, 0, 'R');
-
-        $y += 3.8;
-        $this->SetFont('Arial', 'B', 7);
-        $this->SetXY(151, $y);
-        $this->Cell(30, 3, 'TOTAL BRUTO:', 0, 0, 'R');
-        $this->SetX($x);
-        $this->SetFont('Arial', '', 7);
-        $this->Cell(20, 3, number_format($arMovimiento->getVrTotalBruto()), 0, 0, 'R');
-
-        $y += 3.8;
-        $this->SetFont('Arial', 'B', 7);
-        $this->SetXY(151, $y);
-        $this->Cell(30, 3, 'TOTAL NETO:', 0, 0, 'R');
-        $this->SetX($x);
-        $this->SetFont('Arial', '', 7);
-        $this->Cell(20, 3,number_format($arMovimiento->getVrTotalNeto()), 0, 0, 'R');
-//        if ($arMovimiento->getVrNeto() != 0) {
-//            $vrTotalLetras = self::devolverNumeroLetras($arMovimiento->getVrNeto());
-//        } else {
-//            $vrTotalLetras = 'CERO PESOS';
-//        }
-        $this->SetXY(19, 209);
-        $this->SetFont('Arial', 'B', 6);
-//        $this->Cell(20, 3, 'SON: ' . $vrTotalLetras, 0, 0, 'L');
-
-        $this->Line(202.3, 174.2, 18.7, 174.2);
-        $this->Line(202.3, 212, 18.7, 212);
-
-        $this->Line(20, 239.2, 102.9, 239.2);
-        $this->Line(120, 239, 200, 239);
-        $this->SetFont('Arial', 'B', 6);
-        $this->Text(50, 242, 'AUTORIZADO');
-        $this->Text(152, 242, 'FIRMA DE RECIBIDO');
-        $this->SetFont('Arial', 'B', 7.5);
-
-        $this->Text(19.7, 177, 'OBSERVACIONES:');
-        $this->SetXY(19.7, 184);
-        $this->SetFont('Arial', '', 7.5);
-        $this->MultiCell(127, 3, '', 0, 'L');
-
-//        $this->SetFont('Arial', '', 5.5);
-//        $this->Text(20.5, 220, '* IVA REGIMEN COMUN');
-//        $this->Text(20.5, 222, '* NO SOMOS AUTORETENEDORES');
-//        $this->Text(20.5, 224, '* NO SOMOS GRANDES CONTRIBUYENTES');
-//        $this->Text(20.5, 226, '* CODIGO CIIU 4645 - CREE 0.3%');
-//        $this->Text(20.5, 228, '* LA PRESENTE FACTURA PRESENTA MERITO EJECUTIVO COMO TITULO VALOR');
-//        $this->Text(20.5, 230, ' SEGUN LO ESTABLECIDO EN EL ART.3 DE LA LEY 1231 DE 2008');
-//        $this->Text(20.5, 232, '* RESOLUCION DIAN DE AUTORIZACION PARA FACTURACION POR COMPUTADOR');
-//        $this->SetFont('Arial', '', 6.5);
-//        $this->Text(65, 251.5, 'CRA 90 CL 65C-10 APTO 1917 MEDELLIN - CEL 300 448 02 19 - E-MAIL: comercial@filtramed.com');
         $this->Text(188, 257, utf8_decode('Página ') . $this->PageNo() . ' de {nb}');
     }
 

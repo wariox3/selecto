@@ -63,10 +63,12 @@ class InvTercero
      * @ORM\Column(name="direccion", type="string", length=80,nullable=true)
      */
     private $direccion;
+
     /**
      * @ORM\Column(name="telefono", type="string", length=20,nullable=true)
      */
     private $telefono;
+
     /**
      * @ORM\Column(name="celular", type="string", length=20, nullable=true)
      */
