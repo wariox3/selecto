@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inventario;
+namespace App\Controller\Inventario\Administracion;
 
 use App\Entity\Inventario\InvTercero;
 use App\Form\Type\TerceroType;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class InvTerceroController extends Controller
+class TerceroController extends Controller
 {
     /**
      * @Route("/Tercero/lista", name="tercero_lista")
@@ -47,7 +47,7 @@ class InvTerceroController extends Controller
             }
         }
         $arTerceros = $paginator->paginate($em->getRepository(InvTercero::class)->lista(), $request->query->getInt('page', 1), 30);
-        return $this->render('Tercero/lista.html.twig', [
+        return $this->render('Inventario/Administracion/Tercero/lista.html.twig', [
             'arTerceros' => $arTerceros,
             'form' => $form->createView()
         ]);
@@ -82,7 +82,7 @@ class InvTerceroController extends Controller
                 }
             }
         }
-        return $this->render('Tercero/nuevo.html.twig', [
+        return $this->render('Inventario/Administracion/Tercero/nuevo.html.twig', [
             'arTercero' => $arTercero,
             'form' => $form->createView()
         ]);
@@ -100,7 +100,7 @@ class InvTerceroController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('tercero_detalle', ['id' => $id]));
         }
-        return $this->render('Tercero/detalle.html.twig', [
+        return $this->render('Inventario/Administracion/Tercero/detalle.html.twig', [
             'form' => $form->createView(),
             'arTercero' => $arTercero,
         ]);

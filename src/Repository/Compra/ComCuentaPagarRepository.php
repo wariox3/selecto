@@ -25,7 +25,7 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
             ->addSelect('cp.fecha')
             ->addSelect('cp.fechaVence')
             ->addSelect('cp.operacion')
-            ->addSelect('cp.codigoTerceroFk')
+            ->addSelect('cpt.nombreCorto as nombre')
             ->addSelect('cp.vrSubtotal')
             ->addSelect('cp.vrTotalBruto')
             ->addSelect('cp.vrAbono')
@@ -36,15 +36,16 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
             ->addSelect('cp.estadoAutorizado')
             ->addSelect('cp.estadoAprobado')
             ->addSelect('cp.estadoAnulado')
-            ->addSelect('cp.codigoEmpresaFk');
+            ->addSelect('cp.codigoEmpresaFk')
+            ->leftJoin('cp.terceroRel','cpt');
         if ($session->get('filtroInformeCuentasPagarFechaDesde') != null) {
             $queryBuilder->andWhere("cp.fecha >= '{$session->get('filtroInformeCuentasPagarFechaDesde')} 00:00:00'");
         }
         if ($session->get('filtroInformeCuentasPagarFechaHasta') != null) {
             $queryBuilder->andWhere("cp.fecha <= '{$session->get('filtroInformeCuentasPagarFechaHasta')} 23:59:59'");
         }
-        if ($session->get('filtroInformeCuentasPagarCodigo') != '') {
-            $queryBuilder->andWhere("cp.codigoCuentaPagarPk = '{$session->get('filtroInformeCuentasPagarCodigo')}'");
+        if ($session->get('filtroInformeCuentasPagarNombreCorto') != '') {
+            $queryBuilder->andWhere("cpt.nombreCorto like '%{$session->get('filtroInformeCuentasPagarNombreCorto')}%'");
         }
         $queryBuilder->orderBy('cp.fecha','DESC');
         return $queryBuilder;

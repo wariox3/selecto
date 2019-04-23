@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inventario;
+namespace App\Controller\Inventario\Movimiento;
 
 use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InvMovimientoController extends Controller
+class MovimientoController extends Controller
 {
     /**
      * @Route("/movimiento/lista/{documento}", name="movimiento_lista")
@@ -56,7 +56,7 @@ class InvMovimientoController extends Controller
             }
         }
         $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->lista($documento), $request->query->getInt('page', 1), 30);
-        return $this->render('Movimiento/lista.html.twig', [
+        return $this->render('Inventario/Movimiento/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
             'documento' => $documento,
             'form' => $form->createView()
@@ -83,12 +83,13 @@ class InvMovimientoController extends Controller
                     $arMovimiento->setFecha(new \DateTime('now'));
                 }
                 $arMovimiento = $form->getData();
+                $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                 $em->persist($arMovimiento);
                 $em->flush();
                 return $this->redirect($this->generateUrl('movimiento_detalle', array('id' => $arMovimiento->getCodigoMovimientoPk())));
             }
         }
-        return $this->render('Movimiento/nuevo.html.twig', [
+        return $this->render('Inventario/Movimiento/nuevo.html.twig', [
             'arMovimiento' => $arMovimiento,
             'documento' => $documento,
             'form' => $form->createView()
@@ -167,7 +168,7 @@ class InvMovimientoController extends Controller
             }
         }
         $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
-        return $this->render('Movimiento/detalle.html.twig', [
+        return $this->render('Inventario/Movimiento/detalle.html.twig', [
             'form' => $form->createView(),
             'arMovimiento' => $arMovimiento,
             'arMovimientoDetalles' => $arMovimientoDetalles
@@ -228,7 +229,7 @@ class InvMovimientoController extends Controller
             }
         }
         $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 50);
-        return $this->render('Movimiento/detalleNuevo.html.twig', [
+        return $this->render('Inventario/Movimiento/detalleNuevo.html.twig', [
             'form' => $form->createView(),
             'arItems' => $arItems
         ]);

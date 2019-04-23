@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Inventario\Informe;
 
 use App\Entity\Inventario\InvItem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InformeExistenciaController extends Controller
+class ExistenciaController extends Controller
 {
 
     /**
@@ -35,7 +35,7 @@ class InformeExistenciaController extends Controller
             }
         }
         $arItems = $paginator->paginate($em->getRepository(InvItem::class)->existencia(), $request->query->getInt('page', 1), 50);
-        return $this->render('Informe/InformeExistenciaLista.html.twig', [
+        return $this->render('Inventario/Informe/informeExistenciaLista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()
         ]);

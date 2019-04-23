@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inventario;
+namespace App\Controller\Inventario\Administracion;
 
 use App\Entity\Inventario\InvItem;
 use App\Form\Type\ItemType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InvItemController extends Controller
+class ItemController extends Controller
 {
     /**
      * @Route("/item/lista", name="item_lista")
@@ -41,7 +41,7 @@ class InvItemController extends Controller
             }
         }
         $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 30);
-        return $this->render('item/lista.html.twig', [
+        return $this->render('Inventario/Administracion/Item/lista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()
         ]);
@@ -69,7 +69,7 @@ class InvItemController extends Controller
                 return $this->redirect($this->generateUrl('item_detalle', array('id' => $arItem->getCodigoItemPk())));
             }
         }
-        return $this->render('item/nuevo.html.twig', [
+        return $this->render('Inventario/Administracion/Item/nuevo.html.twig', [
             'arItem' => $arItem,
             'form' => $form->createView()
         ]);
@@ -87,7 +87,7 @@ class InvItemController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('item_detalle', ['id' => $id]));
         }
-        return $this->render('item/detalle.html.twig', [
+        return $this->render('Inventario/Administracion/Item/detalle.html.twig', [
             'form' => $form->createView(),
             'arItem' => $arItem,
         ]);

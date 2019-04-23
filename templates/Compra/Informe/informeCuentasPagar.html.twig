@@ -13,7 +13,7 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="form-group form-group-sm">
-                            <label class="col-sm-1 control-label">Numero:</label>
+                            <label class="col-sm-1 control-label">Tercero:</label>
                             <div class="col-sm-2">
                                 {{ form_widget(form.txtCuentaPagar) }}
                             </div>
@@ -56,7 +56,6 @@
                                 <th>Documento</th>
                                 <th>Fecha</th>
                                 <th>Fecha Vence</th>
-                                <th>Operacion</th>
                                 <th>Tercero</th>
                                 <th>Subtotal</th>
                                 <th>Total</th>
@@ -68,19 +67,17 @@
                                 <th>Autorizado</th>
                                 <th>Aprobado</th>
                                 <th>Anulado</th>
-                                <th>Empresa</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for arCuentaPagar  in arCuentasPagar %}
                                 <tr>
-                                    <td>{{ arCuentaPagar.codigoCuentaCobrarPk }}</td>
-                                    <td>{{ arCuentaPagar.codigoCuentaCobrarTipoFk }}</td>
+                                    <td>{{ arCuentaPagar.codigoCuentaPagarPk }}</td>
+                                    <td>{{ arCuentaPagar.codigoCuentaPagarTipoFk }}</td>
                                     <td>{{ arCuentaPagar.numeroDocumento }}</td>
                                     <td>{{ arCuentaPagar.fecha|date('Y-m-d') }}</td>
                                     <td>{{ arCuentaPagar.fechaVence|date('Y-m-d') }}</td>
-                                    <td>{{ arCuentaPagar.operacion }}</td>
-                                    <td>{{ arCuentaPagar.codigoTerceroFk }}</td>
+                                    <td>{{ arCuentaPagar.nombre }}</td>
                                     <td>{{ arCuentaPagar.vrSubtotal | number_format(0, '.', ',') }}</td>
                                     <td>{{ arCuentaPagar.vrTotalBruto }}</td>
                                     <td>{{ arCuentaPagar.vrAbono | number_format (0, '.', ',') }}</td>
@@ -91,7 +88,6 @@
                                     <td>{{ arCuentaPagar.estadoAutorizado ? 'SI':'NO' }}</td>
                                     <td>{{ arCuentaPagar.estadoAprobado ? 'SI':'NO' }}</td>
                                     <td>{{ arCuentaPagar.estadoAnulado ? 'SI':'NO' }}</td>
-                                    <td>{{ arCuentaPagar.codigoEmpresaFk }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\General;
 
 use App\Entity\Llamada;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Compra\Informe;
 
 use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Compra\ComCuentaPagar;
@@ -8,11 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InformeCuentasPagarController extends Controller
+class CuentasPagarController extends Controller
 {
 
     /**
@@ -26,7 +27,7 @@ class InformeCuentasPagarController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInformeCuentasPagarFechaDesde') ? date_create($session->get('filtroInformeCuentasPagarFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInformeCuentasPagarFechaHasta') ? date_create($session->get('filtroInformeCuentasPagarFechaHasta')) : null])
-            ->add('txtCuentaPagar', IntegerType::class, array('required' => false, 'data' => $session->get('filtroInformeCuentasPagarCodigo')))
+            ->add('txtCuentaPagar', TextType::class, array('required' => false, 'data' => $session->get('filtroInformeCuentasPagarNombreCorto')))
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -34,12 +35,12 @@ class InformeCuentasPagarController extends Controller
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroInformeCuentasPagarFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
                 $session->set('filtroInformeCuentasPagarFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
-                $session->set('filtroInformeCuentasPagarCodigo', $form->get('txtCuentaPagar')->getData());
+                $session->set('filtroInformeCuentasPagarNombreCorto', $form->get('txtCuentaPagar')->getData());
 
             }
         }
         $arCuentasPagar = $paginator->paginate($em->getRepository(ComCuentaPagar::class)->informe(), $request->query->getInt('page', 1), 50);
-        return $this->render('Informe/InformeCuentasPagar.html.twig', [
+        return $this->render('Compra/Informe/informeCuentasPagar.html.twig', [
             'arCuentasPagar' => $arCuentasPagar,
             'form' => $form->createView()
         ]);

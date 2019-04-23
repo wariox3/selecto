@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-
 class InvMovimientoRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)

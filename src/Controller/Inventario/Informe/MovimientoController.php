@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Inventario\Informe;
 
 use App\Entity\Inventario\InvMovimientoDetalle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InformeMovimientoController extends Controller
+class MovimientoController extends Controller
 {
 
     /**
@@ -38,11 +38,9 @@ class InformeMovimientoController extends Controller
             }
         }
         $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->informe(), $request->query->getInt('page', 1), 50);
-        return $this->render('Informe/InformeMovimientoLista.html.twig', [
+        return $this->render('Inventario/Informe/informeMovimientoLista.html.twig', [
             'arMovimientoDetalles' => $arMovimientoDetalles,
             'form' => $form->createView()
         ]);
     }
 }
-
-
