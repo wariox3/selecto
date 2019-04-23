@@ -18,36 +18,36 @@
         {% if arMovimiento.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
     </div>
     <br><br>
-    <table width="100%" class="table table-condensed table-bordered tabla-datos ">
+    <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
-            <td class="titulo">ID</td>
+            <td class="titulo">ID:</td>
             <td class="td-in-well">{{ arMovimiento.codigoMovimientoPk }}</td>
-            <td class="titulo">Subtotal</td>
-            <td> {{ arMovimiento.vrSubtotal | number_format(0, '.', ',') }}</td>
+            <td class="titulo">SUBTOTAL:</td>
+            <td class="numero"> {{ arMovimiento.vrSubtotal | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">NUMERO</td>
+            <td class="titulo">NUMERO:</td>
             <td class="td-in-well">{{ arMovimiento.numero}}</td>
-            <td class="td-in-well">Total IVA</td>
-            <td>{{ arMovimiento.vrIva | number_format (0, '.', ',') }}</td>
+            <td class="titulo">TOTAL IVA:</td>
+            <td class="numero">{{ arMovimiento.vrIva | number_format (0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">TERCERO</td>
+            <td class="titulo">TERCERO:</td>
             <td class="td-in-well">{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
-            <td class="td-in-well">Total Bruto</td>
-            <td>{{ arMovimiento.vrTotalBruto | number_format (0, '.', ',') }}</td>
+            <td class="titulo">TOTAL Bruto:</td>
+            <td class="numero">{{ arMovimiento.vrTotalBruto | number_format (0, '.', ',') }}</td>
 
         </tr>
         <tr>
-            <td class="titulo">FECHA</td>
+            <td class="titulo">FECHA:</td>
             <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
-            <td class="td-in-well">Total Neto</td>
-            <td>{{ arMovimiento.vrTotalNeto | number_format (0, '.', ',') }}</td>
+            <td class="titulo">TOTAL NETO:</td>
+            <td class="numero">{{ arMovimiento.vrTotalNeto | number_format (0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">DOCUMENTO</td>
+            <td class="titulo">DOCUMENTO:</td>
             <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
-            <td class="td-in-well"></td>
+            <td class="titulo"></td>
             <td></td>
         </tr>
     </table>
@@ -58,7 +58,7 @@
     <section class="panel">
         <div class="panel-body">
             <div class="table-responsive">
-                <table class="table table-bordered mb-none">
+                <table class="table table-bordered mb-none tabla-datos">
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -97,7 +97,7 @@
                             </td>
                             {% endif %}
                             {% if arMovimiento.estadoAutorizado == 1 %}
-                            <td>{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
+                            <td class="numero">{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
                             {% else %}
                             <td style="text-align: center;">
                                 <input type="number"
@@ -107,10 +107,10 @@
                                        size="10">
                             </td>
                                 {% endif %}
-                            <td>{{ arMovimientoDetalle.vrSubtotal | number_format (0, '.', ',')}}</td>
+                            <td class="numero">{{ arMovimientoDetalle.vrSubtotal | number_format (0, '.', ',')}}</td>
                             <td>{{ arMovimientoDetalle.porcentajeIva }}</td>
-                            <td>{{ arMovimientoDetalle.vrIva | number_format (0, '.', ',') }}</td>
-                            <td>{{ arMovimientoDetalle.vrTotal | number_format (0, '.', ',') }}</td>
+                            <td class="numero">{{ arMovimientoDetalle.vrIva | number_format (0, '.', ',') }}</td>
+                            <td class="numero">{{ arMovimientoDetalle.vrTotal | number_format (0, '.', ',') }}</td>
                             <td style="text-align: center;"><input type="checkbox" style="text-align: right;"
                                                                    name="ChkSeleccionar[]"
                                                                    value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}"/>
