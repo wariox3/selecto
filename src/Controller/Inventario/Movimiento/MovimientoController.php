@@ -223,6 +223,7 @@ class MovimientoController extends Controller
                     if ($cantidad != '' && $cantidad != 0) {
                         if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
                             $arMovimientoDetalle = new InvMovimientoDetalle();
+                            $arMovimientoDetalle->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                             $arMovimientoDetalle->setMovimientoRel($arMovimiento);
                             $arMovimientoDetalle->setItemRel($arItem);
                             $arMovimientoDetalle->setCantidad($cantidad);
