@@ -14,7 +14,8 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function accesoAction(Request $request){
+    public function accesoAction(Request $request)
+    {
 
 
         $authenticationUtils = $this->get('security.authentication_utils');
@@ -27,7 +28,7 @@ class SecurityController extends Controller
 
         return $this->render('Seguridad/Login/login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
         ));
 
 //        $form = $this->createForm(FormTypeLogin::class, null, array(
@@ -46,7 +47,8 @@ class SecurityController extends Controller
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction(){
+    public function logoutAction()
+    {
         throw new \RuntimeException('Esta funcion jamas debe ser llamada directamente');
     }
 
