@@ -7,41 +7,41 @@
         </div>
     </div>
     <br><br>
-    <table width="100%" class="table table-condensed table-bordered tabla-datos ">
+    <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
-            <td>DIGITO</td>
+            <td class="titulo">DIGITO</td>
             <td class="td-in-well">{{ arTercero.digitoVerificacion }}</td>
-            <td>IDENTIFICACION</td>
+            <td class="titulo">IDENTIFICACION</td>
             <td class="td-in-well">{{ arTercero.numeroIdentificacion }}</td>
         </tr>
         <tr>
-            <td>PRIMER NOMBRE</td>
+            <td class="titulo">PRIMER NOMBRE</td>
             <td class="td-in-well">{{ arTercero.primerNombre }}</td>
-            <td>SEGUNDO NOMBRE</td>
+            <td class="titulo">SEGUNDO NOMBRE</td>
             <td class="td-in-well">{{ arTercero.segundoNombre }}</td>
         </tr>
         <tr>
-            <td>PRIMER APELLIDO</td>
+            <td class="titulo">PRIMER APELLIDO</td>
             <td class="td-in-well">{{ arTercero.primerApellido }}</td>
-            <td>SEGUNDO APELLIDO</td>
+            <td class="titulo">SEGUNDO APELLIDO</td>
             <td class="td-in-well">{{ arTercero.segundoApellido }}</td>
         </tr>
         <tr>
             <td class="titulo">NOMBRE CORTO:</td>
             <td class="td-in-well">{{ arTercero.nombreCorto }}</td>
-            <td>EMAIL</td>
+            <td class="titulo">EMAIL</td>
             <td class="td-in-well">{{ arTercero.email }}</td>
         </tr>
         <tr>
-            <td>TELEFONO</td>
+            <td class="titulo">TELEFONO</td>
             <td class="td-in-well">{{ arTercero.telefono }}</td>
-            <td>CELULAR</td>
+            <td class="titulo">CELULAR</td>
             <td class="td-in-well">{{ arTercero.celular }}</td>
         </tr>
         <tr>
-            <td>CIUDAD</td>
+            <td class="titulo">CIUDAD</td>
             <td class="td-in-well">{{ arTercero.ciudadRel.nombre | default('') }}</td>
-            <td>DIRECCION</td>
+            <td class="titulo">DIRECCION</td>
             <td class="td-in-well">{{ arTercero.direccion }}</td>
         </tr>
         <tr>
@@ -59,39 +59,3 @@
     </table>
     {{ form_end(form) }}
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -50,7 +50,7 @@
              <section class="panel">
                  <div class="panel-body">
                      <div class="table-responsive">
-                         <table class="table table-bordered mb-none">
+                         <table class="table table-bordered mb-none tabla-datos">
                              <thead>
                              <tr>
                                  <th>Id</th>
@@ -66,7 +66,8 @@
                                  <th title="Proveedor">Pro</th>
                                  <th></th>
                                  <th></th>
-                                 <th></th>
+                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                              </tr>
                              </thead>
                              <tbody>
@@ -83,13 +84,13 @@
                                      <td>{{ tercero.email }}</td>
                                      <td>{{ tercero.cliente ? 'SI':'NO' }}</td>
                                      <td>{{ tercero.proveedor ? 'SI':'NO' }}</td>
-                                     <td><a
+                                     <td align="center"><a
                                                  href="{{ path('tercero_nuevo', { 'id': tercero.codigoTerceroPk }) }}"
-                                                 title="editar nombre"><i class="fa fa-edit fa-lg"></i></a></td>
-                                     <td><a
+                                                 title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                     <td align="center"><a
                                                  href="{{ path('tercero_detalle', { 'id': tercero.codigoTerceroPk }) }}"
-                                                 title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
-                                     <td><input type="checkbox" name="ChkSeleccionar[]"
+                                                 title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
+                                     <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
                                                 value="{{ tercero.codigoTerceroPk }}"/></td>
                                  </tr>
                              {% endfor %}

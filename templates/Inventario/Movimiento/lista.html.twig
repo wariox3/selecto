@@ -53,9 +53,13 @@
                                  <th>Id</th>
                                  <th>Fecha</th>
                                  <th>Tercero</th>
+                                 <th title="Autorizado">Aut</th>
+                                 <th title="Aprobado">Apr</th>
+                                 <th title="Anulado">Anu</th>
                                  <th></th>
                                  <th></th>
-                                 <th></th>
+                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                              </tr>
                              </thead>
                              <tbody>
@@ -64,14 +68,17 @@
                                      <td>{{ movimiento.codigoMovimientoPk }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
                                      <td>{{ movimiento.tercero }}</td>
-                                     <td><a
+                                     <td>{{ movimiento.estadoAutorizado ? 'SI':'NO' }}</td>
+                                     <td>{{ movimiento.estadoAprobado ? 'SI':'NO' }}</td>
+                                     <td>{{ movimiento.estadoAnulado ? 'SI':'NO' }}</td>
+                                     <td align="center"><a
                                                  href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="editar descripcion"><i
                                                      class="fa fa-edit fa-lg"></i></a></td>
-                                     <td><a
+                                     <td align="center"><a
                                                  href="{{ path('movimiento_detalle', {'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
-                                     <td><input type="checkbox" name="ChkSeleccionar[]"
+                                     <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                     value="{{ movimiento.codigoMovimientoPk }}"/></td>
                                  </tr>
                              {% endfor %}

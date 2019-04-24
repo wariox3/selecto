@@ -34,6 +34,11 @@ class InvDocumento
     private $generaCartera = false;
 
     /**
+     * @ORM\Column(name="genera_tesoreria", type="boolean", options={"default":false})
+     */
+    private $generaTesoreria = false;
+
+    /**
      * @ORM\Column(name="consecutivo", type="integer")
      */
     private $consecutivo = 0;
@@ -244,5 +249,21 @@ class InvDocumento
     public function setCuentaPagarTipoDocumentoRel($cuentaPagarTipoDocumentoRel): void
     {
         $this->cuentaPagarTipoDocumentoRel = $cuentaPagarTipoDocumentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeneraTesoreria()
+    {
+        return $this->generaTesoreria;
+    }
+
+    /**
+     * @param mixed $generaTesoreria
+     */
+    public function setGeneraTesoreria($generaTesoreria): void
+    {
+        $this->generaTesoreria = $generaTesoreria;
     }
 }

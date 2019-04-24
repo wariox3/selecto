@@ -25,6 +25,7 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
             ->addSelect('cc.fecha')
             ->addSelect('cc.fechaVence')
             ->addSelect('cc.operacion')
+            ->addSelect('cct.numeroIdentificacion as nit')
             ->addSelect('cct.nombreCorto as nombre')
             ->addSelect('cc.vrSubtotal')
             ->addSelect('cc.vrTotalBruto')

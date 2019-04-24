@@ -48,7 +48,7 @@
             <section class="panel">
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered mb-none">
+                        <table class="table table-bordered mb-none tabla-datos">
                             <thead>
                             <tr>
                                 <th>Id</th>
@@ -75,11 +75,11 @@
                                     <td>{{ arMovimientoDetalle.tercero }}</td>
                                     <td>{{ arMovimientoDetalle.itemDescripcion }}</td>
                                     <td>{{ arMovimientoDetalle.cantidad }}</td>
-                                    <td>{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
+                                    <td class="numero">{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
                                     <td>{{ arMovimientoDetalle.porcentajeIva }}</td>
-                                    <td>{{ arMovimientoDetalle.vrIva | number_format (0, '.', ',') }}</td>
-                                    <td>{{ arMovimientoDetalle.vrSubtotal | number_format (0, '.', ',') }}</td>
-                                    <td>{{ arMovimientoDetalle.vrTotal | number_format (0, '.', ',') }}</td>
+                                    <td class="numero">{{ arMovimientoDetalle.vrIva | number_format (0, '.', ',') }}</td>
+                                    <td class="numero">{{ arMovimientoDetalle.vrSubtotal | number_format (0, '.', ',') }}</td>
+                                    <td class="numero">{{ arMovimientoDetalle.vrTotal | number_format (0, '.', ',') }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
