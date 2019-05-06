@@ -79,13 +79,13 @@ class Factura extends \FPDF
         $this->Cell(40, 4, "TERCERO:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 8);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4,  $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
+        $this->Cell(55, 4, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200, 200, 200);
         $this->Cell(40, 4, '', 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4,  '', 1, 'L', 1);
+        $this->Cell(55, 4, '', 1, 'L', 1);
 
         $this->EncabezadoDetalles();
 
@@ -95,7 +95,7 @@ class Factura extends \FPDF
     {
         $this->Ln(12);
         $this->SetX(10);
-        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO','SUBTOTAL', '% ','IVA', 'TOTAL');
+        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO', 'SUBTOTAL', '% ', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 6);
@@ -147,7 +147,7 @@ class Factura extends \FPDF
         /**
          * @var $arMovimiento InvMovimiento
          * //         * @var $arMovimientoDetalles InvMovimientoDetalle
-* //         */
+         * //         */
         $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $y = 178;
         $x = 181;
@@ -165,7 +165,7 @@ class Factura extends \FPDF
         $this->Cell(30, 3, 'IVA:', 0, 0, 'R');
         $this->SetX($x);
         $this->SetFont('Arial', '', 7);
-        $this->Cell(20, 3,number_format($arMovimiento->getVrIva()), 0, 0, 'R');
+        $this->Cell(20, 3, number_format($arMovimiento->getVrIva()), 0, 0, 'R');
 
         $y += 3.8;
         $this->SetFont('Arial', 'B', 7);
@@ -181,7 +181,7 @@ class Factura extends \FPDF
         $this->Cell(30, 3, 'TOTAL NETO:', 0, 0, 'R');
         $this->SetX($x);
         $this->SetFont('Arial', '', 7);
-        $this->Cell(20, 3,number_format($arMovimiento->getVrTotalNeto()), 0, 0, 'R');
+        $this->Cell(20, 3, number_format($arMovimiento->getVrTotalNeto()), 0, 0, 'R');
 //        if ($arMovimiento->getVrNeto() != 0) {
 //            $vrTotalLetras = self::devolverNumeroLetras($arMovimiento->getVrNeto());
 //        } else {

@@ -110,6 +110,11 @@ class InvTercero
     private $cuentaCobroRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cartera\CarRecibo", mappedBy="terceroRel")
+     */
+    private $carRecibosTerceroRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComCuentaPagar", mappedBy="terceroRel")
      */
     private $cuentaPagarRel;
@@ -422,6 +427,22 @@ class InvTercero
     public function setCuentaCobroRel($cuentaCobroRel): void
     {
         $this->cuentaCobroRel = $cuentaCobroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCarRecibosTerceroRel()
+    {
+        return $this->carRecibosTerceroRel;
+    }
+
+    /**
+     * @param mixed $carRecibosTerceroRel
+     */
+    public function setCarRecibosTerceroRel($carRecibosTerceroRel): void
+    {
+        $this->carRecibosTerceroRel = $carRecibosTerceroRel;
     }
 
     /**

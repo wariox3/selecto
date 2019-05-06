@@ -94,7 +94,7 @@ class Salida extends \FPDF
     {
         $this->Ln(12);
         $this->SetX(10);
-        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO','SUBTOTAL', '% ','IVA', 'TOTAL');
+        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO', 'SUBTOTAL', '% ', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 6);

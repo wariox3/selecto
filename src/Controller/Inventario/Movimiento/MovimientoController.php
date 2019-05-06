@@ -7,7 +7,7 @@ use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
 use App\Entity\Inventario\InvTercero;
-use App\Form\Type\MovimientoType;
+use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
 use App\Formatos\Factura;
@@ -145,6 +145,7 @@ class MovimientoController extends Controller
             $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
             if ($form->get('btnActualizar')->isClicked()) {
                 $em->getRepository(InvMovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
+//                dd($arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAprobado')->isClicked()) {
@@ -216,6 +217,7 @@ class MovimientoController extends Controller
             }
         }
         if ($form->get('btnGuardar')->isClicked()) {
+            dd($form);
             $arrItems = $request->request->get('itemCantidad');
             if (count($arrItems) > 0) {
                 foreach ($arrItems as $codigoItem => $cantidad) {

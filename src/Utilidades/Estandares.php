@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 final class Estandares
 {
     public static $imagen;
+
     private function __construct()
     {
         global $kernel;
@@ -109,8 +110,8 @@ final class Estandares
         $pdf->SetXY(53, 10);
 
         try {
-            if(self::getLogo(BaseDatos::getEm()) ){
-                $pdf->Image(self::getLogo(BaseDatos::getEm())['imagen'], 12, 13, 40, 25,self::getLogo(BaseDatos::getEm())['extension']);
+            if (self::getLogo(BaseDatos::getEm())) {
+                $pdf->Image(self::getLogo(BaseDatos::getEm())['imagen'], 12, 13, 40, 25, self::getLogo(BaseDatos::getEm())['extension']);
             }
         } catch (\Exception $exception) {
         }
@@ -123,33 +124,34 @@ final class Estandares
         $pdf->Cell(100, 4, utf8_decode($arEmpresa ? $arEmpresa->getNombreCorto() : ''), 0, 0, 'L', 0);
         $pdf->SetXY(53, 22);
         $pdf->Cell(20, 4, "NIT:", 0, 0, 'L', 1);
-        $pdf->Cell(100, 4, $arEmpresa ? $arEmpresa->getNit() . '-' .$arEmpresa->getDigitoVerificacion() : '', 0, 0, 'L', 0);
+        $pdf->Cell(100, 4, $arEmpresa ? $arEmpresa->getNit() . '-' . $arEmpresa->getDigitoVerificacion() : '', 0, 0, 'L', 0);
         $pdf->SetXY(53, 26);
         $pdf->Cell(20, 4, utf8_decode("DIRECCIÓN:"), 0, 0, 'L', 1);
-        $pdf->Cell(100, 4, substr(utf8_decode($arEmpresa ? $arEmpresa->getDireccion() : ''),0, 45), 0, 0, 'L', 0);
+        $pdf->Cell(100, 4, substr(utf8_decode($arEmpresa ? $arEmpresa->getDireccion() : ''), 0, 45), 0, 0, 'L', 0);
         $pdf->SetXY(53, 30);
         $pdf->Cell(20, 4, utf8_decode("TELÉFONO:"), 0, 0, 'L', 1);
         $pdf->Cell(100, 4, $arEmpresa ? $arEmpresa->getTelefono() : '', 0, 0, 'L', 0);
 
     }
 
-    public function getLogo($em){
+    public function getLogo($em)
+    {
         try {
-            $logo=$em->getRepository('App\Entity\General\GenImagen')->find('LOGO');
-            if($logo ){
-                if(!self::$imagen){
+            $logo = $em->getRepository('App\Entity\General\GenImagen')->find('LOGO');
+            if ($logo) {
+                if (!self::$imagen) {
 
-                $imagenBase64=base64_encode(stream_get_contents($logo->getImagen()));
-                $imagen="data:image/'{$logo->getExtension()}';base64,".$imagenBase64;
-                    self::$imagen=$imagen;
-                }else{
+                    $imagenBase64 = base64_encode(stream_get_contents($logo->getImagen()));
+                    $imagen = "data:image/'{$logo->getExtension()}';base64," . $imagenBase64;
+                    self::$imagen = $imagen;
+                } else {
 
-                $imagen=self::$imagen;
+                    $imagen = self::$imagen;
                 }
 
                 return [
-                    'imagen'=>$imagen,
-                    'extension'=>$logo->getExtension(),
+                    'imagen' => $imagen,
+                    'extension' => $logo->getExtension(),
                 ];
             }
         } catch (\Exception $exception) {

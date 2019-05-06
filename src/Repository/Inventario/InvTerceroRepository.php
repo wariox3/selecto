@@ -31,7 +31,7 @@ class InvTerceroRepository extends ServiceEntityRepository
             ->addSelect('t.digitoVerificacion')
             ->addSelect('t.cliente')
             ->addSelect('t.proveedor')
-        ->leftJoin('t.ciudadRel', 'c');
+            ->leftJoin('t.ciudadRel', 'c');
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');
         if ($session->get('filtroTerceroCodigo') != '') {
             $queryBuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");

@@ -32,7 +32,7 @@ final class Mensajes
     private static function getInstance()
     {
         static $instance = null;
-        if($instance === null) {
+        if ($instance === null) {
             $instance = new Mensajes();
         }
         return $instance;

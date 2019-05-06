@@ -49,6 +49,11 @@ class CarCuentaCobrarTipo
     protected $documentoCobrarTipoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="CarReciboDetalle", mappedBy="cuentaCobrarTipoRel")
+     */
+    protected $recibosDetallesCuentaCobrarTipoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoCuentaCobrarTipoPk()
@@ -158,5 +163,21 @@ class CarCuentaCobrarTipo
     public function setDocumentoCobrarTipoRel($documentoCobrarTipoRel): void
     {
         $this->documentoCobrarTipoRel = $documentoCobrarTipoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecibosDetallesCuentaCobrarTipoRel()
+    {
+        return $this->recibosDetallesCuentaCobrarTipoRel;
+    }
+
+    /**
+     * @param mixed $recibosDetallesCuentaCobrarTipoRel
+     */
+    public function setRecibosDetallesCuentaCobrarTipoRel($recibosDetallesCuentaCobrarTipoRel): void
+    {
+        $this->recibosDetallesCuentaCobrarTipoRel = $recibosDetallesCuentaCobrarTipoRel;
     }
 }

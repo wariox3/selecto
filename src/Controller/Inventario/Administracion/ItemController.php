@@ -3,7 +3,7 @@
 namespace App\Controller\Inventario\Administracion;
 
 use App\Entity\Inventario\InvItem;
-use App\Form\Type\ItemType;
+use App\Form\Type\Inventario\ItemType;
 use App\General\General;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ItemController extends Controller
 {
     /**
-     * @Route("/item/lista", name="item_lista")
+     * @Route("/inventario/administracion/item/lista", name="item_lista")
      */
     public function lista(Request $request)
     {
@@ -53,7 +53,7 @@ class ItemController extends Controller
     }
 
     /**
-     * @Route("/item/nuevo/{id}", name="item_nuevo")
+     * @Route("/inventario/administracion/item/nuevo/{id}", name="item_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -81,7 +81,7 @@ class ItemController extends Controller
     }
 
     /**
-     * @Route("/item/detalle/{id}", name="item_detalle")
+     * @Route("/inventario/administracion/item/detalle/{id}", name="item_detalle")
      */
     public function detalle(Request $request, $id)
     {

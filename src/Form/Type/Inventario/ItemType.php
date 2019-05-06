@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Type;
+namespace App\Form\Type\Inventario;
 
 
 use Symfony\Component\Form\AbstractType;

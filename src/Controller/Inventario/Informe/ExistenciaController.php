@@ -15,7 +15,7 @@ class ExistenciaController extends Controller
 {
 
     /**
-     * @Route("/Informe/informeExistenciaLista", name="informe_existencia_lista")
+     * @Route("Informe/ExistenciaLista", name="informe_existencia_lista")
      */
     public function listaExistencia(Request $request)
     {

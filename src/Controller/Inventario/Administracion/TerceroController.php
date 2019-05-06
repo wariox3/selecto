@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TerceroController extends Controller
 {
     /**
-     * @Route("/Tercero/lista", name="tercero_lista")
+     * @Route("/inventario/administracion/Tercero/lista", name="tercero_lista")
      */
     public function lista(Request $request)
     {
@@ -54,7 +54,7 @@ class TerceroController extends Controller
     }
 
     /**
-     * @Route("/Tercero/nuevo/{id}", name="tercero_nuevo")
+     * @Route("/inventario/administracion/Tercero/nuevo/{id}", name="tercero_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -89,7 +89,7 @@ class TerceroController extends Controller
     }
 
     /**
-     * @Route("/Tercero/detalle/{id}", name="tercero_detalle")
+     * @Route("/inventario/administracion/Tercero/detalle/{id}", name="tercero_detalle")
      */
     public function detalle(Request $request, $id)
     {

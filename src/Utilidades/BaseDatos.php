@@ -47,7 +47,8 @@ final class BaseDatos
     /**
      * @return EntityManager|object
      */
-    public static function getEm() {
+    public static function getEm()
+    {
         return self::getInstance()->em;
     }
 }

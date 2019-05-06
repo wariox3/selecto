@@ -79,13 +79,13 @@ class Compra extends \FPDF
         $this->Cell(40, 4, "TERCERO:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 8);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4,  $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
+        $this->Cell(55, 4, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200, 200, 200);
         $this->Cell(40, 4, '', 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4,  '', 1, 'L', 1);
+        $this->Cell(55, 4, '', 1, 'L', 1);
 
         $this->EncabezadoDetalles();
 
@@ -95,7 +95,7 @@ class Compra extends \FPDF
     {
         $this->Ln(12);
         $this->SetX(10);
-        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO','SUBTOTAL', '% ','IVA', 'TOTAL');
+        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO', 'SUBTOTAL', '% ', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 6);

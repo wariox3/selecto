@@ -38,7 +38,7 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
             ->addSelect('cp.estadoAprobado')
             ->addSelect('cp.estadoAnulado')
             ->addSelect('cp.codigoEmpresaFk')
-            ->leftJoin('cp.terceroRel','cpt');
+            ->leftJoin('cp.terceroRel', 'cpt');
         if ($session->get('filtroInformeCuentasPagarFechaDesde') != null) {
             $queryBuilder->andWhere("cp.fecha >= '{$session->get('filtroInformeCuentasPagarFechaDesde')} 00:00:00'");
         }
@@ -48,7 +48,7 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
         if ($session->get('filtroInformeCuentasPagarNombreCorto') != '') {
             $queryBuilder->andWhere("cpt.nombreCorto like '%{$session->get('filtroInformeCuentasPagarNombreCorto')}%'");
         }
-        $queryBuilder->orderBy('cp.fecha','DESC');
+        $queryBuilder->orderBy('cp.fecha', 'DESC');
         return $queryBuilder;
     }
 }

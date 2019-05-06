@@ -17,7 +17,7 @@ class CuentasPagarController extends Controller
 {
 
     /**
-     * @Route("/informeCuentasPagar", name="informe_cuentas_pagar")
+     * @Route("/compra/informe/cuentaspagar", name="informe_cuentas_pagar")
      */
     public function informe(Request $request)
     {

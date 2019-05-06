@@ -10,6 +10,7 @@ class Modelo
 {
 
     private $em;
+
     /*
     */
     public function __construct(EntityManager $entityManager)
@@ -17,8 +18,9 @@ class Modelo
         $this->em = $entityManager;
     }
 
-    public function eliminar($entidad, $arrSeleccionados){
-        try{
+    public function eliminar($entidad, $arrSeleccionados)
+    {
+        try {
             $em = $this->em;
             if ($arrSeleccionados && is_array($arrSeleccionados)) {
                 foreach ($arrSeleccionados as $codigo) {

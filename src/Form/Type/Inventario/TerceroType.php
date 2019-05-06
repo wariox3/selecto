@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Type;
+namespace App\Form\Type\Inventario;
 
 
 use App\Entity\General\GenCiudad;
@@ -31,7 +31,7 @@ class TerceroType extends AbstractType
             ])
             ->add('nombreCorto', TextType::class, array('required' => true))
             ->add('numeroIdentificacion', TextType::class, array('required' => true))
-            ->add('codigoIdentificacionFk', ChoiceType::class, array('choices' => array('Cedula'=>'CC','Nit'=>'NI','Tarjeta de Extranjeria'=>'TE','Cedula de Extranjeria'=>'CE','Pasaporte'=>'PE','Tipo Documento Extranjero'=>'TDE','Permiso Especial de Permacencia'=>'PE',) ))
+            ->add('codigoIdentificacionFk', ChoiceType::class, array('choices' => array('Cedula' => 'CC', 'Nit' => 'NI', 'Tarjeta de Extranjeria' => 'TE', 'Cedula de Extranjeria' => 'CE', 'Pasaporte' => 'PE', 'Tipo Documento Extranjero' => 'TDE', 'Permiso Especial de Permacencia' => 'PE',)))
             ->add('primerNombre', TextType::class, array('required' => false))
             ->add('segundoNombre', TextType::class, array('required' => false))
             ->add('primerApellido', TextType::class, array('required' => false))
@@ -43,7 +43,5 @@ class TerceroType extends AbstractType
             ->add('cliente', CheckboxType::class, array('required' => false, 'label' => 'Cliente'))
             ->add('proveedor', CheckboxType::class, array('required' => false, 'label' => 'Proveedor'))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
-
-
     }
 }
