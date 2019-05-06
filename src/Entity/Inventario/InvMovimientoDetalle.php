@@ -55,7 +55,7 @@ class InvMovimientoDetalle
     private $porcentajeIva = 0;
 
     /**
-     * @ORM\Column(name="vr_iva", type="float", nullable=true)
+     * @ORM\Column(name="vr_iva", type="float", nullable=true, options={"default" : 0})
      */
     private $vrIva = 0;
 

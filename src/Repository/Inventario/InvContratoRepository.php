@@ -7,6 +7,7 @@ use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComCuentaPagarTipo;
 use App\Entity\Inventario\InvContrato;
+use App\Entity\Inventario\InvContratoDetalle;
 use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
@@ -39,5 +40,28 @@ class InvContratoRepository extends ServiceEntityRepository
         }
         $queryBuilder->orderBy("c.codigoContratoPk", 'DESC');
         return $queryBuilder;
+    }
+
+    public function generarFactura($codigoEmpresa)
+    {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(InvContrato::class, 'c')
+            ->select('c.codigoContratoPk');
+        $arContratos = $queryBuilder->getQuery()->getResult();
+        foreach ($arContratos as $arContrato) {
+            $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContratoDetalle::class, 'cd')
+                ->select('cd.codigoContratoDetallePk');
+            $arContratoDetalles = $queryBuilder->getQuery()->getResult();
+            if($arContratoDetalles) {
+                $arContrato = $em->getRepository(InvContrato::class)->find($arContrato['codigoContratoPk']);
+                $arDocumento = $em->getRepository(InvDocumento::class)->find('FAC');
+                $arFactura = new InvMovimiento();
+                $arFactura->setCodigoEmpresaFk($codigoEmpresa);
+                $arFactura->setDocumentoRel($arDocumento);
+                $arFactura->setTerceroRel($arContrato->getTerceroRel());
+                $em->persist($arFactura);
+            }
+        }
+        $em->flush();
     }
 }

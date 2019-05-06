@@ -36,6 +36,7 @@ class GenerarFacturaController extends Controller
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
+            ->add('btnGenerarTodo', SubmitType::class, ['label' => 'Generar todo', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -47,6 +48,9 @@ class GenerarFacturaController extends Controller
                 } else {
                     $session->set('filtroContratoTercero', null);
                 }
+            }
+            if ($form->get('btnGenerarTodo')->isClicked()) {
+                $em->getRepository(InvContrato::class)->generarFactura($this->getUser()->getCodigoEmpresaFk());
             }
         }
         $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->lista(), $request->query->getInt('page', 1), 30);
