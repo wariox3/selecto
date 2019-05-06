@@ -50,6 +50,11 @@ class InvItem
     protected $movimientosDetallesItemRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="InvContratoDetalle", mappedBy="itemRel")
+     */
+    protected $contratosDetallesItemRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoItemPk()
@@ -160,4 +165,22 @@ class InvItem
     {
         $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosDetallesItemRel()
+    {
+        return $this->contratosDetallesItemRel;
+    }
+
+    /**
+     * @param mixed $contratosDetallesItemRel
+     */
+    public function setContratosDetallesItemRel($contratosDetallesItemRel): void
+    {
+        $this->contratosDetallesItemRel = $contratosDetallesItemRel;
+    }
+
+
 }

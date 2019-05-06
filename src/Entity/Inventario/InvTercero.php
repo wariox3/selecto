@@ -100,9 +100,20 @@ class InvTercero
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="ciudadTerceroRel")
+     * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
+     */
+    protected $ciudadRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="InvMovimiento", mappedBy="terceroRel")
      */
     protected $movimientosTerceroRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="InvContrato", mappedBy="terceroRel")
+     */
+    protected $contratosTerceroRel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cartera\CarCuentaCobrar", mappedBy="terceroRel")
@@ -119,11 +130,6 @@ class InvTercero
      */
     private $cuentaPagarRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="ciudadTerceroRel")
-     * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
-     */
-    protected $ciudadRel;
 
     /**
      * @return mixed
@@ -470,10 +476,28 @@ class InvTercero
     }
 
     /**
+     * @return mixed
+     */
+    public function getContratosTerceroRel()
+    {
+        return $this->contratosTerceroRel;
+    }
+
+    /**
+     * @param mixed $contratosTerceroRel
+     */
+    public function setContratosTerceroRel($contratosTerceroRel): void
+    {
+        $this->contratosTerceroRel = $contratosTerceroRel;
+    }
+
+    /**
      * @param mixed $ciudadRel
      */
     public function setCiudadRel($ciudadRel): void
     {
         $this->ciudadRel = $ciudadRel;
     }
+
+
 }

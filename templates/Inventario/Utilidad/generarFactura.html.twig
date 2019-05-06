@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+                 <div class="panel-body">
+                     <div class="form-group">
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Tercero:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.cboTerceroRel) }}
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-body">
+                     <div class="table-responsive">
+                         <table class="table table-bordered mb-none tabla-datos">
+                             <thead>
+                             <tr>
+                                 <th>Id</th>
+                                 <th>Tercero</th>
+                                 <th title="Autorizado">Aut</th>
+                                 <th title="Aprobado">Apr</th>
+                                 <th title="Anulado">Anu</th>
+                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             {% for contrato in arContratos %}
+                                 <tr>
+                                     <td>{{ contrato.codigoContratoPk }}</td>
+                                     <td>{{ contrato.tercero }}</td>
+                                     <td>{{ contrato.estadoAutorizado ? 'SI':'NO' }}</td>
+                                     <td>{{ contrato.estadoAprobado ? 'SI':'NO' }}</td>
+                                     <td>{{ contrato.estadoAnulado ? 'SI':'NO' }}</td>
+
+                                     <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
+                                                               value="{{ contrato.codigoContratoPk }}"/></td>
+                                 </tr>
+                             {% endfor %}
+                             </tbody>
+                         </table>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arContratos.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arContratos) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
