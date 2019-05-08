@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="btn-group" style="float:left">
+        <a class="btn btn-default btn-sm"
+           href="{{ path('inventario_contrato_lista') }}">Volver</a>
+        {{ form_widget(form.btnAutorizar) }}
+        {{ form_widget(form.btnDesautorizar) }}
+        {{ form_widget(form.btnAprobado) }}
+        {{ form_widget(form.btnImprimir) }}
+    </div>
+    <div style="float:right">
+        {% if arContrato.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
+    </div>
+    <div style="float:right">
+        {% if arContrato.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
+    </div>
+    <div style="float:right">
+        {% if arContrato.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
+    </div>
+    <br><br>
+    <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
+        <tr>
+            <td class="titulo">ID:</td>
+            <td class="td-in-well">{{ arContrato.codigoContratoPk }}</td>
+            <td class="titulo">SUBTOTAL:</td>
+            <td class="numero"> {{ arContrato.vrSubtotal | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">NUMERO:</td>
+            <td class="td-in-well">{{ arContrato.numero }}</td>
+            <td class="titulo">TOTAL IVA:</td>
+            <td class="numero">{{ arContrato.vrIva | number_format (0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">TERCERO:</td>
+            <td class="td-in-well">{{ arContrato.terceroRel.nombreCorto | default('') }}</td>
+            <td class="titulo">TOTAL Bruto:</td>
+            <td class="numero">{{ arContrato.vrTotalBruto | number_format (0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">FECHA:</td>
+            <td class="td-in-well">{{ arContrato.fecha|date('Y-m-d') }}</td>
+            <td class="titulo">TOTAL NETO:</td>
+            <td class="numero">{{ arContrato.vrTotalNeto | number_format (0, '.', ',') }}</td>
+        </tr>
+    </table>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#detalles" data-toggle="tab">Detalles</a></li>
+    </ul>
+    <br/>
+    <section class="panel">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered mb-none tabla-datos">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Item</th>
+                        <th>Descripcion</th>
+                        <th>Referencia</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>%</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                   OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for arContratoDetalle  in arContratoDetalles %}
+                        <tr>
+                            <td>{{ arContratoDetalle.codigoContratoDetallePk }}</td>
+                            <input type="hidden"
+                                   name="arrCodigo[]"
+                                   value="{{ arContratoDetalle.codigoContratoDetallePk }}">
+                            <td>{{ arContratoDetalle.item }} </td>
+                            <td>{{ arContratoDetalle.descripcion }}</td>
+                            <td>{{ arContratoDetalle.referencia }}</td>
+                            {% if arContrato.estadoAutorizado == 1 %}
+                                <td>{{ arContratoDetalle.cantidad }}</td>
+                            {% else %}
+                                <td style="text-align: center;">
+                                    <input type="number"
+                                           name="arrCantidad[{{ arContratoDetalle.codigoContratoDetallePk }}]"
+                                           value="{{ arContratoDetalle.cantidad }}"
+                                           style="text-align: right; width:90px"
+                                           size="10">
+                                </td>
+                            {% endif %}
+                            {% if arContrato.estadoAutorizado == 1 %}
+                                <td class="numero">{{ arContratoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
+                            {% else %}
+                                <td style="text-align: center;">
+                                    <input type="number"
+                                           name="arrValor[{{ arContratoDetalle.codigoContratoDetallePk }}]"
+                                           value="{{ arContratoDetalle.vrPrecio }}"
+                                           style="text-align: right; width:90px"
+                                           size="10">
+                                </td>
+                            {% endif %}
+                            <td class="numero">{{ arContratoDetalle.vrSubtotal | number_format (0, '.', ',') }}</td>
+                            <td>{{ arContratoDetalle.porcentajeIva }}</td>
+                            <td class="numero">{{ arContratoDetalle.vrIva | number_format (0, '.', ',') }}</td>
+                            <td class="numero">{{ arContratoDetalle.vrTotal | number_format (0, '.', ',') }}</td>
+                            <td style="text-align: center;"><input type="checkbox" style="text-align: right;"
+                                                                   name="ChkSeleccionar[]"
+                                                                   value="{{ arContratoDetalle.codigoContratoDetallePk }}"/>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; flex-direction: row;">
+                <span style="margin-right: 4px">registros: {{ arContratoDetalles.getTotalItemCount }}</span>
+                {{ knp_pagination_render(arContratoDetalles) }}
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-3">
+                    <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                         aria-label="...">
+                        <div class="btn-group">
+                            {{ form_widget(form.btnActualizar) }}
+                            {% if arContrato.estadoAutorizado == 0 %}
+                                <a class="btn btn-default btn-sm"
+                                   href="javascript:abrirVentana3('{{ path('inventario_contrato_detalle_nuevo', {'id':arContrato.codigoContratoPk }) }}', 'MovimientoAdicionarDetalle', 600, 900)">Nuevo</a>
+                            {% endif %}
+                            {{ form_widget(form.btnEliminar) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
