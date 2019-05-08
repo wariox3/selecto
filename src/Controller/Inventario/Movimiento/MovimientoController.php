@@ -217,7 +217,6 @@ class MovimientoController extends Controller
             }
         }
         if ($form->get('btnGuardar')->isClicked()) {
-            dd($form);
             $arrItems = $request->request->get('itemCantidad');
             if (count($arrItems) > 0) {
                 foreach ($arrItems as $codigoItem => $cantidad) {
