@@ -35,44 +35,44 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function informe()
-    {
-        $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
-            ->select('md.codigoMovimientoDetallePk')
-            ->addSelect('md.codigoItemFk as itemCodigoPk')
-            ->addSelect('i.referencia as itemReferencia')
-            ->addSelect('i.cantidadExistencia as itemExistencia')
-            ->addSelect('i.descripcion as itemDescripcion')
-            ->addSelect('m.fecha as movimientofecha')
-            ->addSelect('m.numero as movimientonumero')
-            ->addSelect('d.nombre as documento')
-            ->addSelect('t.nombreCorto as tercero')
-            ->addSelect('md.cantidad')
-            ->addSelect('md.vrPrecio')
-            ->addSelect('md.vrSubtotal')
-            ->addSelect('md.porcentajeIva')
-            ->addSelect('md.vrIva')
-            ->addSelect('md.vrTotal')
-            ->leftJoin('md.movimientoRel', 'm')
-            ->leftJoin('m.documentoRel', 'd')
-            ->leftJoin('m.terceroRel', 't')
-            ->leftJoin("md.itemRel", "i");
-        if ($session->get('filtroInformeMovimientoFechaDesde') != null) {
-            $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroInformeMovimientoFechaDesde')} 00:00:00'");
-        }
-        if ($session->get('filtroInformeMovimientoFechaHasta') != null) {
-            $queryBuilder->andWhere("m.fecha <= '{$session->get('filtroInformeMovimientoFechaHasta')} 23:59:59'");
-        }
-        if ($session->get('filtroMovimientoNumero') != '') {
-            $queryBuilder->andWhere("m.numero = '{$session->get('filtroMovimientoNumero')}'");
-        }
-        if ($session->get('filtroItemReferencia') != '') {
-            $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
-        }
-        $queryBuilder->orderBy("m.fecha", 'DESC');
-        return $queryBuilder;
-    }
+//    public function informe()
+//    {
+//        $session = new Session();
+//        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
+//            ->select('md.codigoMovimientoDetallePk')
+//            ->addSelect('md.codigoItemFk as itemCodigoPk')
+//            ->addSelect('i.referencia as itemReferencia')
+//            ->addSelect('i.cantidadExistencia as itemExistencia')
+//            ->addSelect('i.descripcion as itemDescripcion')
+//            ->addSelect('m.fecha as movimientofecha')
+//            ->addSelect('m.numero as movimientonumero')
+//            ->addSelect('d.nombre as documento')
+//            ->addSelect('t.nombreCorto as tercero')
+//            ->addSelect('md.cantidad')
+//            ->addSelect('md.vrPrecio')
+//            ->addSelect('md.vrSubtotal')
+//            ->addSelect('md.porcentajeIva')
+//            ->addSelect('md.vrIva')
+//            ->addSelect('md.vrTotal')
+//            ->leftJoin('md.movimientoRel', 'm')
+//            ->leftJoin('m.documentoRel', 'd')
+//            ->leftJoin('m.terceroRel', 't')
+//            ->leftJoin("md.itemRel", "i");
+//        if ($session->get('filtroInformeMovimientoFechaDesde') != null) {
+//            $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroInformeMovimientoFechaDesde')} 00:00:00'");
+//        }
+//        if ($session->get('filtroInformeMovimientoFechaHasta') != null) {
+//            $queryBuilder->andWhere("m.fecha <= '{$session->get('filtroInformeMovimientoFechaHasta')} 23:59:59'");
+//        }
+//        if ($session->get('filtroMovimientoNumero') != '') {
+//            $queryBuilder->andWhere("m.numero = '{$session->get('filtroMovimientoNumero')}'");
+//        }
+//        if ($session->get('filtroItemReferencia') != '') {
+//            $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
+//        }
+//        $queryBuilder->orderBy("m.fecha", 'DESC');
+//        return $queryBuilder;
+//    }
 
     /**
      * @param $arrControles

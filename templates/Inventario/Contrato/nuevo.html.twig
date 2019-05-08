@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    {#                    <div class="panel-actions">#}
+                    {#                        <a href="#" class="fa fa-caret-down"></a>#}
+                    {#                    </div>#}
+                    <h2 class="panel-title">Información</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Tercero:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.terceroRel) }}
+                        </div>
+                    </div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a class="btn btn-default btn-sm" style="float:left"
+                               href="{{ path('inventario_contrato_lista') }}">Cancelar</a>
+                        </div>
+                        <div class="col-sm-6">
+                            {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

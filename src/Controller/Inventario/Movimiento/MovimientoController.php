@@ -145,7 +145,6 @@ class MovimientoController extends Controller
             $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
             if ($form->get('btnActualizar')->isClicked()) {
                 $em->getRepository(InvMovimientoDetalle::class)->actualizarDetalles($arrControles, $form, $arMovimiento);
-//                dd($arMovimiento);
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAprobado')->isClicked()) {
