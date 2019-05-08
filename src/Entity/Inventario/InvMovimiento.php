@@ -42,22 +42,22 @@ class InvMovimiento
     /**
      * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
      */
-    private $vrSubtotal;
+    private $vrSubtotal = 0;
 
     /**
      * @ORM\Column(name="vr_total_bruto", type="float", nullable=true, options={"default" : 0})
      */
-    private $vrTotalBruto;
+    private $vrTotalBruto = 0;
 
     /**
      * @ORM\Column(name="vr_total_neto", type="float", nullable=true, options={"default" : 0})
      */
-    private $vrTotalNeto;
+    private $vrTotalNeto = 0;
 
     /**
-     * @ORM\Column(name="vr_iva", type="float", nullable=true)
+     * @ORM\Column(name="vr_iva", type="float", nullable=true, options={"default" : 0})
      */
-    private $vrIva;
+    private $vrIva = 0;
 
     /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
