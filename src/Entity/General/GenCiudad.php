@@ -45,6 +45,27 @@ class GenCiudad
      */
     private $ciudadTerceroRel;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadExpedicionRel")
+     */
+    protected $EmpleadosCiudadExpedicionRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadRel")
+     */
+    protected $EmpleadosCiudadRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadExpedicionRel")
+     */
+    protected $rhuEmpleadosCiudadExpedicionRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadNacimientoRel")
+     */
+    protected $EmpleadosCiudadNacimientoRel;
+
     /**
      * @return mixed
      */
@@ -140,4 +161,70 @@ class GenCiudad
     {
         $this->ciudadTerceroRel = $ciudadTerceroRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpleadosCiudadExpedicionRel()
+    {
+        return $this->EmpleadosCiudadExpedicionRel;
+    }
+
+    /**
+     * @param mixed $EmpleadosCiudadExpedicionRel
+     */
+    public function setEmpleadosCiudadExpedicionRel($EmpleadosCiudadExpedicionRel): void
+    {
+        $this->EmpleadosCiudadExpedicionRel = $EmpleadosCiudadExpedicionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpleadosCiudadRel()
+    {
+        return $this->EmpleadosCiudadRel;
+    }
+
+    /**
+     * @param mixed $EmpleadosCiudadRel
+     */
+    public function setEmpleadosCiudadRel($EmpleadosCiudadRel): void
+    {
+        $this->EmpleadosCiudadRel = $EmpleadosCiudadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRhuEmpleadosCiudadExpedicionRel()
+    {
+        return $this->rhuEmpleadosCiudadExpedicionRel;
+    }
+
+    /**
+     * @param mixed $rhuEmpleadosCiudadExpedicionRel
+     */
+    public function setRhuEmpleadosCiudadExpedicionRel($rhuEmpleadosCiudadExpedicionRel): void
+    {
+        $this->rhuEmpleadosCiudadExpedicionRel = $rhuEmpleadosCiudadExpedicionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpleadosCiudadNacimientoRel()
+    {
+        return $this->EmpleadosCiudadNacimientoRel;
+    }
+
+    /**
+     * @param mixed $EmpleadosCiudadNacimientoRel
+     */
+    public function setEmpleadosCiudadNacimientoRel($EmpleadosCiudadNacimientoRel): void
+    {
+        $this->EmpleadosCiudadNacimientoRel = $EmpleadosCiudadNacimientoRel;
+    }
+
+
 }

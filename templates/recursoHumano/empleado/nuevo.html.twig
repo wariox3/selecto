@@ -1,0 +1,232 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Información general</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Numero identificacion:</label>
+                        <div class="col-md-5">
+                            {{  form_widget(form.numeroIdentificacion) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="_telefono">Identificación:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.identificacionRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Fecha expedicion :</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.fechaExpedicionIdentificacion) }}
+                        </div>
+                        <label class="col-md-1 control-label">Ciudad expedicion:</label>
+                        <div class="col-md-5">
+                             {{ form_widget(form.ciudadExpedicionRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Primer nombre:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.nombre1) }}
+                        </div>
+                        <label class="col-md-1 control-label">Segundo nombre:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.nombre2) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Primer apellido:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.apellido1) }}
+                        </div>
+                        <label class="col-md-1 control-label">Segundo apellido:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.apellido2) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label class="col-md-1 control-label" for="rhu_empleado_nombreCorto">nombre Corto:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.nombreCorto) }}
+                        </div>
+                        <label class="col-md-1 control-label">Estado civil:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.estadoCivilRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Estatura:</label>
+                        <div class="col-md-2">
+                            {{ form_widget(form.estatura) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="_telefono">Peso:</label>
+                        <div class="col-md-2">
+                            {{ form_widget(form.peso) }}
+                        </div>
+                        <label class="col-md-1 control-label">correo:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.correo) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Rh:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.rhRel) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="_telefono">Sexo:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.sexoRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Fecha nacimiento:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.fechaNacimiento) }}
+                        </div>
+                        <label class="col-md-1 control-label">Ciudad nacimientoRel:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.ciudadNacimientoRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="form_ciudadRel">Ciudad residencia:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.ciudadRel) }}
+                        </div>
+                        <label  class="col-md-1 control-label" for="form_barrio">Barrio:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.barrio, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="form_direccion">Dirección:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.direccion, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="form_direccion">Cargo:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.cargoRel, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-md-1 control-label" for="form_telefono">Teléfono:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.telefono, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <label  class="col-md-1 control-label" for="form_celular">Celular:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.celular, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="form_tallaCamisa">Talla camisa:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.tallaCamisa, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <label  class="col-md-1 control-label" for="form_tallaPantalon">Talla pantalón:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.tallaPantalon, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label  class="col-md-1 control-label" for="form_tallaCalzado">Talla calzado:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.tallaCalzado, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-md-2">
+                            {{ form_widget(form.discapacidad) }}
+                        </div>
+                        <div class=" col-sm-2">
+                            {{ form_widget(form.carro) }}
+                        </div>
+                        <div class=" col-sm-2">
+                            {{ form_widget(form.moto) }}
+                        </div>
+                        <div class=" col-sm-2">
+                            {{ form_widget(form.padreFamilia) }}
+                        </div>
+                        <div class="col-sm-2">
+                            {{ form_widget(form.cabezaHogar) }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="panel">
+                <div class="panel-heading">
+                    Información empresa
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="form_bancoRel" class="control-label col-md-1">Banco:</label>
+                        <div class="col-md-3">
+                            {{ form_widget(form.bancoRel, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <label for="form_cuenta" class="control-label col-md-1">Cuenta:</label>
+                        <div class="col-md-3">
+                            {{ form_widget(form.cuenta, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                        <label for="form_cue0nta" class="control-label col-md-1">Cuenta tipo:</label>
+                        <div class="col-md-3">
+                            {{ form_widget(form.codigoCuentaTipoFk, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('RecursoHumano_empleado_lista') }}">Cancelar</a>
+                        </div>
+                        <div class="col-sm-6">
+                            {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                        </div>
+                    </div>
+                </footer>
+            </section>
+
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="{{ path('RecursoHumano_empleado_lista') }}">Volver</a>
+        </div>
+    </div>
+    <br><br>
+    <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
+        <tr>
+            <td class="titulo">ID</td>
+            <td class="td-in-well">{{ arEmpleado.codigoEmpleadoPk }}</td>
+            <td class="titulo">Número identificación</td>
+            <td class="td-in-well">{{ arEmpleado.numeroIdentificacion }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">nombreCorto</td>
+            <td class="td-in-well">{{ arEmpleado.nombreCorto }}</td>
+            <td class="titulo">telefono</td>
+            <td class="td-in-well">{{ arEmpleado.telefono }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">celular</td>
+            <td class="td-in-well">{{ arEmpleado.celular }}</td>
+            <td class="titulo">direccion</td>
+            <td class="td-in-well">{{ arEmpleado.direccion }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">ciudad nombre</td>
+            <td class="td-in-well">{{ arEmpleado.ciudadRel.nombre }}</td>
+            <td class="titulo">direccion</td>
+            <td class="td-in-well">{{ arEmpleado.correo }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">fechaNacimiento</td>
+            <td class="td-in-well">{{ arEmpleado.fechaNacimiento | date("Y/m/d") }}</td>
+            <td class="titulo">numeroIdentificacion</td>
+            <td class="td-in-well">{{ arEmpleado.numeroIdentificacion }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">numero identificacion</td>
+            <td class="td-in-well">{{ arEmpleado.numeroIdentificacion }}</td>
+            <td class="titulo">discapacidad</td>
+            <td class="td-in-well">{{ arEmpleado.discapacidad ?"si":"no" }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">estadoContrato</td>
+            <td class="td-in-well">{{ arEmpleado.estadoContrato }}</td>
+            <td class="titulo">carro</td>
+            <td class="td-in-well">{{ arEmpleado.carro ?"si":"no" }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">cabezaHogar</td>
+            <td class="td-in-well">{{ arEmpleado.cabezaHogar?"si":"no" }}</td>
+            <td class="titulo">nombreCorto</td>
+            <td class="td-in-well">{{ arEmpleado.nombreCorto}}</td>
+        </tr>
+        <tr>
+            <td class="titulo">nombre1</td>
+            <td class="td-in-well">{{ arEmpleado.nombre1 }}</td>
+            <td class="titulo">nombre 2</td>
+            <td class="td-in-well">{{ arEmpleado.nombre1 | default('N/A')}}</td>
+        </tr>
+        <tr>
+            <td class="titulo">apellido1</td>
+            <td class="td-in-well">{{ arEmpleado.apellido1 }}</td>
+            <td class="titulo">apellido2</td>
+            <td class="td-in-well">{{ arEmpleado.apellido2 }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">telefono</td>
+            <td class="td-in-well">{{ arEmpleado.telefono }}</td>
+            <td class="titulo">celular</td>
+            <td class="td-in-well">{{ arEmpleado.celular }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">ciudad expedicion</td>
+            <td class="td-in-well">{{ arEmpleado.ciudadExpedicionRel.nombre }}</td>
+            <td class="titulo">ciudad nacimiento</td>
+            <td class="td-in-well">{{ arEmpleado.ciudadNacimientoRel.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">fecha expedicionIdentificacion</td>
+            <td class="td-in-well">{{ arEmpleado.fechaExpedicionIdentificacion | date("Y/m/d") }}</td>
+            <td class="titulo">sexo</td>
+            <td class="td-in-well">{{ arEmpleado.sexoRel.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">rh</td>
+            <td class="td-in-well">{{ arEmpleado.rhRel.nombre }}</td>
+            <td class="titulo">peso</td>
+            <td class="td-in-well">{{ arEmpleado.peso }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">estado civil</td>
+            <td class="td-in-well">{{ arEmpleado.estadoCivilRel.nombre }}</td>
+            <td class="titulo">celular</td>
+            <td class="td-in-well">{{ arEmpleado.celular }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">cuenta</td>
+            <td class="td-in-well">{{ arEmpleado.cuenta }}</td>
+            <td class="titulo">cueta Tipo</td>
+            <td class="td-in-well">{{ arEmpleado.cuetaTipo }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">banco</td>
+            <td class="td-in-well">{{ arEmpleado.bancoRel.nombre }}</td>
+            <td class="titulo">cargo</td>
+            <td class="td-in-well">{{ arEmpleado.cargoRel.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">tallaCamisa</td>
+            <td class="td-in-well">{{ arEmpleado.tallaCamisa }}</td>
+            <td class="titulo">tallaPantalon</td>
+            <td class="td-in-well">{{ arEmpleado.tallaPantalon }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">tallaCalzado</td>
+            <td class="td-in-well">{{ arEmpleado.tallaCalzado }}</td>
+            <td class="titulo">estatura</td>
+            <td class="td-in-well">{{ arEmpleado.estatura }}</td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

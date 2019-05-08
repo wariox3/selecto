@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+                 <div class="panel-body">
+                     <div class="form-group">
+                         <label class="col-sm-1 control-label">Id:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.codigoEmpleado) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Núm identificación:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.numeroIdentificacion) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Nombre corto:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.nombreCorto) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                              {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-body">
+                     <div class="table-responsive">
+                         <table class="table table-bordered mb-none tabla-datos">
+                             <thead>
+                             <tr>
+                                 <th>Id</th>
+                                 <th>Número identificación</th>
+                                 <th>Nombre corto</th>
+                                 <th>Teléfono</th>
+                                 <th>Celular</th>
+                                 <th>Dirección</th>
+                                 <th>Ciudad</th>
+                                 <th>Correo</th>
+                                 <th>Fecha nacimiento</th>
+                                 <th></th>
+                                 <th></th>
+                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             {% for arEmpleado in arEmpleados %}
+                                 <tr>
+                                     <td>{{ arEmpleado.codigoEmpleadoPk }}</td>
+                                     <td>{{ arEmpleado.numeroIdentificacion }}</td>
+                                     <td>{{ arEmpleado.nombreCorto }}</td>
+                                     <td>{{ arEmpleado.telefono }}</td>
+                                     <td>{{ arEmpleado.celular }}</td>
+                                     <td>{{ arEmpleado.direccion }}</td>
+                                     <td>{{ arEmpleado.ciudad }}</td>
+                                     <td>{{ arEmpleado.correo }}</td>
+                                     <td>{{ arEmpleado.fechaNacimiento| date('Y-m-d') }}</td>
+                                     <td align="center">
+                                         <a href="{{  path('RecursoHumano_empleado_nuevo', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
+                                            title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                     <td align="center">
+                                         <a href="{{  path('RecursoHumano_empleado_detalle', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
+                                                 title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
+                                     <td class="text-center">
+                                         <input type="checkbox" name="ChkSeleccionar[]"
+                                                value="{{ arEmpleado.codigoEmpleadoPk }}"/></td>
+                                 </tr>
+                             {% endfor %}
+                             </tbody>
+                         </table>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arEmpleados.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arEmpleados) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                                  aria-label="...">
+                                 <a class="btn btn-sm btn-default"
+                                    href="{{  path('RecursoHumano_empleado_nuevo',{'id':0}) }}">Nuevo</a>
+                                 {{ form_widget(form.btnEliminar) }}
+                             </div>
+
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
