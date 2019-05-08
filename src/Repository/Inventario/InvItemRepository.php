@@ -15,7 +15,7 @@ class InvItemRepository extends ServiceEntityRepository
         parent::__construct($registry, InvItem::class);
     }
 
-    public function lista()
+    public function lista($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvItem::class, 'i')
@@ -24,9 +24,8 @@ class InvItemRepository extends ServiceEntityRepository
             ->addSelect('i.referencia')
             ->addSelect('i.cantidadExistencia')
             ->addSelect('i.porcentajeIva')
-            ->orderBy('i.codigoItemPk', 'ASC');
-//            ->leftJoin("i.movimientosDetallesItemRel", "md");
-//        $queryBuilder->orderBy("i.codigoItemPk", 'DESC');
+            ->orderBy('i.codigoItemPk', 'ASC')
+            ->where('i.codigoEmpresaFk = '. $empresa);
         if ($session->get('filtroItemCodigo') != '') {
             $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroItemCodigo')}");
         }

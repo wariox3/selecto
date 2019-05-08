@@ -16,7 +16,7 @@ class InvTerceroRepository extends ServiceEntityRepository
         parent::__construct($registry, InvTercero::class);
     }
 
-    public function lista()
+    public function lista($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvTercero::class, 't')
@@ -31,7 +31,8 @@ class InvTerceroRepository extends ServiceEntityRepository
             ->addSelect('t.digitoVerificacion')
             ->addSelect('t.cliente')
             ->addSelect('t.proveedor')
-            ->leftJoin('t.ciudadRel', 'c');
+            ->leftJoin('t.ciudadRel', 'c')
+        ->where('t.codigoEmpresaFk = ' . $empresa );
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');
         if ($session->get('filtroTerceroCodigo') != '') {
             $queryBuilder->andWhere("t.codigoTerceroPk  ='{$session->get('filtroTerceroCodigo')}'");

@@ -22,6 +22,7 @@ class TerceroController extends Controller
     public function lista(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -46,7 +47,7 @@ class TerceroController extends Controller
                 return $this->redirect($this->generateUrl('tercero_lista'));
             }
         }
-        $arTerceros = $paginator->paginate($em->getRepository(InvTercero::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arTerceros = $paginator->paginate($em->getRepository(InvTercero::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('Inventario/Administracion/Tercero/lista.html.twig', [
             'arTerceros' => $arTerceros,
             'form' => $form->createView()
