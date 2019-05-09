@@ -11,7 +11,7 @@ use App\Entity\Inventario\InvTercero;
 use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
-use App\Formatos\Factura;
+use App\Formatos\Factura1;
 use App\Formatos\Salida;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
