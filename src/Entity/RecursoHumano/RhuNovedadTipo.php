@@ -3,20 +3,15 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
+ * RhuNovedadTipo
+ *
+ * @ORM\Table(name="RhuNovedadTipo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuNovedadTipoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
- * @DoctrineAssert\UniqueEntity(fields={"codigoNovedadTipoPk"},message="Ya existe el código del tipo")
  */
 class RhuNovedadTipo
 {
-    public $infoLog = [
-        "primaryKey" => "codigoNovedadTipoPk",
-        "todos" => true,
-    ];
-
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_novedad_tipo_pk", type="string", length=10)

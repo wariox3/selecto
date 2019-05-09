@@ -4,10 +4,9 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- *
+ * class RhuCargo
  * @ORM\Table(name="RhuCargo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuCargoRepository")
  */

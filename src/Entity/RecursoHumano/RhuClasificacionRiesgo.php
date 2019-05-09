@@ -5,15 +5,12 @@ namespace App\Entity\RecursoHumano;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *  RhuClasificacionRiesgo
+ * @ORM\Table(name="RhuClasificacionRiesgo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuClasificacionRiesgoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuClasificacionRiesgo
 {
-    public $infoLog = [
-        "primaryKey" => "codigoClasificacionRiesgoPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_clasificacion_riesgo_pk", type="string", length=10)
@@ -30,10 +27,7 @@ class RhuClasificacionRiesgo
      */
     private $porcentaje = 0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="RhuSolicitud", mappedBy="clasificacionRiesgoRel")
-     */
-    protected $solicitudesClasificacionRiesgoRel;
+
 
     /**
      * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="clasificacionRiesgoRel")
@@ -86,22 +80,6 @@ class RhuClasificacionRiesgo
     public function setPorcentaje($porcentaje): void
     {
         $this->porcentaje = $porcentaje;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSolicitudesClasificacionRiesgoRel()
-    {
-        return $this->solicitudesClasificacionRiesgoRel;
-    }
-
-    /**
-     * @param mixed $solicitudesClasificacionRiesgoRel
-     */
-    public function setSolicitudesClasificacionRiesgoRel($solicitudesClasificacionRiesgoRel): void
-    {
-        $this->solicitudesClasificacionRiesgoRel = $solicitudesClasificacionRiesgoRel;
     }
 
     /**

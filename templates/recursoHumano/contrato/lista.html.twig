@@ -22,7 +22,7 @@
                          </div>
                          <label class="col-sm-1 control-label">Nombre corto:</label>
                          <div class="col-sm-2">
-                              form_widget(form.nombreCorto) }}
+                             {{  form_widget(form.nombreCorto) }}
                          </div>
                      </div>
                  </div>
@@ -43,14 +43,14 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Número identificación</th>
-                                 <th>Nombre corto</th>
-                                 <th>Teléfono</th>
+                                 <th>tipo Contrato</th>
+                                 <th>numero Identificacion</th>
+                                 <th>nombreCorto</th>
                                  <th>Celular</th>
                                  <th>Dirección</th>
                                  <th>Ciudad</th>
                                  <th>Correo</th>
-                                 <th>Fecha nacimiento</th>
+                                 <th>ACCIONES NUEVO	</th>
                                  <th></th>
                                  <th></th>
                                  <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
@@ -61,14 +61,16 @@
                              {% for arRhuContrato in arRhuContratos %}
                                  <tr>
                                      <td>{{ arRhuContrato.codigoContratoPk }}</td>
+                                     <td>{{ arRhuContrato.tipoContrato }}</td>
                                      <td>{{  arRhuContrato.numeroIdentificacion }}</td>
-                                     <td> arEmpleado.nombreCorto }}</td>
+                                     <td><a href="">{{  arRhuContrato.nombreCorto }}</a></td>
                                      <td>{ arEmpleado.telefono }}</td>
                                      <td>{ arEmpleado.celular }}</td>
                                      <td>{ arEmpleado.direccion }}</td>
                                      <td>{ arEmpleado.ciudad }}</td>
                                      <td>{ arEmpleado.correo }}</td>
-                                     <td>{ arEmpleado.fechaNacimiento| date('Y-m-d') }}</td>
+                                     <td>
+                                     </td>
                                      <td align="center">
                                          <a href="{  path('RecursoHumano_empleado_nuevo', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
                                             title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>

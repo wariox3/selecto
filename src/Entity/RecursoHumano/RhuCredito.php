@@ -3,18 +3,15 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * RhuCredito
+ *
+ * @ORM\Table(name="RhuCredito")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuCreditoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuCredito
 {
-    public $infoLog = [
-        "primaryKey" => "codigoCreditoPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_credito_pk", type="integer")
@@ -104,10 +101,6 @@ class RhuCredito
 
     /**
      * @ORM\Column(name="comentario", type="string", length=200, nullable=true)
-     * @Assert\Length(
-     *     max=200,
-     *     maxMessage="El comentario no puede contener mas de 200 caracteres"
-     * )
      */
     private $comentario;
 

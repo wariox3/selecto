@@ -5,8 +5,9 @@ namespace App\Entity\RecursoHumano;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *  RhuCreditoPagoTipo
+ * @ORM\Table(name="RhuCreditoPagoTipo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuCreditoPagoTipoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuCreditoPagoTipo {
 

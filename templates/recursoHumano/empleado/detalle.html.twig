@@ -123,6 +123,34 @@
             <td class="td-in-well">{{ arEmpleado.estatura }}</td>
         </tr>
     </table>
+    <br>
+    <div class="tabs tabs-primary">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#Contrato" data-toggle="tab" aria-expanded="true"> Contrato</a>
+            </li>
+            <li class="">
+                <a href="#recent5" data-toggle="tab" aria-expanded="false">Recent</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="Contrato" class="tab-pane active">
+                <div class="panel">
+                    <div class="panel-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium culpa dolorum, earum ex excepturi explicabo natus non praesentium provident quae quibusdam quis rem soluta sunt unde ut vitae voluptatum!
+                    </div>
+                    <div class="panel-footer">
+                        <a class="btn btn-sm btn-default" href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id': 0, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'NuevoObligacion', 800, 1200)">Nuevo</a>
+                    </div>
+                </div>
+            </div>
+            <div id="recent5" class="tab-pane">
+                <p>Recent</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+            </div>
+        </div>
+    </div>
+
     {{ form_end(form) }}
 {% endblock %}
 

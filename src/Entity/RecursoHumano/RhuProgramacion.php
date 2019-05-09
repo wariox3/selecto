@@ -3,18 +3,16 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * RhuProgramacion
+ *
+ * @ORM\Table(name="RhuProgramacion")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuProgramacionRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuProgramacion
 {
-    public $infoLog = [
-        "primaryKey" => "codigoProgramacionPk",
-        "todos"     => true,
-    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_programacion_pk", type="integer")
@@ -44,11 +42,7 @@ class RhuProgramacion
 
     /**
      * @ORM\Column(name="nombre", options={"default": 0}, type="string",length=80, nullable=true)
-     * @Assert\Length(
-     *      max = 80,
-     *      maxMessage = "La cantidad máxima de caracteres para el nombre es de 80"
-     * )
-     */
+     * */
     private $nombre;
 
     /**

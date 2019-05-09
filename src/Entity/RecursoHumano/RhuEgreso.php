@@ -6,8 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *  RhuEgreso
+ * @ORM\Table(name="RhuEgreso")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuEgresoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuEgreso
 {

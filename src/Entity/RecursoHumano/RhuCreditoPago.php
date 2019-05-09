@@ -6,15 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *  RhuCreditoPago
+ * @ORM\Table(name="RhuCreditoPago")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuCreditoPagoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuCreditoPago
 {
-    public $infoLog = [
-        "primaryKey" => "codigoCreditoPagoPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_credito_pago_pk", type="integer")

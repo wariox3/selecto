@@ -7,16 +7,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ *  RhuEgresoTipo
+ * @ORM\Table(name="RhuEgresoTipo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuEgresoTipoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
- * @DoctrineAssert\UniqueEntity(fields={"codigoEgresoTipoPk"},message="Ya existe el código")
  */
 class RhuEgresoTipo
 {
-    public $infoLog = [
-        "primaryKey" => "codigoEgresoTipoPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_egreso_tipo_pk", type="string", length=10)

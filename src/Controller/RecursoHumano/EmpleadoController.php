@@ -6,6 +6,7 @@ namespace App\Controller\RecursoHumano;
 
 use App\Entity\General\GenCiudad;
 use App\Entity\RecursoHumano\RhuEmpleado;
+use App\Form\Type\RecursoHumano\RhuContratoType;
 use App\Form\Type\RecursoHumano\RhuEmpleadoType;
 use App\Repository\RecursoHumano\RhuEmpleadoRepository;
 use App\Utilidades\Mensajes;
@@ -108,6 +109,21 @@ class EmpleadoController extends Controller
         return $this->render('recursoHumano/empleado/detalle.html.twig', [
             'form' => $form->createView(),
             'arEmpleado' => $arEmpleado,
+        ]);
+    }
+
+    /**
+     * @Route("/inventario/administracion/RecursoHumano/nuevo/{id}/{codigoEmpleado}", name="RecursoHumano_empleado_contrato_nuevo")
+     */
+    public function nuevoContrato(Request $request, $id, $codigoEmpleado)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $ar = $em->getRepository(RhuEmpleado::class)->find($id);
+        $form = $this->createForm(RhuContratoType::class);
+        $form->handleRequest($request);
+
+        return $this->render('recursoHumano/empleado/contratoNuevo.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

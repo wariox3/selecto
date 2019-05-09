@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuPagoTipoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
- * @DoctrineAssert\UniqueEntity(fields={"codigoPagoTipoPk"},message="Ya existe el código del pago tipo")
+ * RhuPagoTipo
  *
+ * @ORM\Table(name="RhuPagoTipo")
+ * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuPagoTipoRepository")
  */
 class RhuPagoTipo
 {

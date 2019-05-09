@@ -6,16 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
+ * RhuGrupo
+ *
+ * @ORM\Table(name="RhuGrupo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuGrupoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
- * @DoctrineAssert\UniqueEntity(fields={"codigoGrupoPk"},message="Ya existe el código del grupo")
  */
 class RhuGrupo
 {
-    public $infoLog = [
-        "primaryKey" => "codigoGrupoPk",
-        "todos"     => true,
-    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_grupo_pk", type="string", length=10)
@@ -51,11 +49,6 @@ class RhuGrupo
      * @ORM\OneToMany(targetEntity="RhuVacacion", mappedBy="grupoRel")
      */
     protected $vacacionesGrupoRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="RhuSolicitud", mappedBy="grupoRel")
-     */
-    protected $solicitudesGrupoRel;
 
     /**
      * @return array

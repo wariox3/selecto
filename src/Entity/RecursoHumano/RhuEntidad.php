@@ -3,19 +3,16 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
+ *  RhuEntidad
+ * @ORM\Table(name="RhuEntidad")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuEntidadRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuEntidad
 {
-    public $infoLog = [
-        "primaryKey" => "codigoEntidadPk",
-        "todos"     => true,
-    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_entidad_pk", type="integer")
@@ -30,10 +27,6 @@ class RhuEntidad
 
     /**
      * @ORM\Column(name="nit", type="string", length=10, nullable=true)
-     *   @Assert\Length(
-     *     max = 10,
-     *     maxMessage="El campo no puede contener mas de 10 caracteres"
-     * )
      */
     private $nit;
 

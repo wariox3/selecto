@@ -3,18 +3,15 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * RhuVacacion
+ *
+ * @ORM\Table(name="RhuVacacion")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuVacacionRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuVacacion
 {
-    public $infoLog = [
-        "primaryKey" => "codigoVacacionPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_vacacion_pk", type="integer")
@@ -179,9 +176,7 @@ class RhuVacacion
 
     /**
      * @ORM\Column(name="vr_salario_promedio_propuesto", options={"default": 0}, type="float",nullable=true)
-     * @Assert\NotBlank(
-     *     message="El campo no puede estar vacio"
-     * )
+
      */
     private $vrSalarioPromedioPropuesto = 0;
 

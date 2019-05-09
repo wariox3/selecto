@@ -5,8 +5,10 @@ namespace App\Entity\RecursoHumano;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * RhuSalud
+ *
+ * @ORM\Table(name="RhuSalud")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuSaludRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuSalud
 {

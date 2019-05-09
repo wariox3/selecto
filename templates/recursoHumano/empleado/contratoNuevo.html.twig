@@ -1,0 +1,86 @@
+{% extends 'base_sin_menu.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    {{ notificar()|raw }}
+    <div class="col-md-12">
+        <div class="panel-heading">
+            <h2 class="panel-title">Información general</h2>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Tipo:</label>
+                <div class="col-sm-5">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Grupo pago:</label>
+                <div class="col-sm-5">
+                </div>
+                <label class="col-sm-1 control-label">Tiempo:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.tiempo) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Ciudad contratación:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.ciudadContratoRel) }}
+                </div>
+                <label class="col-sm-1 control-label">Ciudad labora:</label>
+                <div class="col-sm-5">{{ form_widget(form.ciudadLaboraRel) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Cargo:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.cargoRel) }}
+                </div>
+                <label class="col-sm-1 control-label">Descripcion:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.cargoDescripcion) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Fecha inicio:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.fechaDesde) }}
+                </div>
+                <label class="col-sm-1 control-label">Fecha Hasta:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.fechaHasta) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Tipo salario:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.tipoSalario) }}
+                </div>
+                <label class="col-sm-1 control-label">salario:</label>
+                <div class="col-sm-5">
+                    {{ form_widget(form.vrSalario) }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_widget(form.salarioIntegral) }}
+                {{ form_widget(form.auxilioTransporte) }}
+                Limitar hora extra
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Horario trabajo:</label>
+                <div class="col-sm-5">
+                </div>
+                <label class="col-sm-1 control-label">Grupo:</label>
+                <div class="col-sm-5">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Comentarios:</label>
+                <div class="col-sm-5">
+                </div>
+                <label class="col-sm-1 control-label">Funciones especificas:</label>
+                <div class="col-sm-5">
+                </div>
+            </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
