@@ -2,11 +2,13 @@
 
 namespace App\Controller\Inventario\Movimiento;
 
+use App\Entity\Empresa;
 use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
 use App\Entity\Inventario\InvTercero;
+use App\Entity\Transporte\TteOperacion;
 use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
@@ -72,10 +74,13 @@ class MovimientoController extends Controller
      */
     public function nuevo(Request $request, $id, $documento)
     {
+
         $em = $this->getDoctrine()->getManager();
         $arMovimiento = new InvMovimiento();
         $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
-        if ($id != 0) {
+        if ($id == 0) {
+            $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+        } else {
             $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         }
         $arMovimiento->setDocumentoRel($arDocumento);
@@ -199,6 +204,7 @@ class MovimientoController extends Controller
     public function detalleNuevo(Request $request, $id)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $respuesta = '';
@@ -244,7 +250,7 @@ class MovimientoController extends Controller
                 }
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 50);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Inventario/Movimiento/detalleNuevo.html.twig', [
             'form' => $form->createView(),
             'arItems' => $arItems
