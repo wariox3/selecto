@@ -21,6 +21,7 @@ class ItemController extends Controller
     {
 
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -45,7 +46,7 @@ class ItemController extends Controller
                 General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->lista())->execute(), "Items");
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('Inventario/Administracion/Item/lista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()

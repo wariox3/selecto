@@ -20,6 +20,7 @@ class MovimientoController extends Controller
     public function listaDetalle(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -37,7 +38,7 @@ class MovimientoController extends Controller
 
             }
         }
-        $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->informe(), $request->query->getInt('page', 1), 50);
+        $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->informe($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Inventario/Informe/informeMovimientoLista.html.twig', [
             'arMovimientoDetalles' => $arMovimientoDetalles,
             'form' => $form->createView()

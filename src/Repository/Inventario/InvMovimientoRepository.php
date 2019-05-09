@@ -23,7 +23,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         parent::__construct($registry, InvMovimiento::class);
     }
 
-    public function lista($documento)
+    public function lista($documento, $empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
@@ -34,7 +34,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.estadoAnulado')
             ->addSelect('t.nombreCorto AS tercero')
             ->leftJoin('m.terceroRel', 't')
-            ->where("m.codigoDocumentoFk = '" . $documento . "'");
+            ->where("m.codigoDocumentoFk = '" . $documento . "'")
+        ->andWhere('m.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroMovimientoFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroMovimientoFechaDesde')} 00:00:00'");
         }

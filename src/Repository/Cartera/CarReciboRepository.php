@@ -18,7 +18,7 @@ class CarReciboRepository extends ServiceEntityRepository
         parent::__construct($registry, CarRecibo::class);
     }
 
-    public function lista()
+    public function lista($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarRecibo::class, 'r')
@@ -37,7 +37,8 @@ class CarReciboRepository extends ServiceEntityRepository
             ->addSelect('r.estadoAprobado')
             ->addSelect('r.estadoAnulado')
             ->leftJoin('r.cuentaRel', 'rc')
-            ->leftJoin('r.terceroRel', 'rt');
+            ->leftJoin('r.terceroRel', 'rt')
+        ->where('rt.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroReciboFechaDesde') != null) {
             $queryBuilder->andWhere("r.fecha >= '{$session->get('filtroReciboFechaDesde')} 00:00:00'");
         }

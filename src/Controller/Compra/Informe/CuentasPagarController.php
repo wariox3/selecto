@@ -22,6 +22,7 @@ class CuentasPagarController extends Controller
     public function informe(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -39,7 +40,7 @@ class CuentasPagarController extends Controller
 
             }
         }
-        $arCuentasPagar = $paginator->paginate($em->getRepository(ComCuentaPagar::class)->informe(), $request->query->getInt('page', 1), 50);
+        $arCuentasPagar = $paginator->paginate($em->getRepository(ComCuentaPagar::class)->informe($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Compra/Informe/informeCuentasPagar.html.twig', [
             'arCuentasPagar' => $arCuentasPagar,
             'form' => $form->createView()
