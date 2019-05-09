@@ -15,7 +15,7 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
         parent::__construct($registry, CarCuentaCobrar::class);
     }
 
-    public function informe()
+    public function informe($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarCuentaCobrar::class, 'cc')
@@ -38,7 +38,8 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
             ->addSelect('cc.estadoAprobado')
             ->addSelect('cc.estadoAnulado')
             ->addSelect('cc.codigoEmpresaFk')
-            ->leftJoin('cc.terceroRel', 'cct');
+            ->leftJoin('cc.terceroRel', 'cct')
+        ->where('cc.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroInformeCuentasCobrarFechaDesde') != null) {
             $queryBuilder->andWhere("cc.fecha >= '{$session->get('filtroInformeCuentasCobrarFechaDesde')} 00:00:00'");
         }

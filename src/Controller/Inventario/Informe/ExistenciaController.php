@@ -20,6 +20,7 @@ class ExistenciaController extends Controller
     public function listaExistencia(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -36,10 +37,10 @@ class ExistenciaController extends Controller
 
             }
             if ($form->get('btnExcel')->isClicked()) {
-                General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->existencia())->execute(), "Existencia");
+                General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->existencia($empresa))->execute(), "Existencia");
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->existencia(), $request->query->getInt('page', 1), 50);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->existencia($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Inventario/Informe/informeExistenciaLista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()

@@ -35,7 +35,7 @@ class InvItemRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function existencia()
+    public function existencia($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvItem::class, 'i')
@@ -43,7 +43,8 @@ class InvItemRepository extends ServiceEntityRepository
             ->addSelect('i.referencia')
             ->addSelect('i.descripcion')
             ->addSelect('i.cantidadExistencia')
-            ->orderBy('i.codigoItemPk', 'ASC');
+            ->orderBy('i.codigoItemPk', 'ASC')
+        ->where('i.codigoEmpresaFk = ' .$empresa);
         if ($session->get('filtroItemReferencia') != '') {
             $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
         }

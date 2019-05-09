@@ -21,6 +21,7 @@ class CuentasCobrarController extends Controller
     public function informe(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -38,7 +39,7 @@ class CuentasCobrarController extends Controller
 
             }
         }
-        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->informe(), $request->query->getInt('page', 1), 50);
+        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->informe($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Cartera/Informe/informeCuentasCobrar.html.twig', [
             'arCuentasCobrar' => $arCuentasCobrar,
             'form' => $form->createView()

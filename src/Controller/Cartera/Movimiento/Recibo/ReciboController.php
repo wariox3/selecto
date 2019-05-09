@@ -25,6 +25,7 @@ class ReciboController extends Controller
     public function lista(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
@@ -47,7 +48,7 @@ class ReciboController extends Controller
                 return $this->redirect($this->generateUrl('recibo_lista'));
             }
         }
-        $arRecibos = $paginator->paginate($em->getRepository(CarRecibo::class)->lista(), $request->query->getInt('page', 1), 50);
+        $arRecibos = $paginator->paginate($em->getRepository(CarRecibo::class)->lista($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Cartera/Movimiento/Recibo/lista.html.twig', [
             'arRecibos' => $arRecibos,
             'form' => $form->createView()

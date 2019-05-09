@@ -15,7 +15,7 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
         parent::__construct($registry, ComCuentaPagar::class);
     }
 
-    public function informe()
+    public function informe($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComCuentaPagar::class, 'cp')
@@ -38,7 +38,8 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
             ->addSelect('cp.estadoAprobado')
             ->addSelect('cp.estadoAnulado')
             ->addSelect('cp.codigoEmpresaFk')
-            ->leftJoin('cp.terceroRel', 'cpt');
+            ->leftJoin('cp.terceroRel', 'cpt')
+        ->where('cp.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroInformeCuentasPagarFechaDesde') != null) {
             $queryBuilder->andWhere("cp.fecha >= '{$session->get('filtroInformeCuentasPagarFechaDesde')} 00:00:00'");
         }
