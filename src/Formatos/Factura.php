@@ -24,6 +24,7 @@ class Factura extends \FPDF
     public function
     Generar($em, $codigoMovimiento)
     {
+
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
         /** @var  $arMovimiento Movimiento */
@@ -53,6 +54,7 @@ class Factura extends \FPDF
     {
         $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(1);
+        $this->setDrawColor('227', '227', '227');
         $this->SetFillColor(277, 277, 277);
         $this->SetFont('Arial', 'B', 10);
         //Logo
@@ -77,10 +79,15 @@ class Factura extends \FPDF
         $this->Cell(100, 4, $arEmpresa ? $arEmpresa->getTelefono() : '', 0, 0, 'L', 0);
 
 
+
+//        style="border-spacing:0px; border-color:#000
         $this->SetXY(150, 18);
-        $this->SetFont('Arial', 'B', 8);
+        $this->SetFont('Arial', '', 8);
 //        $this->SetFillColor(200, 200, 200);
-        $this->MultiCell(56,6,"CUENTA DE COBRO\nNo. ".$arMovimiento->getNumero(),1,'C');
+        $this->Cell(56,6,"CUENTA DE COBRO",'LTR',0,'C');
+        $this->SetXY(150, 24);
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(56,6,"No. ".$arMovimiento->getNumero(),'LBR',0,'C');
 //        $this->Cell(56, 4, $arMovimiento->getNumero(), 1, 0, 'C', 1);
 
 //        $this->Cell(56, 4, "NUMERO:", 1, 0, 'C', 1);
@@ -94,7 +101,7 @@ class Factura extends \FPDF
         $intY = 40;
         $this->SetXY(8, $intY);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Numero:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
@@ -103,7 +110,7 @@ class Factura extends \FPDF
 
         $this->SetXY(8, $intY + 5);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Fecha:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
@@ -113,14 +120,14 @@ class Factura extends \FPDF
 
         $this->SetXY(8, $intY + 10);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Nit:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(45, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
 
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Telefonos:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
@@ -129,14 +136,14 @@ class Factura extends \FPDF
 
         $this->SetXY(8, $intY + 15);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Direccion:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(45, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
 
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Correo:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
@@ -147,11 +154,11 @@ class Factura extends \FPDF
 
         $this->SetXY(150, $intY + 3);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(28, 6, "Fecha de Factura", 1, 0, 'C', 1);
 
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(28, 6, "Fecha de vencimiento", 1, 0, 'C', 1);
 
         $this->SetXY(150, $intY + 9);
@@ -230,7 +237,7 @@ class Factura extends \FPDF
         $this->Ln(22);
         $this->SetX(8);
         $header = array('Concepto', 'Valor');
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 7);
 
@@ -263,10 +270,11 @@ class Factura extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(8);
 //            $pdf->Cell(10, 6, $arMovimientoDetalle->getCodigoItemFk(), 1, 0, 'L');
-            $pdf->Cell(140, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getDescripcion()), 'L', 0, 'L');
+            $pdf->Cell(140, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getDescripcion()),  0, 'L');
 //            $pdf->Cell(40, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getReferencia()), 1, 0, 'L');
 //            $pdf->Cell(10, 6, $arMovimientoDetalle->getCantidad(), 1, 0, 'R');
-            $pdf->Cell(58, 6, number_format($arMovimientoDetalle->getVrPrecio(), 0, '.', ','), 'LR', 0, 'C');
+            $this->setDrawColor('227', '227', '227');
+            $pdf->Cell(58, 6, number_format($arMovimientoDetalle->getVrPrecio(), 0, '.', ','), '', 0, 'C');
 //            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrSubtotal(), 0, '.', ','), 1, 0, 'R');
 //            $pdf->Cell(10, 6, number_format($arMovimientoDetalle->getPorcentajeIva(), 0, '.', ','), 1, 0, 'R');
 //            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrIva(), 0, '.', ','), 1, 0, 'R');
@@ -274,6 +282,9 @@ class Factura extends \FPDF
             $pdf->Ln();
             $pdf->SetAutoPageBreak(true, 15);
         }
+
+
+
     }
 //
     public function Footer()
@@ -285,18 +296,15 @@ class Factura extends \FPDF
         $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
 
+        $this->setDrawColor('227', '227', '227');
 
         $nr = count($arMovimientoDetalles);
-
-//        $this->SetXY(8,200.5 );
-//        $this->SetFont('Arial', '', 7);
-//        $this->Cell(20, 3, "Son: ".$nr, 0, 'R');
-
-
         $y = 71+($nr*6)+8;
         $x = 171;
 
-        $this->Line(8, $y-2, 206, $y-2);
+        $this->Line(148, 71,148, $y-2); //Linea body tabla
+
+        $this->Line(8, $y-2, 206, $y-2); //Linea Inferior tabla
 
         $this->SetXY(125, $y);
         $this->SetFont('Arial', '', 7);
@@ -333,11 +341,11 @@ class Factura extends \FPDF
         $y += 6;
         $this->SetXY(125, $y);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227);
         $this->Cell(46, 6, 'Total Neto', 1, 0, 'L',1);
         $this->SetX($x);
         $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(200, 200, 200);
+        $this->SetFillColor(227, 227, 227   );
         $this->Cell(35, 6, number_format($arMovimiento->getVrTotalNeto()), 1, 0, 'R',1);
 
 
@@ -388,7 +396,7 @@ class Factura extends \FPDF
 //        $this->Text(20.5, 230, ' SEGUN LO ESTABLECIDO EN EL ART.3 DE LA LEY 1231 DE 2008');
 //        $this->Text(20.5, 232, '* RESOLUCION DIAN DE AUTORIZACION PARA FACTURACION POR COMPUTADOR');
 //        $this->SetFont('Arial', '', 6.5);
-
+        $this->SetFont('Arial', '', 7);
         $this->Text(50, $y+26.5, 'CRA 90 CL 65C-10 APTO 1917 MEDELLIN - CEL 300 448 02 19 - E-MAIL: comercial@filtramed.com');
 
         //Marco
