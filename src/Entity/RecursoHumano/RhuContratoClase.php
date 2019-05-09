@@ -64,12 +64,6 @@ class RhuContratoClase
     protected $tiempoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RhuPension", inversedBy="contratosPensionRel")
-     * @ORM\JoinColumn(name="codigo_pension_fk",referencedColumnName="codigo_pension_pk")
-     */
-    protected $pensionRel;
-
-    /**
      * @ORM\ManyToOne(targetEntity="RhuSalud", inversedBy="contratosSaludRel")
      * @ORM\JoinColumn(name="codigo_salud_fk",referencedColumnName="codigo_salud_pk")
      */
@@ -86,18 +80,6 @@ class RhuContratoClase
      * @ORM\JoinColumn(name="codigo_grupo_fk",referencedColumnName="codigo_grupo_pk")
      */
     protected $grupoRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuTipoCotizante", inversedBy="contratosTipoCotizanteRel")
-     * @ORM\JoinColumn(name="codigo_tipo_cotizante_fk",referencedColumnName="codigo_tipo_cotizante_pk")
-     */
-    protected $tipoCotizanteRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuSubtipoCotizante", inversedBy="contratosSubtipoCotizanteRel")
-     * @ORM\JoinColumn(name="codigo_subtipo_cotizante_fk",referencedColumnName="codigo_subtipo_cotizante_pk")
-     */
-    protected $subtipoCotizanteRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadSaludRel")
@@ -141,23 +123,6 @@ class RhuContratoClase
      */
     protected $centroTrabajoRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuSucursal", inversedBy="contratosSucursalRel")
-     * @ORM\JoinColumn(name="codigo_sucursal_fk",referencedColumnName="codigo_sucursal_pk")
-     */
-    protected $sucursalRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuCostoClase", inversedBy="contratosCostoClaseRel")
-     * @ORM\JoinColumn(name="codigo_costo_clase_fk",referencedColumnName="codigo_costo_clase_pk")
-     */
-    protected $costoClaseRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuCostoGrupo", inversedBy="contratosCostoGrupoRel")
-     * @ORM\JoinColumn(name="codigo_costo_grupo_fk",referencedColumnName="codigo_costo_grupo_pk")
-     */
-    protected $costoGrupoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="RhuProgramacionDetalle", mappedBy="contratoRel")
@@ -179,10 +144,6 @@ class RhuContratoClase
      */
     protected $vacacionesContratoRel;
 
-    /**
-     * @ORM\OneToMany(targetEntity="RhuAdicional", mappedBy="contratoRel")
-     */
-    protected $adicionalesContratoRel;
     /**
      * @ORM\OneToMany(targetEntity="RhuPago", mappedBy="contratoRel")
      */

@@ -47,12 +47,6 @@ class RhuSalud
      */
     private $codigoConceptoFk;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuConcepto", inversedBy="saludesConceptoRel")
-     * @ORM\JoinColumn(name="codigo_concepto_fk", referencedColumnName="codigo_concepto_pk")
-     */
-    protected $conceptoRel;
-
 
     /**
      * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="saludRel")
