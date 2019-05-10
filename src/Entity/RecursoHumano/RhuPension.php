@@ -5,15 +5,14 @@ namespace App\Entity\RecursoHumano;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * RhuPension
+ *
+ * @ORM\Table(name="RhuPension")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuPensionRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuPension
 {
-    public $infoLog = [
-        "primaryKey" => "codigoPensionPk",
-        "todos"     => true,
-    ];
+
 
     /**
      * @ORM\Id

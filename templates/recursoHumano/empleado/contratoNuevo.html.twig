@@ -16,7 +16,6 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Grupo pago:</label>
                     <div class="col-sm-5">
-                        form_widget(form.grupoRel) }}
                     </div>
                     <label class="col-sm-1 control-label">Tiempo:</label>
                     <div class="col-sm-5">
@@ -98,33 +97,31 @@
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Tipo cotizante:</label>
                     <div class="col-sm-11">
-                         form_widget(form.comentarioContrato) }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Subtipo cotizante:</label>
                     <div class="col-sm-11">
-                        form_widget(form.comentarioContrato) }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Tipo salud:</label>
                     <div class="col-sm-5">
-                         form_widget(form.clasificacionRiesgoRel) }}
+                        {{ form_widget(form.saludRel, { 'attr': {'class': 'form-control'} }) }}
                     </div>
                     <label class="col-sm-1 control-label">Entidad salud:</label>
                     <div class="col-sm-5">
-                         form_widget(form.sucursalRel) }}
+                        {{  form_widget(form.entidadSaludRel) }}
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">Tipo pension:</label>
                     <div class="col-sm-5">
-                         form_widget(form.clasificacionRiesgoRel) }}
+                        {{  form_widget(form.pensionRel, { 'attr': {'class': 'form-control'} }) }}
                     </div>
                     <label class="col-sm-1 control-label">Entidad pensión:</label>
                     <div class="col-sm-5">
-                        form_widget(form.sucursalRel) }}
+                       {{ form_widget(form.entidadPensionRel) }}
                     </div>
                 </div>
                 <div class="form-group">

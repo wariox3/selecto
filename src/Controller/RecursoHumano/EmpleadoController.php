@@ -139,6 +139,7 @@ class EmpleadoController extends Controller
                 $arContrato->setFechaUltimoPago(new \DateTime('now'));
                 $em->persist($arContrato);
                 $em->flush();
+                echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
             }
 
         }

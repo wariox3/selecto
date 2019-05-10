@@ -130,8 +130,6 @@ class RhuContrato
      */
     private $fechaUltimoPago;
 
-
-
     /**
      * @ORM\Column(name="codigo_subtipo_cotizante_fk", type="string", length=10, nullable=true)
      */
@@ -183,6 +181,12 @@ class RhuContrato
      */
     protected $empleadoRel;
 
+
+    /**
+     * @ORM\Column(name="codigo_entidad_pension_fk", type="integer", nullable=true)
+     */
+    private $codigoEntidadPensionFk;
+
     /**
      * @ORM\ManyToOne(targetEntity="RhuContratoTipo", inversedBy="contratosContratoTipoRel")
      * @ORM\JoinColumn(name="codigo_contrato_tipo_fk",referencedColumnName="codigo_contrato_tipo_pk")
@@ -196,11 +200,11 @@ class RhuContrato
     protected $clasificacionRiesgoRel;
 
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="RhuSalud", inversedBy="contratosSaludRel")
-//     * @ORM\JoinColumn(name="codigo_salud_fk",referencedColumnName="codigo_salud_pk")
-//     */
-//    protected $saludRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuSalud", inversedBy="contratosSaludRel")
+     * @ORM\JoinColumn(name="codigo_salud_fk",referencedColumnName="codigo_salud_pk")
+     */
+    protected $saludRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuCargo", inversedBy="contratosCargoRel")
@@ -232,6 +236,25 @@ class RhuContrato
      * @ORM\JoinColumn(name="codigo_ciudad_contrato_fk",referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadContratoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadSaludRel")
+     * @ORM\JoinColumn(name="codigo_entidad_salud_fk",referencedColumnName="codigo_entidad_pk")
+     */
+    protected $entidadSaludRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadPensionRel")
+     * @ORM\JoinColumn(name="codigo_entidad_pension_fk",referencedColumnName="codigo_entidad_pk")
+     */
+    protected $entidadPensionRel;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuPension", inversedBy="contratosPensionRel")
+     * @ORM\JoinColumn(name="codigo_pension_fk",referencedColumnName="codigo_pension_pk")
+     */
+    protected $pensionRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="rhuContratosCiudadLaboraRel")
@@ -1036,5 +1059,87 @@ class RhuContrato
     {
         $this->entidadCajaRel = $entidadCajaRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEntidadSaludRel()
+    {
+        return $this->entidadSaludRel;
+    }
+
+    /**
+     * @param mixed $entidadSaludRel
+     */
+    public function setEntidadSaludRel($entidadSaludRel): void
+    {
+        $this->entidadSaludRel = $entidadSaludRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntidadPensionRel()
+    {
+        return $this->entidadPensionRel;
+    }
+
+    /**
+     * @param mixed $entidadPensionRel
+     */
+    public function setEntidadPensionRel($entidadPensionRel): void
+    {
+        $this->entidadPensionRel = $entidadPensionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEntidadPensionFk()
+    {
+        return $this->codigoEntidadPensionFk;
+    }
+
+    /**
+     * @param mixed $codigoEntidadPensionFk
+     */
+    public function setCodigoEntidadPensionFk($codigoEntidadPensionFk): void
+    {
+        $this->codigoEntidadPensionFk = $codigoEntidadPensionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSaludRel()
+    {
+        return $this->saludRel;
+    }
+
+    /**
+     * @param mixed $saludRel
+     */
+    public function setSaludRel($saludRel): void
+    {
+        $this->saludRel = $saludRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPensionRel()
+    {
+        return $this->pensionRel;
+    }
+
+    /**
+     * @param mixed $pensionRel
+     */
+    public function setPensionRel($pensionRel): void
+    {
+        $this->pensionRel = $pensionRel;
+    }
+
+
 
 }

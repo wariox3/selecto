@@ -14,7 +14,9 @@ use App\Entity\RecursoHumano\RhuClasificacionRiesgo;
 use App\Entity\RecursoHumano\RhuContratoTipo;
 use App\Entity\RecursoHumano\RhuEntidad;
 use App\Entity\RecursoHumano\RhuGrupo;
+use App\Entity\RecursoHumano\RhuPension;
 use App\Entity\RecursoHumano\RhuRh;
+use App\Entity\RecursoHumano\RhuSalud;
 use App\Entity\RecursoHumano\RhuSucursal;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -109,12 +111,47 @@ class RhuContratoType  extends AbstractType
                 'choice_label' => 'nombre',
                 'required' => false
             ])
-
             ->add('entidadCajaRel', EntityType::class, [
                 'class' => RhuEntidad::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->orderBy('s.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
+            ->add('entidadSaludRel', EntityType::class, [
+                'class' => RhuEntidad::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
+            ->add('entidadPensionRel', EntityType::class, [
+                'class' => RhuEntidad::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
+            ->add('saludRel', EntityType::class, [
+                'class' => RhuSalud::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.orden', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => false
+            ])
+            ->add('pensionRel', EntityType::class, [
+                'class' => RhuPension::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'required' => true
