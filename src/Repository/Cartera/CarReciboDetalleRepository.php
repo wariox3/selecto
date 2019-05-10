@@ -59,7 +59,7 @@ class CarReciboDetalleRepository extends ServiceEntityRepository
 
             foreach ($arrCodigo as $codigoReciboDetalle) {
                 $arReciboDetalle = $this->getEntityManager()->getRepository(CarReciboDetalle::class)->find($codigoReciboDetalle);
-                $arReciboDetalle->setCodigoReciboFk($arReciboDetalle->getCodigoReciboPk());
+//                $arReciboDetalle->setCodigoReciboFk($arReciboDetalle->getCodigoReciboPk());
                 $arReciboDetalle->setCodigoCuentaCobrarFk($arReciboDetalle->getCodigoCuentaCobrarFk());
                 $arReciboDetalle->setCodigoCuentaCobrarTipoFk($arReciboDetalle->getCodigoCuentaCobrarTipoFk());
                 $arReciboDetalle->setNumeroFactura($arReciboDetalle->getNumeroFactura());
@@ -81,8 +81,8 @@ class CarReciboDetalleRepository extends ServiceEntityRepository
         $pago = 0;
         $pagoTotal = 0;
         $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
-        $arRecibosDetalle = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $id));
-        foreach ($arRecibosDetalle as $arReciboDetalle) {
+        $arRecibosDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $id));
+        foreach ($arRecibosDetalles as $arReciboDetalle) {
             $pago += $arReciboDetalle->getVrPago() * $arReciboDetalle->getOperacion();
             $pagoTotal += $arReciboDetalle->getVrPagoAfectar();
         }
