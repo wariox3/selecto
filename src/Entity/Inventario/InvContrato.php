@@ -46,6 +46,11 @@ class InvContrato
     private $codigoTerceroFk;
 
     /**
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+     */
+    private $codigoClienteFk;
+
+    /**
      * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
      */
     private $vrSubtotal;
@@ -85,6 +90,12 @@ class InvContrato
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cartera\CarCliente", inversedBy="contratosClienteRel")
+     * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
+     */
+    protected $clienteRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvContratoDetalle", mappedBy="contratoRel")
@@ -185,6 +196,22 @@ class InvContrato
     public function setCodigoTerceroFk($codigoTerceroFk): void
     {
         $this->codigoTerceroFk = $codigoTerceroFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoClienteFk()
+    {
+        return $this->codigoClienteFk;
+    }
+
+    /**
+     * @param mixed $codigoClienteFk
+     */
+    public function setCodigoClienteFk($codigoClienteFk): void
+    {
+        $this->codigoClienteFk = $codigoClienteFk;
     }
 
     /**
@@ -313,6 +340,22 @@ class InvContrato
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClienteRel()
+    {
+        return $this->clienteRel;
+    }
+
+    /**
+     * @param mixed $clienteRel
+     */
+    public function setClienteRel($clienteRel): void
+    {
+        $this->clienteRel = $clienteRel;
     }
 
     /**

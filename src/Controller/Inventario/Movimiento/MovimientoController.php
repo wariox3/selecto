@@ -201,6 +201,7 @@ class MovimientoController extends Controller
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $respuesta = '';
         $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         $form = $this->createFormBuilder()
@@ -244,7 +245,7 @@ class MovimientoController extends Controller
                 }
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 50);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Inventario/Movimiento/detalleNuevo.html.twig', [
             'form' => $form->createView(),
             'arItems' => $arItems
