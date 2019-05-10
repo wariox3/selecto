@@ -31,11 +31,6 @@ class RhuContrato
     private $codigoClasificacionRiesgoFk;
 
     /**
-     * @ORM\Column(name="fecha", type="date", nullable=true)
-     */
-    private $fecha;
-
-    /**
      * @ORM\Column(name="factor_horas_dia", options={"default" : 0 }, type="integer", nullable=true)
      */
     private $factorHorasDia = 0;
@@ -44,6 +39,21 @@ class RhuContrato
      * @ORM\Column(name="codigo_empleado_fk", type="integer")
      */
     private $codigoEmpleadoFk;
+
+    /**
+     * @ORM\Column(name="tipo_salario", type="string", length=30, nullable=true)
+     */
+    private $tipoSalario;
+
+    /**
+     * @ORM\Column(name="tiempo", type="string", length=30, nullable=true)
+     */
+    private $tiempo;
+
+    /**
+     * @ORM\Column(name="fecha", type="date", nullable=true)
+     */
+    private $fecha;
 
     /**
      * @ORM\Column(name="fecha_desde", type="date", nullable=true)
@@ -90,11 +100,6 @@ class RhuContrato
      */
     private $estadoTerminado = false;
 
-     /**
-     * @ORM\Column(name="indefinido",options={"default": false}, type="boolean")
-     */
-    private $indefinido = false;
-
     /**
      * @ORM\Column(name="comentario_terminacion", type="string", length=2000, nullable=true)
      */
@@ -125,10 +130,7 @@ class RhuContrato
      */
     private $fechaUltimoPago;
 
-    /**
-     * @ORM\Column(name="codigo_tipo_cotizante_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoTipoCotizanteFk;
+
 
     /**
      * @ORM\Column(name="codigo_subtipo_cotizante_fk", type="string", length=10, nullable=true)
@@ -166,12 +168,7 @@ class RhuContrato
     private $codigoCiudadLaboraFk;
 
     /**
-     * @ORM\Column(name="codigo_centro_trabajo_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoCentroTrabajoFk;
-
-    /**
-     * @ORM\Column(name="codigo_sucursal_fk", type="string", length=10, nullable=true)
+     * @ORM\Column(name="codigo_sucursal_fk", type="string", length=30, nullable=true)
      */
     private $codigoSucursalFk;
 
@@ -200,13 +197,6 @@ class RhuContrato
 
 
 //    /**
-//     * @ORM\ManyToOne(targetEntity="RhuTiempo", inversedBy="contratosTiempoRel")
-//     * @ORM\JoinColumn(name="codigo_tiempo_fk",referencedColumnName="codigo_tiempo_pk")
-//     */
-//    protected $tiempoRel;
-
-
-//    /**
 //     * @ORM\ManyToOne(targetEntity="RhuSalud", inversedBy="contratosSaludRel")
 //     * @ORM\JoinColumn(name="codigo_salud_fk",referencedColumnName="codigo_salud_pk")
 //     */
@@ -225,17 +215,17 @@ class RhuContrato
 //    protected $grupoRel;
 
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCesantiaRel")
-//     * @ORM\JoinColumn(name="codigo_entidad_censantia_fk",referencedColumnName="codigo_entidad_pk")
-//     */
-//    protected $entidadCesantiaRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCesantiaRel")
+     * @ORM\JoinColumn(name="codigo_entidad_censantia_fk",referencedColumnName="codigo_entidad_pk")
+     */
+    protected $entidadCesantiaRel;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCajaRel")
-//     * @ORM\JoinColumn(name="codigo_entidad_caja_fk",referencedColumnName="codigo_entidad_pk")
-//     */
-//    protected $entidadCajaRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCajaRel")
+     * @ORM\JoinColumn(name="codigo_entidad_caja_fk",referencedColumnName="codigo_entidad_pk")
+     */
+    protected $entidadCajaRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="rhuContratosCiudadContratoRel")
@@ -249,12 +239,11 @@ class RhuContrato
      */
     protected $ciudadLaboraRel;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="RhuCentroTrabajo", inversedBy="contratosCentroTrabajoRel")
-//     * @ORM\JoinColumn(name="codigo_centro_trabajo_fk",referencedColumnName="codigo_centro_trabajo_pk")
-//     */
-//    protected $centroTrabajoRel;
-
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuSucursal", inversedBy="contratosSucursalRel")
+     * @ORM\JoinColumn(name="codigo_sucursal_fk",referencedColumnName="codigo_sucursal_pk")
+     */
+    protected $sucursalRel;
     /**
      * @ORM\OneToMany(targetEntity="RhuProgramacionDetalle", mappedBy="contratoRel")
      */
@@ -518,22 +507,6 @@ class RhuContrato
     public function setEstadoTerminado($estadoTerminado): void
     {
         $this->estadoTerminado = $estadoTerminado;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIndefinido()
-    {
-        return $this->indefinido;
-    }
-
-    /**
-     * @param mixed $indefinido
-     */
-    public function setIndefinido($indefinido): void
-    {
-        $this->indefinido = $indefinido;
     }
 
     /**
@@ -983,4 +956,85 @@ class RhuContrato
     {
         $this->pagosContratoRel = $pagosContratoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTipoSalario()
+    {
+        return $this->tipoSalario;
+    }
+
+    /**
+     * @param mixed $tipoSalario
+     */
+    public function setTipoSalario($tipoSalario): void
+    {
+        $this->tipoSalario = $tipoSalario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTiempo()
+    {
+        return $this->tiempo;
+    }
+
+    /**
+     * @param mixed $tiempo
+     */
+    public function setTiempo($tiempo): void
+    {
+        $this->tiempo = $tiempo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSucursalRel()
+    {
+        return $this->sucursalRel;
+    }
+
+    /**
+     * @param mixed $sucursalRel
+     */
+    public function setSucursalRel($sucursalRel): void
+    {
+        $this->sucursalRel = $sucursalRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntidadCesantiaRel()
+    {
+        return $this->entidadCesantiaRel;
+    }
+
+    /**
+     * @param mixed $entidadCesantiaRel
+     */
+    public function setEntidadCesantiaRel($entidadCesantiaRel): void
+    {
+        $this->entidadCesantiaRel = $entidadCesantiaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEntidadCajaRel()
+    {
+        return $this->entidadCajaRel;
+    }
+
+    /**
+     * @param mixed $entidadCajaRel
+     */
+    public function setEntidadCajaRel($entidadCajaRel): void
+    {
+        $this->entidadCajaRel = $entidadCajaRel;
+    }
+
 }

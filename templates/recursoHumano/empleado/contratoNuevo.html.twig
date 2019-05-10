@@ -2,95 +2,156 @@
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     {{ notificar()|raw }}
-    <div class="col-md-12">
-        <div class="panel-heading">
-            <h2 class="panel-title">Información general</h2>
+        <div class="panel">
+            <div class="panel-heading">
+                <h2 class="panel-title">Información general</h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Tipo:</label>
+                    <div class="col-sm-11">
+                        {{ form_widget(form.contratoTipoRel) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Grupo pago:</label>
+                    <div class="col-sm-5">
+                        form_widget(form.grupoRel) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Tiempo:</label>
+                    <div class="col-sm-5">
+                        {{  form_widget(form.tiempo) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Ciudad contratación:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.ciudadContratoRel) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Ciudad labora:</label>
+                    <div class="col-sm-5">{{ form_widget(form.ciudadLaboraRel) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Cargo:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.cargoRel) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Descripcion:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.cargoDescripcion) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Fecha inicio:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.fechaDesde) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Fecha Hasta:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.fechaHasta) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Tipo salario:</label>
+                    <div class="col-sm-5">
+                        {{  form_widget(form.tipoSalario) }}
+                    </div>
+                    <label class="col-sm-1 control-label">salario:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.vrSalario) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Adicional:</label>
+                    <div class="col-sm-5">
+                        {{  form_widget(form.vrAdicional) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Adicional prestacional:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.vrAdicionalPrestacional) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.salarioIntegral) }}
+                    </div>
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.auxilioTransporte) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Comentarios:</label>
+                    <div class="col-sm-11">
+                        {{ form_widget(form.comentarioContrato) }}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Tipo:</label>
-                <div class="col-sm-11">
-                    {{ form_widget(form.contratoTipoRel) }}
+        <div class="panel">
+            <div class="panel-heading">
+                <h2 class="panel-title">Información seguridad social</h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Tipo cotizante:</label>
+                    <div class="col-sm-11">
+                         form_widget(form.comentarioContrato) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Subtipo cotizante:</label>
+                    <div class="col-sm-11">
+                        form_widget(form.comentarioContrato) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Tipo salud:</label>
+                    <div class="col-sm-5">
+                         form_widget(form.clasificacionRiesgoRel) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Entidad salud:</label>
+                    <div class="col-sm-5">
+                         form_widget(form.sucursalRel) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Tipo pension:</label>
+                    <div class="col-sm-5">
+                         form_widget(form.clasificacionRiesgoRel) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Entidad pensión:</label>
+                    <div class="col-sm-5">
+                        form_widget(form.sucursalRel) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">Entidad caja:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.entidadCajaRel) }}
+                    </div>
+                    <label class="col-sm-1 control-label">Entidad cesantías:</label>
+                    <div class="col-sm-5">
+                        {{ form_widget(form.entidadCesantiaRel) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                     <label class="col-sm-1 control-label">Clasificacion riesgo </label>
+                     <div class="col-sm-5">
+                         {{ form_widget(form.clasificacionRiesgoRel) }}
+                     </div>
+                     <label class="col-sm-1 control-label">scursal trabajo</label>
+                     <div class="col-sm-5">
+                         {{ form_widget(form.sucursalRel) }}
+                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Grupo pago:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.grupoRel) }}
-                </div>
-                <label class="col-sm-1 control-label">Tiempo:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.tiempo) }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Ciudad contratación:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.ciudadContratoRel) }}
-                </div>
-                <label class="col-sm-1 control-label">Ciudad labora:</label>
-                <div class="col-sm-5">{{ form_widget(form.ciudadLaboraRel) }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Cargo:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.cargoRel) }}
-                </div>
-                <label class="col-sm-1 control-label">Descripcion:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.cargoDescripcion) }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Fecha inicio:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.fechaDesde) }}
-                </div>
-                <label class="col-sm-1 control-label">Fecha Hasta:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.fechaHasta) }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Tipo salario:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.tipoSalario) }}
-                </div>
-                <label class="col-sm-1 control-label">salario:</label>
-                <div class="col-sm-5">
-                    {{ form_widget(form.vrSalario) }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label"></label>
-                <div class="col-sm-3">
-                    {{ form_widget(form.salarioIntegral) }}
-                </div>
-                <label class="col-sm-1 control-label"></label>
-                <div class="col-sm-3">
-                    {{ form_widget(form.auxilioTransporte) }}
-                </div>
-                <label class="col-sm-1 control-label"></label>
-                <div class="col-sm-3">
-                    {{ form_widget(form.limitarHoras) }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Horario trabajo:</label>
-                <div class="col-sm-5">
-                </div>
-                <label class="col-sm-1 control-label">Grupo:</label>
-                <div class="col-sm-5">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 control-label">Comentarios:</label>
-                <div class="col-sm-11">
-                    {{ form_widget(form.comentarioContrato) }}
-                </div>
+        </div>
 
-            </div>
-    </div>
+
+
+
     {{ form_end(form) }}
 {% endblock %}

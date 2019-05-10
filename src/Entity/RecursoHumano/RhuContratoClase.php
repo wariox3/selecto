@@ -101,11 +101,6 @@ class RhuContratoClase
      */
     protected $ciudadLaboraRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuCentroTrabajo", inversedBy="contratosCentroTrabajoRel")
-     * @ORM\JoinColumn(name="codigo_centro_trabajo_fk",referencedColumnName="codigo_centro_trabajo_pk")
-     */
-    protected $centroTrabajoRel;
 
 
     /**

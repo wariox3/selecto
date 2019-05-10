@@ -9,10 +9,13 @@ use App\Entity\General\GenIdentificacion;
 use App\Entity\General\GenSexo;
 use App\Entity\RecursoHumano\RhuBanco;
 use App\Entity\RecursoHumano\RhuCargo;
+use App\Entity\RecursoHumano\RhuCentroTrabajo;
 use App\Entity\RecursoHumano\RhuClasificacionRiesgo;
 use App\Entity\RecursoHumano\RhuContratoTipo;
+use App\Entity\RecursoHumano\RhuEntidad;
 use App\Entity\RecursoHumano\RhuGrupo;
 use App\Entity\RecursoHumano\RhuRh;
+use App\Entity\RecursoHumano\RhuSucursal;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -42,7 +45,7 @@ class RhuContratoType  extends AbstractType
                 'class' => RhuClasificacionRiesgo::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('r')
-                        ->orderBy('r.orden', 'ASC');
+                        ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'required' => true
@@ -52,11 +55,14 @@ class RhuContratoType  extends AbstractType
             ->add('fechaDesde', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])
             ->add('fechaHasta', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])
             ->add('vrSalario',NumberType::class,['required' => true])
+            ->add('vrSalario',NumberType::class,['required' => true])
+            ->add('vrAdicional',NumberType::class,['required' => true])
+            ->add('vrAdicionalPrestacional',NumberType::class,['required' => true])
             ->add('salarioIntegral',CheckboxType::class,['required' => false, 'label' => 'Salario integral'])
             ->add('auxilioTransporte',CheckboxType::class,['required' => false, 'label' => 'Auxilio transporte'])
-            ->add('limitarHoras',CheckboxType::class,['required' => false, 'label' => 'Auxilio transporte'])
-            ->add('tiempo', ChoiceType::class, ['choices' => ['TIEMPO COMPLETO' => '', 'MEDIO TIEMPO' => '1', 'SABATINO' => '0'], 'required' => false])
-            ->add('tipoSalario', ChoiceType::class, ['choices' => ['VARIABLE' => '0', 'FIJO' => '1'], 'required' => false])
+            ->add('tiempo', ChoiceType::class, ['choices' => ['TIEMPO COMPLETO' => 'TIEMPO COMPLETO', 'MEDIO TIEMPO' => 'MEDIO TIEMPO', 'SABATINO' => 'SABATINO'], 'required' => false])
+            ->add('tipoSalario', ChoiceType::class, ['choices' => ['VARIABLE' => 'VARIABLE', 'FIJO' => 'FIJO'], 'required' => false])
+            //->add('tipoSalud', ChoiceType::class, ['choices' => ['EMPLEADO' => 'EMPLEADO', 'EMPLEADOR' => 'FIJO'], 'required' => false])
             ->add('ciudadLaboraRel', EntityType::class, [
                 'class' => GenCiudad::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -84,16 +90,35 @@ class RhuContratoType  extends AbstractType
                 'choice_label' => 'nombre',
                 'required' => false
             ])
-            ->add('grupoRel', EntityType::class, [
-                'class' => RhuGrupo::class,
+            ->add('sucursalRel', EntityType::class, [
+                'class' => RhuSucursal::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->where('s.estadoActivo = 1')
+                        ->orderBy('s.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
+            ->add('entidadCesantiaRel', EntityType::class, [
+                'class' => RhuEntidad::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('r')
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => false
             ])
 
+            ->add('entidadCajaRel', EntityType::class, [
+                'class' => RhuEntidad::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary']]);
 
 

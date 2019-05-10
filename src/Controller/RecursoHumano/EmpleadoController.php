@@ -123,12 +123,20 @@ class EmpleadoController extends Controller
         if ($id != 0){
             $arContrato = $em->getRepository(RhuEmpleado::class)->find($id);
         }
-        dd($arContrato);
+
+
         $form = $this->createForm(RhuContratoType::class, $arContrato);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             if ($form->get('guardar')->isClicked()) {
+                $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($codigoEmpleado);
                 $arContrato = $form->getData();
+                $arContrato->setEmpleadoRel($arEmpleado);
+                $arContrato->setFecha(new \DateTime('now'));
+                $arContrato->setFechaUltimoPagoCesantias(new \DateTime('now'));
+                $arContrato->setFechaUltimoPagoVacaciones(new \DateTime('now'));
+                $arContrato->setFechaUltimoPagoPrimas(new \DateTime('now'));
+                $arContrato->setFechaUltimoPago(new \DateTime('now'));
                 $em->persist($arContrato);
                 $em->flush();
             }
