@@ -22,7 +22,8 @@ class MovimientoType extends AbstractType
                 'class' => InvTercero::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
-                        ->orderBy('t.nombreCorto', 'ASC');
+                        ->orderBy('t.nombreCorto', 'ASC')
+                        ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
             ])
