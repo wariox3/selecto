@@ -102,15 +102,7 @@ class RhuContratoType  extends AbstractType
                 'choice_label' => 'nombre',
                 'required' => true
             ])
-            ->add('entidadCesantiaRel', EntityType::class, [
-                'class' => RhuEntidad::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('r')
-                        ->orderBy('r.nombre', 'ASC');
-                },
-                'choice_label' => 'nombre',
-                'required' => false
-            ])
+
             ->add('entidadCajaRel', EntityType::class, [
                 'class' => RhuEntidad::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -124,6 +116,7 @@ class RhuContratoType  extends AbstractType
                 'class' => RhuEntidad::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
+                        ->where('s.eps = 1')
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
@@ -133,6 +126,7 @@ class RhuContratoType  extends AbstractType
                 'class' => RhuEntidad::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
+                        ->where('r.pen = 1')
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
@@ -143,6 +137,16 @@ class RhuContratoType  extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('r')
                         ->orderBy('r.orden', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => false
+            ])
+            ->add('entidadCesantiaRel', EntityType::class, [
+                'class' => RhuEntidad::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->where('r.ces = 1')
+                        ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'required' => false

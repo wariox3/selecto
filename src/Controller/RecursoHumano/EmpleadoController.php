@@ -102,6 +102,7 @@ class EmpleadoController extends Controller
     public function detalle(Request $request, $id){
         $em = $this->getDoctrine()->getManager();
         $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
+        $arContratos =$em->getRepository( RhuEmpleado::class)->listarContratos($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,6 +111,7 @@ class EmpleadoController extends Controller
         return $this->render('recursoHumano/empleado/detalle.html.twig', [
             'form' => $form->createView(),
             'arEmpleado' => $arEmpleado,
+            'arContratos'=>$arContratos
         ]);
     }
 

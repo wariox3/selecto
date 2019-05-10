@@ -137,7 +137,26 @@
             <div id="Contrato" class="tab-pane active">
                 <div class="panel">
                     <div class="panel-body">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium culpa dolorum, earum ex excepturi explicabo natus non praesentium provident quae quibusdam quis rem soluta sunt unde ut vitae voluptatum!
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>TIPO</td>
+                                    <td>NÚMERO</td>
+                                    <td>GRUPO</td>
+                                    <td>CARGO</td>
+                                    <td title="cargo riesgo">C. RIESGO</td>
+                                    <td>DESDE</td>
+                                    <td>hasta</td>
+                                    <td>SALARIO AT</td>
+                                    <TD>TER</TD>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        ID	TIPO	NUMERO	GRUPO	CARGO	C_RIESGO	DESDE	HASTA	SALARIO	AT	TER
                     </div>
                     <div class="panel-footer">
                         <a class="btn btn-sm btn-default" href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id': 0, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'NuevoObligacion', 800, 1200)">Nuevo</a>

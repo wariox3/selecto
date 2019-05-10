@@ -45,4 +45,8 @@ class RhuEmpleadoRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
+
+    public function  listarContratos($id){
+
+    }
 }
