@@ -122,34 +122,15 @@ class RhuConcepto
     protected $creditosTiposConceptoRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="RhuEmbargoTipo", mappedBy="conceptoRel")
-     */
-    protected $embargosTiposConceptoRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="RhuAdicional", mappedBy="conceptoRel")
-     */
-    protected $adicionalesConceptoRel;
-
-    /**
      * @ORM\OneToMany(targetEntity="RhuPagoDetalle", mappedBy="conceptoRel")
      */
     protected $pagosDetallesConceptoRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="RhuConceptoHora", mappedBy="conceptoRel")
-     */
-    protected $conceptosHorasConceptoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuSalud", mappedBy="conceptoRel")
      */
     protected $saludesConceptoRel;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuPension", mappedBy="conceptoRel")
-     */
-    protected $pensionesConceptoRel;
 
     /**
      * @return mixed

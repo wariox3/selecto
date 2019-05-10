@@ -39,11 +39,11 @@ class RhuContratoTipo
      */
     protected $contratosContratoTipoRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuContratoClase", inversedBy="contratosTiposContratoClaseRel")
-     * @ORM\JoinColumn(name="codigo_contrato_clase_fk", referencedColumnName="codigo_contrato_clase_pk")
-     */
-    protected $contratoClaseRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuContratoClase", inversedBy="contratosTiposContratoClaseRel")
+//     * @ORM\JoinColumn(name="codigo_contrato_clase_fk", referencedColumnName="codigo_contrato_clase_pk")
+//     */
+//    protected $contratoClaseRel;
 
     /**
      * @return mixed

@@ -5,15 +5,14 @@ namespace App\Entity\RecursoHumano;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * RhuContratoMotivo
+ *
+ * @ORM\Table(name="RhuContratoMotivo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuContratoMotivoRepository")
- * @ORM\EntityListeners({"App\Controller\Estructura\EntityListener"})
  */
 class RhuContratoMotivo
 {
-    public $infoLog = [
-        "primaryKey" => "codigoContratoMotivoPk",
-        "todos"     => true,
-    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_contrato_motivo_pk", type="string", length=10)
@@ -25,10 +24,7 @@ class RhuContratoMotivo
      */    
     private $motivo;
     
-    /**
-     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="contratoMotivoRel")
-     */
-    protected $contratosContratoMotivoRel;
+
 
     /**
      * @return mixed

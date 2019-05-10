@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * RH
  *
  * @ORM\Table(name="RhuContratoClase")
- * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuContratoClase")
+ * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuContratoClaseRepository")
  */
 class RhuContratoClase
 {
@@ -35,27 +35,11 @@ class RhuContratoClase
     protected $contratosContratoClaseRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="RhuContratoTipo", mappedBy="contratoClaseRel")
-     */
-    protected $contratosTiposContratoClaseRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuContratoClase", inversedBy="contratosContratoClaseRel")
-     * @ORM\JoinColumn(name="codigo_contrato_clase_fk",referencedColumnName="codigo_contrato_clase_pk")
-     */
-    protected $contratoClaseRel;
-
-    /**
      * @ORM\ManyToOne(targetEntity="RhuClasificacionRiesgo", inversedBy="contratosClasificacionRiesgoRel")
      * @ORM\JoinColumn(name="codigo_clasificacion_riesgo_fk",referencedColumnName="codigo_clasificacion_riesgo_pk")
      */
     protected $clasificacionRiesgoRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuContratoMotivo", inversedBy="contratosContratoMotivoRel")
-     * @ORM\JoinColumn(name="codigo_contrato_motivo_fk",referencedColumnName="codigo_contrato_motivo_pk")
-     */
-    protected $contratoMotivoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuTiempo", inversedBy="contratosTiempoRel")

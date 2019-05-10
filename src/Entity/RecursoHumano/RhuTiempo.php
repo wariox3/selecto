@@ -47,10 +47,10 @@ class RhuTiempo
      */    
     private $abreviatura;    
     
-    /**
-     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="tiempoRel")
-     */
-    protected $contratosTiempoRel;
+//    /**
+//     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="tiempoRel")
+//     */
+//    protected $contratosTiempoRel;
 
     /**
      * @return mixed

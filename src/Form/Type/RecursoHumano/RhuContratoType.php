@@ -9,6 +9,8 @@ use App\Entity\General\GenIdentificacion;
 use App\Entity\General\GenSexo;
 use App\Entity\RecursoHumano\RhuBanco;
 use App\Entity\RecursoHumano\RhuCargo;
+use App\Entity\RecursoHumano\RhuClasificacionRiesgo;
+use App\Entity\RecursoHumano\RhuContratoTipo;
 use App\Entity\RecursoHumano\RhuGrupo;
 use App\Entity\RecursoHumano\RhuRh;
 use Doctrine\ORM\EntityRepository;
@@ -27,14 +29,34 @@ class RhuContratoType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
+            ->add('contratoTipoRel', EntityType::class, [
+                'class' => RhuContratoTipo::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.orden', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
+            ->add('clasificacionRiesgoRel', EntityType::class, [
+                'class' => RhuClasificacionRiesgo::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.orden', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
             ->add('cargoDescripcion',TextType::class,['required' => false])
+            ->add('comentarioContrato',TextType::class,['required' => false])
             ->add('fechaDesde', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])
             ->add('fechaHasta', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])
+            ->add('vrSalario',NumberType::class,['required' => true])
             ->add('salarioIntegral',CheckboxType::class,['required' => false, 'label' => 'Salario integral'])
             ->add('auxilioTransporte',CheckboxType::class,['required' => false, 'label' => 'Auxilio transporte'])
+            ->add('limitarHoras',CheckboxType::class,['required' => false, 'label' => 'Auxilio transporte'])
             ->add('tiempo', ChoiceType::class, ['choices' => ['TIEMPO COMPLETO' => '', 'MEDIO TIEMPO' => '1', 'SABATINO' => '0'], 'required' => false])
             ->add('tipoSalario', ChoiceType::class, ['choices' => ['VARIABLE' => '0', 'FIJO' => '1'], 'required' => false])
-            ->add('vrSalario',NumberType::class,['required' => true])
             ->add('ciudadLaboraRel', EntityType::class, [
                 'class' => GenCiudad::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -71,6 +93,7 @@ class RhuContratoType  extends AbstractType
                 'choice_label' => 'nombre',
                 'required' => true
             ])
+
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary']]);
 
 

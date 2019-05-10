@@ -5,6 +5,7 @@ namespace App\Controller\RecursoHumano;
 
 
 use App\Entity\General\GenCiudad;
+use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuEmpleado;
 use App\Form\Type\RecursoHumano\RhuContratoType;
 use App\Form\Type\RecursoHumano\RhuEmpleadoType;
@@ -118,10 +119,21 @@ class EmpleadoController extends Controller
     public function nuevoContrato(Request $request, $id, $codigoEmpleado)
     {
         $em = $this->getDoctrine()->getManager();
-        $ar = $em->getRepository(RhuEmpleado::class)->find($id);
-        $form = $this->createForm(RhuContratoType::class);
+        $arContrato = new RhuContrato();
+        if ($id != 0){
+            $arContrato = $em->getRepository(RhuEmpleado::class)->find($id);
+        }
+        dd($arContrato);
+        $form = $this->createForm(RhuContratoType::class, $arContrato);
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            if ($form->get('guardar')->isClicked()) {
+                $arContrato = $form->getData();
+                $em->persist($arContrato);
+                $em->flush();
+            }
 
+        }
         return $this->render('recursoHumano/empleado/contratoNuevo.html.twig', [
             'form' => $form->createView(),
         ]);

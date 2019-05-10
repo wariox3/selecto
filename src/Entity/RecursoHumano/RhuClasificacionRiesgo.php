@@ -27,8 +27,6 @@ class RhuClasificacionRiesgo
      */
     private $porcentaje = 0;
 
-
-
     /**
      * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="clasificacionRiesgoRel")
      */

@@ -24,10 +24,6 @@ class RhuContrato
      */
     private $codigoContratoTipoFk;
 
-    /**
-     * @ORM\Column(name="codigo_contrato_clase_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoContratoClaseFk;
 
     /**
      * @ORM\Column(name="codigo_clasificacion_riesgo_fk", type="string", length=10, nullable=true)
@@ -35,30 +31,14 @@ class RhuContrato
     private $codigoClasificacionRiesgoFk;
 
     /**
-     * @ORM\Column(name="codigo_contrato_motivo_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoContratoMotivoFk;
-
-    /**
      * @ORM\Column(name="fecha", type="date", nullable=true)
      */
     private $fecha;
 
     /**
-     * @ORM\Column(name="codigo_tiempo_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoTiempoFk;
-
-    /**
      * @ORM\Column(name="factor_horas_dia", options={"default" : 0 }, type="integer", nullable=true)
      */
     private $factorHorasDia = 0;
-
-
-    /**
-     * @ORM\Column(name="codigo_salud_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoSaludFk;
 
     /**
      * @ORM\Column(name="codigo_empleado_fk", type="integer")
@@ -121,9 +101,9 @@ class RhuContrato
     private $comentarioTerminacion;
 
     /**
-     * @ORM\Column(name="codigo_grupo_fk", type="string", length=10, nullable=true)
+     * @ORM\Column(name="comentario_contrato", type="string", length=2000, nullable=true)
      */
-    private $codigoGrupoFk;
+    private $comentarioContrato;
 
     /**
      * @ORM\Column(name="fecha_ultimo_pago_cesantias", type="date", nullable=true)
@@ -161,15 +141,9 @@ class RhuContrato
     private $salarioIntegral = false;
 
     /**
-     * @ORM\Column(name="costo_tipo_fk", type="string", length=10, nullable=true)
-     */
-    private $costoTipoFk = false;
-
-    /**
      * @ORM\Column(name="codigo_entidad_salud_fk", type="integer", nullable=true)
      */
     private $codigoEntidadSaludFk;
-
 
     /**
      * @ORM\Column(name="codigo_entidad_cesantia_fk", type="integer", nullable=true)
@@ -190,21 +164,6 @@ class RhuContrato
      * @ORM\Column(name="codigo_ciudad_labora_fk", type="integer", nullable=true)
      */
     private $codigoCiudadLaboraFk;
-
-    /**
-     * @ORM\Column(name="codigo_costo_clase_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoCostoClaseFk;
-
-    /**
-     * @ORM\Column(name="codigo_costo_grupo_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoCostoGrupoFk;
-
-    /**
-     * @ORM\Column(name="codigo_costo_tipo_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoCostoTipoFk;
 
     /**
      * @ORM\Column(name="codigo_centro_trabajo_fk", type="string", length=10, nullable=true)
@@ -234,35 +193,24 @@ class RhuContrato
     protected $contratoTipoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RhuContratoClase", inversedBy="contratosContratoClaseRel")
-     * @ORM\JoinColumn(name="codigo_contrato_clase_fk",referencedColumnName="codigo_contrato_clase_pk")
-     */
-    protected $contratoClaseRel;
-
-    /**
      * @ORM\ManyToOne(targetEntity="RhuClasificacionRiesgo", inversedBy="contratosClasificacionRiesgoRel")
      * @ORM\JoinColumn(name="codigo_clasificacion_riesgo_fk",referencedColumnName="codigo_clasificacion_riesgo_pk")
      */
     protected $clasificacionRiesgoRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuContratoMotivo", inversedBy="contratosContratoMotivoRel")
-     * @ORM\JoinColumn(name="codigo_contrato_motivo_fk",referencedColumnName="codigo_contrato_motivo_pk")
-     */
-    protected $contratoMotivoRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuTiempo", inversedBy="contratosTiempoRel")
-     * @ORM\JoinColumn(name="codigo_tiempo_fk",referencedColumnName="codigo_tiempo_pk")
-     */
-    protected $tiempoRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuTiempo", inversedBy="contratosTiempoRel")
+//     * @ORM\JoinColumn(name="codigo_tiempo_fk",referencedColumnName="codigo_tiempo_pk")
+//     */
+//    protected $tiempoRel;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuSalud", inversedBy="contratosSaludRel")
-     * @ORM\JoinColumn(name="codigo_salud_fk",referencedColumnName="codigo_salud_pk")
-     */
-    protected $saludRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuSalud", inversedBy="contratosSaludRel")
+//     * @ORM\JoinColumn(name="codigo_salud_fk",referencedColumnName="codigo_salud_pk")
+//     */
+//    protected $saludRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuCargo", inversedBy="contratosCargoRel")
@@ -270,24 +218,24 @@ class RhuContrato
      */
     protected $cargoRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuGrupo", inversedBy="contratosGrupoRel")
-     * @ORM\JoinColumn(name="codigo_grupo_fk",referencedColumnName="codigo_grupo_pk")
-     */
-    protected $grupoRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuGrupo", inversedBy="contratosGrupoRel")
+//     * @ORM\JoinColumn(name="codigo_grupo_fk",referencedColumnName="codigo_grupo_pk")
+//     */
+//    protected $grupoRel;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCesantiaRel")
-     * @ORM\JoinColumn(name="codigo_entidad_censantia_fk",referencedColumnName="codigo_entidad_pk")
-     */
-    protected $entidadCesantiaRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCesantiaRel")
+//     * @ORM\JoinColumn(name="codigo_entidad_censantia_fk",referencedColumnName="codigo_entidad_pk")
+//     */
+//    protected $entidadCesantiaRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCajaRel")
-     * @ORM\JoinColumn(name="codigo_entidad_caja_fk",referencedColumnName="codigo_entidad_pk")
-     */
-    protected $entidadCajaRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuEntidad", inversedBy="contratosEntidadCajaRel")
+//     * @ORM\JoinColumn(name="codigo_entidad_caja_fk",referencedColumnName="codigo_entidad_pk")
+//     */
+//    protected $entidadCajaRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="rhuContratosCiudadContratoRel")
@@ -301,11 +249,11 @@ class RhuContrato
      */
     protected $ciudadLaboraRel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="RhuCentroTrabajo", inversedBy="contratosCentroTrabajoRel")
-     * @ORM\JoinColumn(name="codigo_centro_trabajo_fk",referencedColumnName="codigo_centro_trabajo_pk")
-     */
-    protected $centroTrabajoRel;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="RhuCentroTrabajo", inversedBy="contratosCentroTrabajoRel")
+//     * @ORM\JoinColumn(name="codigo_centro_trabajo_fk",referencedColumnName="codigo_centro_trabajo_pk")
+//     */
+//    protected $centroTrabajoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="RhuProgramacionDetalle", mappedBy="contratoRel")
@@ -367,22 +315,6 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getCodigoContratoClaseFk()
-    {
-        return $this->codigoContratoClaseFk;
-    }
-
-    /**
-     * @param mixed $codigoContratoClaseFk
-     */
-    public function setCodigoContratoClaseFk($codigoContratoClaseFk): void
-    {
-        $this->codigoContratoClaseFk = $codigoContratoClaseFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoClasificacionRiesgoFk()
     {
         return $this->codigoClasificacionRiesgoFk;
@@ -394,22 +326,6 @@ class RhuContrato
     public function setCodigoClasificacionRiesgoFk($codigoClasificacionRiesgoFk): void
     {
         $this->codigoClasificacionRiesgoFk = $codigoClasificacionRiesgoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoContratoMotivoFk()
-    {
-        return $this->codigoContratoMotivoFk;
-    }
-
-    /**
-     * @param mixed $codigoContratoMotivoFk
-     */
-    public function setCodigoContratoMotivoFk($codigoContratoMotivoFk): void
-    {
-        $this->codigoContratoMotivoFk = $codigoContratoMotivoFk;
     }
 
     /**
@@ -431,22 +347,6 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getCodigoTiempoFk()
-    {
-        return $this->codigoTiempoFk;
-    }
-
-    /**
-     * @param mixed $codigoTiempoFk
-     */
-    public function setCodigoTiempoFk($codigoTiempoFk): void
-    {
-        $this->codigoTiempoFk = $codigoTiempoFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getFactorHorasDia()
     {
         return $this->factorHorasDia;
@@ -458,38 +358,6 @@ class RhuContrato
     public function setFactorHorasDia($factorHorasDia): void
     {
         $this->factorHorasDia = $factorHorasDia;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoPensionFk()
-    {
-        return $this->codigoPensionFk;
-    }
-
-    /**
-     * @param mixed $codigoPensionFk
-     */
-    public function setCodigoPensionFk($codigoPensionFk): void
-    {
-        $this->codigoPensionFk = $codigoPensionFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoSaludFk()
-    {
-        return $this->codigoSaludFk;
-    }
-
-    /**
-     * @param mixed $codigoSaludFk
-     */
-    public function setCodigoSaludFk($codigoSaludFk): void
-    {
-        $this->codigoSaludFk = $codigoSaludFk;
     }
 
     /**
@@ -687,17 +555,17 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getCodigoGrupoFk()
+    public function getComentarioContrato()
     {
-        return $this->codigoGrupoFk;
+        return $this->comentarioContrato;
     }
 
     /**
-     * @param mixed $codigoGrupoFk
+     * @param mixed $comentarioContrato
      */
-    public function setCodigoGrupoFk($codigoGrupoFk): void
+    public function setComentarioContrato($comentarioContrato): void
     {
-        $this->codigoGrupoFk = $codigoGrupoFk;
+        $this->comentarioContrato = $comentarioContrato;
     }
 
     /**
@@ -815,22 +683,6 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getCostoTipoFk()
-    {
-        return $this->costoTipoFk;
-    }
-
-    /**
-     * @param mixed $costoTipoFk
-     */
-    public function setCostoTipoFk($costoTipoFk): void
-    {
-        $this->costoTipoFk = $costoTipoFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoEntidadSaludFk()
     {
         return $this->codigoEntidadSaludFk;
@@ -842,22 +694,6 @@ class RhuContrato
     public function setCodigoEntidadSaludFk($codigoEntidadSaludFk): void
     {
         $this->codigoEntidadSaludFk = $codigoEntidadSaludFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoEntidadPensionFk()
-    {
-        return $this->codigoEntidadPensionFk;
-    }
-
-    /**
-     * @param mixed $codigoEntidadPensionFk
-     */
-    public function setCodigoEntidadPensionFk($codigoEntidadPensionFk): void
-    {
-        $this->codigoEntidadPensionFk = $codigoEntidadPensionFk;
     }
 
     /**
@@ -922,54 +758,6 @@ class RhuContrato
     public function setCodigoCiudadLaboraFk($codigoCiudadLaboraFk): void
     {
         $this->codigoCiudadLaboraFk = $codigoCiudadLaboraFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoCostoClaseFk()
-    {
-        return $this->codigoCostoClaseFk;
-    }
-
-    /**
-     * @param mixed $codigoCostoClaseFk
-     */
-    public function setCodigoCostoClaseFk($codigoCostoClaseFk): void
-    {
-        $this->codigoCostoClaseFk = $codigoCostoClaseFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoCostoGrupoFk()
-    {
-        return $this->codigoCostoGrupoFk;
-    }
-
-    /**
-     * @param mixed $codigoCostoGrupoFk
-     */
-    public function setCodigoCostoGrupoFk($codigoCostoGrupoFk): void
-    {
-        $this->codigoCostoGrupoFk = $codigoCostoGrupoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoCostoTipoFk()
-    {
-        return $this->codigoCostoTipoFk;
-    }
-
-    /**
-     * @param mixed $codigoCostoTipoFk
-     */
-    public function setCodigoCostoTipoFk($codigoCostoTipoFk): void
-    {
-        $this->codigoCostoTipoFk = $codigoCostoTipoFk;
     }
 
     /**
@@ -1055,22 +843,6 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getContratoClaseRel()
-    {
-        return $this->contratoClaseRel;
-    }
-
-    /**
-     * @param mixed $contratoClaseRel
-     */
-    public function setContratoClaseRel($contratoClaseRel): void
-    {
-        $this->contratoClaseRel = $contratoClaseRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getClasificacionRiesgoRel()
     {
         return $this->clasificacionRiesgoRel;
@@ -1087,55 +859,6 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getContratoMotivoRel()
-    {
-        return $this->contratoMotivoRel;
-    }
-
-    /**
-     * @param mixed $contratoMotivoRel
-     */
-    public function setContratoMotivoRel($contratoMotivoRel): void
-    {
-        $this->contratoMotivoRel = $contratoMotivoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTiempoRel()
-    {
-        return $this->tiempoRel;
-    }
-
-    /**
-     * @param mixed $tiempoRel
-     */
-    public function setTiempoRel($tiempoRel): void
-    {
-        $this->tiempoRel = $tiempoRel;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getSaludRel()
-    {
-        return $this->saludRel;
-    }
-
-    /**
-     * @param mixed $saludRel
-     */
-    public function setSaludRel($saludRel): void
-    {
-        $this->saludRel = $saludRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCargoRel()
     {
         return $this->cargoRel;
@@ -1147,118 +870,6 @@ class RhuContrato
     public function setCargoRel($cargoRel): void
     {
         $this->cargoRel = $cargoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getGrupoRel()
-    {
-        return $this->grupoRel;
-    }
-
-    /**
-     * @param mixed $grupoRel
-     */
-    public function setGrupoRel($grupoRel): void
-    {
-        $this->grupoRel = $grupoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTipoCotizanteRel()
-    {
-        return $this->tipoCotizanteRel;
-    }
-
-    /**
-     * @param mixed $tipoCotizanteRel
-     */
-    public function setTipoCotizanteRel($tipoCotizanteRel): void
-    {
-        $this->tipoCotizanteRel = $tipoCotizanteRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubtipoCotizanteRel()
-    {
-        return $this->subtipoCotizanteRel;
-    }
-
-    /**
-     * @param mixed $subtipoCotizanteRel
-     */
-    public function setSubtipoCotizanteRel($subtipoCotizanteRel): void
-    {
-        $this->subtipoCotizanteRel = $subtipoCotizanteRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEntidadSaludRel()
-    {
-        return $this->entidadSaludRel;
-    }
-
-    /**
-     * @param mixed $entidadSaludRel
-     */
-    public function setEntidadSaludRel($entidadSaludRel): void
-    {
-        $this->entidadSaludRel = $entidadSaludRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEntidadPensionRel()
-    {
-        return $this->entidadPensionRel;
-    }
-
-    /**
-     * @param mixed $entidadPensionRel
-     */
-    public function setEntidadPensionRel($entidadPensionRel): void
-    {
-        $this->entidadPensionRel = $entidadPensionRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEntidadCesantiaRel()
-    {
-        return $this->entidadCesantiaRel;
-    }
-
-    /**
-     * @param mixed $entidadCesantiaRel
-     */
-    public function setEntidadCesantiaRel($entidadCesantiaRel): void
-    {
-        $this->entidadCesantiaRel = $entidadCesantiaRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEntidadCajaRel()
-    {
-        return $this->entidadCajaRel;
-    }
-
-    /**
-     * @param mixed $entidadCajaRel
-     */
-    public function setEntidadCajaRel($entidadCajaRel): void
-    {
-        $this->entidadCajaRel = $entidadCajaRel;
     }
 
     /**
@@ -1291,38 +902,6 @@ class RhuContrato
     public function setCiudadLaboraRel($ciudadLaboraRel): void
     {
         $this->ciudadLaboraRel = $ciudadLaboraRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCentroTrabajoRel()
-    {
-        return $this->centroTrabajoRel;
-    }
-
-    /**
-     * @param mixed $centroTrabajoRel
-     */
-    public function setCentroTrabajoRel($centroTrabajoRel): void
-    {
-        $this->centroTrabajoRel = $centroTrabajoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCostoGrupoRel()
-    {
-        return $this->costoGrupoRel;
-    }
-
-    /**
-     * @param mixed $costoGrupoRel
-     */
-    public function setCostoGrupoRel($costoGrupoRel): void
-    {
-        $this->costoGrupoRel = $costoGrupoRel;
     }
 
     /**
@@ -1387,22 +966,6 @@ class RhuContrato
     public function setVacacionesContratoRel($vacacionesContratoRel): void
     {
         $this->vacacionesContratoRel = $vacacionesContratoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAdicionalesContratoRel()
-    {
-        return $this->adicionalesContratoRel;
-    }
-
-    /**
-     * @param mixed $adicionalesContratoRel
-     */
-    public function setAdicionalesContratoRel($adicionalesContratoRel): void
-    {
-        $this->adicionalesContratoRel = $adicionalesContratoRel;
     }
 
     /**
