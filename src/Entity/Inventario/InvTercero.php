@@ -5,7 +5,6 @@ namespace App\Entity\Inventario;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TerceroType
  * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvTerceroRepository")
  */
 class InvTercero
