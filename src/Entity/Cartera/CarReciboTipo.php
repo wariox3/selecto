@@ -5,8 +5,6 @@ namespace App\Entity\Cartera;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-*
-* @ORM\Table(name="recibo_tipo")
 * @ORM\Entity(repositoryClass="App\Repository\Cartera\CarReciboTipoRepository")
 */
 

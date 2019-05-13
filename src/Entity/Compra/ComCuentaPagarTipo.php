@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * CuentaPagarTipoType
- *
- * @ORM\Table(name="cuenta_pagar_tipo")
  * @ORM\Entity(repositoryClass="App\Repository\Compra\ComCuentaPagarTipoRepository")
  */
 class ComCuentaPagarTipo

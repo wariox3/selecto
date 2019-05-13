@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * MovimientoType
- *
- * @ORM\Table(name="movimiento")
  * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvMovimientoRepository")
  */
 class InvMovimiento

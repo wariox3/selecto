@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ContratoType
  *
- * @ORM\Table(name="contrato")
  * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvContratoRepository")
  */
 class InvContrato

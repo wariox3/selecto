@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- *
- * @ORM\Table(name="cliente")
  * @ORM\Entity(repositoryClass="App\Repository\Cartera\CarReciboRepository")
  */
 class CarCliente

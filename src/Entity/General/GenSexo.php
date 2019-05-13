@@ -4,9 +4,8 @@
 namespace App\Entity\General;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
- *
- * @ORM\Table(name="sexo")
  * @ORM\Entity(repositoryClass="App\Repository\General\GenSexoRepository")
  */
 class GenSexo

@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * TerceroType
- *
- * @ORM\Table(name="tercero")
  * @ORM\Entity(repositoryClass="App\Repository\Inventario\InvTerceroRepository")
  */
 class InvTercero

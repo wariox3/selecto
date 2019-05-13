@@ -5,8 +5,6 @@ namespace App\Entity\General;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
- * @ORM\Table(name="pais")
  * @ORM\Entity(repositoryClass="App\Repository\General\GenPaisRepository")
  */
 class GenPais
