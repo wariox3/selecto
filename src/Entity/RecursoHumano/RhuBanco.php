@@ -5,8 +5,6 @@ namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
 /**
- *RhuBanco
- * @ORM\Table(name="RhuBanco")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuBancoRepository")
  */
 class RhuBanco

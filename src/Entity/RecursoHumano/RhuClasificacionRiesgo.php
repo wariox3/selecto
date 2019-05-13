@@ -5,8 +5,6 @@ namespace App\Entity\RecursoHumano;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *  RhuClasificacionRiesgo
- * @ORM\Table(name="RhuClasificacionRiesgo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuClasificacionRiesgoRepository")
  */
 class RhuClasificacionRiesgo

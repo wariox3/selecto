@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 /**
  * RhuGrupo
  *
- * @ORM\Table(name="RhuGrupo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuGrupoRepository")
  */
 class RhuGrupo

@@ -7,9 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * RhuSucursal
  *
- * @ORM\Table(name="RhuSucursal")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuSucursalRepository")
  */
 class RhuSucursal {

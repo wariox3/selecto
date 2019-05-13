@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * RhuLiquidacion
  *
- * @ORM\Table(name="RhuLiquidacion")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuLiquidacionRepository")
  */
 class RhuLiquidacion

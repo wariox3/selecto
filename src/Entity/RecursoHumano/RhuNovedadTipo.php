@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * RhuNovedadTipo
  *
- * @ORM\Table(name="RhuNovedadTipo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuNovedadTipoRepository")
  */
 class RhuNovedadTipo

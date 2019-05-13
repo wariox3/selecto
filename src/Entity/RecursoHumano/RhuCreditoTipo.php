@@ -7,7 +7,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  *  RhuCreditoTipo
- * @ORM\Table(name="RhuCreditoTipo")
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuCreditoTipoRepository")
  */
 class RhuCreditoTipo
