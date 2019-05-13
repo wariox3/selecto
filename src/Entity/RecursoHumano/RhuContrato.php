@@ -1145,6 +1145,35 @@ class RhuContrato
         $this->pensionRel = $pensionRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
 
+    /**
+     * @param mixed $codigoGrupoFk
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk): void
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
+    }
+
+    /**
+     * @param mixed $grupoRel
+     */
+    public function setGrupoRel($grupoRel): void
+    {
+        $this->grupoRel = $grupoRel;
+    }
 }

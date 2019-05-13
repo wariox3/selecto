@@ -57,6 +57,19 @@ class ContratoController extends Controller
      * @Route("/inventario/administracion/RecursoHumano/Contrato/detalle/{id}", name="RecursoHumano_contrato_detalle")
      */
     public function detalle(Request $request, $id){
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $arContrato = $em->getRepository(RhuContrato::class)->find($id);
+        //dd($arContrato);
+        $form = $this->createFormBuilder()->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirect($this->generateUrl('RecursoHumano_contrato_detalle', ['id' => $id]));
+        }
 
+        return $this->render('recursoHumano/contrato/detalle.html.twig', [
+            'form' => $form->createView(),
+            'arContrato'=>$arContrato
+        ]);
     }
 }
