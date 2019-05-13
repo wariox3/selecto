@@ -45,6 +45,11 @@ class Empresa
     private $telefono;
 
     /**
+     * @ORM\Column(name="ruta_temporal", type="string", length=100, nullable=true)
+     */
+    private $rutaTemporal;
+
+    /**
      * @ORM\OneToMany(targetEntity="Usuario", mappedBy="empresaRel")
      */
     protected $usuariosEmpresaRel;
@@ -160,6 +165,23 @@ class Empresa
     {
         $this->usuariosEmpresaRel = $usuariosEmpresaRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRutaTemporal()
+    {
+        return $this->rutaTemporal;
+    }
+
+    /**
+     * @param mixed $rutaTemporal
+     */
+    public function setRutaTemporal($rutaTemporal): void
+    {
+        $this->rutaTemporal = $rutaTemporal;
+    }
+
 
 
 }

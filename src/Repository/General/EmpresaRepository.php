@@ -15,4 +15,21 @@ class EmpresaRepository extends ServiceEntityRepository
         parent::__construct($registry, Empresa::class);
     }
 
+    public function parametro($campo, $empresa): string
+    {
+        $em = $this->getEntityManager();
+        $dato = "";
+        $query = $em->createQuery(
+            "SELECT e.".$campo."
+        FROM App\Entity\Empresa e 
+        WHERE e.codigoEmpresaPk = " . $empresa. ""
+        );
+        $arConfiguracion = $query->getSingleResult();
+        if($arConfiguracion) {
+            $dato = $arConfiguracion[$campo];
+        }
+        return $dato;
+
+    }
+
 }

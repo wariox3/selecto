@@ -1,0 +1,44 @@
+{% extends 'base_sin_menu.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-1" data-widget-editbutton="false"
+         data-widget-fullscreenbutton="true">
+        <header>
+            <h2>Importar datos</h2>
+        </header>
+        <div>
+            <div class="widget-body no-padding">
+                <div class="panel-body">
+                    <br>
+                    <div class="form-group form-group-sm">
+                        <label for="" class="control-label col-sm-1"></label>
+                        <div class="col-sm-2">
+                            {{ form_widget(form.flArchivo) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-20">
+                        <img src="{{ asset('imagenes/recursos/cargar_items_masivo.jpg') }}" height="60" width="450">
+                    </div>
+                    <br>
+                    <div class="col-sm-12">
+                        <cite style="color: grey;font-size: 11px;"> ~ Los campos <strong>descripcion -
+                                referencia</strong> son <strong> obligatorios </strong> ~
+                        </cite>
+                        <br>
+                        <cite style="color: grey;font-size: 11px;"> ~ El campo
+                            <strong>porcentaje iva</strong> no puede tener el simbolo de % </cite>
+                        <br>
+                        <cite style="color: grey;font-size: 11px;"> ~ El archivo debera de contener solo
+                            <strong>UNA</strong> página ~ </cite>
+                        <br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{ form_widget(form.btnImportarItems) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
