@@ -5,6 +5,8 @@ namespace App\Controller\RecursoHumano;
 
 
 use App\Entity\RecursoHumano\RhuContrato;
+use App\Entity\RecursoHumano\RhuGrupo;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -24,11 +26,10 @@ class ContratoController extends Controller
         $em= $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
+            ->add('codigoContato', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuCodigoEmpleado')])
             ->add('numeroIdentificacion', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNumeroIdentificacion')])
+            ->add('Grupo', EntityType::class, $em->getRepository(RhuGrupo::class)->llenarCombo())
             ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNombreCorto')])
-            ->add('fechaInicio', DateType::class, ['required' => false, 'data' => $session->get('filtroRhuNombreCorto')])
-            ->add('fechaFin', DateType::class, ['required' => false, 'data' => $session->get('filtroRhuNombreCorto')])
-            /**cambiar a un select**/->add('Grupo', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNombreCorto')])
             ->add('estado', ChoiceType::class, ['choices' => ['TODOS' => '', 'Activos' => '1', 'Inactivos' => '0'], 'data' => $session->get('filtroNormaEstadoDerogado'), 'required' => false])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])

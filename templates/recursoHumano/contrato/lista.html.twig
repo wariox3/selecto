@@ -14,7 +14,7 @@
                      <div class="form-group">
                          <label class="col-sm-1 control-label">Id:</label>
                          <div class="col-sm-2">
-                              form_widget(form.codigoEmpleado) }}
+                              {{ form_widget(form.codigoContato) }}
                          </div>
                          <label class="col-sm-1 control-label">Núm identificación:</label>
                          <div class="col-sm-2">
@@ -24,6 +24,17 @@
                          <div class="col-sm-2">
                              {{  form_widget(form.nombreCorto) }}
                          </div>
+                     </div>
+                     <div class="form-group">
+                         <label class="col-sm-1 control-label">Grupo:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.Grupo) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Estado:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.estado) }}
+                         </div>
+
                      </div>
                  </div>
                  <div class="panel-footer">
@@ -45,16 +56,14 @@
                                  <th>Id</th>
                                  <th>tipo Contrato</th>
                                  <th>numero Identificacion</th>
-                                 <th>nombreCorto</th>
-                                 <th>Celular</th>
-                                 <th>Dirección</th>
-                                 <th>Ciudad</th>
-                                 <th>Correo</th>
-                                 <th>ACCIONES NUEVO	</th>
-                                 <th></th>
-                                 <th></th>
-                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
-                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                                 <th>nombre</th>
+                                 <th>grupo</th>
+                                 <th>tiempo</th>
+                                 <th>valor salario</th>
+                                 <th>terminado</th>
+                                 <th>fecha desde</th>
+                                 <th>fecha hasta</th>
+                                 <th></th><th></th>
                              </tr>
                              </thead>
                              <tbody>
@@ -62,24 +71,21 @@
                                  <tr>
                                      <td>{{ arRhuContrato.codigoContratoPk }}</td>
                                      <td>{{ arRhuContrato.tipoContrato }}</td>
-                                     <td>{{  arRhuContrato.numeroIdentificacion }}</td>
+                                     <td>{{ arRhuContrato.numeroIdentificacion }}</td>
                                      <td><a href="">{{  arRhuContrato.nombreCorto }}</a></td>
-                                     <td>{ arEmpleado.telefono }}</td>
-                                     <td>{ arEmpleado.celular }}</td>
-                                     <td>{ arEmpleado.direccion }}</td>
-                                     <td>{ arEmpleado.ciudad }}</td>
-                                     <td>{ arEmpleado.correo }}</td>
-                                     <td>
-                                     </td>
+                                     <td>{{  arRhuContrato.grupo }}</td>
+                                     <td>{{  arRhuContrato.tiempo }}</td>
+                                     <td>{{ arRhuContrato.vrSalario }}</td>
+                                     <td>{{  arRhuContrato.estadoTerminado ? "si":"no" }}</td>
+                                     <td>{{  arRhuContrato.fechaDesde | date('Y-m-d')}}</td>
+                                     <td>{{  arRhuContrato.fechaHasta | date('Y-m-d') }}</td>
                                      <td align="center">
-                                         <a href="{  path('RecursoHumano_empleado_nuevo', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
-                                            title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                         <a href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id':arRhuContrato.codigoContratoPk, 'codigoEmpleado':  arRhuContrato.codigoEmpleadoFk}) }}', 'Editar contrato', 800, 1200)">
+                                             <i class="fa fa-edit fa-lg" ></i>
+                                         </a>
                                      <td align="center">
-                                         <a href="{  path('RecursoHumano_empleado_detalle', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
+                                         <a href="{{   path('RecursoHumano_contrato_detalle', { 'id': arRhuContrato.codigoContratoPk }) }}"
                                                  title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
-                                     <td class="text-center">
-                                         <input type="checkbox" name="ChkSeleccionar[]"
-                                                value="{{ arRhuContrato.codigoContratoPk }}"/></td>
                                  </tr>
                              {% endfor %}
                              </tbody>

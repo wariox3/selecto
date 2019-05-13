@@ -20,13 +20,25 @@ class RhuContratoRepository extends ServiceEntityRepository
     public function lista()
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'RhuCon')
-            ->select('RhuCon.codigoContratoPk')
-            ->addSelect('ct.nombre')
-            ->addSelect('em.nombreCorto')
-            ->addSelect('em.nombreCorto')
-            ->leftJoin('RhuCon.empleadoRel', 'em')
-            ->leftJoin('RhuCon.contratoTipoRel', 'ct');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'rhuCon')
+            ->select('rhuCon.codigoContratoPk')
+            ->addSelect('Tipo.nombre as tipoContrato')
+            ->addSelect('Empleado.nombreCorto as nombreCorto')
+            ->addSelect('Empleado.numeroIdentificacion as numeroIdentificacion')
+            ->addSelect('rhuCon.numero')
+            ->addSelect('Grupo.nombre as grupo')
+            ->addSelect('Cargo.nombre as cargo')
+            ->addSelect('rhuCon.vrSalario')
+            ->addSelect('rhuCon.tiempo')
+            ->addSelect('rhuCon.estadoTerminado')
+            ->addSelect('rhuCon.fechaDesde')
+            ->addSelect('rhuCon.fechaHasta')
+            ->addSelect('rhuCon.codigoEmpleadoFk')
+            ->leftJoin('rhuCon.empleadoRel' , 'Empleado')
+            ->leftJoin('rhuCon.contratoTipoRel' , 'Tipo')
+            ->leftJoin('rhuCon.grupoRel' , 'Grupo')
+            ->leftJoin('rhuCon.cargoRel' , 'Cargo');
+        $queryBuilder->orderBy('rhuCon.codigoContratoPk', 'DESC');
 
         if ($session->get('filtroRhuCodigoEmpleado') != '') {
             $queryBuilder->andWhere("RhuEm.codigoEmpleadoPk = '{$session->get('filtroRhuCodigoEmpleado')}'");
