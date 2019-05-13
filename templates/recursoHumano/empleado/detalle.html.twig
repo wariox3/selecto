@@ -153,13 +153,39 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                            {% for arContratos in arContratos %}
+                                <tr>
+                                    <td>{{ arContratos.codigoContratoPk }}</td>
+                                    <td>{{ arContratos.tipoContrato }}</td>
+                                    <td>{{ arContratos.numero }}</td>
+                                    <td>{{ arContratos.grupo }}</td>
+                                    <td>{{ arContratos.cargo }}</td>
+                                    <td>{{ arContratos.riesgo }}</td>
+                                    <td>{{ arContratos.fechaDesde | date("Y/m/d") }}</td>
+                                    <td>{{ arContratos.fechaHasta | date("Y/m/d") }}</td>
+                                    <td>{{ arContratos.vrSalario }}</td>
+                                    <td>{{ arContratos.estadoTerminado? "Terminado" : "Actual"}}</td>
+                                    <td>
+                                        <a href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id':arContratos.codigoContratoPk, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'Editar contrato', 800, 1200)">
+                                            <i class="fa fa-edit" style="color: black;font-size: large;"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('RecursoHumano_contrato_detalle', {'id':arContratos.codigoContratoPk}) }}" target="_blank">
+                                            <i class="fa fa-share-square-o" style="font-size: large;color: black;"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
-                        ID	TIPO	NUMERO	GRUPO	CARGO	C_RIESGO	DESDE	HASTA	SALARIO	AT	TER
+                        <div style="display: flex; flex-direction: row; align-items: center">
+                            <span style="margin-right: 4px">registros: {{ arContratos.getTotalItemCount }}</span>
+                            {{ knp_pagination_render(arContratos) }}
+                        </div>
                     </div>
                     <div class="panel-footer">
-                        <a class="btn btn-sm btn-default" href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id': 0, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'NuevoObligacion', 800, 1200)">Nuevo</a>
+                        <a class="btn btn-sm btn-default" href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id': 0, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'Nuevo contrato', 800, 1200)">Nuevo</a>
                     </div>
                 </div>
             </div>

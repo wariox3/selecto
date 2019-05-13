@@ -126,7 +126,7 @@ class RhuContratoType  extends AbstractType
                 'class' => RhuEntidad::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
-                        ->where('r.pen = 1')
+                        ->where('s.pen = 1')
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',

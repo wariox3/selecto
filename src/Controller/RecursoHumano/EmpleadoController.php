@@ -101,13 +101,15 @@ class EmpleadoController extends Controller
      */
     public function detalle(Request $request, $id){
         $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
         $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
-        $arContratos =$em->getRepository( RhuEmpleado::class)->listarContratos($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('RecursoHumano_detalle', ['id' => $id]));
         }
+        $arContratos = $paginator->paginate($em->getRepository(RhuEmpleado::class)->listarContratos($id), $request->query->getInt('page', 1), 30);
+
         return $this->render('recursoHumano/empleado/detalle.html.twig', [
             'form' => $form->createView(),
             'arEmpleado' => $arEmpleado,
@@ -123,7 +125,7 @@ class EmpleadoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arContrato = new RhuContrato();
         if ($id != 0){
-            $arContrato = $em->getRepository(RhuEmpleado::class)->find($id);
+            $arContrato = $em->getRepository(RhuContrato::class)->find($id);
         }
 
 

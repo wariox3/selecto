@@ -54,13 +54,6 @@ class ContratoController extends Controller
     }
 
     /**
-     * @Route("/inventario/administracion/RecursoHumano/Contrato/nuevo/{id}", name="RecursoHumano_contrato_nuevo")
-     */
-    public function nuevo(Request $request, $id){
-
-    }
-
-    /**
      * @Route("/inventario/administracion/RecursoHumano/Contrato/detalle/{id}", name="RecursoHumano_contrato_detalle")
      */
     public function detalle(Request $request, $id){

@@ -4,6 +4,7 @@
 namespace App\Repository\RecursoHumano;
 
 
+use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuEmpleado;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
@@ -47,6 +48,26 @@ class RhuEmpleadoRepository extends ServiceEntityRepository
     }
 
     public function  listarContratos($id){
-
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'rhuCon')
+            ->select('rhuCon.codigoContratoPk')
+            ->addSelect('Tipo.nombre as tipoContrato')
+            ->addSelect('rhuCon.numero')
+            ->addSelect('Grupo.nombre as grupo')
+            ->addSelect('Cargo.nombre as cargo')
+            ->addSelect('Riesgo.nombre as riesgo')
+            ->addSelect('rhuCon.fechaDesde')
+            ->addSelect('rhuCon.fechaHasta')
+            ->addSelect('rhuCon.vrSalario')
+            ->addSelect('rhuCon.estadoTerminado')
+            ->leftJoin('rhuCon.contratoTipoRel' , 'Tipo')
+            ->leftJoin('rhuCon.grupoRel' , 'Grupo')
+            ->leftJoin('rhuCon.clasificacionRiesgoRel' , 'Riesgo')
+            ->leftJoin('rhuCon.cargoRel' , 'Cargo')
+            ->where("rhuCon.codigoEmpleadoFk = {$id}");
+        $queryBuilder->orderBy('rhuCon.codigoContratoPk', 'DESC');
+        //$r=$queryBuilder->getQuery();
+        //dd($r->getResult());
+        return $queryBuilder;
     }
 }

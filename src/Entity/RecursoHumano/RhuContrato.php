@@ -146,7 +146,7 @@ class RhuContrato
     private $codigoEntidadSaludFk;
 
     /**
-     * @ORM\Column(name="codigo_entidad_cesantia_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_entidad_censantia_fk", type="integer", nullable=true)
      */
     private $codigoEntidadCesantiaFk;
 
@@ -174,6 +174,11 @@ class RhuContrato
      * @ORM\Column(name="auxilio_transporte", type="boolean",options={"default":false})
      */
     private $auxilioTransporte = false;
+
+    /**
+     * @ORM\Column(name="codigo_grupo_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoGrupoFk;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuEmpleado", inversedBy="contratosEmpleadoRel")
@@ -212,11 +217,11 @@ class RhuContrato
      */
     protected $cargoRel;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="RhuGrupo", inversedBy="contratosGrupoRel")
-//     * @ORM\JoinColumn(name="codigo_grupo_fk",referencedColumnName="codigo_grupo_pk")
-//     */
-//    protected $grupoRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuGrupo", inversedBy="contratosGrupoRel")
+     * @ORM\JoinColumn(name="codigo_grupo_fk",referencedColumnName="codigo_grupo_pk")
+     */
+    protected $grupoRel;
 
 
     /**
