@@ -2,13 +2,22 @@
 
 namespace App\Controller\Inventario\Administracion;
 
+use App\Entity\Empresa;
+use App\Entity\General\GenConfiguracion;
 use App\Entity\Inventario\InvItem;
+use App\Entity\Transporte\TteCiudad;
+use App\Entity\Transporte\TtePrecio;
+use App\Entity\Transporte\TtePrecioDetalle;
+use App\Entity\Transporte\TteProducto;
 use App\Form\Type\Inventario\ItemType;
 use App\General\General;
+use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -96,6 +105,75 @@ class ItemController extends Controller
         return $this->render('Inventario/Administracion/Item/detalle.html.twig', [
             'form' => $form->createView(),
             'arItem' => $arItem,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @Route("/inventario/administracion/item/importar", name="item_importar")
+     */
+    public function importar(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+        $form = $this->createFormBuilder()
+            ->add('flArchivo', FileType::class)
+            ->add('btnImportarItems', SubmitType::class, ['label' => 'Importar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnImportarItems')->isClicked()) {
+                $ruta = $em->getRepository(Empresa::class)->parametro('rutaTemporal', $empresa);
+//                $ruta = "/var/www/temporal/";
+                if (!$ruta) {
+                    Mensajes::error('Debe de ingresar una ruta temporal en la configuracion general del sistema');
+                    echo "<script language='Javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+                }
+                $form['flArchivo']->getData()->move($ruta, "archivo.xls");
+                $rutaArchivo = $ruta . "archivo.xls";
+                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::load($rutaArchivo);
+                $arrCargas = [];
+                $i = 0;
+                if ($reader->getSheetCount() > 1) {
+                    Mensajes::error('El documento debe contener solamente una hoja');
+                    echo "<script language='Javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+                } else {
+                    foreach ($reader->getWorksheetIterator() as $worksheet) {
+                        $highestRow = $worksheet->getHighestRow();
+                        for ($row = 2; $row <= $highestRow; ++$row) {
+                            $cell = $worksheet->getCellByColumnAndRow(1, $row);
+                            if ($cell->getValue() != '') {
+                                $arrCargas [$i]['descripcion'] = $cell->getValue();
+                            }
+                            $cell = $worksheet->getCellByColumnAndRow(2, $row);
+                            if ($cell->getValue() != '') {
+                                $arrCargas [$i]['referencia'] = $cell->getValue();
+                            }
+                            $cell = $worksheet->getCellByColumnAndRow(3, $row);
+                            if ($cell->getValue() != '') {
+                                $arrCargas [$i]['porcentajeIva'] = $cell->getValue();
+                            }
+                            $i++;
+                        }
+                    }
+                    //leercargas
+                    foreach ($arrCargas as $arrCarga) {
+                        $item = New InvItem();
+                        $item->setDescripcion($arrCarga['descripcion']);
+                        $item->setReferencia($arrCarga['referencia']);
+                        $item->setCodigoEmpresaFk($empresa);
+                        $item->setPorcentajeIva($arrCarga['porcentajeIva']);
+                        $em->persist($item);
+                    }
+                    $em->flush();
+                    echo "<script language='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+                }
+            }
+        }
+        return $this->render('Inventario/Administracion/Item/importarItemsArchivo.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }
