@@ -184,7 +184,7 @@ class ReciboController extends Controller
 //                        $saldo -= $arCuentaCobrar->getVrRetencionFuente();
 //                        $pagoAfectar = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
 //                        $arReciboDetalle->setVrPago($saldo);
-//                        $arReciboDetalle->setVrPagoAfectar($pagoAfectar);
+                        $arReciboDetalle->setVrPagoAfectar($arCuentaCobrar->getVrTotalBruto());
                         $arReciboDetalle->setNumeroFactura($arCuentaCobrar->getNumeroDocumento());
 //                        $arReciboDetalle->setCuentaCobrarTipoRel($arCuentaCobrar->getCuentaCobrarTipoRel());
                         $arReciboDetalle->setOperacion(1);

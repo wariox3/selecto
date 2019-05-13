@@ -172,6 +172,7 @@ class ContratoController extends Controller
     public function detalleNuevo(Request $request, $id)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $respuesta = '';
@@ -213,7 +214,7 @@ class ContratoController extends Controller
                 }
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista(), $request->query->getInt('page', 1), 50);
+        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Inventario/Contrato/detalleNuevo.html.twig', [
             'form' => $form->createView(),
             'arItems' => $arItems

@@ -3,7 +3,7 @@
 namespace App\Controller\Inventario\Administracion;
 
 use App\Entity\Inventario\InvTercero;
-use App\Form\Type\TerceroType;
+use App\Form\Type\Inventario\TerceroType;
 use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
