@@ -40,14 +40,20 @@ class RhuContratoRepository extends ServiceEntityRepository
             ->leftJoin('rhuCon.cargoRel' , 'Cargo');
         $queryBuilder->orderBy('rhuCon.codigoContratoPk', 'DESC');
 
-        if ($session->get('filtroRhuCodigoEmpleado') != '') {
-            $queryBuilder->andWhere("RhuEm.codigoEmpleadoPk = '{$session->get('filtroRhuCodigoEmpleado')}'");
+        if ($session->get('filtroRhuContratoCodigoContato') != '') {
+            $queryBuilder->andWhere("rhuCon.codigoContratoPk = '{$session->get('filtroRhuContratoCodigoContato')}'");
         }
-        if ($session->get('filtroRhuNumeroIdentificacion') != '') {
-            $queryBuilder->andWhere("RhuEm.numeroIdentificacion LIKE '%{$session->get('filtroRhuNumeroIdentificacion')}%'");
+        if ($session->get('filtroRhuContratoNumeroIdentificacion') != '') {
+            $queryBuilder->andWhere("Empleado.numeroIdentificacion LIKE '%{$session->get('filtroRhuContratoNumeroIdentificacion')}%'");
         }
-        if ($session->get('filtroRhuNombreCorto') != '') {
-            $queryBuilder->andWhere("RhuEm.nombreCorto LIKE '%{$session->get('filtroRhuNombreCorto')}%'");
+        if ($session->get('filtroRhuContratoNombreCorto') != '') {
+            $queryBuilder->andWhere("Empleado.nombreCorto LIKE '%{$session->get('filtroRhuContratoNombreCorto')}%'");
+        }
+        if ($session->get('filtroRhuContratoGrupo') != '') {
+            $queryBuilder->andWhere("rhuCon.codigoGrupoFk = '{$session->get('filtroRhuContratoGrupo')}'");
+        }
+        if ($session->get('filtroRhuContratoEstado') != '') {
+            $queryBuilder->andWhere("rhuCon.estadoTerminado LIKE '%{$session->get('filtroRhuContratoEstado')}%'");
         }
 
 

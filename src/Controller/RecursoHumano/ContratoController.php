@@ -28,8 +28,8 @@ class ContratoController extends Controller
         $form = $this->createFormBuilder()
             ->add('codigoContato', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuCodigoEmpleado')])
             ->add('numeroIdentificacion', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNumeroIdentificacion')])
-            ->add('Grupo', EntityType::class, $em->getRepository(RhuGrupo::class)->llenarCombo())
             ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNombreCorto')])
+            ->add('Grupo', EntityType::class, $em->getRepository(RhuGrupo::class)->llenarCombo())
             ->add('estado', ChoiceType::class, ['choices' => ['TODOS' => '', 'Activos' => '1', 'Inactivos' => '0'], 'data' => $session->get('filtroNormaEstadoDerogado'), 'required' => false])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
@@ -37,9 +37,18 @@ class ContratoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             if ($form->get('btnFiltrar')->isClicked()) {
-               // $session->set('filtroRhuCodigoEmpleado', $form->get('codigoEmpleado')->getData());
-               // $session->set('filtroRhuNumeroIdentificacion', $form->get('numeroIdentificacion')->getData());
-               // $session->set('filtroRhuNombreCorto', $form->get('nombreCorto')->getData());
+               $session->set('filtroRhuContratoCodigoContato', $form->get('codigoContato')->getData());
+               $session->set('filtroRhuContratoNumeroIdentificacion', $form->get('numeroIdentificacion')->getData());
+               $session->set('filtroRhuContratoNombreCorto', $form->get('nombreCorto')->getData());
+                $session->set('filtroRhuContratoEstado',   $form->get('estado')->getData());
+                $arGrupo = $form->get('Grupo')->getData();
+
+                if($arGrupo) {
+                    $session->set('filtroRhuContratoGrupo', $arGrupo->getCodigoGrupoPk());
+                } else {
+                    $session->set('filtroRhuContratoGrupo', null);
+                }
+
             }
             if($form->get('btnEliminar')->isClicked()){
                 $arRhuContrato= $request->request->get('ChkSeleccionar');

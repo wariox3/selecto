@@ -29,7 +29,6 @@ class RhuGrupoRepository extends ServiceEntityRepository
      */
     public function llenarCombo()
     {
-        $session = new Session();
         $array = [
             'class' => RhuGrupo::class,
             'query_builder' => function (EntityRepository $er) {
@@ -42,9 +41,6 @@ class RhuGrupoRepository extends ServiceEntityRepository
             'placeholder' => "TODOS",
             'data' => ""
         ];
-        if ($session->get('filtroRhuGrupo')) {
-            $array['data'] = $this->getEntityManager()->getReference(RhuGrupo::class, $session->get('filtroRhuGrupo'));
-        }
         return $array;
     }
 }

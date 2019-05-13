@@ -160,6 +160,15 @@ class RhuContratoType  extends AbstractType
                 'choice_label' => 'nombre',
                 'required' => true
             ])
+            ->add('grupoRel', EntityType::class, [
+                'class' => RhuGrupo::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary']]);
 
 
