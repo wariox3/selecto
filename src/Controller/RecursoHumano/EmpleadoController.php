@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmpleadoController extends Controller
 {
     /**
-     * @Route("/RecursoHumano/administracion/empleado/lista", name="RecursoHumano_empleado_lista")
+     * @Route("/recursoHumano/administracion/empleado/lista", name="RecursoHumano_empleado_lista")
      */
     public function lista(Request $request)
     {

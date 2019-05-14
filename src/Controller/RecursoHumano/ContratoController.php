@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContratoController extends Controller
 {
     /**
-     * @Route("/RecursoHumano/administracion/contrato/lista", name="RecursoHumano_contrato_lista")
+     * @Route("/recursoHumano/administracion/contrato/lista", name="RecursoHumano_contrato_lista")
      */
     public function lista(Request $request){
         $session = new Session();
