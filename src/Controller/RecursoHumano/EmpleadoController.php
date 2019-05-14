@@ -69,8 +69,6 @@ class EmpleadoController extends Controller
         $arEmpleado = new RhuEmpleado();
         if ($id != 0) {
             $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
-        } else {
-
         }
         $form = $this->createForm(RhuEmpleadoType::class, $arEmpleado);
         $form->handleRequest($request);
@@ -81,7 +79,8 @@ class EmpleadoController extends Controller
                 $arEmpleadoBuscar = $em->getRepository(RhuEmpleado::class)->findOneBy(
                     ['codigoIdentificacionFk' => $arEmpleado->getIdentificacionRel()->getCodigoIdentificacionPk(),
                         'numeroIdentificacion' => $arEmpleado->getNumeroIdentificacion()]);
-                if (is_null($arEmpleadoBuscar)) {
+                //dd($arEmpleadoBuscar);
+                if (is_null($arEmpleadoBuscar) || $id != 0) {
                     $arEmpleado = $form->getData();
                     $arEmpleado->setCodigoEmpresaFk($empresa);
                     $em->persist($arEmpleado);
@@ -150,7 +149,7 @@ class EmpleadoController extends Controller
                 $arContrato->setFechaUltimoPago(new \DateTime('now'));
                 $arContrato->setCodigoEmpresaFk($empresa);
 
-                if ($arrContratosEmpleado) {
+                if ($arrContratosEmpleado && $id != 0) {
                     Mensajes::error("No se puede registrar ya que el empleado ya cuenta con un contrato vigente, por favor terminé el contrato anterior");
                 } else {
                     $em->persist($arContrato);
