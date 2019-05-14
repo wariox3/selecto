@@ -25,9 +25,10 @@ class EmpleadoController extends Controller
     /**
      * @Route("/inventario/administracion/RecursoHumano/lista", name="RecursoHumano_empleado_lista")
      */
-    public function lista(Request $request){
+    public function lista(Request $request)
+    {
         $session = new Session();
-        $em= $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('codigoEmpleado', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuCodigoEmpleado')])
@@ -38,14 +39,14 @@ class EmpleadoController extends Controller
             ->getForm();
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroRhuCodigoEmpleado', $form->get('codigoEmpleado')->getData());
                 $session->set('filtroRhuNumeroIdentificacion', $form->get('numeroIdentificacion')->getData());
                 $session->set('filtroRhuNombreCorto', $form->get('nombreCorto')->getData());
             }
-            if($form->get('btnEliminar')->isClicked()){
-                $arRhuEmpleado= $request->request->get('ChkSeleccionar');
+            if ($form->get('btnEliminar')->isClicked()) {
+                $arRhuEmpleado = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(RhuEmpleado::class, $arRhuEmpleado);
                 return $this->redirect($this->generateUrl('RecursoHumano_empleado_lista'));
             }
@@ -60,37 +61,40 @@ class EmpleadoController extends Controller
     /**
      * @Route("/inventario/administracion/RecursoHumano/nuevo/{id}", name="RecursoHumano_empleado_nuevo")
      */
-    public function nuevo(Request $request, $id){
+    public function nuevo(Request $request, $id)
+    {
         $em = $this->getDoctrine()->getManager();
-        $arRhuEmpleado = new RhuEmpleado();
-        if ($id != 0){
-            $arRhuEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
-        }else{
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+        $arEmpleado = new RhuEmpleado();
+        if ($id != 0) {
+            $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
+        } else {
 
         }
-        $form = $this->createForm(RhuEmpleadoType::class, $arRhuEmpleado);
+        $form = $this->createForm(RhuEmpleadoType::class, $arEmpleado);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($form->get('guardar')->isClicked()) {
                 $arEmpleadoBuscar = $em->getRepository(RhuEmpleado::class)->findOneBy(
-                        [   'codigoIdentificacionFk' => $arRhuEmpleado->getIdentificacionRel()->getCodigoIdentificacionPk(),
-                            'numeroIdentificacion' => $arRhuEmpleado->getNumeroIdentificacion()]);
-                if ((!is_null($arRhuEmpleado->getCodigoEmpleadoPk()) &&
-                        $arRhuEmpleado->getCodigoEmpleadoPk() == $arEmpleadoBuscar->getCodigoEmpleadoPk()) ||
-                        is_null($arEmpleadoBuscar)) {
-                    $arRhuEmpleado = $form->getData();
-                    $em->persist($arRhuEmpleado);
+                    ['codigoIdentificacionFk' => $arEmpleado->getIdentificacionRel()->getCodigoIdentificacionPk(),
+                        'numeroIdentificacion' => $arEmpleado->getNumeroIdentificacion()]);
+                if ((!is_null($arEmpleado->getCodigoEmpleadoPk()) &&
+                        $arEmpleado->getCodigoEmpleadoPk() == $arEmpleado->getCodigoEmpleadoPk()) ||
+                    is_null($arEmpleado)) {
+                    $arEmpleado = $form->getData();
+                    $arEmpleado->setCodigoEmpresaFk($empresa);
+                    $em->persist($arEmpleado);
                     $em->flush();
-                    return $this->redirect($this->generateUrl('RecursoHumano_empleado_detalle', ['id' => $arRhuEmpleado->getCodigoEmpleadoPk()]));
-                }else {
+                    return $this->redirect($this->generateUrl('RecursoHumano_empleado_detalle', ['id' => $arEmpleado->getCodigoEmpleadoPk()]));
+                } else {
                     Mensajes::error('Ya existe un empleado con la identificación ingresada.');
                 }
             }
         }
         return $this->render('recursoHumano/empleado/nuevo.html.twig', [
-            'arRhuEmpleado' => $arRhuEmpleado,
+            'arEmpleado' => $arEmpleado,
             'form' => $form->createView()
         ]);
 
@@ -99,7 +103,8 @@ class EmpleadoController extends Controller
     /**
      * @Route("/inventario/administracion/RecursoHumano/detalle/{id}", name="RecursoHumano_empleado_detalle")
      */
-    public function detalle(Request $request, $id){
+    public function detalle(Request $request, $id)
+    {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
@@ -113,7 +118,7 @@ class EmpleadoController extends Controller
         return $this->render('recursoHumano/empleado/detalle.html.twig', [
             'form' => $form->createView(),
             'arEmpleado' => $arEmpleado,
-            'arContratos'=>$arContratos
+            'arContratos' => $arContratos
         ]);
     }
 
@@ -123,15 +128,16 @@ class EmpleadoController extends Controller
     public function nuevoContrato(Request $request, $id, $codigoEmpleado)
     {
         $em = $this->getDoctrine()->getManager();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $arContrato = new RhuContrato();
-        $arrContratosEmpleado = $em->getRepository(RhuContrato::class)->findBy(['codigoEmpleadoFk'=> $codigoEmpleado,'estadoTerminado' => 0]);
+        $arrContratosEmpleado = $em->getRepository(RhuContrato::class)->findBy(['codigoEmpleadoFk' => $codigoEmpleado, 'estadoTerminado' => 0]);
         if ($id != 0) {
             $arContrato = $em->getRepository(RhuContrato::class)->find($id);
         }
 
         $form = $this->createForm(RhuContratoType::class, $arContrato);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($codigoEmpleado);
                 $arContrato = $form->getData();
@@ -141,10 +147,11 @@ class EmpleadoController extends Controller
                 $arContrato->setFechaUltimoPagoVacaciones(new \DateTime('now'));
                 $arContrato->setFechaUltimoPagoPrimas(new \DateTime('now'));
                 $arContrato->setFechaUltimoPago(new \DateTime('now'));
+                $arContrato->setCodigoEmpresaFk($empresa);
 
-                if ($arrContratosEmpleado){
+                if ($arrContratosEmpleado) {
                     Mensajes::error("No se puede registrar ya que el empleado ya cuenta con un contrato vigente, por favor terminé el contrato anterior");
-                }else{
+                } else {
                     $em->persist($arContrato);
                     $em->flush();
                     echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";

@@ -50,6 +50,11 @@ class RhuEmpleado
     private $codigoContratoUltimoFk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="numero_identificacion", type="string", length=20 ,nullable=false)
      */
     private $numeroIdentificacion;
@@ -1097,14 +1102,20 @@ class RhuEmpleado
         $this->contratosEmpleadoRel = $contratosEmpleadoRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
 
-
-
-
-
-
-
-
-
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
 
 }

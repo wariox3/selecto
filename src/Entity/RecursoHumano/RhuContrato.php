@@ -40,6 +40,11 @@ class RhuContrato
     private $codigoEmpleadoFk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="tipo_salario", type="string", length=30, nullable=true)
      */
     private $tipoSalario;
@@ -1175,4 +1180,22 @@ class RhuContrato
     {
         $this->grupoRel = $grupoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+
 }
