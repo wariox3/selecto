@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmpleadoController extends Controller
 {
     /**
-     * @Route("/inventario/administracion/RecursoHumano/lista", name="RecursoHumano_empleado_lista")
+     * @Route("/RecursoHumano/administracion/Empleado/lista", name="RecursoHumano_empleado_lista")
      */
     public function lista(Request $request)
     {
@@ -51,7 +51,8 @@ class EmpleadoController extends Controller
                 return $this->redirect($this->generateUrl('RecursoHumano_empleado_lista'));
             }
         }
-        $arEmpleados = $paginator->paginate($em->getRepository(RhuEmpleado::class)->lista(), $request->query->getInt('page', 1), 30);
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+        $arEmpleados = $paginator->paginate($em->getRepository(RhuEmpleado::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('recursoHumano/empleado/lista.html.twig', [
             'arEmpleados' => $arEmpleados,
             'form' => $form->createView()
@@ -59,7 +60,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/inventario/administracion/RecursoHumano/nuevo/{id}", name="RecursoHumano_empleado_nuevo")
+     * @Route("/RecursoHumano/administracion/Empleado/nuevo/{id}", name="RecursoHumano_empleado_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -80,9 +81,7 @@ class EmpleadoController extends Controller
                 $arEmpleadoBuscar = $em->getRepository(RhuEmpleado::class)->findOneBy(
                     ['codigoIdentificacionFk' => $arEmpleado->getIdentificacionRel()->getCodigoIdentificacionPk(),
                         'numeroIdentificacion' => $arEmpleado->getNumeroIdentificacion()]);
-                if ((!is_null($arEmpleado->getCodigoEmpleadoPk()) &&
-                        $arEmpleado->getCodigoEmpleadoPk() == $arEmpleado->getCodigoEmpleadoPk()) ||
-                    is_null($arEmpleado)) {
+                if (is_null($arEmpleadoBuscar)) {
                     $arEmpleado = $form->getData();
                     $arEmpleado->setCodigoEmpresaFk($empresa);
                     $em->persist($arEmpleado);
@@ -101,7 +100,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/inventario/administracion/RecursoHumano/detalle/{id}", name="RecursoHumano_empleado_detalle")
+     * @Route("/RecursoHumano/administracion/Empleado/detalle/{id}", name="RecursoHumano_empleado_detalle")
      */
     public function detalle(Request $request, $id)
     {
@@ -113,7 +112,9 @@ class EmpleadoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('RecursoHumano_detalle', ['id' => $id]));
         }
-        $arContratos = $paginator->paginate($em->getRepository(RhuEmpleado::class)->listarContratos($id), $request->query->getInt('page', 1), 30);
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+
+        $arContratos = $paginator->paginate($em->getRepository(RhuEmpleado::class)->listarContratos($id, $empresa), $request->query->getInt('page', 1), 30);
 
         return $this->render('recursoHumano/empleado/detalle.html.twig', [
             'form' => $form->createView(),
@@ -123,7 +124,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/inventario/administracion/RecursoHumano/nuevo/{id}/{codigoEmpleado}", name="RecursoHumano_empleado_contrato_nuevo")
+     * @Route("/RecursoHumano/administracion/Empleado/nuevo/{id}/{codigoEmpleado}", name="RecursoHumano_empleado_contrato_nuevo")
      */
     public function nuevoContrato(Request $request, $id, $codigoEmpleado)
     {

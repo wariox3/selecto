@@ -5,6 +5,7 @@ namespace App\Repository\RecursoHumano;
 
 
 use App\Entity\RecursoHumano\RhuContrato;
+use App\Entity\RecursoHumano\Empleado;
 use App\Entity\RecursoHumano\RhuEmpleado;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
@@ -18,56 +19,58 @@ class RhuEmpleadoRepository extends ServiceEntityRepository
         parent::__construct($registry, RhuEmpleado::class);
     }
 
-    public function lista()
+    public function lista($codigoEmpresa)
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuEmpleado::class, 'RhuEm')
-            ->select('RhuEm.codigoEmpleadoPk')
-            ->addSelect('RhuEm.numeroIdentificacion')
-            ->addSelect('RhuEm.nombreCorto')
-            ->addSelect('RhuEm.telefono')
-            ->addSelect('RhuEm.celular')
-            ->addSelect('RhuEm.direccion')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuEmpleado::class, 'em')
+            ->select('em.codigoEmpleadoPk')
+            ->addSelect('em.numeroIdentificacion')
+            ->addSelect('em.nombreCorto')
+            ->addSelect('em.telefono')
+            ->addSelect('em.celular')
+            ->addSelect('em.direccion')
             ->addSelect('ciu.nombre as ciudad')
-            ->addSelect('RhuEm.correo')
-            ->addSelect('RhuEm.fechaNacimiento')
-            ->leftJoin('RhuEm.ciudadRel', 'ciu');
+            ->addSelect('em.correo')
+            ->addSelect('em.fechaNacimiento')
+            ->leftJoin('em.ciudadRel', 'ciu')
+            ->where("em.codigoEmpresaFk = {$codigoEmpresa}");
 
         if ($session->get('filtroRhuCodigoEmpleado') != '') {
-            $queryBuilder->andWhere("RhuEm.codigoEmpleadoPk = '{$session->get('filtroRhuCodigoEmpleado')}'");
+            $queryBuilder->andWhere("Em.codigoEmpleadoPk = '{$session->get('filtroRhuCodigoEmpleado')}'");
         }
         if ($session->get('filtroRhuNumeroIdentificacion') != '') {
-            $queryBuilder->andWhere("RhuEm.numeroIdentificacion LIKE '%{$session->get('filtroRhuNumeroIdentificacion')}%'");
+            $queryBuilder->andWhere("Em.numeroIdentificacion LIKE '%{$session->get('filtroRhuNumeroIdentificacion')}%'");
         }
         if ($session->get('filtroRhuNombreCorto') != '') {
-            $queryBuilder->andWhere("RhuEm.nombreCorto LIKE '%{$session->get('filtroRhuNombreCorto')}%'");
+            $queryBuilder->andWhere("Em.nombreCorto LIKE '%{$session->get('filtroRhuNombreCorto')}%'");
         }
 
 
         return $queryBuilder;
     }
 
-    public function  listarContratos($id){
+    public function  listarContratos($id, $codigoEmpresa){
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'rhuCon')
-            ->select('rhuCon.codigoContratoPk')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'C')
+            ->select('C.codigoContratoPk')
             ->addSelect('Tipo.nombre as tipoContrato')
-            ->addSelect('rhuCon.numero')
+            ->addSelect('C.numero')
             ->addSelect('Grupo.nombre as grupo')
             ->addSelect('Cargo.nombre as cargo')
             ->addSelect('Riesgo.nombre as riesgo')
-            ->addSelect('rhuCon.fechaDesde')
-            ->addSelect('rhuCon.fechaHasta')
-            ->addSelect('rhuCon.vrSalario')
-            ->addSelect('rhuCon.estadoTerminado')
-            ->leftJoin('rhuCon.contratoTipoRel' , 'Tipo')
-            ->leftJoin('rhuCon.grupoRel' , 'Grupo')
-            ->leftJoin('rhuCon.clasificacionRiesgoRel' , 'Riesgo')
-            ->leftJoin('rhuCon.cargoRel' , 'Cargo')
-            ->where("rhuCon.codigoEmpleadoFk = {$id}");
-        $queryBuilder->orderBy('rhuCon.codigoContratoPk', 'DESC');
-        //$r=$queryBuilder->getQuery();
-        //dd($r->getResult());
+            ->addSelect('C.fechaDesde')
+            ->addSelect('C.fechaHasta')
+            ->addSelect('C.vrSalario')
+            ->addSelect('C.estadoTerminado')
+            ->leftJoin('C.contratoTipoRel' , 'Tipo')
+            ->leftJoin('C.grupoRel' , 'Grupo')
+            ->leftJoin('C.clasificacionRiesgoRel' , 'Riesgo')
+            ->leftJoin('C.cargoRel' , 'Cargo')
+            ->leftJoin('C.empleadoRel' , 'emp')
+            ->where("C.codigoEmpleadoFk = {$id}")
+            ->andWhere("emp.codigoEmpresaFk = {$codigoEmpresa}");
+        
+        $queryBuilder->orderBy('C.codigoContratoPk', 'DESC');
         return $queryBuilder;
     }
 }

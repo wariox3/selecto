@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    {{ notificar()|raw }}
     <div class="row">
         <div class="col-md-12">
             <section class="panel">
@@ -9,11 +10,11 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono">Numero identificacion:</label>
+                        <label class="col-md-1 control-label" for="_telefono">Número identificación:</label>
                         <div class="col-md-5">
                             {{  form_widget(form.numeroIdentificacion) }}
                         </div>
-                        <label class="col-md-1 control-label" for="_telefono">Identificación:</label>
+                        <label class="col-md-1 control-label" for="_telefono">Tipo identificación:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.identificacionRel) }}
                         </div>
@@ -88,7 +89,7 @@
                         <div class="col-md-5">
                             {{ form_widget(form.fechaNacimiento) }}
                         </div>
-                        <label class="col-md-1 control-label">Ciudad nacimientoRel:</label>
+                        <label class="col-md-1 control-label">Ciudad nacimiento:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.ciudadNacimientoRel) }}
                         </div>
@@ -172,7 +173,7 @@
                         <div class="col-md-3">
                             {{ form_widget(form.cuenta, { 'attr': {'class': 'form-control'} }) }}
                         </div>
-                        <label for="form_cue0nta" class="control-label col-md-1">Cuenta tipo:</label>
+                        <label for="form_cue0nta" class="control-label col-md-1">Tipo de Cuenta:</label>
                         <div class="col-md-3">
                             {{ form_widget(form.codigoCuentaTipoFk, { 'attr': {'class': 'form-control'} }) }}
                         </div>

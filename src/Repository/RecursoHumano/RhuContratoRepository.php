@@ -17,31 +17,32 @@ class RhuContratoRepository extends ServiceEntityRepository
         parent::__construct($registry, RhuContrato::class);
     }
 
-    public function lista()
+    public function lista($codigoEmpresa)
     {
         $session = new Session();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'rhuCon')
-            ->select('rhuCon.codigoContratoPk')
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'c')
+            ->select('c.codigoContratoPk')
             ->addSelect('Tipo.nombre as tipoContrato')
             ->addSelect('Empleado.nombreCorto as nombreCorto')
             ->addSelect('Empleado.numeroIdentificacion as numeroIdentificacion')
-            ->addSelect('rhuCon.numero')
+            ->addSelect('c.numero')
             ->addSelect('Grupo.nombre as grupo')
             ->addSelect('Cargo.nombre as cargo')
-            ->addSelect('rhuCon.vrSalario')
-            ->addSelect('rhuCon.tiempo')
-            ->addSelect('rhuCon.estadoTerminado')
-            ->addSelect('rhuCon.fechaDesde')
-            ->addSelect('rhuCon.fechaHasta')
-            ->addSelect('rhuCon.codigoEmpleadoFk')
-            ->leftJoin('rhuCon.empleadoRel' , 'Empleado')
-            ->leftJoin('rhuCon.contratoTipoRel' , 'Tipo')
-            ->leftJoin('rhuCon.grupoRel' , 'Grupo')
-            ->leftJoin('rhuCon.cargoRel' , 'Cargo');
-        $queryBuilder->orderBy('rhuCon.codigoContratoPk', 'DESC');
+            ->addSelect('c.vrSalario')
+            ->addSelect('c.tiempo')
+            ->addSelect('c.estadoTerminado')
+            ->addSelect('c.fechaDesde')
+            ->addSelect('c.fechaHasta')
+            ->addSelect('c.codigoEmpleadoFk')
+            ->leftJoin('c.empleadoRel' , 'Empleado')
+            ->leftJoin('c.contratoTipoRel' , 'Tipo')
+            ->leftJoin('c.grupoRel' , 'Grupo')
+            ->leftJoin('c.cargoRel' , 'Cargo')
+            ->where("c.empleadoRel = {$codigoEmpresa}");
+        $queryBuilder->orderBy('c.codigoContratoPk', 'DESC');
 
         if ($session->get('filtroRhuContratoCodigoContato') != '') {
-            $queryBuilder->andWhere("rhuCon.codigoContratoPk = '{$session->get('filtroRhuContratoCodigoContato')}'");
+            $queryBuilder->andWhere("c.codigoContratoPk = '{$session->get('filtroRhuContratoCodigoContato')}'");
         }
         if ($session->get('filtroRhuContratoNumeroIdentificacion') != '') {
             $queryBuilder->andWhere("Empleado.numeroIdentificacion LIKE '%{$session->get('filtroRhuContratoNumeroIdentificacion')}%'");
@@ -50,10 +51,10 @@ class RhuContratoRepository extends ServiceEntityRepository
             $queryBuilder->andWhere("Empleado.nombreCorto LIKE '%{$session->get('filtroRhuContratoNombreCorto')}%'");
         }
         if ($session->get('filtroRhuContratoGrupo') != '') {
-            $queryBuilder->andWhere("rhuCon.codigoGrupoFk = '{$session->get('filtroRhuContratoGrupo')}'");
+            $queryBuilder->andWhere("c.codigoGrupoFk = '{$session->get('filtroRhuContratoGrupo')}'");
         }
         if ($session->get('filtroRhuContratoEstado') != '') {
-            $queryBuilder->andWhere("rhuCon.estadoTerminado LIKE '%{$session->get('filtroRhuContratoEstado')}%'");
+            $queryBuilder->andWhere("c.estadoTerminado LIKE '%{$session->get('filtroRhuContratoEstado')}%'");
         }
 
 

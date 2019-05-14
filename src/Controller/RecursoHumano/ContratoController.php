@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContratoController extends Controller
 {
     /**
-     * @Route("/inventario/administracion/RecursoHumano/Contrato/lista", name="RecursoHumano_contrato_lista")
+     * @Route("/RecursoHumano/administracion/Contrato/lista", name="RecursoHumano_contrato_lista")
      */
     public function lista(Request $request){
         $session = new Session();
@@ -56,7 +56,9 @@ class ContratoController extends Controller
                 return $this->redirect($this->generateUrl('RecursoHumano_empleado_lista'));
             }
         }
-        $arRhuContratos = $paginator->paginate($em->getRepository(RhuContrato::class)->lista(), $request->query->getInt('page', 1), 30);
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+
+        $arRhuContratos = $paginator->paginate($em->getRepository(RhuContrato::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('recursoHumano/contrato/lista.html.twig', [
             'arRhuContratos' => $arRhuContratos,
             'form' => $form->createView()
@@ -64,13 +66,12 @@ class ContratoController extends Controller
     }
 
     /**
-     * @Route("/inventario/administracion/RecursoHumano/Contrato/detalle/{id}", name="RecursoHumano_contrato_detalle")
+     * @Route("/RecursoHumano/administracion/Contrato/detalle/{id}", name="RecursoHumano_contrato_detalle")
      */
     public function detalle(Request $request, $id){
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $arContrato = $em->getRepository(RhuContrato::class)->find($id);
-        //dd($arContrato);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
