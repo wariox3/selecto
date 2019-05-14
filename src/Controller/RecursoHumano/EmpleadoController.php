@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmpleadoController extends Controller
 {
     /**
-     * @Route("/RecursoHumano/administracion/Empleado/lista", name="RecursoHumano_empleado_lista")
+     * @Route("/RecursoHumano/administracion/empleado/lista", name="RecursoHumano_empleado_lista")
      */
     public function lista(Request $request)
     {
@@ -60,7 +60,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/RecursoHumano/administracion/Empleado/nuevo/{id}", name="RecursoHumano_empleado_nuevo")
+     * @Route("/RecursoHumano/administracion/empleado/nuevo/{id}", name="RecursoHumano_empleado_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -100,7 +100,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/RecursoHumano/administracion/Empleado/detalle/{id}", name="RecursoHumano_empleado_detalle")
+     * @Route("/RecursoHumano/administracion/empleado/detalle/{id}", name="RecursoHumano_empleado_detalle")
      */
     public function detalle(Request $request, $id)
     {
@@ -124,7 +124,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/RecursoHumano/administracion/Empleado/nuevo/{id}/{codigoEmpleado}", name="RecursoHumano_empleado_contrato_nuevo")
+     * @Route("/RecursoHumano/administracion/empleado/nuevo/{id}/{codigoEmpleado}", name="RecursoHumano_empleado_contrato_nuevo")
      */
     public function nuevoContrato(Request $request, $id, $codigoEmpleado)
     {
