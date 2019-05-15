@@ -11,102 +11,98 @@
         <tr>
             <td class="titulo">ID</td>
             <td class="td-in-well">{{ arContrato.codigoContratoPk }}</td>
-                 <td class="titulo">Tipo contrato</td>
+                 <td class="titulo">TIPO CONTRATO</td>
                  <td class="td-in-well">{{ arContrato.contratoTipoRel.nombre }}</td>
              </tr>
         <tr>
-            <td class="titulo">Número</td>
+            <td class="titulo">NÚMERO</td>
             <td class="td-in-well">{{ arContrato.numero }}</td>
-            <td class="titulo">Grupo</td>
+            <td class="titulo">GRUPO</td>
             <td class="td-in-well">{{  arContrato.grupoRel.nombre }}</td>
         </tr>
         <tr>
-            <td class="titulo">Clasificacion riesgo</td>
+            <td class="titulo">ClASIFICACIÓN RIESGO</td>
             <td class="td-in-well">{{ arContrato.clasificacionRiesgoRel.nombre }}</td>
-            <td class="titulo">Porcentaje del riesgo</td>
+            <td class="titulo">PORCENTAJE DEL RIESGO</td>
             <td class="td-in-well">{{ arContrato.clasificacionRiesgoRel.porcentaje }}</td>
         </tr>
         <tr>
-            <td class="titulo">Cargo</td>
-            <td class="td-in-well">{{ arContrato.cargoRel.nombre }}</td>
-            <td class="titulo">Descripción cargo</td>
-            <td class="td-in-well">{{  arContrato.cargoDescripcion}}</td>
+            <td class="titulo">CARGO</td>
+            <td class="td-in-well">{{arContrato.cargoRel.nombre }}</td>
+            <td class="titulo">DESCRIPCIÓN CARGO</td>
+            <td class="td-in-well">{{arContrato.cargoDescripcion}}</td>
         </tr>
         <tr>
-            <td class="titulo">Fecha</td>
-            <td class="td-in-well">{{  arContrato.fecha |date('Y/m/d') }}</td>
-            <td class="titulo">Factor horas dia</td>
-            <td class="td-in-well">{{  arContrato.factorHorasDia }}</td>
+            <td class="titulo">FECHA</td>
+            <td class="td-in-well">{{arContrato.fecha |date('Y/m/d') }}</td>
+            <td class="titulo">FACTOR HORAS DÍA</td>
+            <td class="td-in-well">{{arContrato.factorHorasDia }}</td>
         </tr>
         <tr>
-            <td class="titulo">Fecha desde</td>
+            <td class="titulo">FECHA DESDE</td>
             <td class="td-in-well">{{ arContrato.fechaDesde | date("Y/m/d") }}</td>
-            <td class="titulo">Fecha hasta</td>
+            <td class="titulo">FECHA HASTA</td>
             <td class="td-in-well">{{ arContrato.fechaHasta | date("Y/m/d") }}</td>
         </tr>
         <tr>
-            <td class="titulo">Valor salario</td>
+            <td class="titulo">VALOR SALARIO</td>
             <td class="td-in-well">{{ arContrato.vrSalario }}</td>
-            <td class="titulo">Valor adicional</td>
+            <td class="titulo">VALOR ADICIONAL</td>
             <td class="td-in-well">{{ arContrato.vrAdicional }}</td>
         </tr>
         <tr>
-            <td class="titulo">Valor adicional</td>
+            <td class="titulo">VALOR ADICIONAL PRESENCIAL</td>
             <td class="td-in-well">{{ arContrato.vrAdicionalPrestacional }}</td>
-            <td class="titulo">Valor adicional</td>
-            <td class="td-in-well">{{ arContrato.vrAdicional }}</td>
+            <td class="titulo">COMENTARIO CONTRATO</td>
+            <td class="td-in-well">{{ arContrato.comentarioContrato }}</td>
         </tr>
         <tr>
-            <td class="titulo">Terminado</td>
+            <td class="titulo">TERMINADO</td>
             <td class="td-in-well">{{ arContrato.estadoTerminado ?"si":"no" }}</td>
-            <td class="titulo">Comentario terminación</td>
+            <td class="titulo">COMENTARIO TERMINADO</td>
             <td class="td-in-well">{{ arContrato.comentarioTerminacion }}</td>
         </tr>
         <tr>
-            <td class="titulo">Fecha ultimo pago cesantias</td>
+            <td class="titulo">FECHA ULTIMO PAGO CESANTIAS</td>
             <td class="td-in-well">{{ arContrato.fechaUltimoPagoCesantias | date("Y/m/d") }}</td>
-            <td class="titulo">Fecha ultimo pago vacaciones</td>
+            <td class="titulo">Fecha ultimo pago VACACIONES</td>
             <td class="td-in-well">{{ arContrato.fechaUltimoPagoVacaciones | date("Y/m/d") }}</td>
         </tr>
         <tr>
-            <td class="titulo">Fecha ultimo pago prima</td>
+            <td class="titulo">FECHA ULTIMO PAGO PRIMA</td>
             <td class="td-in-well">{{ arContrato.fechaUltimoPagoPrimas | date("Y/m/d") }}</td>
-            <td class="titulo">Fecha ultimo pago</td>
+            <td class="titulo">FECHA ULTIMO PAGO</td>
             <td class="td-in-well">{{ arContrato.fechaUltimoPago | date("Y/m/d") }}</td>
         </tr>
         <tr>
-            <td class="titulo">Salario integral</td>
+            <td class="titulo">SALARIOA INTEGRAL</td>
             <td class="td-in-well">{{ arContrato.salarioIntegral ?"si":"no" }}</td>
-            <td class="titulo">Entidad salud</td>
+            <td class="titulo">ENTIDAD SALUD</td>
             <td class="td-in-well">{{ arContrato.entidadSaludRel.nombre }}</td>
         </tr>
         <tr>
-            <td class="titulo">Entidad caja</td>
+            <td class="titulo">ENTIDAD CAJA</td>
             <td class="td-in-well">{{ arContrato.entidadCajaRel.nombre }}</td>
-            <td class="titulo">Ciudad contrato</td>
+            <td class="titulo">CIUDAD CONTRATO</td>
             <td class="td-in-well">{{ arContrato.ciudadContratoRel.nombre }}</td>
         </tr>
         <tr>
-            <td class="titulo">Sucursal</td>
+            <td class="titulo">SUCURSAL</td>
             <td class="td-in-well">{{ arContrato.sucursalRel.nombre }}</td>
-            <td class="titulo">Ciudad contrato</td>
+            <td class="titulo">CIUDAD CONTRATO</td>
             <td class="td-in-well">{{ arContrato.auxilioTransporte ?"si":"no" }}</td>
         </tr>
         <tr>
-            <td class="titulo">Tiempo</td>
+            <td class="titulo">TIEMPO</td>
             <td class="td-in-well">{{ arContrato.tiempo }}</td>
-            <td class="titulo">Tipo salario</td>
+            <td class="titulo">TIPO SALARIO</td>
             <td class="td-in-well">{{ arContrato.tipoSalario }}</td>
         </tr>
         <tr>
-            <td class="titulo">Entidad pensión</td>
+            <td class="titulo">ENTIDAD PENSIÓN</td>
             <td class="td-in-well">{{ arContrato.entidadPensionRel.nombre }}</td>
-            <td class="titulo">Grupo</td>
+            <td class="titulo">GRUPO</td>
             <td class="td-in-well">{{ arContrato.grupoRel.nombre }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">comentario</td>
-            <td class="td-in-well">{{ arContrato.comentarioContrato }}</td>
         </tr>
     </table>
     {{ form_end(form) }}

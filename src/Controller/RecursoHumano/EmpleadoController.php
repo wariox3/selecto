@@ -129,12 +129,13 @@ class EmpleadoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $empresa = $this->getUser()->getCodigoEmpresaFk();
+        $editarContrato= false;
         $arContrato = new RhuContrato();
         $arrContratosEmpleado = $em->getRepository(RhuContrato::class)->findBy(['codigoEmpleadoFk' => $codigoEmpleado, 'estadoTerminado' => 0]);
         if ($id != 0) {
             $arContrato = $em->getRepository(RhuContrato::class)->find($id);
+            $editarContrato = true;
         }
-
         $form = $this->createForm(RhuContratoType::class, $arContrato);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -148,8 +149,7 @@ class EmpleadoController extends Controller
                 $arContrato->setFechaUltimoPagoPrimas(new \DateTime('now'));
                 $arContrato->setFechaUltimoPago(new \DateTime('now'));
                 $arContrato->setCodigoEmpresaFk($empresa);
-
-                if ($arrContratosEmpleado && $id != 0) {
+                if ($arrContratosEmpleado && $editarContrato == false) {
                     Mensajes::error("No se puede registrar ya que el empleado ya cuenta con un contrato vigente, por favor terminé el contrato anterior");
                 } else {
                     $em->persist($arContrato);

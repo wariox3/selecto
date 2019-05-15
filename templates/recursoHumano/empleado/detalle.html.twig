@@ -11,55 +11,49 @@
         <tr>
             <td class="titulo">ID</td>
             <td class="td-in-well">{{ arEmpleado.codigoEmpleadoPk }}</td>
-            <td class="titulo">Número identificación</td>
+            <td class="titulo">NÚMERO IDENTIFICACIÓN</td>
             <td class="td-in-well">{{ arEmpleado.numeroIdentificacion }}</td>
         </tr>
         <tr>
-            <td class="titulo">nombreCorto</td>
+            <td class="titulo">NOMBRE CORTO</td>
             <td class="td-in-well">{{ arEmpleado.nombreCorto }}</td>
-            <td class="titulo">telefono</td>
+            <td class="titulo">TELÉFONO</td>
             <td class="td-in-well">{{ arEmpleado.telefono }}</td>
         </tr>
         <tr>
-            <td class="titulo">celular</td>
+            <td class="titulo">CELULAR</td>
             <td class="td-in-well">{{ arEmpleado.celular }}</td>
-            <td class="titulo">direccion</td>
+            <td class="titulo">DIRECCIÓN</td>
             <td class="td-in-well">{{ arEmpleado.direccion }}</td>
         </tr>
         <tr>
-            <td class="titulo">ciudad nombre</td>
+            <td class="titulo">CIUDAD</td>
             <td class="td-in-well">{{ arEmpleado.ciudadRel.nombre }}</td>
-            <td class="titulo">direccion</td>
+            <td class="titulo">CORREO</td>
             <td class="td-in-well">{{ arEmpleado.correo }}</td>
         </tr>
         <tr>
-            <td class="titulo">fechaNacimiento</td>
+            <td class="titulo">FECHA NACIMIENTO</td>
             <td class="td-in-well">{{ arEmpleado.fechaNacimiento | date("Y/m/d") }}</td>
-            <td class="titulo">numeroIdentificacion</td>
+            <td class="titulo">NÚMERO IDENTIFICACIÓN</td>
             <td class="td-in-well">{{ arEmpleado.numeroIdentificacion }}</td>
         </tr>
         <tr>
-            <td class="titulo">numero identificacion</td>
-            <td class="td-in-well">{{ arEmpleado.numeroIdentificacion }}</td>
-            <td class="titulo">discapacidad</td>
-            <td class="td-in-well">{{ arEmpleado.discapacidad ?"si":"no" }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">estadoContrato</td>
+            <td class="titulo">ESTADO CONTRATO</td>
             <td class="td-in-well">{{ arEmpleado.estadoContrato }}</td>
-            <td class="titulo">carro</td>
+            <td class="titulo">CARRO</td>
             <td class="td-in-well">{{ arEmpleado.carro ?"si":"no" }}</td>
         </tr>
         <tr>
-            <td class="titulo">cabezaHogar</td>
+            <td class="titulo">CABEZA DE HOGAR</td>
             <td class="td-in-well">{{ arEmpleado.cabezaHogar?"si":"no" }}</td>
-            <td class="titulo">nombreCorto</td>
+            <td class="titulo">NOMBRE CORTO</td>
             <td class="td-in-well">{{ arEmpleado.nombreCorto}}</td>
         </tr>
         <tr>
-            <td class="titulo">nombre1</td>
+            <td class="titulo">NOMBRE 1</td>
             <td class="td-in-well">{{ arEmpleado.nombre1 }}</td>
-            <td class="titulo">nombre 2</td>
+            <td class="titulo">NOMBRE 2</td>
             <td class="td-in-well">{{ arEmpleado.nombre1 | default('N/A')}}</td>
         </tr>
         <tr>
@@ -69,58 +63,62 @@
             <td class="td-in-well">{{ arEmpleado.apellido2 }}</td>
         </tr>
         <tr>
-            <td class="titulo">telefono</td>
+            <td class="titulo">TELÉFONO</td>
             <td class="td-in-well">{{ arEmpleado.telefono }}</td>
-            <td class="titulo">celular</td>
+            <td class="titulo">CELULAR</td>
             <td class="td-in-well">{{ arEmpleado.celular }}</td>
         </tr>
         <tr>
-            <td class="titulo">ciudad expedicion</td>
+            <td class="titulo">CIUDAD EXPEDICIÓN</td>
             <td class="td-in-well">{{ arEmpleado.ciudadExpedicionRel.nombre }}</td>
-            <td class="titulo">ciudad nacimiento</td>
+            <td class="titulo">CIUDAD NACIMIENTO</td>
             <td class="td-in-well">{{ arEmpleado.ciudadNacimientoRel.nombre }}</td>
         </tr>
         <tr>
-            <td class="titulo">fecha expedicionIdentificacion</td>
+            <td class="titulo">FEHCA DE EXPEDICIÓN</td>
             <td class="td-in-well">{{ arEmpleado.fechaExpedicionIdentificacion | date("Y/m/d") }}</td>
-            <td class="titulo">sexo</td>
+            <td class="titulo">SEXO</td>
             <td class="td-in-well">{{ arEmpleado.sexoRel.nombre }}</td>
         </tr>
         <tr>
-            <td class="titulo">rh</td>
+            <td class="titulo">TIPO DE RH</td>
             <td class="td-in-well">{{ arEmpleado.rhRel.nombre }}</td>
-            <td class="titulo">peso</td>
+            <td class="titulo">PESO</td>
             <td class="td-in-well">{{ arEmpleado.peso }}</td>
         </tr>
         <tr>
-            <td class="titulo">estado civil</td>
+            <td class="titulo">ESTADO CIVIL</td>
             <td class="td-in-well">{{ arEmpleado.estadoCivilRel.nombre }}</td>
-            <td class="titulo">celular</td>
+            <td class="titulo">CELULAR</td>
             <td class="td-in-well">{{ arEmpleado.celular }}</td>
         </tr>
         <tr>
-            <td class="titulo">cuenta</td>
-            <td class="td-in-well">{{ arEmpleado.cuenta }}</td>
-            <td class="titulo">cueta Tipo</td>
+            <td class="titulo">TIPO DE CUENTA</td>
             <td class="td-in-well">{{ arEmpleado.cuetaTipo }}</td>
+            <td class="titulo">NÚMERO DE CUENTA</td>
+            <td class="td-in-well">{{ arEmpleado.cuenta }}</td>
         </tr>
         <tr>
-            <td class="titulo">banco</td>
+            <td class="titulo">BANCO</td>
             <td class="td-in-well">{{ arEmpleado.bancoRel.nombre }}</td>
-            <td class="titulo">cargo</td>
+            <td class="titulo">CARGO</td>
             <td class="td-in-well">{{ arEmpleado.cargoRel.nombre }}</td>
         </tr>
         <tr>
-            <td class="titulo">tallaCamisa</td>
+            <td class="titulo">TALLA CAMISA</td>
             <td class="td-in-well">{{ arEmpleado.tallaCamisa }}</td>
-            <td class="titulo">tallaPantalon</td>
+            <td class="titulo">TALLA PANTALON</td>
             <td class="td-in-well">{{ arEmpleado.tallaPantalon }}</td>
         </tr>
         <tr>
-            <td class="titulo">tallaCalzado</td>
+            <td class="titulo">TALLA CALZADO</td>
             <td class="td-in-well">{{ arEmpleado.tallaCalzado }}</td>
-            <td class="titulo">estatura</td>
+            <td class="titulo">ESTATURA</td>
             <td class="td-in-well">{{ arEmpleado.estatura }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">DISCAPACIDAD</td>
+            <td class="td-in-well">{{ arEmpleado.discapacidad ?"si":"no" }}</td>
         </tr>
     </table>
     <br>
