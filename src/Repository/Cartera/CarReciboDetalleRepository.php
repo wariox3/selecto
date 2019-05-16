@@ -18,7 +18,7 @@ class CarReciboDetalleRepository extends ServiceEntityRepository
     /**
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function lista()
+    public function lista($id)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarReciboDetalle::class, 'rd')
@@ -26,26 +26,18 @@ class CarReciboDetalleRepository extends ServiceEntityRepository
             ->addSelect('rd.numeroFactura')
             ->addSelect('rd.vrPago')
             ->addSelect('rd.vrPagoAfectar')
-            ->addSelect('rdcc.vrTotalBruto as total' )
+            ->addSelect('rdcc.vrTotalBruto as total')
             ->addSelect('rdcct.nombre')
-            ->leftJoin('rd.cuentaCobrarRel','rdcc')
-            ->leftJoin('rd.cuentaCobrarTipoRel', 'rdcct');
-        if ($session->get('filtroReciboFechaDesde') != null) {
-            $queryBuilder->andWhere("r.fecha >= '{$session->get('filtroReciboFechaDesde')} 00:00:00'");
-        }
-        if ($session->get('filtroReciboFechaHasta') != null) {
-            $queryBuilder->andWhere("r.fecha <= '{$session->get('filtroReciboFechaHasta')} 23:59:59'");
-        }
-//        if ($session->get('filtroRecibo' != '')) {
-//
-//        }
-        return $queryBuilder;
+            ->leftJoin('rd.cuentaCobrarRel', 'rdcc')
+            ->leftJoin('rd.cuentaCobrarTipoRel', 'rdcct')
+            ->where('rd.codigoReciboFk = ' . $id);
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
      * @param $arrControles
      * @param $form
-     * @param $arRecibos
+     * @param $arRecibos CarRecibo
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
@@ -70,30 +62,18 @@ class CarReciboDetalleRepository extends ServiceEntityRepository
                 $em->persist($arReciboDetalle);
                 $em->flush();
             }
-            $em->getRepository(CarReciboDetalle::class)->liquidar($arRecibos);
+            $em->getRepository(CarRecibo::class)->liquidar($arRecibos);
             $this->getEntityManager()->flush();
         }
     }
 
-    public function liquidar($id)
-    {
-        $em = $this->getEntityManager();
-        $pago = 0;
-        $pagoTotal = 0;
-        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
-        $arRecibosDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $id));
-        foreach ($arRecibosDetalles as $arReciboDetalle) {
-            $pago += $arReciboDetalle->getVrPago() * $arReciboDetalle->getOperacion();
-            $pagoTotal += $arReciboDetalle->getVrPagoAfectar();
-        }
-        $arRecibo->setVrPago($pago);
-        $arRecibo->setVrPagoTotal($pagoTotal);
-        $em->persist($arRecibo);
-        $em->flush();
-        return true;
-    }
-
-    public function eliminar($arMovimiento, $arrSeleccionados)
+    /**
+     * @param $arRecibo
+     * @param $arrSeleccionados
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function eliminar($arRecibo, $arrSeleccionados)
     {
         $em = $this->getEntityManager();
         if (count($arrSeleccionados) > 0) {

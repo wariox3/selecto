@@ -2,22 +2,22 @@
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-group" style="float:left">
-                <a class="btn btn-default btn-sm"
-                   href="{{ path('recibo_lista') }}">Volver</a>
+        <a class="btn btn-default btn-sm"
+           href="{{ path('recibo_lista') }}">Volver</a>
         {{ form_widget(form.btnAutorizar) }}
         {{ form_widget(form.btnDesautorizar) }}
         {{ form_widget(form.btnAprobado) }}
         {{ form_widget(form.btnImprimir) }}
     </div>
-        <div style="float:right">
-            {% if arRecibos.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
-        </div>
-        <div style="float:right">
-            {% if arRecibos.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
-        </div>
-        <div style="float:right">
-            {% if arRecibos.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
-        </div>
+    <div style="float:right">
+        {% if arRecibos.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
+    </div>
+    <div style="float:right">
+        {% if arRecibos.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
+    </div>
+    <div style="float:right">
+        {% if arRecibos.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
+    </div>
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
@@ -29,7 +29,7 @@
         <tr>
             <td class="titulo">TIPO:</td>
             <td class="td-in-well">{{ arRecibos.cuentaRel.tipo }}</td>
-            <td class="titulo">iDENTIFICACION:</td>
+            <td class="titulo">IDENTIFICACION:</td>
             <td class="">{{ arRecibos.terceroRel.numeroIdentificacion }}</td>
         </tr>
         <tr>
@@ -72,24 +72,27 @@
                     </thead>
                     <tbody>
                     {% for arReciboDetalle in arReciboDetalles %}
-                        <tr><td>{{ arReciboDetalle.codigoReciboDetallePk }}</td>
+                        <tr>
+                            <td>{{ arReciboDetalle.codigoReciboDetallePk }}</td>
                             <input type="hidden"
                                    name="arrCodigo[]"
                                    value="{{ arReciboDetalle.codigoReciboDetallePk }}">
-                            <td>{{ arReciboDetalle.numeroFactura  }}</td>
-                            <td>{{ arReciboDetalle.nombre |default('')  }}</td>
+                            <td>{{ arReciboDetalle.numeroFactura }}</td>
+                            <td>{{ arReciboDetalle.nombre |default('') }}</td>
                             <td style="text-align: right">{{ arReciboDetalle.vrPago | number_format(0, '.', ',') }}</td>
                             <td style="text-align: right">{{ arReciboDetalle.total | number_format(0, '.', ',') }}</td>
-                            <td style="text-align: center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arReciboDetalle.codigoReciboDetallePk }}" /></td>
+                            <td style="text-align: center"><input type="checkbox" name="ChkSeleccionar[]"
+                                                                  value="{{ arReciboDetalle.codigoReciboDetallePk }}"/>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
-            {#            <div style="display: flex; flex-direction: row;">#}
-            {#                <span style="margin-right: 4px">registros: {{ arMovimientoDetalles.getTotalItemCount }}</span>#}
-            {#                {{ knp_pagination_render(arMovimientoDetalles) }}#}
-            {#            </div>#}
+            <div style="display: flex; flex-direction: row;">
+                <span style="margin-right: 4px">registros: {{ arReciboDetalles.getTotalItemCount }}</span>
+                {{ knp_pagination_render(arReciboDetalles) }}
+            </div>
         </div>
         <div class="panel-footer">
             <div class="row">

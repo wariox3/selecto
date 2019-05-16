@@ -13,9 +13,9 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="form-group form-group-sm">
-                            <label class="col-sm-1 control-label">Txt:</label>
+                            <label class="col-sm-1 control-label">Tercero:</label>
                             <div class="col-sm-2">
-                                {{ form_widget(form.txt) }}
+                                {{ form_widget(form.cboTerceroRel) }}
                             </div>
                         </div>
                     </div>
@@ -85,9 +85,9 @@
                                     <td class="numero">{{ arRecibo.vrPago }}</td>
                                     <td class="numero">{{ arRecibo.vrPagoTotal }}</td>
                                     <td>{{ arRecibo.usuario }}</td>
-                                    <td>{{ arRecibo.estadoAutorizado }}</td>
-                                    <td>{{ arRecibo.estadoAprobado }}</td>
-                                    <td>{{ arRecibo.estadoAnulado }}</td>
+                                    <td>{{ arRecibo.estadoAutorizado ? 'SI':'NO' }}</td>
+                                    <td>{{ arRecibo.estadoAprobado ? 'SI' : 'NO' }}</td>
+                                    <td>{{ arRecibo.estadoAnulado ? 'SI' : 'NO' }}</td>
                                     <td align="center"><a
                                                 href="{{ path('recibo_nuevo', {'id': arRecibo.codigoReciboPk}) }}"
                                                 title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>

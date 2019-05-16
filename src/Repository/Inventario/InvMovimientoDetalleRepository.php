@@ -105,6 +105,12 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param $arMovimiento
+     * @param $arrSeleccionados
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function eliminar($arMovimiento, $arrSeleccionados)
     {
         $em = $this->getEntityManager();

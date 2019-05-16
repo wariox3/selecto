@@ -8,6 +8,7 @@ use App\Entity\Cartera\CarReciboDetalle;
 use App\Entity\General\GenCuenta;
 use App\Entity\Inventario\InvTercero;
 use App\Form\Type\Cartera\ReciboType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,7 +32,7 @@ class ReciboController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha Desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroReciboFechaDesde') ? date_create($session->get('filtroReciboFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha Hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroReciboFechaHasta') ? date_create($session->get('filtroReciboFechaHasta')) : null])
-            ->add('txt', TextType::class, ['required' => false, 'data' => $session->get('filtroRecibo')])
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -40,7 +41,12 @@ class ReciboController extends Controller
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroReciboFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
                 $session->set('filtroReciboFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
-                $session->set('filtroRecibo', $form->get('txt')->getData());
+                $arTercero = $form->get('cboTerceroRel')->getData();
+                if ($arTercero) {
+                    $session->set('filtroMovimientoTercero', $arTercero->getCodigoTerceroPk());
+                } else {
+                    $session->set('filtroMovimientoTercero', null);
+                }
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
@@ -62,24 +68,20 @@ class ReciboController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arRecibos = new CarRecibo();
-//        $arCuenta = $em->getRepository(GenCuenta::class)->find($cuenta);
-        if ($id != 0) {
+        if ($id == 0) {
+            $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+        } else {
             $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
         }
         $form = $this->createForm(ReciboType::class, $arRecibos);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
-//                $txtCodigoTercero = $request->request->get('txtCodigoTercero');
-//                if($txtCodigoTercero != '') {
-//                    $arTercero = $em->getRepository(InvTercero::class)->find($txtCodigoTercero);
-//                    $arRecibos->setTerceroRel($arTercero);
-//                }
                 if ($id == 0) {
                     $arRecibos->setFecha(new \DateTime('now'));
                 }
                 $arRecibos = $form->getData();
-//                $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
+                $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
                 $em->persist($arRecibos);
                 $em->flush();
                 return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $arRecibos->getCodigoReciboPk()]));
@@ -132,21 +134,22 @@ class ReciboController extends Controller
                 $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibos);
                 return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
             }
-            if ($form->get('btnAutorizar')->isClicked()) {
-                $em->getRepository(CarRecibo::class)->autorizar($arRecibos);
-                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibos);
-                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-            }
-            if ($form->get('btnDesautorizar')->isClicked()) {
-                $em->getRepository(CarReciboDetalle::class)->desautorizar($arRecibos);
-                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-            }
-            if ($form->get('btnAprobado')->isClicked()) {
-                $em->getRepository(CarRecibo::class)->autorizar($arRecibos);
-                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-            }
+//            if ($form->get('btnAutorizar')->isClicked()) {
+//                $em->getRepository(CarRecibo::class)->autorizar($arRecibos);
+//                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibos);
+//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+//            }
+//            if ($form->get('btnDesautorizar')->isClicked()) {
+//                $em->getRepository(CarReciboDetalle::class)->desautorizar($arRecibos);
+//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+//            }
+//            if ($form->get('btnAprobado')->isClicked()) {
+//                $em->getRepository(CarRecibo::class)->autorizar($arRecibos);
+//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+//            }
             if ($form->get('btnEliminar')->isClicked()) {
-                $em->getRepository(CarReciboDetalle::class)->eliminar($arRecibos , $arrDetallesSeleccionados);
+                $em->getRepository(CarReciboDetalle::class)->eliminar($arRecibos, $arrDetallesSeleccionados);
+                $em->getRepository(CarRecibo::class)->liquidar($arRecibos);
             }
         }
         $arReciboDetalles = $paginator->paginate($em->getRepository(CarReciboDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
@@ -192,7 +195,7 @@ class ReciboController extends Controller
                     }
                     $em->flush();
                 }
-                $em->getRepository(CarReciboDetalle::class)->liquidar($id);
+                $em->getRepository(CarRecibo::class)->liquidar($id);
             }
             echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
         }

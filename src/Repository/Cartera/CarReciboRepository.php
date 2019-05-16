@@ -38,16 +38,17 @@ class CarReciboRepository extends ServiceEntityRepository
             ->addSelect('r.estadoAnulado')
             ->leftJoin('r.cuentaRel', 'rc')
             ->leftJoin('r.terceroRel', 'rt')
-        ->where('rt.codigoEmpresaFk = ' . $empresa);
+        ->where('r.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroReciboFechaDesde') != null) {
             $queryBuilder->andWhere("r.fecha >= '{$session->get('filtroReciboFechaDesde')} 00:00:00'");
         }
         if ($session->get('filtroReciboFechaHasta') != null) {
             $queryBuilder->andWhere("r.fecha <= '{$session->get('filtroReciboFechaHasta')} 23:59:59'");
         }
-//        if ($session->get('filtroRecibo' != '')) {
-//
-//        }
+        if ($session->get('filtroMovimientoTercero')) {
+            $queryBuilder->andWhere("r.codigoTerceroFk = '{$session->get('filtroMovimientoTercero')}'");
+        }
+        $queryBuilder->orderBy("r.codigoReciboPk", 'DESC');
         return $queryBuilder;
     }
 
@@ -91,4 +92,29 @@ class CarReciboRepository extends ServiceEntityRepository
         $resultado = $queryBuilder->getQuery()->getSingleResult();
         return $resultado[1];
     }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function liquidar($id)
+    {
+        $em = $this->getEntityManager();
+        $pago = 0;
+        $pagoTotal = 0;
+        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
+        $arRecibosDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $id));
+        foreach ($arRecibosDetalles as $arReciboDetalle) {
+            $pago += $arReciboDetalle->getVrPago() * $arReciboDetalle->getOperacion();
+            $pagoTotal += $arReciboDetalle->getVrPagoAfectar();
+        }
+        $arRecibo->setVrPago($pago);
+        $arRecibo->setVrPagoTotal($pagoTotal);
+        $em->persist($arRecibo);
+        $em->flush();
+        return true;
+    }
+
 }
