@@ -167,11 +167,13 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
             $arItem = $this->getEntityManager()->getRepository(InvItem::class)->find($arMovimientoDetalle->getCodigoItemFk());
-            $existenciaAnterior = $arItem->getCantidadExistencia();
-            if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
-                $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
-            } elseif ($arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
-                $arItem->setCantidadExistencia($existenciaAnterior + $arMovimientoDetalle->getCantidad());
+            if($arItem->getServicio() == false){
+                $existenciaAnterior = $arItem->getCantidadExistencia();
+                if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
+                    $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
+                } elseif ($arMovimiento->getDocumentoRel()->getOperacionInventario() == 1) {
+                    $arItem->setCantidadExistencia($existenciaAnterior + $arMovimientoDetalle->getCantidad());
+                }
             }
             $em->persist($arItem);
             $em->flush();

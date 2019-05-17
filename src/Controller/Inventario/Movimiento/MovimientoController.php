@@ -229,18 +229,20 @@ class MovimientoController extends Controller
                 foreach ($arrItems as $codigoItem => $cantidad) {
                     $arItem = $em->getRepository(InvItem::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
-                        if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
-                            $arMovimientoDetalle = new InvMovimientoDetalle();
-                            $arMovimientoDetalle->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
-                            $arMovimientoDetalle->setMovimientoRel($arMovimiento);
-                            $arMovimientoDetalle->setItemRel($arItem);
-                            $arMovimientoDetalle->setCantidad($cantidad);
-                            $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
-                            $em->persist($arMovimientoDetalle);
-                        } else {
-                            $respuesta = "La cantidad seleccionada para el item: " . $arItem->getDescripcion() . " no puede ser mayor a las existencias del mismo.";
-                            break;
+                        if ($arItem->getServicio() == false) {
+                            if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
+                            } else {
+                                $respuesta = "La cantidad seleccionada para el item: " . $arItem->getDescripcion() . " no puede ser mayor a las existencias del mismo.";
+                                break;
+                            }
                         }
+                        $arMovimientoDetalle = new InvMovimientoDetalle();
+                        $arMovimientoDetalle->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+                        $arMovimientoDetalle->setMovimientoRel($arMovimiento);
+                        $arMovimientoDetalle->setItemRel($arItem);
+                        $arMovimientoDetalle->setCantidad($cantidad);
+                        $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
+                        $em->persist($arMovimientoDetalle);
                     }
                 }
                 if ($respuesta == '') {

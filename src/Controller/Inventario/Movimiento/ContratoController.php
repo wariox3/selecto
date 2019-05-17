@@ -5,8 +5,10 @@ namespace App\Controller\Inventario\Movimiento;
 use App\Entity\Inventario\InvContrato;
 use App\Entity\Inventario\InvContratoDetalle;
 use App\Entity\Inventario\InvItem;
+use App\Entity\Inventario\InvTercero;
 use App\Form\Type\Inventario\Contrato\ContratoType;
 use App\Utilidades\Mensajes;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -26,22 +28,24 @@ class ContratoController extends Controller
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-//        $arContrato = new InvContrato();
-
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroContratoFechaDesde') ? date_create($session->get('filtroContratoFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroContratoFechaHasta') ? date_create($session->get('filtroContratoFechaHasta')) : null])
-            ->add('cliente', TextType::class, ['required' => false, 'data' => $session->get('filtroTerceroNombreCorto')])
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
-//        $form = $this->createForm(ContratoType::class, $arContrato);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroContratoFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
                 $session->set('filtroContratoFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
-                $session->set('filtroTerceroNombreCorto', $form->get('cliente')->getData());
+                $arTercero = $form->get('cboTerceroRel')->getData();
+                if ($arTercero) {
+                    $session->set('filtroContratoTercero', $arTercero->getCodigoTerceroPk());
+                } else {
+                    $session->set('filtroContratoTercero', null);
+                }
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
@@ -137,15 +141,15 @@ class ContratoController extends Controller
 //                $em->getRepository(InvContrato::class)->aprobar($arContrato);
 //                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
 //            }
-//            if ($form->get('btnAutorizar')->isClicked()) {
-//                $em->getRepository(InvContrato::class)->autorizar($arContrato);
-//                $em->getRepository(InvContratoDetalle::class)->actualizarDetalles($arrControles, $form, $arContrato);
-//                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
-//            }
-//            if ($form->get('btnDesautorizar')->isClicked()) {
-//                $em->getRepository(InvContrato::class)->desautorizar($arContrato);
-//                return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
-//            }
+            if ($form->get('btnAutorizar')->isClicked()) {
+                $em->getRepository(InvContrato::class)->autorizar($arContrato);
+                $em->getRepository(InvContratoDetalle::class)->actualizarDetalles($arrControles, $form, $arContrato);
+                return $this->redirect($this->generateUrl('inventario_contrato_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnDesautorizar')->isClicked()) {
+                $em->getRepository(InvContrato::class)->desautorizar($arContrato);
+                return $this->redirect($this->generateUrl('inventario_contrato_detalle', ['id' => $id]));
+            }
             if ($form->get('btnEliminar')->isClicked()) {
                 $em->getRepository(InvContratoDetalle::class)->eliminar($arContrato, $arrDetallesSeleccionados);
                 $em->getRepository(InvContrato::class)->liquidar($arContrato);

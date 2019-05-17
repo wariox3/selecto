@@ -44,6 +44,10 @@
             <td class="titulo">TOTAL NETO:</td>
             <td class="numero">{{ arContrato.vrTotalNeto | number_format (0, '.', ',') }}</td>
         </tr>
+        <tr>
+            <td class="titulo">COMENTARIO:</td>
+            <td class="td-in-well" colspan="5">{{ arContrato.comentario }}</td>
+        </tr>
     </table>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#detalles" data-toggle="tab">Detalles</a></li>

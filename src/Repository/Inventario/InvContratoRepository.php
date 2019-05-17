@@ -27,6 +27,7 @@ class InvContratoRepository extends ServiceEntityRepository
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContrato::class, 'c')
             ->select('c.codigoContratoPk')
+            ->addSelect('c.numero')
             ->addSelect('c.fecha')
             ->addSelect('ct.nombreCorto AS cliente')
             ->addSelect('c.estadoAutorizado')
@@ -39,8 +40,8 @@ class InvContratoRepository extends ServiceEntityRepository
         if ($session->get('filtroContratoFechaHasta') != null) {
             $queryBuilder->andWhere("c.fecha <= '{$session->get('filtroContratoFechaHasta')} 23:59:59'");
         }
-        if ($session->get('filtroTerceroNombreCorto') != '') {
-            $queryBuilder->andWhere("ct.nombreCorto like '%{$session->get('filtroTerceroNombreCorto')}%'");
+        if ($session->get('filtroContratoTercero')) {
+            $queryBuilder->andWhere("c.codigoTerceroFk = '{$session->get('filtroContratoTercero')}'");
         }
         $queryBuilder->orderBy("c.codigoContratoPk", 'DESC');
         return $queryBuilder;
@@ -87,5 +88,40 @@ class InvContratoRepository extends ServiceEntityRepository
             ->where("cd.codigoContratoFk = {$codigoContrato} ");
         $resultado = $queryBuilder->getQuery()->getSingleResult();
         return $resultado[1];
+    }
+
+    /**
+     * @param $arContrato InvContrato
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function desautorizar($arContrato)
+    {
+        if ($arContrato->getEstadoAprobado() == 0) {
+            $arContrato->setEstadoAutorizado(0);
+            $this->getEntityManager()->persist($arContrato);
+            $this->getEntityManager()->flush();
+
+        } else {
+            Mensajes::error('El registro ya se encuentra aprobado');
+        }
+    }
+
+    /**
+     * @param $arContrato InvContrato
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function autorizar($arContrato)
+    {
+        if ($this->getEntityManager()->getRepository(InvContrato::class)->contarDetalles($arContrato->getCodigoContratoPk()) > 0) {
+            $arContrato->setEstadoAutorizado(1);
+            $this->getEntityManager()->persist($arContrato);
+            $this->getEntityManager()->flush();
+        } else {
+            Mensajes::error("El registro no tiene detalles");
+        }
     }
 }

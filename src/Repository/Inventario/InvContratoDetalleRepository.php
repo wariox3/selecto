@@ -4,6 +4,8 @@ namespace App\Repository\Inventario;
 
 use App\Entity\Inventario\InvContrato;
 use App\Entity\Inventario\InvContratoDetalle;
+use App\Entity\Inventario\InvMovimiento;
+use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -78,4 +80,5 @@ class InvContratoDetalleRepository extends ServiceEntityRepository
             $em->flush();
         }
     }
+
 }
