@@ -28,12 +28,6 @@ class InvContrato
      */
     private $numero = 0;
 
-
-    /**
-     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
-     */
-    private $codigoDocumentoFk;
-
     /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
      */
@@ -43,11 +37,6 @@ class InvContrato
      * @ORM\Column(name="codigo_tercero_fk", type="integer", nullable=true)
      */
     private $codigoTerceroFk;
-
-    /**
-     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
-     */
-    private $codigoClienteFk;
 
     /**
      * @ORM\Column(name="vr_subtotal", type="float", nullable=true, options={"default" : 0})
@@ -85,16 +74,15 @@ class InvContrato
     private $estadoAnulado = false;
 
     /**
+     * @ORM\Column(name="comentario", type="string", length=200, nullable=true)
+     */
+    private $comentario;
+
+    /**
      * @ORM\ManyToOne(targetEntity="InvTercero", inversedBy="contratosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cartera\CarCliente", inversedBy="contratosClienteRel")
-     * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
-     */
-    protected $clienteRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvContratoDetalle", mappedBy="contratoRel")
@@ -152,22 +140,6 @@ class InvContrato
     /**
      * @return mixed
      */
-    public function getCodigoDocumentoFk()
-    {
-        return $this->codigoDocumentoFk;
-    }
-
-    /**
-     * @param mixed $codigoDocumentoFk
-     */
-    public function setCodigoDocumentoFk($codigoDocumentoFk): void
-    {
-        $this->codigoDocumentoFk = $codigoDocumentoFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoEmpresaFk()
     {
         return $this->codigoEmpresaFk;
@@ -195,22 +167,6 @@ class InvContrato
     public function setCodigoTerceroFk($codigoTerceroFk): void
     {
         $this->codigoTerceroFk = $codigoTerceroFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoClienteFk()
-    {
-        return $this->codigoClienteFk;
-    }
-
-    /**
-     * @param mixed $codigoClienteFk
-     */
-    public function setCodigoClienteFk($codigoClienteFk): void
-    {
-        $this->codigoClienteFk = $codigoClienteFk;
     }
 
     /**
@@ -328,6 +284,22 @@ class InvContrato
     /**
      * @return mixed
      */
+    public function getComentario()
+    {
+        return $this->comentario;
+    }
+
+    /**
+     * @param mixed $comentario
+     */
+    public function setComentario($comentario): void
+    {
+        $this->comentario = $comentario;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTerceroRel()
     {
         return $this->terceroRel;
@@ -339,22 +311,6 @@ class InvContrato
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getClienteRel()
-    {
-        return $this->clienteRel;
-    }
-
-    /**
-     * @param mixed $clienteRel
-     */
-    public function setClienteRel($clienteRel): void
-    {
-        $this->clienteRel = $clienteRel;
     }
 
     /**
