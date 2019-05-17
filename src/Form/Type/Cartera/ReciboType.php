@@ -39,7 +39,7 @@ class ReciboType extends AbstractType
                 },
                 'choice_label' => 'cuenta',
             ])
-            ->add('comentarios', TextareaType::class, array('required' => false))
+            ->add('comentario', TextareaType::class, array('required' => false))
             ->add('fechaPago', DateType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }
