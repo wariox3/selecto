@@ -43,6 +43,7 @@
                                  <th>Referencia</th>
                                  <th>Existencia</th>
                                  <th>% IVA</th>
+                                 <th>Servicio</th>
                                  <th></th>
                                  <th></th>
                                  <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
@@ -50,22 +51,23 @@
                              </tr>
                              </thead>
                              <tbody>
-                             {% for item in arItems %}
+                             {% for arItem in arItems %}
                                  <tr>
-                                     <td>{{ item.codigoItemPk }}</td>
-                                     <td>{{ item.descripcion }}</td>
-                                     <td>{{ item.referencia }}</td>
-                                     <td>{{ item.cantidadExistencia }}</td>
-                                     <td>{{ item.porcentajeIva }}</td>
+                                     <td>{{ arItem.codigoItemPk }}</td>
+                                     <td>{{ arItem.descripcion }}</td>
+                                     <td>{{ arItem.referencia }}</td>
+                                     <td>{{ arItem.cantidadExistencia }}</td>
+                                     <td>{{ arItem.porcentajeIva }}</td>
+                                     <td align="center">{% if arItem.servicio == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
                                      <td align="center"><a
-                                                 href="{{ path('item_nuevo', { 'id': item.codigoItemPk }) }}"
+                                                 href="{{ path('item_nuevo', { 'id': arItem.codigoItemPk }) }}"
                                                  title="editar informacion"><i
                                                      class="fa fa-edit fa-lg"></i></a></td>
                                      <td align="center"><a
-                                                 href="{{ path('item_detalle', { 'id': item.codigoItemPk }) }}"
+                                                 href="{{ path('item_detalle', { 'id': arItem.codigoItemPk }) }}"
                                                  title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                      <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
-                                                                    value="{{ item.codigoItemPk }}"/></td>
+                                                                    value="{{ arItem.codigoItemPk }}"/></td>
                                  </tr>
                              {% endfor %}
                              </tbody>

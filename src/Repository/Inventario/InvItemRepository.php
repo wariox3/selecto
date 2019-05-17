@@ -24,6 +24,7 @@ class InvItemRepository extends ServiceEntityRepository
             ->addSelect('i.referencia')
             ->addSelect('i.cantidadExistencia')
             ->addSelect('i.porcentajeIva')
+            ->addSelect('i.servicio')
             ->orderBy('i.codigoItemPk', 'ASC')
             ->where('i.codigoEmpresaFk = '. $empresa);
         if ($session->get('filtroItemCodigo') != '') {

@@ -49,7 +49,7 @@ class ContratoController extends Controller
                 return $this->redirect($this->generateUrl('inventario_contrato_lista'));
             }
         }
-        $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->lista(),$request->query->getInt('page',1), 30);
+        $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->lista(), $request->query->getInt('page', 1), 30);
         return $this->render('Inventario/Contrato/lista.html.twig', [
             'arContratos' => $arContratos,
             'form' => $form->createView()
@@ -196,14 +196,13 @@ class ContratoController extends Controller
                 foreach ($arrItems as $codigoItem => $cantidad) {
                     $arItem = $em->getRepository(InvItem::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
-                            $arContratoDetalle = new InvContratoDetalle();
-                            $arContratoDetalle->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
-                            $arContratoDetalle->setContratoRel($arContrato);
-                            $arContratoDetalle->setItemRel($arItem);
-                            $arContratoDetalle->setCantidad($cantidad);
-                            $arContratoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
-                            $em->persist($arContratoDetalle);
-
+                        $arContratoDetalle = new InvContratoDetalle();
+                        $arContratoDetalle->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+                        $arContratoDetalle->setContratoRel($arContrato);
+                        $arContratoDetalle->setItemRel($arItem);
+                        $arContratoDetalle->setCantidad($cantidad);
+                        $arContratoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
+                        $em->persist($arContratoDetalle);
                     }
                 }
                 if ($respuesta == '') {

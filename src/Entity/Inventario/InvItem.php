@@ -43,6 +43,12 @@ class InvItem
     private $porcentajeIva = 0;
 
     /**
+     * @ORM\Column(name="servicio", type="boolean", nullable=true, options={"default" : false})
+     */
+    private $servicio = false;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="itemRel")
      */
     protected $movimientosDetallesItemRel;
@@ -179,6 +185,23 @@ class InvItem
     {
         $this->contratosDetallesItemRel = $contratosDetallesItemRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getServicio()
+    {
+        return $this->servicio;
+    }
+
+    /**
+     * @param mixed $servicio
+     */
+    public function setServicio($servicio): void
+    {
+        $this->servicio = $servicio;
+    }
+
 
 
 }

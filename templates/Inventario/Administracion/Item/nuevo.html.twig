@@ -5,9 +5,6 @@
         <div class="col-md-12">
             <section class="panel">
                 <header class="panel-heading">
-                    {#                    <div class="panel-actions">#}
-                    {#                        <a href="#" class="fa fa-caret-down"></a>#}
-                    {#                    </div>#}
                     <h2 class="panel-title">Información</h2>
                 </header>
                 <div class="panel-body">
@@ -25,6 +22,10 @@
                         <label class="col-md-1 control-label">% IVA</label>
                         <div class="col-md-1">
                             {{ form_widget(form.porcentajeIva) }}
+                        </div>
+                        <label class="col-md-1 control-label"></label>
+                        <div class="col-md-1">
+                            {{ form_widget(form.servicio) }}
                         </div>
                     </div>
                 </div>
