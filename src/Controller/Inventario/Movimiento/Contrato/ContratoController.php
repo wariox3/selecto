@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inventario\Movimiento;
+namespace App\Controller\Inventario\Movimiento\Contrato;
 
 use App\Entity\Inventario\InvContrato;
 use App\Entity\Inventario\InvContratoDetalle;

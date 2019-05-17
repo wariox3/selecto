@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Inventario\Movimiento;
+namespace App\Controller\Inventario\Movimiento\Inventario;
 
 use App\Entity\Empresa;
 use App\Entity\Inventario\InvDocumento;
