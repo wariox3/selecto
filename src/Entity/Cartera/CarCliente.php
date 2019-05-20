@@ -49,11 +49,6 @@ class CarCliente
     protected $cuentaCobrarClientesRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvContrato", mappedBy="clienteRel")
-     */
-    private $contratosClienteRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoClientePk()
@@ -165,19 +160,4 @@ class CarCliente
         $this->cuentaCobrarClientesRel = $cuentaCobrarClientesRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContratosClienteRel()
-    {
-        return $this->contratosClienteRel;
-    }
-
-    /**
-     * @param mixed $contratosClienteRel
-     */
-    public function setContratosClienteRel($contratosClienteRel): void
-    {
-        $this->contratosClienteRel = $contratosClienteRel;
-    }
 }

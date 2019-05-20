@@ -85,9 +85,9 @@ class CarRecibo
     private $estadoAutorizado = 0;
 
     /**
-     * @ORM\Column(name="comentarios", type="string", length=200, nullable=true)
+     * @ORM\Column(name="comentario", type="string", length=200, nullable=true)
      */
-    private $comentarios;
+    private $comentario;
 
     /**
      * @ORM\Column(name="usuario", type="string", length=50, nullable=true)
@@ -254,6 +254,22 @@ class CarRecibo
     /**
      * @return mixed
      */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCodigoCuentaFk()
     {
         return $this->codigoCuentaFk;
@@ -334,17 +350,17 @@ class CarRecibo
     /**
      * @return mixed
      */
-    public function getComentarios()
+    public function getComentario()
     {
-        return $this->comentarios;
+        return $this->comentario;
     }
 
     /**
-     * @param mixed $comentarios
+     * @param mixed $comentario
      */
-    public function setComentarios($comentarios): void
+    public function setComentario($comentario): void
     {
-        $this->comentarios = $comentarios;
+        $this->comentario = $comentario;
     }
 
     /**
@@ -442,22 +458,4 @@ class CarRecibo
     {
         $this->reciboTipoRel = $reciboTipoRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoEmpresaFk()
-    {
-        return $this->codigoEmpresaFk;
-    }
-
-    /**
-     * @param mixed $codigoEmpresaFk
-     */
-    public function setCodigoEmpresaFk($codigoEmpresaFk): void
-    {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
-    }
-
-
 }
