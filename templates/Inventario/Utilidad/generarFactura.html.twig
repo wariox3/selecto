@@ -37,7 +37,7 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Tercero</th>
+                                 <th>Cliente</th>
                                  <th title="Autorizado">Aut</th>
                                  <th title="Aprobado">Apr</th>
                                  <th title="Anulado">Anu</th>
@@ -49,7 +49,7 @@
                              {% for contrato in arContratos %}
                                  <tr>
                                      <td>{{ contrato.codigoContratoPk }}</td>
-                                     <td>{{ contrato.tercero }}</td>
+                                     <td>{{ contrato.clienteNombre }}</td>
                                      <td>{{ contrato.estadoAutorizado ? 'SI':'NO' }}</td>
                                      <td>{{ contrato.estadoAprobado ? 'SI':'NO' }}</td>
                                      <td>{{ contrato.estadoAnulado ? 'SI':'NO' }}</td>

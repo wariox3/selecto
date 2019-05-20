@@ -53,7 +53,7 @@ class GenerarFacturaController extends Controller
                 $em->getRepository(InvContrato::class)->generarFactura($this->getUser()->getCodigoEmpresaFk());
             }
         }
-        $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->listaGenerarFactura($this->getUser()->getCodigoEmpresaFk()), $request->query->getInt('page', 1), 100);
         return $this->render('Inventario/Utilidad/generarFactura.html.twig', [
             'arContratos' => $arContratos,
             'form' => $form->createView()

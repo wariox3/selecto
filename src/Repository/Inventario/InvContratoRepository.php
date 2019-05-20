@@ -29,6 +29,7 @@ class InvContratoRepository extends ServiceEntityRepository
             ->select('c.codigoContratoPk')
             ->addSelect('c.numero')
             ->addSelect('c.fecha')
+            ->addSelect('c.referencia')
             ->addSelect('ct.nombreCorto AS cliente')
             ->addSelect('c.estadoAutorizado')
             ->addSelect('c.estadoAprobado')
@@ -45,6 +46,62 @@ class InvContratoRepository extends ServiceEntityRepository
         }
         $queryBuilder->orderBy("c.codigoContratoPk", 'DESC');
         return $queryBuilder;
+    }
+
+    public function listaGenerarFactura($codigoEmpresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContrato::class, 'c')
+            ->select('c.codigoContratoPk')
+            ->addSelect('c.numero')
+            ->addSelect('c.fecha')
+            ->addSelect('c.referencia')
+            ->addSelect('ct.nombreCorto AS clienteNombre')
+            ->addSelect('c.estadoAutorizado')
+            ->addSelect('c.estadoAprobado')
+            ->addSelect('c.estadoAnulado')
+            ->leftJoin('c.terceroRel', 'ct')
+        ->where("c.codigoEmpresaFk = ${codigoEmpresa}" );
+        $queryBuilder->orderBy("c.codigoContratoPk", 'DESC');
+        return $queryBuilder;
+    }
+
+    public function generarFactura($codigoEmpresa)
+    {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(InvContrato::class, 'c')
+            ->select('c.codigoContratoPk')
+            ->setMaxResults(5);
+        $arContratos = $queryBuilder->getQuery()->getResult();
+        foreach ($arContratos as $arContrato) {
+            $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContratoDetalle::class, 'cd')
+                ->select('cd.codigoContratoDetallePk')
+                ->addSelect('cd.codigoItemFk');
+            $arContratoDetalles = $queryBuilder->getQuery()->getResult();
+            if($arContratoDetalles) {
+                /** @var $arContrato InvContrato */
+                $arContrato = $em->getRepository(InvContrato::class)->find($arContrato['codigoContratoPk']);
+                $arDocumento = $em->getRepository(InvDocumento::class)->find('FAC');
+                $arFactura = new InvMovimiento();
+                $arFactura->setCodigoEmpresaFk($codigoEmpresa);
+                $arFactura->setDocumentoRel($arDocumento);
+                $arFactura->setTerceroRel($arContrato->getTerceroRel());
+                $arFactura->setFecha(new \DateTime('now'));
+                $arFactura->setVrSubtotal($arContrato->getVrSubtotal());
+                $arFactura->setVrTotalBruto($arContrato->getVrTotalBruto());
+                $arFactura->setVrTotalNeto($arContrato->getVrTotalNeto());
+                $arFactura->setVrIva($arContrato->getVrIva());
+                $em->persist($arFactura);
+                foreach ($arContratoDetalles as $arContratoDetalle) {
+                    $arItem = $em->getRepository(InvItem::class)->find($arContratoDetalle['codigoItemFk']);
+                    $arFacturaDetalle = new InvMovimientoDetalle();
+                    $arFacturaDetalle->setItemRel($arItem);
+                    $arFacturaDetalle->setMovimientoRel($arFactura);
+                    $em->persist($arFacturaDetalle);
+                }
+            }
+        }
+        $em->flush();
     }
 
     /**

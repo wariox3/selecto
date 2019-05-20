@@ -29,6 +29,11 @@ class InvContrato
     private $numero = 0;
 
     /**
+     * @ORM\Column(name="referencia", type="string", length=100, nullable=true)
+     */
+    private $referencia;
+
+    /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
      */
     private $codigoEmpresaFk;
@@ -328,4 +333,22 @@ class InvContrato
     {
         $this->contratosDetallesContratoRel = $contratosDetallesContratoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReferencia()
+    {
+        return $this->referencia;
+    }
+
+    /**
+     * @param mixed $referencia
+     */
+    public function setReferencia($referencia): void
+    {
+        $this->referencia = $referencia;
+    }
+
+
 }
