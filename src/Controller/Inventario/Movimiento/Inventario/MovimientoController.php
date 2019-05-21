@@ -2,6 +2,7 @@
 
 namespace App\Controller\Inventario\Movimiento\Inventario;
 
+use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
 use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
@@ -39,7 +40,7 @@ class MovimientoController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaDesde') ? date_create($session->get('filtroMovimientoFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaHasta') ? date_create($session->get('filtroMovimientoFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -77,6 +78,7 @@ class MovimientoController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $arMovimiento = new InvMovimiento();
+        $objFunciones = new FuncionesController();
         $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
         if ($id == 0) {
             $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
@@ -90,8 +92,13 @@ class MovimientoController extends Controller
             if ($form->get('guardar')->isClicked()) {
                 if ($id == 0) {
                     $arMovimiento->setFecha(new \DateTime('now'));
+                    if ($arMovimiento->getPlazoPago() == 0) {
+                        $arMovimiento->setPlazoPago($arMovimiento->getTerceroRel()->getPlazoPago());
+                    }
                 }
+                $fecha = new \DateTime('now');
                 $arMovimiento = $form->getData();
+                $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
                 $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                 $em->persist($arMovimiento);
                 $em->flush();

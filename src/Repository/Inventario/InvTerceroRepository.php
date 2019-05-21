@@ -59,14 +59,15 @@ class InvTerceroRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function llenarCombo()
+    public function llenarCombo($empresa)
     {
         $session = new Session();
         $array = [
             'class' => InvTercero::class,
-            'query_builder' => function (EntityRepository $er) {
+            'query_builder' => function (EntityRepository $er) use ($empresa) {
                 return $er->createQueryBuilder('t')
-                    ->orderBy('t.nombreCorto', 'ASC');
+                    ->orderBy('t.nombreCorto', 'ASC')
+                    ->where('t.codigoEmpresaFk = ' . $empresa);
             },
             'choice_label' => 'nombreCorto',
             'required' => false,

@@ -35,7 +35,7 @@
         <tr>
             <td class="titulo">TERCERO:</td>
             <td class="td-in-well">{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
-            <td class="titulo">TOTAL Bruto:</td>
+            <td class="titulo">TOTAL BRUTO:</td>
             <td class="numero">{{ arMovimiento.vrTotalBruto | number_format (0, '.', ',') }}</td>
         </tr>
         <tr>
@@ -45,8 +45,26 @@
             <td class="numero">{{ arMovimiento.vrTotalNeto | number_format (0, '.', ',') }}</td>
         </tr>
         <tr>
+            <td class="titulo">FECHA VENCE:</td>
+            <td class="td-in-well">{{ arMovimiento.fechaVence | date('Y-m-d') }}</td>
+            <td class="titulo"></td>
+            <td></td>
+        </tr>
+        <tr>
             <td class="titulo">DOCUMENTO:</td>
             <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
+            <td class="titulo"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="titulo">FORMA PAGO:</td>
+            <td class="td-in-well">{{ arMovimiento.terceroRel.formaPagoRel.nombre | default('') }}</td>
+            <td class="titulo"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="titulo">PLAZO PAGO:</td>
+            <td class="td-in-well">{{ arMovimiento.plazoPago }}</td>
             <td class="titulo"></td>
             <td></td>
         </tr>

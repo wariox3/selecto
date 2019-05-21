@@ -71,10 +71,14 @@
                                      <td>{{ movimiento.estadoAutorizado ? 'SI':'NO' }}</td>
                                      <td>{{ movimiento.estadoAprobado ? 'SI':'NO' }}</td>
                                      <td>{{ movimiento.estadoAnulado ? 'SI':'NO' }}</td>
-                                     <td align="center"><a
-                                                 href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
-                                                 title="editar descripcion"><i
-                                                     class="fa fa-edit fa-lg"></i></a></td>
+                                     {% if movimiento.estadoAutorizado == false %}
+                                         <td align="center"><a
+                                                     href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
+                                                     title="editar descripcion"><i
+                                                         class="fa fa-edit fa-lg"></i></a></td>
+                                     {% else %}
+                                         <td></td>
+                                     {% endif %}
                                      <td align="center"><a
                                                  href="{{ path('movimiento_detalle', {'id': movimiento.codigoMovimientoPk }) }}"
                                                  title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>

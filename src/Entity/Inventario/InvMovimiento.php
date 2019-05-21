@@ -23,9 +23,19 @@ class InvMovimiento
     private $fecha;
 
     /**
+     * @ORM\Column(name="fecha_vence", type="date", nullable=true)
+     */
+    private $fechaVence;
+
+    /**
      * @ORM\Column(name="numero", type="integer", nullable=true)
      */
     private $numero = 0;
+
+    /**
+     * @ORM\Column(name="plazo_pago", type="integer", nullable=true)
+     */
+    private $plazoPago = 0;
 
     /**
      * @ORM\Column(name="codigo_tercero_fk", type="integer", nullable=true)
@@ -349,4 +359,39 @@ class InvMovimiento
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaVence()
+    {
+        return $this->fechaVence;
+    }
+
+    /**
+     * @param mixed $fechaVence
+     */
+    public function setFechaVence($fechaVence): void
+    {
+        $this->fechaVence = $fechaVence;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlazoPago()
+    {
+        return $this->plazoPago;
+    }
+
+    /**
+     * @param mixed $plazoPago
+     */
+    public function setPlazoPago($plazoPago): void
+    {
+        $this->plazoPago = $plazoPago;
+    }
+
+
+
 }

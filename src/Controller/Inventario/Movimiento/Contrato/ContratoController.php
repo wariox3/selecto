@@ -26,12 +26,13 @@ class ContratoController extends Controller
     public function lista(Request $request)
     {
         $session = new Session();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroContratoFechaDesde') ? date_create($session->get('filtroContratoFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroContratoFechaHasta') ? date_create($session->get('filtroContratoFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -53,7 +54,7 @@ class ContratoController extends Controller
                 return $this->redirect($this->generateUrl('inventario_contrato_lista'));
             }
         }
-        $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('Inventario/Contrato/lista.html.twig', [
             'arContratos' => $arContratos,
             'form' => $form->createView()

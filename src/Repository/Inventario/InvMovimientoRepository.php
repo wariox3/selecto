@@ -119,7 +119,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arCuentaCobrar->setVrIva($arMovimiento->getVrIva());
                 $arCuentaCobrar->setNumeroDocumento($arMovimiento->getNumero());
                 $arCuentaCobrar->setFecha($arMovimiento->getFecha());
-                $arCuentaCobrar->setFechaVence($arMovimiento->getFecha());
+                $arCuentaCobrar->setFechaVence($arMovimiento->getFechaVence());
                 $arCuentaCobrar->setVrSaldo($arMovimiento->getVrTotalNeto());
                 $arCuentaCobrar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
                 $arCuentaCobrar->setOperacion($arCuentaCobrarTipo->getOperacion());

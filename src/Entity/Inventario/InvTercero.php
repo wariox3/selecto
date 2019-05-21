@@ -32,6 +32,11 @@ class InvTercero
     private $codigoCiudadFk;
 
     /**
+     * @ORM\Column(name="codigo_forma_pago_fk", type="integer", nullable=true)
+     */
+    private $codigoFormaPagoFk;
+
+    /**
      * @ORM\Column(name="nombre_corto", type="string", length=150, nullable=true)
      */
     private $nombreCorto;
@@ -82,6 +87,11 @@ class InvTercero
     private $email;
 
     /**
+     * @ORM\Column(name="plazo_pago", type="integer")
+     */
+    private $plazoPago = 0;
+
+    /**
      * @ORM\Column(name="cliente", type="boolean", nullable=true, options={"default" : false})
      */
     private $cliente = false;
@@ -101,6 +111,12 @@ class InvTercero
      * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenFormaPago", inversedBy="formaPagoTerceroRel")
+     * @ORM\JoinColumn(name="codigo_forma_pago_fk", referencedColumnName="codigo_forma_pago_pk")
+     */
+    protected $formaPagoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimiento", mappedBy="terceroRel")
@@ -126,7 +142,6 @@ class InvTercero
      * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComCuentaPagar", mappedBy="terceroRel")
      */
     private $cuentaPagarRel;
-
 
     /**
      * @return mixed
@@ -496,5 +511,52 @@ class InvTercero
         $this->ciudadRel = $ciudadRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoFormaPagoFk()
+    {
+        return $this->codigoFormaPagoFk;
+    }
+
+    /**
+     * @param mixed $codigoFormaPagoFk
+     */
+    public function setCodigoFormaPagoFk($codigoFormaPagoFk): void
+    {
+        $this->codigoFormaPagoFk = $codigoFormaPagoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormaPagoRel()
+    {
+        return $this->formaPagoRel;
+    }
+
+    /**
+     * @param mixed $formaPagoRel
+     */
+    public function setFormaPagoRel($formaPagoRel): void
+    {
+        $this->formaPagoRel = $formaPagoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlazoPago()
+    {
+        return $this->plazoPago;
+    }
+
+    /**
+     * @param mixed $plazoPago
+     */
+    public function setPlazoPago($plazoPago): void
+    {
+        $this->plazoPago = $plazoPago;
+    }
 
 }

@@ -39,7 +39,7 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
             ->addSelect('cc.estadoAnulado')
             ->addSelect('cc.codigoEmpresaFk')
             ->leftJoin('cc.terceroRel', 'cct')
-        ->where('cc.codigoEmpresaFk = ' . $empresa);
+            ->where('cc.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroInformeCuentasCobrarFechaDesde') != null) {
             $queryBuilder->andWhere("cc.fecha >= '{$session->get('filtroInformeCuentasCobrarFechaDesde')} 00:00:00'");
         }
@@ -53,22 +53,21 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function lista()
+    public function lista($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarCuentaCobrar::class, 'cc')
             ->select('cc.codigoCuentaCobrarPk')
             ->addSelect('cc.plazo')
-            ->addSelect('cct.nombre as nombre' )
+            ->addSelect('cct.nombre as nombre')
             ->addSelect('cc.numeroDocumento')
             ->addSelect('cc.fecha')
             ->addSelect('cc.fechaVence')
             ->addSelect('cc.vrTotalBruto')
-//            ->leftJoin('cc.clienteRel','cl')
+            ->addSelect('cc.vrSaldo')
             ->leftJoin('cc.cuentaCobroTipoRel', 'cct')
-//            ->where('cc.vrSaldo <> 0')
-//            ->andWhere('cc.operacion  = 1')
-//            ->andWhere('cc.codigoClienteFk')
+            ->where('cc.vrSaldo <> 0')
+            ->andWhere('cc.codigoEmpresaFk = ' . $empresa)
             ->OrderBy('cc.codigoCuentaCobrarPk', 'ASC');
 
         return $queryBuilder;

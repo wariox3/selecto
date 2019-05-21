@@ -22,7 +22,7 @@ class InvContratoRepository extends ServiceEntityRepository
         parent::__construct($registry, InvContrato::class);
     }
 
-    public function lista()
+    public function lista($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContrato::class, 'c')
@@ -34,7 +34,8 @@ class InvContratoRepository extends ServiceEntityRepository
             ->addSelect('c.estadoAutorizado')
             ->addSelect('c.estadoAprobado')
             ->addSelect('c.estadoAnulado')
-            ->leftJoin('c.terceroRel', 'ct');
+            ->leftJoin('c.terceroRel', 'ct')
+            ->andWhere('c.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroContratoFechaDesde') != null) {
             $queryBuilder->andWhere("c.fecha >= '{$session->get('filtroContratoFechaDesde')} 00:00:00'");
         }

@@ -32,7 +32,7 @@ class ReciboController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha Desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroReciboFechaDesde') ? date_create($session->get('filtroReciboFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha Hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroReciboFechaHasta') ? date_create($session->get('filtroReciboFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -167,6 +167,7 @@ class ReciboController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $paginator = $this->get('knp_paginator');
         $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
         $form = $this->createFormBuilder()
@@ -199,7 +200,7 @@ class ReciboController extends Controller
             }
             echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
         }
-        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->lista(), $request->query->getInt('page', 1), 50);
+        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->lista($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Cartera/Movimiento/Recibo/detalleNuevo.html.twig', array(
             'form' => $form->createView(),
             'arCuentasCobrar' => $arCuentasCobrar,
