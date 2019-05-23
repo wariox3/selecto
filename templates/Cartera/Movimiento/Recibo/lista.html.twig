@@ -88,9 +88,13 @@
                                     <td>{{ arRecibo.estadoAutorizado ? 'SI':'NO' }}</td>
                                     <td>{{ arRecibo.estadoAprobado ? 'SI' : 'NO' }}</td>
                                     <td>{{ arRecibo.estadoAnulado ? 'SI' : 'NO' }}</td>
-                                    <td align="center"><a
-                                                href="{{ path('recibo_nuevo', {'id': arRecibo.codigoReciboPk}) }}"
-                                                title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                    {% if arRecibo.estadoAutorizado == false %}
+                                        <td align="center"><a
+                                                    href="{{ path('recibo_nuevo', {'id': arRecibo.codigoReciboPk}) }}"
+                                                    title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
                                     <td align="center"><a
                                                 href="{{ path('recibo_detalle', {'id': arRecibo.codigoReciboPk}) }}"
                                                 title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
@@ -112,7 +116,7 @@
                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                  aria-label="...">
                                 <a class="btn btn-sm btn-default"
-                                   href="{{ path('recibo_nuevo',{'id':0})}}">Nuevo</a>
+                                   href="{{ path('recibo_nuevo',{'id':0}) }}">Nuevo</a>
                                 {{ form_widget(form.btnEliminar) }}
                             </div>
                         </div>

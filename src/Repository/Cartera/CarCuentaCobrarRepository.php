@@ -65,9 +65,29 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
             ->addSelect('cc.fechaVence')
             ->addSelect('cc.vrTotalBruto')
             ->addSelect('cc.vrSaldo')
-            ->leftJoin('cc.cuentaCobroTipoRel', 'cct')
+            ->leftJoin('cc.cuentaCobrarTipoRel', 'cct')
+            ->andWhere('cc.codigoEmpresaFk = ' . $empresa)
+            ->OrderBy('cc.codigoCuentaCobrarPk', 'ASC');
+
+        return $queryBuilder;
+    }
+
+    public function cuentasCobrar($empresa, $cliente)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarCuentaCobrar::class, 'cc')
+            ->select('cc.codigoCuentaCobrarPk')
+            ->addSelect('cc.plazo')
+            ->addSelect('cct.nombre as nombre')
+            ->addSelect('cc.numeroDocumento')
+            ->addSelect('cc.fecha')
+            ->addSelect('cc.fechaVence')
+            ->addSelect('cc.vrTotalBruto')
+            ->addSelect('cc.vrSaldo')
+            ->leftJoin('cc.cuentaCobrarTipoRel', 'cct')
             ->where('cc.vrSaldo <> 0')
             ->andWhere('cc.codigoEmpresaFk = ' . $empresa)
+            ->andWhere('cc.codigoTerceroFk = ' . $cliente)
             ->OrderBy('cc.codigoCuentaCobrarPk', 'ASC');
 
         return $queryBuilder;

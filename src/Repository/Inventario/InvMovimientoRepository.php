@@ -112,7 +112,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
                 $arCuentaCobrarTipo = $em->getRepository(CarCuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
                 $arCuentaCobrar = New CarCuentaCobrar();
-                $arCuentaCobrar->setCuentaCobroTipoRel($arCuentaCobrarTipo);
+                $arCuentaCobrar->setCuentaCobrarTipoRel($arCuentaCobrarTipo);
                 $arCuentaCobrar->setTerceroRel($arMovimiento->getTerceroRel());
                 $arCuentaCobrar->setVrSubtotal($arMovimiento->getVrSubtotal());
                 $arCuentaCobrar->setVrTotalBruto($arMovimiento->getVrTotalBruto());

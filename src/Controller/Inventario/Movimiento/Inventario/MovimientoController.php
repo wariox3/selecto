@@ -59,7 +59,7 @@ class MovimientoController extends Controller
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(InvMovimiento::class, $arItems);
-                return $this->redirect($this->generateUrl('movimiento_lista'));
+                return $this->redirect($this->generateUrl('movimiento_lista', ['documento' => $documento]));
             }
         }
         $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->lista($documento, $empresa), $request->query->getInt('page', 1), 30);

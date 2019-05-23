@@ -10,45 +10,51 @@
         {{ form_widget(form.btnImprimir) }}
     </div>
     <div style="float:right">
-        {% if arRecibos.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
+        {% if arRecibo.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
     </div>
     <div style="float:right">
-        {% if arRecibos.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
+        {% if arRecibo.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
     </div>
     <div style="float:right">
-        {% if arRecibos.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
+        {% if arRecibo.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
     </div>
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
             <td class="titulo">ID:</td>
-            <td class="td-in-well">{{ arRecibos.codigoReciboPk }}</td>
+            <td class="td-in-well">{{ arRecibo.codigoReciboPk }}</td>
             <td class="titulo">NUMERO:</td>
-            <td class="td-in-well"> {{ arRecibos.numero }}</td>
+            <td class="td-in-well">{{ arRecibo.numero | default('') }}</td>
+            <td class="titulo">PAGO:</td>
+            <td class="numero">{{ arRecibo.vrPago | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">TIPO:</td>
-            <td class="td-in-well">{{ arRecibos.cuentaRel.tipo }}</td>
-            <td class="titulo">IDENTIFICACION:</td>
-            <td class="">{{ arRecibos.terceroRel.numeroIdentificacion }}</td>
+            <td class="td-in-well">{{ arRecibo.reciboTipoRel.nombre }}</td>
+            <td class="titulo">CUENTA:</td>
+            <td class="td-in-well">{{ arRecibo.cuentaRel.cuenta }}</td>
+            <td class="titulo">TOTAL</td>
+            <td class="numero">{{ arRecibo.vrPagoTotal | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">FECHA:</td>
-            <td class="td-in-well">{{ arRecibos.fecha|date('Y-m-d') }}</td>
+            <td class="td-in-well">{{ arRecibo.fecha|date('Y-m-d') }}</td>
             <td class="titulo">FECHA PAGO:</td>
-            <td class="td-in-well">{{ arRecibos.fechaPago | date('Y-m-d') }}</td>
+            <td class="td-in-well">{{ arRecibo.fechaPago | date('Y-m-d') }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
         <tr>
             <td class="titulo">TERCERO:</td>
-            <td class="td-in-well">{{ arRecibos.terceroRel.nombreCorto }}</td>
-            <td class="titulo">CUENTA:</td>
-            <td class="td-in-well">{{ arRecibos.cuentaRel.cuenta }}</td>
+            <td class="td-in-well">{{ arRecibo.terceroRel.nombreCorto }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
         <tr>
-            <td class="titulo">PAGO:</td>
-            <td class="numero">{{ arRecibos.vrPago | number_format(0, '.', ',') }}</td>
-            <td class="titulo">TOTAL</td>
-            <td class="numero">{{ arRecibos.vrPagoTotal | number_format(0, '.', ',') }}</td>
+            <td class="titulo">COMENTARIO:</td>
+            <td class="td-in-well" colspan="5">{{ arRecibo.comentario }}</td>
         </tr>
     </table>
     <ul class="nav nav-tabs">
@@ -101,9 +107,9 @@
                          aria-label="...">
                         <div class="btn-group">
                             {{ form_widget(form.btnActualizar) }}
-                            {% if arRecibos.estadoAutorizado == 0 %}
+                            {% if arRecibo.estadoAutorizado == 0 %}
                                 <a class="btn btn-default btn-sm"
-                                   href="javascript:abrirVentana3('{{ path('recibo_detalle_nuevo', {'id':arRecibos.codigoReciboPk }) }}', 'ReciboAdicionarDetalle', 600, 900)">Nuevo</a>
+                                   href="javascript:abrirVentana3('{{ path('recibo_detalle_nuevo', {'id':arRecibo.codigoReciboPk }) }}', 'ReciboAdicionarDetalle', 600, 900)">Nuevo</a>
                             {% endif %}
                             {{ form_widget(form.btnEliminar) }}
                         </div>

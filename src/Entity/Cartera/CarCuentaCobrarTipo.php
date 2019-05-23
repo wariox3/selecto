@@ -37,9 +37,9 @@ class CarCuentaCobrarTipo
     private $prefijo;
 
     /**
-     * @ORM\OneToMany(targetEntity="CarCuentaCobrar", mappedBy="cuentaCobroTipoRel")
+     * @ORM\OneToMany(targetEntity="CarCuentaCobrar", mappedBy="cuentaCobrarTipoRel")
      */
-    protected $cuentaCobroRel;
+    protected $cuentaCobrarRel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvDocumento", mappedBy="cuentaCobrarTipoDocumentoRel")
@@ -134,17 +134,17 @@ class CarCuentaCobrarTipo
     /**
      * @return mixed
      */
-    public function getCuentaCobroRel()
+    public function getCuentaCobrarRel()
     {
-        return $this->cuentaCobroRel;
+        return $this->cuentaCobrarRel;
     }
 
     /**
-     * @param mixed $cuentaCobroRel
+     * @param mixed $cuentaCobrarRel
      */
-    public function setCuentaCobroRel($cuentaCobroRel): void
+    public function setCuentaCobrarRel($cuentaCobrarRel): void
     {
-        $this->cuentaCobroRel = $cuentaCobroRel;
+        $this->cuentaCobrarRel = $cuentaCobrarRel;
     }
 
     /**
@@ -178,4 +178,7 @@ class CarCuentaCobrarTipo
     {
         $this->recibosDetallesCuentaCobrarTipoRel = $recibosDetallesCuentaCobrarTipoRel;
     }
+
+
+
 }

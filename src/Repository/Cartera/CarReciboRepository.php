@@ -2,9 +2,12 @@
 
 namespace App\Repository\Cartera;
 
+use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
+use App\Entity\Cartera\CarReciboTipo;
+use App\Entity\General\GenConfiguracion;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -38,7 +41,7 @@ class CarReciboRepository extends ServiceEntityRepository
             ->addSelect('r.estadoAnulado')
             ->leftJoin('r.cuentaRel', 'rc')
             ->leftJoin('r.terceroRel', 'rt')
-        ->where('r.codigoEmpresaFk = ' . $empresa);
+            ->where('r.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroReciboFechaDesde') != null) {
             $queryBuilder->andWhere("r.fecha >= '{$session->get('filtroReciboFechaDesde')} 00:00:00'");
         }
@@ -53,29 +56,65 @@ class CarReciboRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $arRecibos
+     * @param $arRecibo CarRecibo
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function autorizar($arRecibos)
+    public function autorizar($arRecibo)
     {
-        if ($this->getEntityManager()->getRepository(CarRecibo::class)->contarDetalles($arRecibos->getCodigoReciboPk()) > 0) {
-            $arRecibos->setEstadoAutorizado(1);
-            $this->getEntityManager()->persist($arRecibos);
-            $this->getEntityManager()->flush();
+        $em = $this->getEntityManager();
+        $error = false;
+        $arReciboDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $arRecibo->getCodigoReciboPk()));
+        if (count($em->getRepository(CarReciboDetalle::class)->findBy(['codigoReciboFk' => $arRecibo->getCodigoReciboPk()])) > 0) {
+            foreach ($arReciboDetalles AS $arReciboDetalle) {
+                $arCuentaCobrar = $em->getRepository(CarCuentaCobrar::class)->find($arReciboDetalle->getCodigoCuentaCobrarFk());
+                if ($arReciboDetalle->getVrPagoAfectar() < 0) {
+                    Mensajes::error("Error detalle ID: " . $arReciboDetalle->getCodigoReciboDetallePk() . " el pago a afectar es menor que cero");
+                    $error = true;
+                    break;
+                }
+                if ($arCuentaCobrar->getVrSaldo() >= $arReciboDetalle->getVrPagoAfectar()) {
+                    $saldo = $arCuentaCobrar->getVrSaldo() - $arReciboDetalle->getVrPagoAfectar();
+                    $saldoOperado = $saldo * $arCuentaCobrar->getOperacion();
+                    $arCuentaCobrar->setVrSaldo($saldo);
+                    $arCuentaCobrar->setVrSaldoOperado($saldoOperado);
+                    $arCuentaCobrar->setVrAbono($arCuentaCobrar->getVrAbono() + $arReciboDetalle->getVrPagoAfectar());
+                    $em->persist($arCuentaCobrar);
+                } else {
+                    Mensajes::error("Error detalle ID: " . $arReciboDetalle->getCodigoReciboDetallePk() . "el saldo " . $arCuentaCobrar->getVrSaldo() . " de la cuenta por cobrar numero: " . $arCuentaCobrar->getNumeroDocumento() . " es menor al ingresado " . $arReciboDetalle->getVrPagoAfectar());
+                    $error = true;
+                    break;
+                }
+                if ($error == false) {
+                    $arRecibo->setEstadoAutorizado(1);
+                    $em->persist($arRecibo);
+                    $em->flush();
+                }
+            }
         }
     }
 
-    public function desautorizar($arRecibos)
+    /**
+     * @param $arRecibo CarRecibo
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function desautorizar($arRecibo)
     {
-        if ($arRecibos->getEstadoAprobado() == 0) {
-            $arRecibos->setEstadoAutorizado(0);
-            $this->getEntityManager()->persist($arRecibos);
-            $this->getEntityManager()->flush();
-
-        } else {
-            Mensajes::error('El registro ya se encuentra aprobado');
+        $em = $this->getEntityManager();
+        $arReciboDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $arRecibo->getCodigoReciboPk()));
+        foreach ($arReciboDetalles AS $arReciboDetalle) {
+            $arCuentaCobrar = $em->getRepository(CarCuentaCobrar::class)->find($arReciboDetalle->getCodigoCuentaCobrarFk());
+            $saldo = $arCuentaCobrar->getVrSaldo() + $arReciboDetalle->getVrPagoAfectar();
+            $saldoOperado = $saldo * $arCuentaCobrar->getOperacion();
+            $arCuentaCobrar->setVrSaldo($saldo);
+            $arCuentaCobrar->setVrSaldoOperado($saldoOperado);
+            $arCuentaCobrar->setVrAbono($arCuentaCobrar->getVrAbono() - $arReciboDetalle->getVrPagoAfectar());
+            $em->persist($arCuentaCobrar);
         }
+        $arRecibo->setEstadoAutorizado(0);
+        $em->persist($arRecibo);
+        $em->flush();
     }
 
     /**
@@ -117,4 +156,25 @@ class CarReciboRepository extends ServiceEntityRepository
         return true;
     }
 
+    /**
+     * @param $arRecibo CarRecibo
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function aprobar($arRecibo)
+    {
+        $em = $this->getEntityManager();
+        if ($arRecibo->getEstadoAutorizado()) {
+            $arReciboTipo = $em->getRepository(CarReciboTipo::class)->find($arRecibo->getCodigoReciboTipoFk());
+            if ($arRecibo->getNumero() == 0 || $arRecibo->getNumero() == NULL) {
+                $arRecibo->setNumero($arReciboTipo->getConsecutivo());
+                $arReciboTipo->setConsecutivo($arReciboTipo->getConsecutivo() + 1);
+                $em->persist($arReciboTipo);
+            }
+            $arRecibo->setFecha(new \DateTime('now'));
+            $arRecibo->setEstadoAprobado(1);
+            $em->persist($arRecibo);
+            $em->flush();
+        }
+    }
 }

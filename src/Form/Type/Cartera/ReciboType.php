@@ -4,6 +4,7 @@
 namespace App\Form\Type\Cartera;
 
 
+use App\Entity\Cartera\CarReciboTipo;
 use App\Entity\General\GenCuenta;
 use App\Entity\Inventario\InvTercero;
 use Doctrine\ORM\EntityRepository;
@@ -29,7 +30,6 @@ class ReciboType extends AbstractType
                 },
                 'choice_label' => 'nombreCorto',
             ])
-
             ->add('cuentaRel', EntityType::class, [
                 'required' => true,
                 'class' => GenCuenta::class,
@@ -38,6 +38,15 @@ class ReciboType extends AbstractType
                         ->orderBy('c.cuenta', 'ASC');
                 },
                 'choice_label' => 'cuenta',
+            ])
+            ->add('reciboTipoRel', EntityType::class, [
+                'required' => true,
+                'class' => CarReciboTipo::class,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('rt')
+                        ->orderBy('rt.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
             ])
             ->add('comentario', TextareaType::class, array('required' => false))
             ->add('fechaPago', DateType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'))

@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Entity\Cartera;
+namespace App\Entity\Compra;
 
 use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\Cartera\CarReciboRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Compra\ComEgresoRepository")
  */
-class CarRecibo
+class ComEgreso
 {
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_recibo_pk", type="integer")
+     * @ORM\Column(name="codigo_egreso_pk", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $codigoReciboPk;
+    private $codigoEgresoPk;
 
     /**
      * @ORM\Column(name="fecha", type="datetime", nullable=true)
@@ -62,12 +62,17 @@ class CarRecibo
     /**
      * @ORM\Column(name="codigo_recibo_tipo_fk", type="string",length=10, nullable=true)
      */
-    private $codigoReciboTipoFk;
+    private $codigoEgresoTipoFk;
 
     /**
      * @ORM\Column(name="codigo_cuenta_fk", type="string", length=10, nullable=true)
      */
     private $codigoCuentaFk;
+
+    /**
+     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+     */
+    private $codigoClienteFk;
 
     /**
      * @ORM\Column(name="estado_anulado", type="boolean", options={"default":false})
@@ -95,9 +100,9 @@ class CarRecibo
     private $usuario;
 
     /**
-     * @ORM\OneToMany(targetEntity="CarReciboDetalle", mappedBy="reciboRel")
+     * @ORM\OneToMany(targetEntity="ComEgresoDetalle", mappedBy="egresoRel")
      */
-    protected $recibosDetallesRecibosRel;
+    protected $egresosDetallesEgresoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCuenta", inversedBy="recibosCuentaRel")
@@ -106,31 +111,31 @@ class CarRecibo
     protected $cuentaRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="carRecibosTerceroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="comEgresoTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CarReciboTipo", inversedBy="recibosReciboTipoRel")
-     * @ORM\JoinColumn(name="codigo_recibo_tipo_fk", referencedColumnName="codigo_recibo_tipo_pk")
+     * @ORM\ManyToOne(targetEntity="ComEgresoTipo", inversedBy="egresosEgresoTipoRel")
+     * @ORM\JoinColumn(name="codigo_egreso_tipo_fk", referencedColumnName="codigo_egreso_tipo_pk")
      */
-    protected $reciboTipoRel;
+    protected $egresoTipoRel;
 
     /**
      * @return mixed
      */
-    public function getCodigoReciboPk()
+    public function getCodigoEgresoPk()
     {
-        return $this->codigoReciboPk;
+        return $this->codigoEgresoPk;
     }
 
     /**
-     * @param mixed $codigoReciboPk
+     * @param mixed $codigoEgresoPk
      */
-    public function setCodigoReciboPk($codigoReciboPk): void
+    public function setCodigoEgresoPk($codigoEgresoPk): void
     {
-        $this->codigoReciboPk = $codigoReciboPk;
+        $this->codigoEgresoPk = $codigoEgresoPk;
     }
 
     /**
@@ -264,17 +269,17 @@ class CarRecibo
     /**
      * @return mixed
      */
-    public function getCodigoReciboTipoFk()
+    public function getCodigoEgresoTipoFk()
     {
-        return $this->codigoReciboTipoFk;
+        return $this->codigoEgresoTipoFk;
     }
 
     /**
-     * @param mixed $codigoReciboTipoFk
+     * @param mixed $codigoEgresoTipoFk
      */
-    public function setCodigoReciboTipoFk($codigoReciboTipoFk): void
+    public function setCodigoEgresoTipoFk($codigoEgresoTipoFk): void
     {
-        $this->codigoReciboTipoFk = $codigoReciboTipoFk;
+        $this->codigoEgresoTipoFk = $codigoEgresoTipoFk;
     }
 
     /**
@@ -291,6 +296,22 @@ class CarRecibo
     public function setCodigoCuentaFk($codigoCuentaFk): void
     {
         $this->codigoCuentaFk = $codigoCuentaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoClienteFk()
+    {
+        return $this->codigoClienteFk;
+    }
+
+    /**
+     * @param mixed $codigoClienteFk
+     */
+    public function setCodigoClienteFk($codigoClienteFk): void
+    {
+        $this->codigoClienteFk = $codigoClienteFk;
     }
 
     /**
@@ -376,17 +397,17 @@ class CarRecibo
     /**
      * @return mixed
      */
-    public function getRecibosDetallesRecibosRel()
+    public function getEgresosDetallesEgresoRel()
     {
-        return $this->recibosDetallesRecibosRel;
+        return $this->egresosDetallesEgresoRel;
     }
 
     /**
-     * @param mixed $recibosDetallesRecibosRel
+     * @param mixed $egresosDetallesEgresoRel
      */
-    public function setRecibosDetallesRecibosRel($recibosDetallesRecibosRel): void
+    public function setEgresosDetallesEgresoRel($egresosDetallesEgresoRel): void
     {
-        $this->recibosDetallesRecibosRel = $recibosDetallesRecibosRel;
+        $this->egresosDetallesEgresoRel = $egresosDetallesEgresoRel;
     }
 
     /**
@@ -424,17 +445,17 @@ class CarRecibo
     /**
      * @return mixed
      */
-    public function getReciboTipoRel()
+    public function getEgresoTipoRel()
     {
-        return $this->reciboTipoRel;
+        return $this->egresoTipoRel;
     }
 
     /**
-     * @param mixed $reciboTipoRel
+     * @param mixed $egresoTipoRel
      */
-    public function setReciboTipoRel($reciboTipoRel): void
+    public function setEgresoTipoRel($egresoTipoRel): void
     {
-        $this->reciboTipoRel = $reciboTipoRel;
+        $this->egresoTipoRel = $egresoTipoRel;
     }
 
 

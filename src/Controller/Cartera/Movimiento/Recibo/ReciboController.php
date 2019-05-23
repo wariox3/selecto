@@ -67,28 +67,28 @@ class ReciboController extends Controller
     public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arRecibos = new CarRecibo();
+        $arRecibo = new CarRecibo();
         if ($id == 0) {
-            $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+            $arRecibo->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
         } else {
-            $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
+            $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
         }
-        $form = $this->createForm(ReciboType::class, $arRecibos);
+        $form = $this->createForm(ReciboType::class, $arRecibo);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 if ($id == 0) {
-                    $arRecibos->setFecha(new \DateTime('now'));
+                    $arRecibo->setFecha(new \DateTime('now'));
                 }
-                $arRecibos = $form->getData();
-                $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
-                $em->persist($arRecibos);
+                $arRecibo = $form->getData();
+                $arRecibo->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
+                $em->persist($arRecibo);
                 $em->flush();
-                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $arRecibos->getCodigoReciboPk()]));
+                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $arRecibo->getCodigoReciboPk()]));
             }
         }
         return $this->render('Cartera/Movimiento/Recibo/nuevo.html.twig', [
-            'arRecibos' => $arRecibos,
+            'arRecibo' => $arRecibo,
             'form' => $form->createView()
         ]);
 
@@ -101,20 +101,20 @@ class ReciboController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
+        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
         $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
         $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
-        if ($arRecibos->getEstadoAutorizado()) {
+        if ($arRecibo->getEstadoAutorizado()) {
             $arrBtnAutorizar['disabled'] = true;
             $arrBtnEliminar['disabled'] = true;
             $arrBtnAprobado['disabled'] = false;
             $arrBtnActualizar['disabled'] = true;
             $arrBtnDesautorizar['disabled'] = false;
         }
-        if ($arRecibos->getEstadoAprobado()) {
+        if ($arRecibo->getEstadoAprobado()) {
             $arrBtnDesautorizar['disabled'] = true;
             $arrBtnAprobado['disabled'] = true;
         }
@@ -131,36 +131,40 @@ class ReciboController extends Controller
             $arrControles = $request->request->all();
             $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
             if ($form->get('btnActualizar')->isClicked()) {
-                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibos);
+                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibo);
                 return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
             }
-//            if ($form->get('btnAutorizar')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->autorizar($arRecibos);
-//                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibos);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
-//            if ($form->get('btnDesautorizar')->isClicked()) {
-//                $em->getRepository(CarReciboDetalle::class)->desautorizar($arRecibos);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
-//            if ($form->get('btnAprobado')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->autorizar($arRecibos);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
+            if ($form->get('btnAutorizar')->isClicked()) {
+                $em->getRepository(CarRecibo::class)->autorizar($arRecibo);
+                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnDesautorizar')->isClicked()) {
+                $em->getRepository(CarRecibo::class)->desautorizar($arRecibo);
+                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnAprobado')->isClicked()) {
+                $em->getRepository(CarRecibo::class)->aprobar($arRecibo);
+                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+            }
             if ($form->get('btnEliminar')->isClicked()) {
-                $em->getRepository(CarReciboDetalle::class)->eliminar($arRecibos, $arrDetallesSeleccionados);
-                $em->getRepository(CarRecibo::class)->liquidar($arRecibos);
+                $em->getRepository(CarReciboDetalle::class)->eliminar($arRecibo, $arrDetallesSeleccionados);
+                $em->getRepository(CarRecibo::class)->liquidar($arRecibo);
             }
         }
         $arReciboDetalles = $paginator->paginate($em->getRepository(CarReciboDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
         return $this->render('Cartera/Movimiento/Recibo/detalle.html.twig', [
             'form' => $form->createView(),
-            'arRecibos' => $arRecibos,
+            'arRecibo' => $arRecibo,
             'arReciboDetalles' => $arReciboDetalles
         ]);
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/cartera/movimiento/recibo/detalle/nuevo/{id}", name="recibo_detalle_nuevo")
      */
     public function detalleNuevo(Request $request, $id)
@@ -169,7 +173,7 @@ class ReciboController extends Controller
         $em = $this->getDoctrine()->getManager();
         $empresa = $this->getUser()->getCodigoEmpresaFk();
         $paginator = $this->get('knp_paginator');
-        $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
+        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
         $form = $this->createFormBuilder()
             ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -181,16 +185,15 @@ class ReciboController extends Controller
                 if ($arrSeleccionados) {
                     foreach ($arrSeleccionados AS $codigoCuentaCobrar) {
                         $arCuentaCobrar = $em->getRepository(CarCuentaCobrar::class)->find($codigoCuentaCobrar);
-//                        $saldo = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
                         $arReciboDetalle = new CarReciboDetalle();
-                        $arReciboDetalle->setReciboRel($arRecibos);
+                        $arReciboDetalle->setReciboRel($arRecibo);
+                        $saldo = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
+                        $pagoAfectar = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
+                        $arReciboDetalle->setVrPago($saldo);
                         $arReciboDetalle->setCuentaCobrarRel($arCuentaCobrar);
-//                        $saldo -= $arCuentaCobrar->getVrRetencionFuente();
-//                        $pagoAfectar = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
-//                        $arReciboDetalle->setVrPago($saldo);
-                        $arReciboDetalle->setVrPagoAfectar($arCuentaCobrar->getVrTotalBruto());
+                        $arReciboDetalle->setCuentaCobrarTipoRel($arCuentaCobrar->getCuentaCobrarTipoRel());
+                        $arReciboDetalle->setVrPagoAfectar($pagoAfectar);
                         $arReciboDetalle->setNumeroFactura($arCuentaCobrar->getNumeroDocumento());
-//                        $arReciboDetalle->setCuentaCobrarTipoRel($arCuentaCobrar->getCuentaCobrarTipoRel());
                         $arReciboDetalle->setOperacion(1);
                         $em->persist($arReciboDetalle);
                     }
@@ -200,11 +203,11 @@ class ReciboController extends Controller
             }
             echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
         }
-        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->lista($empresa), $request->query->getInt('page', 1), 50);
+        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->cuentasCobrar($empresa, $arRecibo->getCodigoTerceroFk()), $request->query->getInt('page', 1), 50);
         return $this->render('Cartera/Movimiento/Recibo/detalleNuevo.html.twig', array(
             'form' => $form->createView(),
             'arCuentasCobrar' => $arCuentasCobrar,
-            'arRecibo' => $arRecibos,
+            'arRecibo' => $arRecibo,
         ));
     }
 }

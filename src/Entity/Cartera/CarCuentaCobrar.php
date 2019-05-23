@@ -23,11 +23,6 @@ class CarCuentaCobrar
     private $codigoCuentaCobrarTipoFk;
 
     /**
-     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
-     */
-    private $codigoClienteFk;
-
-    /**
      * @ORM\Column(name="numero_documento", type="integer", nullable=true)
      */
     private $numeroDocumento = 0;
@@ -118,22 +113,16 @@ class CarCuentaCobrar
     protected $recibosDetallesCuentaCobrarRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CarCuentaCobrarTipo", inversedBy="cuentaCobroRel")
+     * @ORM\ManyToOne(targetEntity="CarCuentaCobrarTipo", inversedBy="cuentaCobrarRel")
      * @ORM\JoinColumn(name="codigo_cuenta_cobrar_tipo_fk", referencedColumnName="codigo_cuenta_cobrar_tipo_pk")
      */
-    protected $cuentaCobroTipoRel;
+    protected $cuentaCobrarTipoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="cuentaCobroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="CarCliente", inversedBy="cuentaCobrarClientesRel")
-     * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
-     */
-    protected $clienteRel;
 
     /**
      * @return mixed
@@ -165,22 +154,6 @@ class CarCuentaCobrar
     public function setCodigoCuentaCobrarTipoFk($codigoCuentaCobrarTipoFk): void
     {
         $this->codigoCuentaCobrarTipoFk = $codigoCuentaCobrarTipoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoClienteFk()
-    {
-        return $this->codigoClienteFk;
-    }
-
-    /**
-     * @param mixed $codigoClienteFk
-     */
-    public function setCodigoClienteFk($codigoClienteFk): void
-    {
-        $this->codigoClienteFk = $codigoClienteFk;
     }
 
     /**
@@ -474,17 +447,17 @@ class CarCuentaCobrar
     /**
      * @return mixed
      */
-    public function getCuentaCobroTipoRel()
+    public function getCuentaCobrarTipoRel()
     {
-        return $this->cuentaCobroTipoRel;
+        return $this->cuentaCobrarTipoRel;
     }
 
     /**
-     * @param mixed $cuentaCobroTipoRel
+     * @param mixed $cuentaCobrarTipoRel
      */
-    public function setCuentaCobroTipoRel($cuentaCobroTipoRel): void
+    public function setCuentaCobrarTipoRel($cuentaCobrarTipoRel): void
     {
-        $this->cuentaCobroTipoRel = $cuentaCobroTipoRel;
+        $this->cuentaCobrarTipoRel = $cuentaCobrarTipoRel;
     }
 
     /**
@@ -503,19 +476,6 @@ class CarCuentaCobrar
         $this->terceroRel = $terceroRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getClienteRel()
-    {
-        return $this->clienteRel;
-    }
 
-    /**
-     * @param mixed $clienteRel
-     */
-    public function setClienteRel($clienteRel): void
-    {
-        $this->clienteRel = $clienteRel;
-    }
+
 }

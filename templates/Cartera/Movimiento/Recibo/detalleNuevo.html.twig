@@ -56,7 +56,7 @@
                                 <td>{{ arCuentaCobrar.fecha | date('Y-m-d') }}</td>
                                 <td>{{ arCuentaCobrar.fechaVence | date('Y-m-d') }}</td>
                                 <td style="text-align: right">{{ arCuentaCobrar.vrTotalBruto | number_format }}</td>
-                                <td style="text-align: right">{{ arCuentaCobrar.vrSaldo | number_format }}</td>
+                                <td style="text-align: right"><input width="60px" style="text-align: right" type="text" name="TxtSaldo{{ arCuentaCobrar.codigoCuentaCobrarPk }}" value="{{ arCuentaCobrar.vrSaldo  }}" size="8" onkeypress="return validarNumeros(event)" onclick="this.select()"/></td>
                                 <td style="text-align: center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                       value="{{ arCuentaCobrar.codigoCuentaCobrarPk }}"/>
                                 </td>
