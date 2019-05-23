@@ -247,6 +247,7 @@ class MovimientoController extends Controller
                         $arMovimientoDetalle->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                         $arMovimientoDetalle->setMovimientoRel($arMovimiento);
                         $arMovimientoDetalle->setItemRel($arItem);
+                        $arMovimientoDetalle->setVrPrecio($arItem->getVrPrecio());
                         $arMovimientoDetalle->setCantidad($cantidad);
                         $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
                         $em->persist($arMovimientoDetalle);

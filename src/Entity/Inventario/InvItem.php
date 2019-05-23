@@ -43,10 +43,14 @@ class InvItem
     private $porcentajeIva = 0;
 
     /**
+     * @ORM\Column(name="vr_precio", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrPrecio;
+
+    /**
      * @ORM\Column(name="servicio", type="boolean", nullable=true, options={"default" : false})
      */
     private $servicio = false;
-
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="itemRel")
@@ -202,6 +206,21 @@ class InvItem
         $this->servicio = $servicio;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getVrPrecio()
+    {
+        return $this->vrPrecio;
+    }
+
+    /**
+     * @param mixed $vrPrecio
+     */
+    public function setVrPrecio($vrPrecio): void
+    {
+        $this->vrPrecio = $vrPrecio;
+    }
 
 
 }
