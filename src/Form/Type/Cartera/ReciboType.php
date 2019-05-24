@@ -26,8 +26,7 @@ class ReciboType extends AbstractType
                 'class' => GenTercero::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
-                        ->orderBy('t.nombreCorto', 'ASC')
-                        ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
+                        ->orderBy('t.nombreCorto', 'ASC');
                 },
                 'choice_label' => 'nombreCorto',
             ])
@@ -39,16 +38,6 @@ class ReciboType extends AbstractType
                         ->orderBy('c.cuenta', 'ASC');
                 },
                 'choice_label' => 'cuenta',
-            ])
-            ->add('reciboTipoRel', EntityType::class, [
-                'required' => true,
-                'class' => CarReciboTipo::class,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('rt')
-                        ->orderBy('rt.nombre', 'ASC')
-                        ->where("rt.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
-                },
-                'choice_label' => 'nombre',
             ])
             ->add('comentario', TextareaType::class, array('required' => false))
             ->add('fechaPago', DateType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'))

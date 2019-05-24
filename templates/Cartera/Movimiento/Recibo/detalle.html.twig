@@ -3,7 +3,7 @@
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-group" style="float:left">
         <a class="btn btn-default btn-sm"
-           href="{{ path('recibo_lista') }}">Volver</a>
+           href="{{ path('recibo_lista', {'documento': arRecibo.documentoRel.codigoDocumentoPk}) }}">Volver</a>
         {{ form_widget(form.btnAutorizar) }}
         {{ form_widget(form.btnDesautorizar) }}
         {{ form_widget(form.btnAprobado) }}
@@ -23,24 +23,24 @@
         <tr>
             <td class="titulo">ID:</td>
             <td class="td-in-well">{{ arRecibo.codigoReciboPk }}</td>
-            <td class="titulo">NUMERO:</td>
-            <td class="td-in-well">{{ arRecibo.numero | default('') }}</td>
+            <td class="titulo">CUENTA:</td>
+            <td class="td-in-well">{{ arRecibo.cuentaRel.cuenta | default('') }}</td>
             <td class="titulo">PAGO:</td>
             <td class="numero">{{ arRecibo.vrPago | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">TIPO:</td>
-            <td class="td-in-well">{{ arRecibo.reciboTipoRel.nombre }}</td>
-            <td class="titulo">CUENTA:</td>
-            <td class="td-in-well">{{ arRecibo.cuentaRel.cuenta }}</td>
+            <td class="titulo">NUMERO:</td>
+            <td class="td-in-well">{{ arRecibo.numero | default('') }}</td>
+            <td class="titulo">FECHA:</td>
+            <td class="td-in-well">{{ arRecibo.fecha|date('Y-m-d') }}</td>
             <td class="titulo">TOTAL</td>
             <td class="numero">{{ arRecibo.vrPagoTotal | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">FECHA:</td>
-            <td class="td-in-well">{{ arRecibo.fecha|date('Y-m-d') }}</td>
             <td class="titulo">FECHA PAGO:</td>
             <td class="td-in-well">{{ arRecibo.fechaPago | date('Y-m-d') }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
         </tr>

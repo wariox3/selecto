@@ -6,6 +6,7 @@ use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
 use App\Entity\General\GenCuenta;
+use App\Entity\General\GenDocumento;
 use App\Entity\General\GenTercero;
 use App\Form\Type\Cartera\ReciboType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,9 +22,9 @@ class ReciboController extends Controller
 {
 
     /**
-     * @Route("/cartera/movimiento/recibo/recibo/lista", name="recibo_lista")
+     * @Route("/cartera/movimiento/recibo/recibo/lista/{documento}", name="recibo_lista")
      */
-    public function lista(Request $request)
+    public function lista(Request $request, $documento)
     {
         $session = new Session();
         $empresa = $this->getUser()->getCodigoEmpresaFk();
@@ -54,25 +55,28 @@ class ReciboController extends Controller
                 return $this->redirect($this->generateUrl('recibo_lista'));
             }
         }
-        $arRecibos = $paginator->paginate($em->getRepository(CarRecibo::class)->lista($empresa), $request->query->getInt('page', 1), 50);
+        $arRecibos = $paginator->paginate($em->getRepository(CarRecibo::class)->lista($documento, $empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Cartera/Movimiento/Recibo/lista.html.twig', [
             'arRecibos' => $arRecibos,
+            'documento' => $documento,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/cartera/movimiento/recibo/recibo/nuevo/{id}", name="recibo_nuevo")
+     * @Route("/cartera/movimiento/recibo/recibo/nuevo/{id}/{documento}", name="recibo_nuevo")
      */
-    public function nuevo(Request $request, $id)
+    public function nuevo(Request $request, $id, $documento)
     {
         $em = $this->getDoctrine()->getManager();
         $arRecibo = new CarRecibo();
+        $arDocumento = $em->getRepository(GenDocumento::class)->find($documento);
         if ($id == 0) {
             $arRecibo->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
         } else {
             $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
         }
+        $arRecibo->setDocumentoRel($arDocumento);
         $form = $this->createForm(ReciboType::class, $arRecibo);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,12 +93,20 @@ class ReciboController extends Controller
         }
         return $this->render('Cartera/Movimiento/Recibo/nuevo.html.twig', [
             'arRecibo' => $arRecibo,
+            'documento' => $documento,
             'form' => $form->createView()
         ]);
 
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/cartera/movimiento/recibo/detalle/{id}", name="recibo_detalle")
      */
     public function detalle(Request $request, $id)

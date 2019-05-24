@@ -60,14 +60,14 @@ class CarRecibo
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\Column(name="codigo_recibo_tipo_fk", type="string",length=10, nullable=true)
-     */
-    private $codigoReciboTipoFk;
-
-    /**
      * @ORM\Column(name="codigo_cuenta_fk", type="string", length=10, nullable=true)
      */
     private $codigoCuentaFk;
+
+    /**
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoDocumentoFk;
 
     /**
      * @ORM\Column(name="estado_anulado", type="boolean", options={"default":false})
@@ -112,10 +112,10 @@ class CarRecibo
     protected $terceroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CarReciboTipo", inversedBy="recibosReciboTipoRel")
-     * @ORM\JoinColumn(name="codigo_recibo_tipo_fk", referencedColumnName="codigo_recibo_tipo_pk")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenDocumento", inversedBy="movimientosDocumentoRel")
+     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
      */
-    protected $reciboTipoRel;
+    protected $documentoRel;
 
     /**
      * @return mixed
@@ -435,6 +435,38 @@ class CarRecibo
     public function setReciboTipoRel($reciboTipoRel): void
     {
         $this->reciboTipoRel = $reciboTipoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocumentoRel()
+    {
+        return $this->documentoRel;
+    }
+
+    /**
+     * @param mixed $documentoRel
+     */
+    public function setDocumentoRel($documentoRel): void
+    {
+        $this->documentoRel = $documentoRel;
     }
 
 

@@ -69,6 +69,11 @@ class GenDocumento
     protected $movimientosDocumentoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cartera\CarRecibo", mappedBy="documentoRel")
+     */
+    protected $recibosDocumentoRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\General\GenDocumentoEmpresa", mappedBy="documentoRel")
      */
     protected $documentosEmpresasDocumentoRel;
