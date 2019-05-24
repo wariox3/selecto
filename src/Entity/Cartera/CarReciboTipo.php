@@ -17,6 +17,11 @@ class CarReciboTipo
     private $codigoReciboTipoPk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
      */
     private $nombre;
@@ -178,4 +183,22 @@ class CarReciboTipo
     {
         $this->prefijo = $prefijo;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+
 }

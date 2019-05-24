@@ -100,6 +100,7 @@ class ReciboController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $paginator = $this->get('knp_paginator');
         $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
         $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];

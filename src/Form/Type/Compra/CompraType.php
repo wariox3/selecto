@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Form\Type\Cartera;
+namespace App\Form\Type\Compra;
 
 
 use App\Entity\Cartera\CarReciboTipo;
+use App\Entity\Compra\ComEgresoTipo;
 use App\Entity\General\GenCuenta;
 use App\Entity\Inventario\InvTercero;
 use Doctrine\ORM\EntityRepository;
@@ -15,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class ReciboType extends AbstractType
+class CompraType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -26,8 +27,7 @@ class ReciboType extends AbstractType
                 'class' => InvTercero::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
-                        ->orderBy('t.nombreCorto', 'ASC')
-                        ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
+                        ->orderBy('t.nombreCorto', 'ASC');
                 },
                 'choice_label' => 'nombreCorto',
             ])
@@ -40,13 +40,12 @@ class ReciboType extends AbstractType
                 },
                 'choice_label' => 'cuenta',
             ])
-            ->add('reciboTipoRel', EntityType::class, [
+            ->add('egresoTipoRel', EntityType::class, [
                 'required' => true,
-                'class' => CarReciboTipo::class,
+                'class' => ComEgresoTipo::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('rt')
-                        ->orderBy('rt.nombre', 'ASC')
-                        ->where("rt.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
+                        ->orderBy('rt.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
             ])

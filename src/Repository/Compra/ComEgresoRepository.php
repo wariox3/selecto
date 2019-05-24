@@ -22,39 +22,39 @@ class ComEgresoRepository extends ServiceEntityRepository
         parent::__construct($registry, ComEgreso::class);
     }
 
-//    public function lista($empresa)
-//    {
-//        $session = new Session();
-//        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarRecibo::class, 'r')
-//            ->select('r.codigoReciboPk')
-//            ->addSelect('r.fecha')
-//            ->addSelect('r.numero')
-//            ->addSelect('r.fechaPago')
-//            ->addSelect('r.vrPago')
-//            ->addSelect('r.vrPagoTotal')
-//            ->addSelect('rt.numeroIdentificacion as identificacion')
-//            ->addSelect('rt.nombreCorto as nombre')
-//            ->addSelect('rc.cuenta')
-//            ->addSelect('r.usuario')
-//            ->addSelect('rc.tipo ')
-//            ->addSelect('r.estadoAutorizado')
-//            ->addSelect('r.estadoAprobado')
-//            ->addSelect('r.estadoAnulado')
-//            ->leftJoin('r.cuentaRel', 'rc')
-//            ->leftJoin('r.terceroRel', 'rt')
-//            ->where('r.codigoEmpresaFk = ' . $empresa);
-//        if ($session->get('filtroReciboFechaDesde') != null) {
-//            $queryBuilder->andWhere("r.fecha >= '{$session->get('filtroReciboFechaDesde')} 00:00:00'");
-//        }
-//        if ($session->get('filtroReciboFechaHasta') != null) {
-//            $queryBuilder->andWhere("r.fecha <= '{$session->get('filtroReciboFechaHasta')} 23:59:59'");
-//        }
-//        if ($session->get('filtroMovimientoTercero')) {
-//            $queryBuilder->andWhere("r.codigoTerceroFk = '{$session->get('filtroMovimientoTercero')}'");
-//        }
-//        $queryBuilder->orderBy("r.codigoReciboPk", 'DESC');
-//        return $queryBuilder;
-//    }
+    public function lista($empresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComEgreso::class, 'e')
+            ->select('e.codigoEgresoPk')
+            ->addSelect('e.fecha')
+            ->addSelect('e.numero')
+            ->addSelect('e.fechaPago')
+            ->addSelect('e.vrPago')
+            ->addSelect('e.vrPagoTotal')
+            ->addSelect('et.numeroIdentificacion as identificacion')
+            ->addSelect('et.nombreCorto as nombre')
+            ->addSelect('ec.cuenta')
+            ->addSelect('e.usuario')
+            ->addSelect('ec.tipo ')
+            ->addSelect('e.estadoAutorizado')
+            ->addSelect('e.estadoAprobado')
+            ->addSelect('e.estadoAnulado')
+            ->leftJoin('e.cuentaRel', 'ec')
+            ->leftJoin('e.terceroRel', 'et')
+            ->where('r.codigoEmpresaFk = ' . $empresa);
+        if ($session->get('filtroEgresoFechaDesde') != null) {
+            $queryBuilder->andWhere("e.fecha >= '{$session->get('filtroEgresoFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroEgresoFechaHasta') != null) {
+            $queryBuilder->andWhere("e.fecha <= '{$session->get('filtroEgresoFechaHasta')} 23:59:59'");
+        }
+        if ($session->get('filtroMovimientoTercero')) {
+            $queryBuilder->andWhere("e.codigoTerceroFk = '{$session->get('filtroMovimientoTercero')}'");
+        }
+        $queryBuilder->orderBy("e.codigoEgresoPk", 'DESC');
+        return $queryBuilder;
+    }
 //
 //    /**
 //     * @param $arRecibo CarRecibo

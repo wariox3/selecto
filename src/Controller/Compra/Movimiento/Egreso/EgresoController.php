@@ -5,6 +5,7 @@ namespace App\Controller\Compra\Movimiento\Egreso;
 use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
+use App\Entity\Compra\ComEgreso;
 use App\Entity\General\GenCuenta;
 use App\Entity\Inventario\InvTercero;
 use App\Form\Type\Cartera\ReciboType;
@@ -17,11 +18,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ReciboController extends Controller
+class EgresoController extends Controller
 {
 
     /**
-     * @Route("/cartera/movimiento/recibo/recibo/lista", name="recibo_lista")
+     * @Route("/compra/movimiento/egreso/egreso/lista", name="egreso_lista")
      */
     public function lista(Request $request)
     {
@@ -54,45 +55,45 @@ class ReciboController extends Controller
                 return $this->redirect($this->generateUrl('recibo_lista'));
             }
         }
-        $arRecibos = $paginator->paginate($em->getRepository(CarRecibo::class)->lista($empresa), $request->query->getInt('page', 1), 50);
-        return $this->render('Cartera/Movimiento/Recibo/lista.html.twig', [
-            'arRecibos' => $arRecibos,
+        $arEgresos = $paginator->paginate($em->getRepository(ComEgreso::class)->lista($empresa), $request->query->getInt('page', 1), 50);
+        return $this->render('Compra/Movimiento/Egreso/lista.html.twig', [
+            'arEgresos' => $arEgresos,
             'form' => $form->createView()
         ]);
     }
 
-//    /**
-//     * @Route("/cartera/movimiento/recibo/recibo/nuevo/{id}", name="recibo_nuevo")
-//     */
-//    public function nuevo(Request $request, $id)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $arRecibos = new CarRecibo();
-//        if ($id == 0) {
-//            $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
-//        } else {
-//            $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
-//        }
-//        $form = $this->createForm(ReciboType::class, $arRecibos);
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            if ($form->get('guardar')->isClicked()) {
-//                if ($id == 0) {
-//                    $arRecibos->setFecha(new \DateTime('now'));
-//                }
-//                $arRecibos = $form->getData();
-//                $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
-//                $em->persist($arRecibos);
-//                $em->flush();
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $arRecibos->getCodigoReciboPk()]));
-//            }
-//        }
-//        return $this->render('Cartera/Movimiento/Recibo/nuevo.html.twig', [
-//            'arRecibos' => $arRecibos,
-//            'form' => $form->createView()
-//        ]);
-//
-//    }
+    /**
+     * @Route("/compra/movimiento/egreso/egreso/nuevo/{id}", name="egreso_nuevo")
+     */
+    public function nuevo(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arRecibos = new CarRecibo();
+        if ($id == 0) {
+            $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+        } else {
+            $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
+        }
+        $form = $this->createForm(ReciboType::class, $arRecibos);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('guardar')->isClicked()) {
+                if ($id == 0) {
+                    $arRecibos->setFecha(new \DateTime('now'));
+                }
+                $arRecibos = $form->getData();
+                $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
+                $em->persist($arRecibos);
+                $em->flush();
+                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $arRecibos->getCodigoReciboPk()]));
+            }
+        }
+        return $this->render('Cartera/Movimiento/Recibo/nuevo.html.twig', [
+            'arRecibos' => $arRecibos,
+            'form' => $form->createView()
+        ]);
+
+    }
 //
 //    /**
 //     * @Route("/cartera/movimiento/recibo/detalle/{id}", name="recibo_detalle")
