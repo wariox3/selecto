@@ -8,6 +8,7 @@ use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
 use App\Entity\Cartera\CarReciboTipo;
 use App\Entity\Compra\ComEgreso;
+use App\Entity\Compra\ComEgresoDetalle;
 use App\Entity\General\GenConfiguracion;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -42,7 +43,7 @@ class ComEgresoRepository extends ServiceEntityRepository
             ->addSelect('e.estadoAnulado')
             ->leftJoin('e.cuentaRel', 'ec')
             ->leftJoin('e.terceroRel', 'et')
-            ->where('r.codigoEmpresaFk = ' . $empresa);
+            ->where('e.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroEgresoFechaDesde') != null) {
             $queryBuilder->andWhere("e.fecha >= '{$session->get('filtroEgresoFechaDesde')} 00:00:00'");
         }
@@ -133,29 +134,29 @@ class ComEgresoRepository extends ServiceEntityRepository
 //        return $resultado[1];
 //    }
 //
-//    /**
-//     * @param $id
-//     * @return bool
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     */
-//    public function liquidar($id)
-//    {
-//        $em = $this->getEntityManager();
-//        $pago = 0;
-//        $pagoTotal = 0;
-//        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
-//        $arRecibosDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $id));
-//        foreach ($arRecibosDetalles as $arReciboDetalle) {
-//            $pago += $arReciboDetalle->getVrPago() * $arReciboDetalle->getOperacion();
-//            $pagoTotal += $arReciboDetalle->getVrPagoAfectar();
-//        }
-//        $arRecibo->setVrPago($pago);
-//        $arRecibo->setVrPagoTotal($pagoTotal);
-//        $em->persist($arRecibo);
-//        $em->flush();
-//        return true;
-//    }
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function liquidar($id)
+    {
+        $em = $this->getEntityManager();
+        $pago = 0;
+        $pagoTotal = 0;
+        $arEgreso = $em->getRepository(ComEgreso::class)->find($id);
+        $arEgresosDetalles = $em->getRepository(ComEgresoDetalle::class)->findBy(array('codigoEgresoFk' => $id));
+        foreach ($arEgresosDetalles as $arEgresoDetalle) {
+            $pago += $arEgresoDetalle->getVrPago() * $arEgresoDetalle->getOperacion();
+            $pagoTotal += $arEgresoDetalle->getVrPagoAfectar();
+        }
+        $arEgreso->setVrPago($pago);
+        $arEgreso->setVrPagoTotal($pagoTotal);
+        $em->persist($arEgreso);
+        $em->flush();
+        return true;
+    }
 //
 //    /**
 //     * @param $arRecibo CarRecibo

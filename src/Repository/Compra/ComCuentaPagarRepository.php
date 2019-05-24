@@ -2,6 +2,7 @@
 
 namespace App\Repository\Compra;
 
+use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Compra\ComCuentaPagar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -50,6 +51,27 @@ class ComCuentaPagarRepository extends ServiceEntityRepository
             $queryBuilder->andWhere("cpt.nombreCorto like '%{$session->get('filtroInformeCuentasPagarNombreCorto')}%'");
         }
         $queryBuilder->orderBy('cp.fecha', 'DESC');
+        return $queryBuilder;
+    }
+
+    public function cuentasPagar($empresa, $cliente)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComCuentaPagar::class, 'cp')
+            ->select('cp.codigoCuentaPagarPk')
+            ->addSelect('cp.plazo')
+            ->addSelect('cpt.nombre')
+            ->addSelect('cp.numeroDocumento')
+            ->addSelect('cp.fecha')
+            ->addSelect('cp.fechaVence')
+            ->addSelect('cp.vrTotalBruto')
+            ->addSelect('cp.vrSaldo')
+            ->leftJoin('cp.cuentaPagarTipoRel', 'cpt')
+            ->where('cp.vrSaldo <> 0')
+            ->andWhere('cp.codigoEmpresaFk = ' . $empresa)
+            ->andWhere('cp.codigoTerceroFk = ' . $cliente)
+            ->OrderBy('cp.codigoCuentaPagarPk', 'ASC');
+
         return $queryBuilder;
     }
 }

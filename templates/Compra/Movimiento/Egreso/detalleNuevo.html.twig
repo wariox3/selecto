@@ -9,18 +9,9 @@
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-sm">
-{#                    <label class="col-sm-2 control-label">Codigo:</label>#}
-{#                    <div class="col-sm-4">#}
-{#                        #}{#                        {{ form_widget(form.txtCodigoItem) }}#}
-{#                    </div>#}
-{#                    <label class="col-sm-2 control-label">Nombre:</label>#}
-{#                    <div class="col-sm-4">#}
-{#                        #}{#                        {{ form_widget(form.txtDescripcion) }}#}
-{#                    </div>#}
                 </div>
             </div>
             <div class="panel-footer">
-                {#                {{ form_widget(form.btnFiltrar,{'attr':{'style':'float: right;'}}) }}#}
                 <br/>
                 <br/>
             </div>
@@ -47,18 +38,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for arCuentaCobrar in arCuentasCobrar %}
+                            {% for arCuentaPagar in arCuentasPagar %}
                             <tr>
-                                <td>{{ arCuentaCobrar.codigoCuentaCobrarPk }}</td>
-                                <td>{{ arCuentaCobrar.plazo }}</td>
-                                <td>{{ arCuentaCobrar.nombre }}</td>
-                                <td>{{ arCuentaCobrar.numeroDocumento }}</td>
-                                <td>{{ arCuentaCobrar.fecha | date('Y-m-d') }}</td>
-                                <td>{{ arCuentaCobrar.fechaVence | date('Y-m-d') }}</td>
-                                <td style="text-align: right">{{ arCuentaCobrar.vrTotalBruto | number_format }}</td>
-                                <td style="text-align: right"><input width="60px" style="text-align: right" type="text" name="TxtSaldo{{ arCuentaCobrar.codigoCuentaCobrarPk }}" value="{{ arCuentaCobrar.vrSaldo  }}" size="8" onkeypress="return validarNumeros(event)" onclick="this.select()"/></td>
+                                <td>{{ arCuentaPagar.codigoCuentaPagarPk }}</td>
+                                <td>{{ arCuentaPagar.plazo }}</td>
+                                <td>{{ arCuentaPagar.nombre }}</td>
+                                <td>{{ arCuentaPagar.numeroDocumento }}</td>
+                                <td>{{ arCuentaPagar.fecha | date('Y-m-d') }}</td>
+                                <td>{{ arCuentaPagar.fechaVence | date('Y-m-d') }}</td>
+                                <td style="text-align: right">{{ arCuentaPagar.vrTotalBruto | number_format }}</td>
+                                <td style="text-align: right"><input width="60px" style="text-align: right" type="text" name="TxtSaldo{{ arCuentaPagar.codigoCuentaPagarPk }}" value="{{ arCuentaPagar.vrSaldo  }}" size="8" onkeypress="return validarNumeros(event)" onclick="this.select()"/></td>
                                 <td style="text-align: center"><input type="checkbox" name="ChkSeleccionar[]"
-                                                                      value="{{ arCuentaCobrar.codigoCuentaCobrarPk }}"/>
+                                                                      value="{{ arCuentaPagar.codigoCuentaPagarPk }}"/>
                                 </td>
                                 {% endfor %}
                             </tr>
@@ -67,11 +58,11 @@
                     </div>
                     <div class="btn-group" style="float: left">
                         <div class="btn btn-default btn-sm">Registros <span
-                                    class="badge">{{ arCuentasCobrar.getTotalItemCount }}</span>
+                                    class="badge">{{ arCuentasPagar.getTotalItemCount }}</span>
                         </div>
                     </div>
                     <div class="btn-group btn-sm" style="float: left;margin-left: 0px;padding-top: 0px;">
-                        {{ knp_pagination_render(arCuentasCobrar) }}
+                        {{ knp_pagination_render(arCuentasPagar) }}
                     </div>
                 </div>
                 <div class="panel-footer">

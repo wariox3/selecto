@@ -74,6 +74,11 @@ class GenDocumento
     protected $recibosDocumentoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComEgreso", mappedBy="documentoRel")
+     */
+    protected $egresosDocumentoRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\General\GenDocumentoEmpresa", mappedBy="documentoRel")
      */
     protected $documentosEmpresasDocumentoRel;

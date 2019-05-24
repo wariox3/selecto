@@ -53,7 +53,6 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Numero</th>
-                                <th>Tipo</th>
                                 <th>Fecha</th>
                                 <th>Fecha Pago</th>
                                 <th>Identificacion</th>
@@ -76,7 +75,6 @@
                                 <tr>
                                     <td>{{ arEgreso.codigoEgresoPk }}</td>
                                     <td>{{ arEgreso.numero }}</td>
-                                    <td>{{ arEgreso.tipo }}</td>
                                     <td>{{ arEgreso.fecha | date('Y-m-d') }}</td>
                                     <td>{{ arEgreso.fechaPago | date('Y-m-d') }}</td>
                                     <td>{{ arEgreso.identificacion }}</td>
@@ -90,13 +88,13 @@
                                     <td>{{ arEgreso.estadoAnulado ? 'SI' : 'NO' }}</td>
                                     {% if arEgreso.estadoAutorizado == false %}
                                         <td align="center"><a
-                                                    href="{{ path('recibo_nuevo', {'id': arEgreso.codigoEgresoPk}) }}"
+                                                    href="{{ path('egreso_nuevo', {'documento' : documento, 'id': arEgreso.codigoEgresoPk }) }}"
                                                     title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
                                     {% else %}
                                         <td></td>
                                     {% endif %}
                                     <td align="center"><a
-                                                href="{{ path('recibo_detalle', {'id': arEgreso.codigEgresoPk}) }}"
+                                                href="{{ path('egreso_detalle', {'id': arEgreso.codigoEgresoPk}) }}"
                                                 title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                     <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
                                                               value="{{ arEgreso.codigoEgresoPk }}"/></td>
@@ -116,7 +114,8 @@
                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                  aria-label="...">
                                 <a class="btn btn-sm btn-default"
-                                   href="{{ path('egreso_nuevo',{'id':0}) }}">Nuevo</a>
+                                   href="{{ path('egreso_nuevo',{'documento': documento,'id':0}) }}">Nuevo
+                                </a>
                                 {{ form_widget(form.btnEliminar) }}
                             </div>
                         </div>

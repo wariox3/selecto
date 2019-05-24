@@ -36,9 +36,19 @@ class GenCuenta
     private $tipo;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cartera\CarRecibo", mappedBy="cuentaRel")
      */
     protected $recibosCuentaRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComEgreso", mappedBy="cuentaRel")
+     */
+    protected $egresosCuentaRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="GenBanco", inversedBy="cuentasBancoRel")
@@ -157,5 +167,39 @@ class GenCuenta
     {
         $this->bancoRel = $bancoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEgresosCuentaRel()
+    {
+        return $this->egresosCuentaRel;
+    }
+
+    /**
+     * @param mixed $egresosCuentaRel
+     */
+    public function setEgresosCuentaRel($egresosCuentaRel): void
+    {
+        $this->egresosCuentaRel = $egresosCuentaRel;
+    }
+
+
 
 }

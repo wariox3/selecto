@@ -38,6 +38,11 @@ class ComCuentaPagar
     private $fechaVence;
 
     /**
+     * @ORM\Column(name="plazo", type="integer", nullable=true, options={"default" : 0})
+     */
+    private $plazo = 0;
+
+    /**
      * @ORM\Column(name="operacion", type="smallint", nullable=true, options={"default" : 0})
      */
     private $operacion = 0;
@@ -433,4 +438,22 @@ class ComCuentaPagar
     {
         $this->cuentaPagarTipoRel = $cuentaPagarTipoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPlazo()
+    {
+        return $this->plazo;
+    }
+
+    /**
+     * @param mixed $plazo
+     */
+    public function setPlazo($plazo): void
+    {
+        $this->plazo = $plazo;
+    }
+
+    
 }

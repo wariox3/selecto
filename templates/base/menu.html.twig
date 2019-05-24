@@ -64,10 +64,6 @@
                                 </a>
                                 <ul class="nav nav-children" style="">
                                     <li>
-                                        <a href="{{ path('tercero_lista') }}" class="waves-effect">
-                                            Tercero</a>
-                                    </li>
-                                    <li>
                                         <a href="{{ path('item_lista') }}" class="waves-effect">
                                             Item</a>
                                     </li>
@@ -80,7 +76,8 @@
                                 </a>
                                 <ul class="nav nav-children" style="">
                                     <li>
-                                        <a href="{{ path('utilidad_generar_factura') }}" class="waves-effect">Generar factura</a>
+                                        <a href="{{ path('utilidad_generar_factura') }}" class="waves-effect">Generar
+                                            factura</a>
                                     </li>
                                 </ul>
                             </li>
@@ -144,12 +141,45 @@
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
+                                    <span>Movimiento</span>
+                                </a>
+                                <ul class="nav nav-children" style="">
+                                    <li>
+                                        <a href="{{ path('egreso_lista', {'documento':'EG'}) }}"
+                                           class="waves-effect">
+                                            Egreso</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-align-left" aria-hidden="true"></i>
                                     <span>Informe</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
                                     <li>
                                         <a href="{{ path('informe_cuentas_pagar') }}" class="waves-effect">
                                             Cuenta por pagar</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-parent">
+                        <a>
+                            <i class="fa fa-align-left" aria-hidden="true"></i>
+                            <span>General</span>
+                        </a>
+                        <ul class="nav nav-children" style="">
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-align-left" aria-hidden="true"></i>
+                                    <span>Administración</span>
+                                </a>
+                                <ul class="nav nav-children" style="">
+                                    <li>
+                                        <a href="{{ path('tercero_lista') }}" class="waves-effect">
+                                            Tercero</a>
                                     </li>
                                 </ul>
                             </li>

@@ -5,10 +5,14 @@ namespace App\Controller\Compra\Movimiento\Egreso;
 use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
+use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComEgreso;
+use App\Entity\Compra\ComEgresoDetalle;
 use App\Entity\General\GenCuenta;
+use App\Entity\General\GenDocumento;
 use App\Entity\General\GenTercero;
 use App\Form\Type\Cartera\ReciboType;
+use App\Form\Type\Compra\EgresoType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,9 +26,9 @@ class EgresoController extends Controller
 {
 
     /**
-     * @Route("/compra/movimiento/egreso/egreso/lista", name="egreso_lista")
+     * @Route("/compra/movimiento/egreso/egreso/lista/{documento}", name="egreso_lista")
      */
-    public function lista(Request $request)
+    public function lista(Request $request, $documento)
     {
         $session = new Session();
         $empresa = $this->getUser()->getCodigoEmpresaFk();
@@ -40,8 +44,8 @@ class EgresoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
-                $session->set('filtroReciboFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
-                $session->set('filtroReciboFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
+                $session->set('filtroEgresoFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
+                $session->set('filtroEgresoFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
                 $arTercero = $form->get('cboTerceroRel')->getData();
                 if ($arTercero) {
                     $session->set('filtroMovimientoTercero', $arTercero->getCodigoTerceroPk());
@@ -51,166 +55,177 @@ class EgresoController extends Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(CarRecibo::class, $arItems);
+                $this->get("UtilidadesModelo")->eliminar(ComEgreso::class, $arItems);
                 return $this->redirect($this->generateUrl('recibo_lista'));
             }
         }
         $arEgresos = $paginator->paginate($em->getRepository(ComEgreso::class)->lista($empresa), $request->query->getInt('page', 1), 50);
         return $this->render('Compra/Movimiento/Egreso/lista.html.twig', [
             'arEgresos' => $arEgresos,
+            'documento' => $documento,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/compra/movimiento/egreso/egreso/nuevo/{id}", name="egreso_nuevo")
+     * @Route("/compra/movimiento/egreso/egreso/nuevo/{id}/{documento}", name="egreso_nuevo")
      */
-    public function nuevo(Request $request, $id)
+    public function nuevo(Request $request, $id, $documento)
     {
         $em = $this->getDoctrine()->getManager();
-        $arRecibos = new CarRecibo();
+        $arEgreso = new ComEgreso();
+        $arDocumento = $em->getRepository(GenDocumento::class)->find($documento);
         if ($id == 0) {
-            $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+            $arEgreso->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
         } else {
-            $arRecibos = $em->getRepository(CarRecibo::class)->find($id);
+            $arEgreso = $em->getRepository(ComEgreso::class)->find($id);
         }
-        $form = $this->createForm(ReciboType::class, $arRecibos);
+        $arEgreso->setDocumentoRel($arDocumento);
+        $form = $this->createForm(EgresoType::class, $arEgreso);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 if ($id == 0) {
-                    $arRecibos->setFecha(new \DateTime('now'));
+                    $arEgreso->setFecha(new \DateTime('now'));
                 }
-                $arRecibos = $form->getData();
-                $arRecibos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
-                $em->persist($arRecibos);
+                $arEgresos = $form->getData();
+                $arEgresos->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
+                $em->persist($arEgreso);
                 $em->flush();
-                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $arRecibos->getCodigoReciboPk()]));
+                return $this->redirect($this->generateUrl('egreso_detalle', ['id' => $arEgreso->getCodigoEgresoPk()]));
             }
         }
-        return $this->render('Cartera/Movimiento/Recibo/nuevo.html.twig', [
-            'arRecibos' => $arRecibos,
+        return $this->render('Compra/Movimiento/Egreso/nuevo.html.twig', [
+            'arEgreso' => $arEgreso,
+            'documento' => $documento,
             'form' => $form->createView()
         ]);
 
     }
-//
-//    /**
-//     * @Route("/cartera/movimiento/recibo/detalle/{id}", name="recibo_detalle")
-//     */
-//    public function detalle(Request $request, $id)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $paginator = $this->get('knp_paginator');
-//        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
-//        $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
-//        $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
-//        $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
-//        $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
-//        $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
-//        if ($arRecibo->getEstadoAutorizado()) {
-//            $arrBtnAutorizar['disabled'] = true;
-//            $arrBtnEliminar['disabled'] = true;
-//            $arrBtnAprobado['disabled'] = false;
-//            $arrBtnActualizar['disabled'] = true;
-//            $arrBtnDesautorizar['disabled'] = false;
-//        }
-//        if ($arRecibo->getEstadoAprobado()) {
-//            $arrBtnDesautorizar['disabled'] = true;
-//            $arrBtnAprobado['disabled'] = true;
-//        }
-//        $form = $this->createFormBuilder()
-//            ->add('btnEliminar', SubmitType::class, $arrBtnEliminar)
-//            ->add('btnActualizar', SubmitType::class, $arrBtnActualizar)
-//            ->add('btnImprimir', SubmitType::class, ['label' => 'Imprimir', 'attr' => ['class' => 'btn btn-sm btn-default']])
-//            ->add('btnAprobado', SubmitType::class, $arrBtnAprobado)
-//            ->add('btnAutorizar', SubmitType::class, $arrBtnAutorizar)
-//            ->add('btnDesautorizar', SubmitType::class, $arrBtnDesautorizar)
-//            ->getForm();
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $arrControles = $request->request->all();
-//            $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @Route("/compra/movimiento/egreso/detalle/{id}", name="egreso_detalle")
+     */
+    public function detalle(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $arEgreso = $em->getRepository(ComEgreso::class)->find($id);
+        $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
+        $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        if ($arEgreso->getEstadoAutorizado()) {
+            $arrBtnAutorizar['disabled'] = true;
+            $arrBtnEliminar['disabled'] = true;
+            $arrBtnAprobado['disabled'] = false;
+            $arrBtnActualizar['disabled'] = true;
+            $arrBtnDesautorizar['disabled'] = false;
+        }
+        if ($arEgreso->getEstadoAprobado()) {
+            $arrBtnDesautorizar['disabled'] = true;
+            $arrBtnAprobado['disabled'] = true;
+        }
+        $form = $this->createFormBuilder()
+            ->add('btnEliminar', SubmitType::class, $arrBtnEliminar)
+            ->add('btnActualizar', SubmitType::class, $arrBtnActualizar)
+            ->add('btnImprimir', SubmitType::class, ['label' => 'Imprimir', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnAprobado', SubmitType::class, $arrBtnAprobado)
+            ->add('btnAutorizar', SubmitType::class, $arrBtnAutorizar)
+            ->add('btnDesautorizar', SubmitType::class, $arrBtnDesautorizar)
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $arrControles = $request->request->all();
+            $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
 //            if ($form->get('btnActualizar')->isClicked()) {
-//                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arRecibo);
+//                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arEgreso);
 //                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
 //            }
 //            if ($form->get('btnAutorizar')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->autorizar($arRecibo);
+//                $em->getRepository(CarRecibo::class)->autorizar($arEgreso);
 //                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
 //            }
 //            if ($form->get('btnDesautorizar')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->desautorizar($arRecibo);
+//                $em->getRepository(CarRecibo::class)->desautorizar($arEgreso);
 //                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
 //            }
 //            if ($form->get('btnAprobado')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->aprobar($arRecibo);
+//                $em->getRepository(CarRecibo::class)->aprobar($arEgreso);
 //                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
 //            }
-//            if ($form->get('btnEliminar')->isClicked()) {
-//                $em->getRepository(CarReciboDetalle::class)->eliminar($arRecibo, $arrDetallesSeleccionados);
-//                $em->getRepository(CarRecibo::class)->liquidar($arRecibo);
-//            }
-//        }
-//        $arReciboDetalles = $paginator->paginate($em->getRepository(CarReciboDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
-//        return $this->render('Cartera/Movimiento/Recibo/detalle.html.twig', [
-//            'form' => $form->createView(),
-//            'arRecibo' => $arRecibo,
-//            'arReciboDetalles' => $arReciboDetalles
-//        ]);
-//    }
-//
-//    /**
-//     * @param Request $request
-//     * @param $id
-//     * @return \Symfony\Component\HttpFoundation\Response
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     * @Route("/cartera/movimiento/recibo/detalle/nuevo/{id}", name="recibo_detalle_nuevo")
-//     */
-//    public function detalleNuevo(Request $request, $id)
-//    {
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $empresa = $this->getUser()->getCodigoEmpresaFk();
-//        $paginator = $this->get('knp_paginator');
-//        $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
-//        $form = $this->createFormBuilder()
-//            ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
-//            ->getForm();
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            if ($form->get('btnGuardar')->isClicked()) {
-//                $arrSeleccionados = $request->request->get('ChkSeleccionar');
-//                $arrControles = $request->request->All();
-//                if ($arrSeleccionados) {
-//                    foreach ($arrSeleccionados AS $codigoCuentaCobrar) {
-//                        $arCuentaCobrar = $em->getRepository(CarCuentaCobrar::class)->find($codigoCuentaCobrar);
-//                        $arReciboDetalle = new CarReciboDetalle();
-//                        $arReciboDetalle->setReciboRel($arRecibo);
-//                        $saldo = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
-//                        $pagoAfectar = $arrControles['TxtSaldo' . $codigoCuentaCobrar];
-//                        $arReciboDetalle->setVrPago($saldo);
-//                        $arReciboDetalle->setCuentaCobrarRel($arCuentaCobrar);
-//                        $arReciboDetalle->setCuentaCobrarTipoRel($arCuentaCobrar->getCuentaCobrarTipoRel());
-//                        $arReciboDetalle->setVrPagoAfectar($pagoAfectar);
-//                        $arReciboDetalle->setNumeroFactura($arCuentaCobrar->getNumeroDocumento());
-//                        $arReciboDetalle->setOperacion(1);
-//                        $em->persist($arReciboDetalle);
-//                    }
-//                    $em->flush();
-//                }
-//                $em->getRepository(CarRecibo::class)->liquidar($id);
-//            }
-//            echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
-//        }
-//        $arCuentasCobrar = $paginator->paginate($em->getRepository(CarCuentaCobrar::class)->cuentasCobrar($empresa, $arRecibo->getCodigoTerceroFk()), $request->query->getInt('page', 1), 50);
-//        return $this->render('Cartera/Movimiento/Recibo/detalleNuevo.html.twig', array(
-//            'form' => $form->createView(),
-//            'arCuentasCobrar' => $arCuentasCobrar,
-//            'arRecibo' => $arRecibo,
-//        ));
-//    }
+            if ($form->get('btnEliminar')->isClicked()) {
+                $em->getRepository(ComEgresoDetalle::class)->eliminar($arEgreso, $arrDetallesSeleccionados);
+                $em->getRepository(ComEgreso::class)->liquidar($arEgreso);
+            }
+        }
+        $arEgresoDetalles = $paginator->paginate($em->getRepository(ComEgresoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
+        return $this->render('Compra/Movimiento/Egreso/detalle.html.twig', [
+            'form' => $form->createView(),
+            'arEgreso' => $arEgreso,
+            'arEgresoDetalles' => $arEgresoDetalles
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @Route("/compra/movimiento/egreso/detalle/nuevo/{id}", name="egreso_detalle_nuevo")
+     */
+    public function detalleNuevo(Request $request, $id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+        $paginator = $this->get('knp_paginator');
+        $arEgreso = $em->getRepository(ComEgreso::class)->find($id);
+        $form = $this->createFormBuilder()
+            ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnGuardar')->isClicked()) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $arrControles = $request->request->All();
+                if ($arrSeleccionados) {
+                    foreach ($arrSeleccionados AS $codigoCuentaPagar) {
+                        $arCuentaPagar = $em->getRepository(ComCuentaPagar::class)->find($codigoCuentaPagar);
+                        $arEgresoDetalle = new ComEgresoDetalle();
+                        $arEgresoDetalle->setEgresoRel($arEgreso);
+                        $saldo = $arrControles['TxtSaldo' . $codigoCuentaPagar];
+                        $pagoAfectar = $arrControles['TxtSaldo' . $codigoCuentaPagar];
+                        $arEgresoDetalle->setVrPago($saldo);
+                        $arEgresoDetalle->setCuentaPagarRel($arCuentaPagar);
+                        $arEgresoDetalle->setCuentaPagarTipoRel($arCuentaPagar->getCuentaPagarTipoRel());
+                        $arEgresoDetalle->setVrPagoAfectar($pagoAfectar);
+                        $arEgresoDetalle->setNumeroCompra($arCuentaPagar->getNumeroDocumento());
+                        $arEgresoDetalle->setOperacion(1);
+                        $em->persist($arEgresoDetalle);
+                    }
+                    $em->flush();
+                }
+                $em->getRepository(ComEgreso::class)->liquidar($id);
+            }
+            echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+        }
+        $arCuentasPagar = $paginator->paginate($em->getRepository(ComCuentaPagar::class)->cuentasPagar($empresa, $arEgreso->getCodigoTerceroFk()), $request->query->getInt('page', 1), 50);
+        return $this->render('Compra/Movimiento/Egreso/detalleNuevo.html.twig', array(
+            'form' => $form->createView(),
+            'arCuentasPagar' => $arCuentasPagar,
+            'arEgreso' => $arEgreso,
+        ));
+    }
 }
 
 

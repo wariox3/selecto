@@ -2,8 +2,6 @@
 
 namespace App\Repository\Compra;
 
-use App\Entity\Cartera\CarRecibo;
-use App\Entity\Cartera\CarReciboDetalle;
 use App\Entity\Compra\ComEgresoDetalle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -16,24 +14,22 @@ class ComEgresoDetalleRepository extends ServiceEntityRepository
         parent::__construct($registry, ComEgresoDetalle::class);
     }
 
-//    /**
-//     * @return \Doctrine\ORM\QueryBuilder
-//     */
-//    public function lista($id)
-//    {
-//        $session = new Session();
-//        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarReciboDetalle::class, 'rd')
-//            ->select('rd.codigoReciboDetallePk')
-//            ->addSelect('rd.numeroFactura')
-//            ->addSelect('rd.vrPago')
-//            ->addSelect('rd.vrPagoAfectar')
-//            ->addSelect('rdcc.vrTotalBruto as total')
-//            ->addSelect('rdcct.nombre')
-//            ->leftJoin('rd.cuentaCobrarRel', 'rdcc')
-//            ->leftJoin('rd.cuentaCobrarTipoRel', 'rdcct')
-//            ->where('rd.codigoReciboFk = ' . $id);
-//        return $queryBuilder->getQuery()->getResult();
-//    }
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function lista($id)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComEgresoDetalle::class, 'ed')
+            ->select('ed.codigoEgresoDetallePk')
+            ->addSelect('ed.numeroCompra')
+            ->addSelect('ed.vrPago')
+            ->addSelect('ed.vrPagoAfectar')
+            ->addSelect('edcp.vrTotalBruto as total')
+            ->leftJoin('ed.cuentaPagarRel', 'edcp')
+            ->where('ed.codigoEgresoFk = ' . $id);
+        return $queryBuilder->getQuery()->getResult();
+    }
 //
 //    /**
 //     * @param $arrControles
@@ -74,17 +70,17 @@ class ComEgresoDetalleRepository extends ServiceEntityRepository
 //     * @throws \Doctrine\ORM\ORMException
 //     * @throws \Doctrine\ORM\OptimisticLockException
 //     */
-//    public function eliminar($arRecibo, $arrSeleccionados)
-//    {
-//        $em = $this->getEntityManager();
-//        if (count($arrSeleccionados) > 0) {
-//            foreach ($arrSeleccionados as $codigoReciboDetalle) {
-//                $arReciboDetalle = $em->getRepository(CarReciboDetalle::class)->find($codigoReciboDetalle);
-//                if ($arReciboDetalle) {
-//                    $em->remove($arReciboDetalle);
-//                }
-//            }
-//            $em->flush();
-//        }
-//    }
+    public function eliminar($arEgreso, $arrSeleccionados)
+    {
+        $em = $this->getEntityManager();
+        if (count($arrSeleccionados) > 0) {
+            foreach ($arrSeleccionados as $codigoEgresoDetalle) {
+                $codigoEgresoDetalle = $em->getRepository(ComEgresoDetalle::class)->find($codigoEgresoDetalle);
+                if ($codigoEgresoDetalle) {
+                    $em->remove($codigoEgresoDetalle);
+                }
+            }
+            $em->flush();
+        }
+    }
 }

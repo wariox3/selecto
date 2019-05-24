@@ -60,19 +60,14 @@ class ComEgreso
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\Column(name="codigo_recibo_tipo_fk", type="string",length=10, nullable=true)
-     */
-    private $codigoEgresoTipoFk;
-
-    /**
      * @ORM\Column(name="codigo_cuenta_fk", type="string", length=10, nullable=true)
      */
     private $codigoCuentaFk;
 
     /**
-     * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
      */
-    private $codigoClienteFk;
+    private $codigoDocumentoFk;
 
     /**
      * @ORM\Column(name="estado_anulado", type="boolean", options={"default":false})
@@ -105,22 +100,22 @@ class ComEgreso
     protected $egresosDetallesEgresoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCuenta", inversedBy="recibosCuentaRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCuenta", inversedBy="egresosCuentaRel")
      * @ORM\JoinColumn(name="codigo_cuenta_fk", referencedColumnName="codigo_cuenta_pk")
      */
     protected $cuentaRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="comEgresoTerceroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="egresosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ComEgresoTipo", inversedBy="egresosEgresoTipoRel")
-     * @ORM\JoinColumn(name="codigo_egreso_tipo_fk", referencedColumnName="codigo_egreso_tipo_pk")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenDocumento", inversedBy="egresosDocumentoRel")
+     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
      */
-    protected $egresoTipoRel;
+    protected $documentoRel;
 
     /**
      * @return mixed
@@ -317,6 +312,22 @@ class ComEgreso
     /**
      * @return mixed
      */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getEstadoAnulado()
     {
         return $this->estadoAnulado;
@@ -445,17 +456,17 @@ class ComEgreso
     /**
      * @return mixed
      */
-    public function getEgresoTipoRel()
+    public function getDocumentoRel()
     {
-        return $this->egresoTipoRel;
+        return $this->documentoRel;
     }
 
     /**
-     * @param mixed $egresoTipoRel
+     * @param mixed $documentoRel
      */
-    public function setEgresoTipoRel($egresoTipoRel): void
+    public function setDocumentoRel($documentoRel): void
     {
-        $this->egresoTipoRel = $egresoTipoRel;
+        $this->documentoRel = $documentoRel;
     }
 
 

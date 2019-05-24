@@ -3,50 +3,50 @@
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-group" style="float:left">
         <a class="btn btn-default btn-sm"
-           href="{{ path('recibo_lista') }}">Volver</a>
+           href="{{ path('egreso_lista', {'documento': arEgreso.documentoRel.codigoDocumentoPk}) }}">Volver</a>
         {{ form_widget(form.btnAutorizar) }}
         {{ form_widget(form.btnDesautorizar) }}
         {{ form_widget(form.btnAprobado) }}
         {{ form_widget(form.btnImprimir) }}
     </div>
     <div style="float:right">
-        {% if arRecibo.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
+        {% if arEgreso.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
     </div>
     <div style="float:right">
-        {% if arRecibo.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
+        {% if arEgreso.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
     </div>
     <div style="float:right">
-        {% if arRecibo.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
+        {% if arEgreso.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
     </div>
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
             <td class="titulo">ID:</td>
-            <td class="td-in-well">{{ arRecibo.codigoReciboPk }}</td>
-            <td class="titulo">NUMERO:</td>
-            <td class="td-in-well">{{ arRecibo.numero | default('') }}</td>
-            <td class="titulo">PAGO:</td>
-            <td class="numero">{{ arRecibo.vrPago | number_format(0, '.', ',') }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">TIPO:</td>
-            <td class="td-in-well">{{ arRecibo.reciboTipoRel.nombre }}</td>
+            <td class="td-in-well">{{ arEgreso.codigoEgresoPk }}</td>
             <td class="titulo">CUENTA:</td>
-            <td class="td-in-well">{{ arRecibo.cuentaRel.cuenta }}</td>
-            <td class="titulo">TOTAL</td>
-            <td class="numero">{{ arRecibo.vrPagoTotal | number_format(0, '.', ',') }}</td>
+            <td class="td-in-well">{{ arEgreso.cuentaRel.cuenta | default('') }}</td>
+            <td class="titulo">PAGO:</td>
+            <td class="numero">{{ arEgreso.vrPago | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
+            <td class="titulo">NUMERO:</td>
+            <td class="td-in-well">{{ arEgreso.numero | default('') }}</td>
             <td class="titulo">FECHA:</td>
-            <td class="td-in-well">{{ arRecibo.fecha|date('Y-m-d') }}</td>
+            <td class="td-in-well">{{ arEgreso.fecha|date('Y-m-d') }}</td>
+            <td class="titulo">TOTAL</td>
+            <td class="numero">{{ arEgreso.vrPagoTotal | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
             <td class="titulo">FECHA PAGO:</td>
-            <td class="td-in-well">{{ arRecibo.fechaPago | date('Y-m-d') }}</td>
+            <td class="td-in-well">{{ arEgreso.fechaPago | date('Y-m-d') }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
         </tr>
         <tr>
             <td class="titulo">TERCERO:</td>
-            <td class="td-in-well">{{ arRecibo.terceroRel.nombreCorto }}</td>
+            <td class="td-in-well">{{ arEgreso.terceroRel.nombreCorto }}</td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
             <td class="titulo"></td>
@@ -54,7 +54,7 @@
         </tr>
         <tr>
             <td class="titulo">COMENTARIO:</td>
-            <td class="td-in-well" colspan="5">{{ arRecibo.comentario }}</td>
+            <td class="td-in-well" colspan="5">{{ arEgreso.comentario }}</td>
         </tr>
     </table>
     <ul class="nav nav-tabs">
@@ -77,18 +77,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for arReciboDetalle in arReciboDetalles %}
+                    {% for arEgresoDetalle in arEgresoDetalles %}
                         <tr>
-                            <td>{{ arReciboDetalle.codigoReciboDetallePk }}</td>
+                            <td>{{ arEgresoDetalle.codigoEgresoDetallePk }}</td>
                             <input type="hidden"
                                    name="arrCodigo[]"
-                                   value="{{ arReciboDetalle.codigoReciboDetallePk }}">
-                            <td>{{ arReciboDetalle.numeroFactura }}</td>
-                            <td>{{ arReciboDetalle.nombre |default('') }}</td>
-                            <td style="text-align: right">{{ arReciboDetalle.vrPago | number_format(0, '.', ',') }}</td>
-                            <td style="text-align: right">{{ arReciboDetalle.total | number_format(0, '.', ',') }}</td>
+                                   value="{{ arEgresoDetalle.codigoEgresoDetallePk }}">
+                            <td>{{ arEgresoDetalle.numeroCompra }}</td>
+                            <td>{{ arEgresoDetalle.nombre |default('') }}</td>
+                            <td style="text-align: right">{{ arEgresoDetalle.vrPago | number_format(0, '.', ',') }}</td>
+                            <td style="text-align: right">{{ arEgresoDetalle.total | number_format(0, '.', ',') }}</td>
                             <td style="text-align: center"><input type="checkbox" name="ChkSeleccionar[]"
-                                                                  value="{{ arReciboDetalle.codigoReciboDetallePk }}"/>
+                                                                  value="{{ arEgresoDetalle.codigoEgresoDetallePk }}"/>
                             </td>
                         </tr>
                     {% endfor %}
@@ -96,8 +96,8 @@
                 </table>
             </div>
             <div style="display: flex; flex-direction: row;">
-                <span style="margin-right: 4px">registros: {{ arReciboDetalles.getTotalItemCount }}</span>
-                {{ knp_pagination_render(arReciboDetalles) }}
+                <span style="margin-right: 4px">registros: {{ arEgresoDetalles.getTotalItemCount }}</span>
+                {{ knp_pagination_render(arEgresoDetalles) }}
             </div>
         </div>
         <div class="panel-footer">
@@ -107,9 +107,9 @@
                          aria-label="...">
                         <div class="btn-group">
                             {{ form_widget(form.btnActualizar) }}
-                            {% if arRecibo.estadoAutorizado == 0 %}
+                            {% if arEgreso.estadoAutorizado == 0 %}
                                 <a class="btn btn-default btn-sm"
-                                   href="javascript:abrirVentana3('{{ path('recibo_detalle_nuevo', {'id':arRecibo.codigoReciboPk }) }}', 'ReciboAdicionarDetalle', 600, 900)">Nuevo</a>
+                                   href="javascript:abrirVentana3('{{ path('egreso_detalle_nuevo', {'id':arEgreso.codigoEgresoPk }) }}', 'EgresoAdicionarDetalle', 600, 900)">Nuevo</a>
                             {% endif %}
                             {{ form_widget(form.btnEliminar) }}
                         </div>

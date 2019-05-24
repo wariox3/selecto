@@ -139,6 +139,11 @@ class GenTercero
     private $carRecibosTerceroRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComEgreso", mappedBy="terceroRel")
+     */
+    private $egresosTerceroRel;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Compra\ComCuentaPagar", mappedBy="terceroRel")
      */
     private $cuentaPagarRel;
@@ -557,6 +562,22 @@ class GenTercero
     public function setCuentaPagarRel($cuentaPagarRel): void
     {
         $this->cuentaPagarRel = $cuentaPagarRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEgresosTerceroRel()
+    {
+        return $this->egresosTerceroRel;
+    }
+
+    /**
+     * @param mixed $egresosTerceroRel
+     */
+    public function setEgresosTerceroRel($egresosTerceroRel): void
+    {
+        $this->egresosTerceroRel = $egresosTerceroRel;
     }
 
 

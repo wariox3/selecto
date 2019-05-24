@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class CompraType extends AbstractType
+class EgresoType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -27,7 +27,8 @@ class CompraType extends AbstractType
                 'class' => GenTercero::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
-                        ->orderBy('t.nombreCorto', 'ASC');
+                        ->orderBy('t.nombreCorto', 'ASC')
+                        ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
             ])
@@ -36,16 +37,8 @@ class CompraType extends AbstractType
                 'class' => GenCuenta::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('c')
-                        ->orderBy('c.cuenta', 'ASC');
-                },
-                'choice_label' => 'cuenta',
-            ])
-            ->add('egresoTipoRel', EntityType::class, [
-                'required' => true,
-                'class' => ComEgresoTipo::class,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('rt')
-                        ->orderBy('rt.nombre', 'ASC');
+                        ->orderBy('c.cuenta', 'ASC')
+                        ->where("c.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombre',
             ])
