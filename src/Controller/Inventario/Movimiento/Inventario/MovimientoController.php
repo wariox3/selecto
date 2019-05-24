@@ -4,11 +4,11 @@ namespace App\Controller\Inventario\Movimiento\Inventario;
 
 use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
-use App\Entity\Inventario\InvDocumento;
+use App\Entity\General\GenDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
-use App\Entity\Inventario\InvTercero;
+use App\Entity\General\GenTercero;
 use App\Entity\Transporte\TteOperacion;
 use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
@@ -40,7 +40,7 @@ class MovimientoController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaDesde') ? date_create($session->get('filtroMovimientoFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaHasta') ? date_create($session->get('filtroMovimientoFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo($empresa))
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(GenTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -79,7 +79,7 @@ class MovimientoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $arMovimiento = new InvMovimiento();
         $objFunciones = new FuncionesController();
-        $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
+        $arDocumento = $em->getRepository(GenDocumento::class)->find($documento);
         if ($id == 0) {
             $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
         } else {

@@ -40,7 +40,7 @@ class GenCiudad
     protected $departamentoRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvTercero", mappedBy="ciudadRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\General\GenTercero", mappedBy="ciudadRel")
      */
     private $ciudadTerceroRel;
 

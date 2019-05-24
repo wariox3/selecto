@@ -5,7 +5,7 @@ namespace App\Formatos;
 use App\Entity\Inventario\InvFacturaTipo;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
-use App\Entity\Inventario\InvTercero;
+use App\Entity\General\GenTercero;
 use App\Utilidades\Estandares;
 use Doctrine\Common\Persistence\ObjectManager;
 

@@ -7,7 +7,7 @@ use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
 use App\Entity\Compra\ComEgreso;
 use App\Entity\General\GenCuenta;
-use App\Entity\Inventario\InvTercero;
+use App\Entity\General\GenTercero;
 use App\Form\Type\Cartera\ReciboType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,7 +33,7 @@ class EgresoController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha Desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroReciboFechaDesde') ? date_create($session->get('filtroReciboFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha Hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroReciboFechaHasta') ? date_create($session->get('filtroReciboFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo($empresa))
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(GenTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();

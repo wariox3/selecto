@@ -22,7 +22,7 @@ class GenFormaPago
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvTercero", mappedBy="formaPagoRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\General\GenTercero", mappedBy="formaPagoRel")
      */
     private $formaPagoTerceroRel;
 

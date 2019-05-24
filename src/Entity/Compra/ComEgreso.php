@@ -111,7 +111,7 @@ class ComEgreso
     protected $cuentaRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="comEgresoTerceroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="comEgresoTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;

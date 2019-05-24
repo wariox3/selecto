@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Repository\Inventario;
+namespace App\Repository\General;
 
-use App\Entity\Inventario\InvDocumento;
+use App\Entity\General\GenDocumento;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class InvDocumentoRepository extends ServiceEntityRepository
+class GenDocumentoRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, InvDocumento::class);
+        parent::__construct($registry, GenDocumento::class);
     }
 }

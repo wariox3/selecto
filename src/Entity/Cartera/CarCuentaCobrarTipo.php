@@ -42,7 +42,7 @@ class CarCuentaCobrarTipo
     protected $cuentaCobrarRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvDocumento", mappedBy="cuentaCobrarTipoDocumentoRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\General\GenDocumento", mappedBy="cuentaCobrarTipoDocumentoRel")
      */
     protected $documentoCobrarTipoRel;
 

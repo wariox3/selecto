@@ -3,11 +3,11 @@
 namespace App\Controller\Inventario\Utilidad;
 
 use App\Entity\Inventario\InvContrato;
-use App\Entity\Inventario\InvDocumento;
+use App\Entity\General\GenDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
-use App\Entity\Inventario\InvTercero;
+use App\Entity\General\GenTercero;
 use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
@@ -35,7 +35,7 @@ class GenerarFacturaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo())
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(GenTercero::class)->llenarCombo($this->getUser()->getCodigoEmpresaFk()))
             ->add('btnGenerarTodo', SubmitType::class, ['label' => 'Generar todo', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();

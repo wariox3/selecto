@@ -5,7 +5,7 @@ namespace App\Controller\Inventario\Movimiento\Contrato;
 use App\Entity\Inventario\InvContrato;
 use App\Entity\Inventario\InvContratoDetalle;
 use App\Entity\Inventario\InvItem;
-use App\Entity\Inventario\InvTercero;
+use App\Entity\General\GenTercero;
 use App\Form\Type\Inventario\Contrato\ContratoType;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,7 +32,7 @@ class ContratoController extends Controller
         $form = $this->createFormBuilder()
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroContratoFechaDesde') ? date_create($session->get('filtroContratoFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroContratoFechaHasta') ? date_create($session->get('filtroContratoFechaHasta')) : null])
-            ->add('cboTerceroRel', EntityType::class, $em->getRepository(InvTercero::class)->llenarCombo($empresa))
+            ->add('cboTerceroRel', EntityType::class, $em->getRepository(GenTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();

@@ -103,7 +103,7 @@ class ComCuentaPagar
     private $estadoAnulado = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="cuentaPagarRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="cuentaPagarRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;

@@ -6,7 +6,7 @@ use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComCuentaPagarTipo;
-use App\Entity\Inventario\InvDocumento;
+use App\Entity\General\GenDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -103,7 +103,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
     public function aprobar($arMovimiento)
     {
         $em = $this->getEntityManager();
-        $arDocumento = $em->getRepository(InvDocumento::class)->find($arMovimiento->getCodigoDocumentoFk());
+        $arDocumento = $em->getRepository(GenDocumento::class)->find($arMovimiento->getCodigoDocumentoFk());
         if ($arMovimiento->getEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);

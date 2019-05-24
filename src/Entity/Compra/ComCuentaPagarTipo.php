@@ -37,7 +37,7 @@ class ComCuentaPagarTipo
     protected $cuentaPagarRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvDocumento", mappedBy="cuentaPagarTipoDocumentoRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\General\GenDocumento", mappedBy="cuentaPagarTipoDocumentoRel")
      */
     protected $documentoPagarTipoRel;
 

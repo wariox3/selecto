@@ -106,7 +106,7 @@ class CarRecibo
     protected $cuentaRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="carRecibosTerceroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="carRecibosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;

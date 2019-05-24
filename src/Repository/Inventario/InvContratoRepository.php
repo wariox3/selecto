@@ -4,7 +4,7 @@ namespace App\Repository\Inventario;
 
 use App\Entity\Inventario\InvContrato;
 use App\Entity\Inventario\InvContratoDetalle;
-use App\Entity\Inventario\InvDocumento;
+use App\Entity\General\GenDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -82,7 +82,7 @@ class InvContratoRepository extends ServiceEntityRepository
             if($arContratoDetalles) {
                 /** @var $arContrato InvContrato */
                 $arContrato = $em->getRepository(InvContrato::class)->find($arContrato['codigoContratoPk']);
-                $arDocumento = $em->getRepository(InvDocumento::class)->find('FAC');
+                $arDocumento = $em->getRepository(GenDocumento::class)->find('FAC');
                 $arFactura = new InvMovimiento();
                 $arFactura->setCodigoEmpresaFk($codigoEmpresa);
                 $arFactura->setDocumentoRel($arDocumento);

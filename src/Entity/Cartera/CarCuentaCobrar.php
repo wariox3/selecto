@@ -119,7 +119,7 @@ class CarCuentaCobrar
     protected $cuentaCobrarTipoRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Inventario\InvTercero", inversedBy="cuentaCobroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="cuentaCobroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
     protected $terceroRel;
