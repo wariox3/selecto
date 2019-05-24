@@ -7,6 +7,7 @@ use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComCuentaPagarTipo;
 use App\Entity\General\GenDocumento;
+use App\Entity\General\GenDocumentoEmpresa;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -103,12 +104,12 @@ class InvMovimientoRepository extends ServiceEntityRepository
     public function aprobar($arMovimiento)
     {
         $em = $this->getEntityManager();
-        $arDocumento = $em->getRepository(GenDocumento::class)->find($arMovimiento->getCodigoDocumentoFk());
         if ($arMovimiento->getEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
-            $arDocumento->setConsecutivo($arDocumento->getConsecutivo() + 1);
-            $arMovimiento->setNumero($arDocumento->getConsecutivo());
+            $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arMovimiento->getCodigoDocumentoFk(), $arMovimiento->getCodigoEmpresaFk());
+            $arMovimiento->setNumero($consecutivo);
+
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
                 $arCuentaCobrarTipo = $em->getRepository(CarCuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
                 $arCuentaCobrar = New CarCuentaCobrar();
@@ -147,8 +148,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arCuentaPagar->setEstadoAutorizado(1);
                 $em->persist($arCuentaPagar);
             }
-            $this->getEntityManager()->persist($arMovimiento);
-            $this->getEntityManager()->flush();
+            $em->persist($arMovimiento);
+            $em->flush();
         } else {
             Mensajes::error('El registro se encuentra anulado');
         }
