@@ -14,16 +14,18 @@ class Entrada extends \FPDF
 
     public static $em;
     public static $codigoMovimiento;
+    public static $codigoEmpresa;
 
     /**
      * @param $em ObjectManager
      * @param $codigoMovimiento integer
      */
     public function
-    Generar($em, $codigoMovimiento)
+    Generar($em, $codigoMovimiento, $codigoEmpresa)
     {
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
+        self::$codigoEmpresa = $codigoEmpresa;
         /** @var  $arMovimiento InvMovimiento */
         $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
         ob_clean();
@@ -43,19 +45,15 @@ class Entrada extends \FPDF
         $pdf->Output("Entrada de almacen{$arMovimiento->getNumero()}_{$arMovimiento->getTerceroRel()->getNombreCorto()}.pdf", 'D');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function Header()
     {
         $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $this->SetFillColor(200, 200, 200);
         $this->SetFont('Arial', 'B', 10);
-        //Logo
-//        $this->SetXY(10, 10);
-//        try {
-//            $this->Image('../public/assets/img/empresa/logo.jpg', 12, 13, 40, 25);
-//        } catch (\Exception $exception) {
-//        }
-        //INFORMACIÓN EMPRESA
-        Estandares::generarEncabezado($this, 'ENTRADA DE ALMACEN', self::$em);
+        Estandares::generarEncabezado($this, 'ENTRADA DE ALMACEN', self::$em, null , self::$codigoEmpresa);
 
         //ENCABEZADO ORDEN DE COMPRA
         $intY = 40;

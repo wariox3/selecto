@@ -53,6 +53,36 @@ class Empresa
     protected $usuariosEmpresaRel;
 
     /**
+     * @ORM\Column(name="fecha_desde_vigencia", type="date", nullable=true)
+     */
+    private $fechaDesdeVigencia;
+
+    /**
+     * @ORM\Column(name="fecha_hasta_vigencia", type="date", nullable=true)
+     */
+    private $fechaHastaVigencia;
+
+    /**
+     * @ORM\Column(name="numeracion_desde", type="string", length=20, nullable=true)
+     */
+    private $numeracionDesde;
+
+    /**
+     * @ORM\Column(name="numeracion_hasta", type="string", length=20, nullable=true)
+     */
+    private $numeracionHasta;
+
+    /**
+     * @ORM\Column(name="numero_resolucion_dian_factura", type="string", length=1000, nullable=true)
+     */
+    private $numeroResolucionDianFactura;
+
+    /**
+     * @ORM\Column(name="informacion_cuenta_pago", type="string", length=1000, nullable=true)
+     */
+    private $informacionCuentaPago;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()
@@ -178,6 +208,102 @@ class Empresa
     public function setRutaTemporal($rutaTemporal): void
     {
         $this->rutaTemporal = $rutaTemporal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaDesdeVigencia()
+    {
+        return $this->fechaDesdeVigencia;
+    }
+
+    /**
+     * @param mixed $fechaDesdeVigencia
+     */
+    public function setFechaDesdeVigencia($fechaDesdeVigencia): void
+    {
+        $this->fechaDesdeVigencia = $fechaDesdeVigencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaHastaVigencia()
+    {
+        return $this->fechaHastaVigencia;
+    }
+
+    /**
+     * @param mixed $fechaHastaVigencia
+     */
+    public function setFechaHastaVigencia($fechaHastaVigencia): void
+    {
+        $this->fechaHastaVigencia = $fechaHastaVigencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeracionDesde()
+    {
+        return $this->numeracionDesde;
+    }
+
+    /**
+     * @param mixed $numeracionDesde
+     */
+    public function setNumeracionDesde($numeracionDesde): void
+    {
+        $this->numeracionDesde = $numeracionDesde;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeracionHasta()
+    {
+        return $this->numeracionHasta;
+    }
+
+    /**
+     * @param mixed $numeracionHasta
+     */
+    public function setNumeracionHasta($numeracionHasta): void
+    {
+        $this->numeracionHasta = $numeracionHasta;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeroResolucionDianFactura()
+    {
+        return $this->numeroResolucionDianFactura;
+    }
+
+    /**
+     * @param mixed $numeroResolucionDianFactura
+     */
+    public function setNumeroResolucionDianFactura($numeroResolucionDianFactura): void
+    {
+        $this->numeroResolucionDianFactura = $numeroResolucionDianFactura;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionCuentaPago()
+    {
+        return $this->informacionCuentaPago;
+    }
+
+    /**
+     * @param mixed $informacionCuentaPago
+     */
+    public function setInformacionCuentaPago($informacionCuentaPago): void
+    {
+        $this->informacionCuentaPago = $informacionCuentaPago;
     }
 
 

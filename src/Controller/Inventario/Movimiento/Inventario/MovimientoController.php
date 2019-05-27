@@ -13,6 +13,7 @@ use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
 use App\Formatos\Factura;
+use App\Formatos\Factura1;
 use App\Formatos\Salida;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -180,16 +181,16 @@ class MovimientoController extends Controller
             if ($form->get('btnImprimir')->isClicked()) {
                 if ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'SAL') {
                     $objFormato = new Salida();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'FAC') {
                     $objFormato = new Factura();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'COM') {
                     $objFormato = new Compra();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 } else {
                     $objFormato = new Entrada();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk());
+                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 }
             }
         }

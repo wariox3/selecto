@@ -14,16 +14,18 @@ class Salida extends \FPDF
 
     public static $em;
     public static $codigoMovimiento;
+    public static $codigoEmpresa;
 
     /**
      * @param $em ObjectManager
      * @param $codigoMovimiento integer
      */
     public function
-    Generar($em, $codigoMovimiento)
+    Generar($em, $codigoMovimiento, $codigoEmpresa)
     {
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
+        self::$codigoEmpresa = $codigoEmpresa;
         /** @var  $arMovimiento InvMovimiento */
         $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
         ob_clean();
@@ -55,7 +57,7 @@ class Salida extends \FPDF
 //        } catch (\Exception $exception) {
 //        }
         //INFORMACIÓN EMPRESA
-        Estandares::generarEncabezado($this, 'SALIDA DE ALMACEN', self::$em);
+        Estandares::generarEncabezado($this, 'SALIDA DE ALMACEN', self::$em, null, self::$codigoEmpresa);
 
         //ENCABEZADO ORDEN DE COMPRA
         $intY = 40;
