@@ -9,6 +9,7 @@ use App\Entity\General\GenCuenta;
 use App\Entity\General\GenDocumento;
 use App\Entity\General\GenTercero;
 use App\Form\Type\Cartera\ReciboType;
+use App\Formatos\Recibo;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -158,6 +159,10 @@ class ReciboController extends Controller
             if ($form->get('btnAprobado')->isClicked()) {
                 $em->getRepository(CarRecibo::class)->aprobar($arRecibo);
                 return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnImprimir')->isClicked()) {
+                $objFormato = new Recibo();
+                $objFormato->Generar($em, $arRecibo->getCodigoReciboPk(), $arRecibo->getCodigoEmpresaFk());
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $em->getRepository(CarReciboDetalle::class)->eliminar($arRecibo, $arrDetallesSeleccionados);

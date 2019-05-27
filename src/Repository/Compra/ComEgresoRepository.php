@@ -7,9 +7,11 @@ use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Cartera\CarRecibo;
 use App\Entity\Cartera\CarReciboDetalle;
 use App\Entity\Cartera\CarReciboTipo;
+use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComEgreso;
 use App\Entity\Compra\ComEgresoDetalle;
 use App\Entity\General\GenConfiguracion;
+use App\Entity\General\GenDocumento;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -56,84 +58,85 @@ class ComEgresoRepository extends ServiceEntityRepository
         $queryBuilder->orderBy("e.codigoEgresoPk", 'DESC');
         return $queryBuilder;
     }
+
+    /**
+     * @param $arEgreso ComEgreso
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function autorizar($arEgreso)
+    {
+        $em = $this->getEntityManager();
+        $error = false;
+        $arEgresoDetalles = $em->getRepository(ComEgresoDetalle::class)->findBy(array('codigoEgresoFk' => $arEgreso->getCodigoEgresoPk()));
+        if (count($em->getRepository(ComEgresoDetalle::class)->findBy(['codigoEgresoFk' => $arEgreso->getCodigoEgresoPk()])) > 0) {
+            foreach ($arEgresoDetalles AS $arEgresoDetalle) {
+                $arCuentaPagar = $em->getRepository(ComCuentaPagar::class)->find($arEgresoDetalle->getCodigoCuentaPagarFk());
+                if ($arEgresoDetalle->getVrPagoAfectar() < 0) {
+                    Mensajes::error("Error detalle ID: " . $arEgresoDetalle->getCodigoEgresoDetallePk() . " el pago a afectar es menor que cero");
+                    $error = true;
+                    break;
+                }
+                if ($arCuentaPagar->getVrSaldo() >= $arEgresoDetalle->getVrPagoAfectar()) {
+                    $saldo = $arCuentaPagar->getVrSaldo() - $arEgresoDetalle->getVrPagoAfectar();
+                    $saldoOperado = $saldo * $arCuentaPagar->getOperacion();
+                    $arCuentaPagar->setVrSaldo($saldo);
+                    $arCuentaPagar->setVrSaldoOperado($saldoOperado);
+                    $arCuentaPagar->setVrAbono($arCuentaPagar->getVrAbono() + $arEgresoDetalle->getVrPagoAfectar());
+                    $em->persist($arCuentaPagar);
+                } else {
+                    Mensajes::error("Error detalle ID: " . $arEgresoDetalle->getCodigEgresoDetallePk() . "el saldo " . $arCuentaPagar->getVrSaldo() . " de la cuenta por cobrar numero: " . $arCuentaCobrar->getNumeroDocumento() . " es menor al ingresado " . $arReciboDetalle->getVrPagoAfectar());
+                    $error = true;
+                    break;
+                }
+                if ($error == false) {
+                    $arEgreso->setEstadoAutorizado(1);
+                    $em->persist($arEgreso);
+                    $em->flush();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $arEgreso ComEgreso
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function desautorizar($arEgreso)
+    {
+        $em = $this->getEntityManager();
+        $arEgresoDetalles = $em->getRepository(ComEgresoDetalle::class)->findBy(array('codigoEgresoFk' => $arEgreso->getCodigoEgresoPk()));
+        foreach ($arEgresoDetalles AS $arEgresoDetalle) {
+            $arCuentaPagar = $em->getRepository(ComCuentaPagar::class)->find($arEgresoDetalle->getCodigoCuentaPagarFk());
+            $saldo = $arCuentaPagar->getVrSaldo() + $arEgresoDetalle->getVrPagoAfectar();
+            $saldoOperado = $saldo * $arCuentaPagar->getOperacion();
+            $arCuentaPagar->setVrSaldo($saldo);
+            $arCuentaPagar->setVrSaldoOperado($saldoOperado);
+            $arCuentaPagar->setVrAbono($arCuentaPagar->getVrAbono() - $arEgresoDetalle->getVrPagoAfectar());
+            $em->persist($arCuentaPagar);
+        }
+        $arEgreso->setEstadoAutorizado(0);
+        $em->persist($arEgreso);
+        $em->flush();
+    }
+
+    /**
+     * @param $codigoEgreso ComEgreso
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function contarDetalles($codigoEgreso)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComEgresoDetalle::class, 'ed')
+            ->select("COUNT(ed.codigoEgresoDetallePk)")
+            ->where("ed.codigoEgresoFk = {$codigoEgreso} ");
+        $resultado = $queryBuilder->getQuery()->getSingleResult();
+        return $resultado[1];
+    }
 //
-//    /**
-//     * @param $arRecibo CarRecibo
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     */
-//    public function autorizar($arRecibo)
-//    {
-//        $em = $this->getEntityManager();
-//        $error = false;
-//        $arReciboDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $arRecibo->getCodigoReciboPk()));
-//        if (count($em->getRepository(CarReciboDetalle::class)->findBy(['codigoReciboFk' => $arRecibo->getCodigoReciboPk()])) > 0) {
-//            foreach ($arReciboDetalles AS $arReciboDetalle) {
-//                $arCuentaCobrar = $em->getRepository(CarCuentaCobrar::class)->find($arReciboDetalle->getCodigoCuentaCobrarFk());
-//                if ($arReciboDetalle->getVrPagoAfectar() < 0) {
-//                    Mensajes::error("Error detalle ID: " . $arReciboDetalle->getCodigoReciboDetallePk() . " el pago a afectar es menor que cero");
-//                    $error = true;
-//                    break;
-//                }
-//                if ($arCuentaCobrar->getVrSaldo() >= $arReciboDetalle->getVrPagoAfectar()) {
-//                    $saldo = $arCuentaCobrar->getVrSaldo() - $arReciboDetalle->getVrPagoAfectar();
-//                    $saldoOperado = $saldo * $arCuentaCobrar->getOperacion();
-//                    $arCuentaCobrar->setVrSaldo($saldo);
-//                    $arCuentaCobrar->setVrSaldoOperado($saldoOperado);
-//                    $arCuentaCobrar->setVrAbono($arCuentaCobrar->getVrAbono() + $arReciboDetalle->getVrPagoAfectar());
-//                    $em->persist($arCuentaCobrar);
-//                } else {
-//                    Mensajes::error("Error detalle ID: " . $arReciboDetalle->getCodigoReciboDetallePk() . "el saldo " . $arCuentaCobrar->getVrSaldo() . " de la cuenta por cobrar numero: " . $arCuentaCobrar->getNumeroDocumento() . " es menor al ingresado " . $arReciboDetalle->getVrPagoAfectar());
-//                    $error = true;
-//                    break;
-//                }
-//                if ($error == false) {
-//                    $arRecibo->setEstadoAutorizado(1);
-//                    $em->persist($arRecibo);
-//                    $em->flush();
-//                }
-//            }
-//        }
-//    }
-//
-//    /**
-//     * @param $arRecibo CarRecibo
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     */
-//    public function desautorizar($arRecibo)
-//    {
-//        $em = $this->getEntityManager();
-//        $arReciboDetalles = $em->getRepository(CarReciboDetalle::class)->findBy(array('codigoReciboFk' => $arRecibo->getCodigoReciboPk()));
-//        foreach ($arReciboDetalles AS $arReciboDetalle) {
-//            $arCuentaCobrar = $em->getRepository(CarCuentaCobrar::class)->find($arReciboDetalle->getCodigoCuentaCobrarFk());
-//            $saldo = $arCuentaCobrar->getVrSaldo() + $arReciboDetalle->getVrPagoAfectar();
-//            $saldoOperado = $saldo * $arCuentaCobrar->getOperacion();
-//            $arCuentaCobrar->setVrSaldo($saldo);
-//            $arCuentaCobrar->setVrSaldoOperado($saldoOperado);
-//            $arCuentaCobrar->setVrAbono($arCuentaCobrar->getVrAbono() - $arReciboDetalle->getVrPagoAfectar());
-//            $em->persist($arCuentaCobrar);
-//        }
-//        $arRecibo->setEstadoAutorizado(0);
-//        $em->persist($arRecibo);
-//        $em->flush();
-//    }
-//
-//    /**
-//     * @param $codigoRecibo
-//     * @return mixed
-//     * @throws \Doctrine\ORM\NoResultException
-//     * @throws \Doctrine\ORM\NonUniqueResultException
-//     */
-//    public function contarDetalles($codigoRecibo)
-//    {
-//        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarReciboDetalle::class, 'rd')
-//            ->select("COUNT(rd.codigoReciboDetallePk)")
-//            ->where("rd.codigoReciboFk = {$codigoRecibo} ");
-//        $resultado = $queryBuilder->getQuery()->getSingleResult();
-//        return $resultado[1];
-//    }
-//
+
     /**
      * @param $id
      * @return bool
@@ -157,26 +160,23 @@ class ComEgresoRepository extends ServiceEntityRepository
         $em->flush();
         return true;
     }
-//
-//    /**
-//     * @param $arRecibo CarRecibo
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     */
-//    public function aprobar($arRecibo)
-//    {
-//        $em = $this->getEntityManager();
-//        if ($arRecibo->getEstadoAutorizado()) {
-//            $arReciboTipo = $em->getRepository(CarReciboTipo::class)->find($arRecibo->getCodigoReciboTipoFk());
-//            if ($arRecibo->getNumero() == 0 || $arRecibo->getNumero() == NULL) {
-//                $arRecibo->setNumero($arReciboTipo->getConsecutivo());
-//                $arReciboTipo->setConsecutivo($arReciboTipo->getConsecutivo() + 1);
-//                $em->persist($arReciboTipo);
-//            }
-//            $arRecibo->setFecha(new \DateTime('now'));
-//            $arRecibo->setEstadoAprobado(1);
-//            $em->persist($arRecibo);
-//            $em->flush();
-//        }
-//    }
+
+    /**
+     * @param $arEgreso ComEgreso
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function aprobar($arEgreso)
+    {
+        $em = $this->getEntityManager();
+        if ($arEgreso->getEstadoAutorizado()) {
+            $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arEgreso->getCodigoDocumentoFk(), $arEgreso->getCodigoEmpresaFk());
+            $arEgreso->setNumero($consecutivo);
+            $arEgreso->setEstadoAprobado(1);
+            $em->persist($arEgreso);
+            $em->flush();
+        } else {
+            Mensajes::error("El registro no se encuentra autorizado");
+        }
+    }
 }

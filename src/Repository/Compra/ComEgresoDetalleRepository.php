@@ -2,6 +2,7 @@
 
 namespace App\Repository\Compra;
 
+use App\Entity\Compra\ComEgreso;
 use App\Entity\Compra\ComEgresoDetalle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -31,45 +32,44 @@ class ComEgresoDetalleRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 //
-//    /**
-//     * @param $arrControles
-//     * @param $form
-//     * @param $arRecibos CarRecibo
-//     * @throws \Doctrine\ORM\NoResultException
-//     * @throws \Doctrine\ORM\NonUniqueResultException
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     */
-//    public function actualizarDetalles($arrControles, $form, $arRecibos)
-//    {
-//        $em = $this->getEntityManager();
-//        if ($this->getEntityManager()->getRepository(CarRecibo::class)->contarDetalles($arRecibos->getCodigoReciboPk()) > 0) {
-//            $arrCodigo = $arrControles['arrCodigo'];
-//
-//            foreach ($arrCodigo as $codigoReciboDetalle) {
-//                $arReciboDetalle = $this->getEntityManager()->getRepository(CarReciboDetalle::class)->find($codigoReciboDetalle);
-////                $arReciboDetalle->setCodigoReciboFk($arReciboDetalle->getCodigoReciboPk());
-//                $arReciboDetalle->setCodigoCuentaCobrarFk($arReciboDetalle->getCodigoCuentaCobrarFk());
-//                $arReciboDetalle->setCodigoCuentaCobrarTipoFk($arReciboDetalle->getCodigoCuentaCobrarTipoFk());
-//                $arReciboDetalle->setNumeroFactura($arReciboDetalle->getNumeroFactura());
-//                $arReciboDetalle->setVrPago($arReciboDetalle->getVrPago());
-//                $arReciboDetalle->setVrPagoAfectar($arReciboDetalle->getVrPagoAfectar());
-//                $arReciboDetalle->setUsuario($arReciboDetalle->getUsuario());
-//                $arReciboDetalle->setOperacion($arReciboDetalle->getOperacion());
-//                $em->persist($arReciboDetalle);
-//                $em->flush();
-//            }
-//            $em->getRepository(CarRecibo::class)->liquidar($arRecibos);
-//            $this->getEntityManager()->flush();
-//        }
-//    }
-//
-//    /**
-//     * @param $arRecibo
-//     * @param $arrSeleccionados
-//     * @throws \Doctrine\ORM\ORMException
-//     * @throws \Doctrine\ORM\OptimisticLockException
-//     */
+    /**
+     * @param $arrControles
+     * @param $form
+     * @param $arEgresos ComEgreso
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function actualizarDetalles($arrControles, $form, $arEgresos)
+    {
+        $em = $this->getEntityManager();
+        if ($this->getEntityManager()->getRepository(ComEgreso::class)->contarDetalles($arEgresos->getCodigoEgresoPk()) > 0) {
+            $arrCodigo = $arrControles['arrCodigo'];
+
+            foreach ($arrCodigo as $codigoEgresoDetalle) {
+                $arEgresoDetalle = $this->getEntityManager()->getRepository(ComEgresoDetalle::class)->find($codigoEgresoDetalle);
+                $arEgresoDetalle->setCodigoCuentaPagarFk($arEgresoDetalle->getCodigoCuentaPagarFk());
+                $arEgresoDetalle->setCodigoCuentaPagarTipoFk($arEgresoDetalle->getCodigoCuentaPagarTipoFk());
+                $arEgresoDetalle->setNumeroCompra($arEgresoDetalle->getNumeroCompra());
+                $arEgresoDetalle->setVrPago($arEgresoDetalle->getVrPago());
+                $arEgresoDetalle->setVrPagoAfectar($arEgresoDetalle->getVrPagoAfectar());
+                $arEgresoDetalle->setUsuario($arEgresoDetalle->getUsuario());
+                $arEgresoDetalle->setOperacion($arEgresoDetalle->getOperacion());
+                $em->persist($arEgresoDetalle);
+                $em->flush();
+            }
+            $em->getRepository(ComEgreso::class)->liquidar($arEgresos);
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    /**
+     * @param $arRecibo
+     * @param $arrSeleccionados
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function eliminar($arEgreso, $arrSeleccionados)
     {
         $em = $this->getEntityManager();
@@ -82,5 +82,26 @@ class ComEgresoDetalleRepository extends ServiceEntityRepository
             }
             $em->flush();
         }
+    }
+
+    public function listaFormato($codigoEgreso)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(ComEgresoDetalle::class, 'ed');
+        $queryBuilder
+            ->select('ed.codigoEgresoDetallePk')
+            ->addSelect('tr.nombreCorto AS clienteNombreCorto')
+            ->addSelect('cpt.nombre AS cuentaPagarTipo')
+            ->addSelect('ed.numeroCompra')
+            ->addSelect('cp.fecha')
+            ->addSelect('ed.vrPagoAfectar')
+            ->leftJoin('ed.egresoRel', 'e')
+            ->leftJoin('e.terceroRel', 'tr')
+            ->leftJoin('ed.cuentaPagarRel', 'cp')
+            ->leftJoin('ed.cuentaPagarTipoRel', 'cpt')
+            ->where('ed.codigoEgresoFk = ' . $codigoEgreso);
+        $queryBuilder->orderBy('ed.codigoEgresoDetallePk', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult() ;
     }
 }

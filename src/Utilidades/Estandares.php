@@ -95,10 +95,10 @@ final class Estandares
      * @param null $codigoCalidadFormato
      * @throws \Exception
      */
-    public static function generarEncabezado($pdf, $titulo = ' ', $em, $codigoCalidadFormato = null)
+    public static function generarEncabezado($pdf, $titulo = ' ', $em, $codigoCalidadFormato = null, $codigoEmpresa)
     {
         /** @var  $arEmpresa Empresa */
-        $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(1);
+        $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find($codigoEmpresa);
 
 
         $pdf->SetFont('Arial', '', 5);

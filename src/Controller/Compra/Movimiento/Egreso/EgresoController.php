@@ -13,6 +13,7 @@ use App\Entity\General\GenDocumento;
 use App\Entity\General\GenTercero;
 use App\Form\Type\Cartera\ReciboType;
 use App\Form\Type\Compra\EgresoType;
+use App\Formatos\Egreso;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -146,22 +147,26 @@ class EgresoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $arrControles = $request->request->all();
             $arrDetallesSeleccionados = $request->request->get('ChkSeleccionar');
-//            if ($form->get('btnActualizar')->isClicked()) {
-//                $em->getRepository(CarReciboDetalle::class)->actualizarDetalles($arrControles, $form, $arEgreso);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
-//            if ($form->get('btnAutorizar')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->autorizar($arEgreso);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
-//            if ($form->get('btnDesautorizar')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->desautorizar($arEgreso);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
-//            if ($form->get('btnAprobado')->isClicked()) {
-//                $em->getRepository(CarRecibo::class)->aprobar($arEgreso);
-//                return $this->redirect($this->generateUrl('recibo_detalle', ['id' => $id]));
-//            }
+            if ($form->get('btnActualizar')->isClicked()) {
+                $em->getRepository(ComEgresoDetalle::class)->actualizarDetalles($arrControles, $form, $arEgreso);
+                return $this->redirect($this->generateUrl('egreso_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnAutorizar')->isClicked()) {
+                $em->getRepository(ComEgreso::class)->autorizar($arEgreso);
+                return $this->redirect($this->generateUrl('egreso_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnDesautorizar')->isClicked()) {
+                $em->getRepository(ComEgreso::class)->desautorizar($arEgreso);
+                return $this->redirect($this->generateUrl('egreso_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnAprobado')->isClicked()) {
+                $em->getRepository(ComEgreso::class)->aprobar($arEgreso);
+                return $this->redirect($this->generateUrl('egreso_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnImprimir')->isClicked()) {
+                $objFormato = new Egreso();
+                $objFormato->Generar($em, $arEgreso->getCodigoEgresoPk(), $arEgreso->getCodigoEmpresaFk());
+            }
             if ($form->get('btnEliminar')->isClicked()) {
                 $em->getRepository(ComEgresoDetalle::class)->eliminar($arEgreso, $arrDetallesSeleccionados);
                 $em->getRepository(ComEgreso::class)->liquidar($arEgreso);

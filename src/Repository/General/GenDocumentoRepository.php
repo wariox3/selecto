@@ -14,6 +14,12 @@ class GenDocumentoRepository extends ServiceEntityRepository
         parent::__construct($registry, GenDocumento::class);
     }
 
+    /**
+     * @param $codigoDocumento
+     * @param $codigoEmpresa
+     * @return int
+     * @throws \Doctrine\ORM\ORMException
+     */
     public function generarConsecutivo($codigoDocumento, $codigoEmpresa)
     {
         $em = $this->getEntityManager();
