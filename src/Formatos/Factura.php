@@ -55,7 +55,7 @@ class Factura extends \FPDF
 
         $this->SetFont('Arial', '', 5);
         $date = new \DateTime('now');
-        $this->Text(170, 10, $date->format('Y-m-d H:i:s') . ' [Cromo | Inventario]');
+        $this->Text(170, 10, $date->format('Y-m-d H:i:s') . ' [Selecto | Inventario]');
 
         $this->SetFont('Arial', 'B', 12);
         $this->SetXY(140, 26);
