@@ -45,6 +45,24 @@ class RhuProgramacionRepository extends ServiceEntityRepository
             ->leftJoin('p.pagoTipoRel', 'pt')
             ->where("p.codigoEmpresaFk = {$codigoEmpresa}");
 
+        if ($session->get('filtroRhuProgramacionCodigo') != '') {
+            $queryBuilder->andWhere("p.codigoProgramacionPk = '{$session->get('filtroRhuProgramacionCodigo')}'");
+        }
+        if ($session->get('filtroRhuProgramacionNombre') != '') {
+            $queryBuilder->andWhere("p.nombre LIKE '%{$session->get('filtroRhuProgramacionNombre')}%'");
+        }
+        if ($session->get('filtroRhuProgramacionFechaDesde') != null) {
+            $queryBuilder->andWhere("p.fechaDesde >= '{$session->get('filtroRhuProgramacionFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroRhuProgramacionFechaHasta') != null) {
+            $queryBuilder->andWhere("p.fecha <= '{$session->get('filtroRhuProgramacionFechaHasta')} 23:59:59'");
+        }
+        if ($session->get('filtroRhuProgramacionGrupo') != '') {
+            $queryBuilder->andWhere("g.nombre = '{$session->get('filtroRhuProgramacionGrupo')}'");
+        }
+        if ($session->get('filtroRhuProgramaciontipo') != '') {
+            $queryBuilder->andWhere("pt.nombre = '{$session->get('filtroRhuProgramaciontipo')}'");
+        }
         return $queryBuilder;
     }
 
