@@ -107,7 +107,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         if ($arMovimiento->getEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
-            $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arMovimiento->getCodigoDocumentoFk(), $arMovimiento->getCodigoEmpresaFk());
+            $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk(), $arMovimiento->getCodigoEmpresaFk());
             $arMovimiento->setNumero($consecutivo);
 
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
@@ -127,6 +127,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arCuentaCobrar->setCodigoEmpresaFk($arMovimiento->getCodigoEmpresaFk());
                 $arCuentaCobrar->setVrSaldoOperado($arCuentaCobrar->getVrSaldo() * $arCuentaCobrar->getOperacion());
                 $arCuentaCobrar->setEstadoAutorizado(1);
+                $arCuentaCobrar->setEstadoAprobado(1);
                 $em->persist($arCuentaCobrar);
             }
             if ($arMovimiento->getDocumentoRel()->getGeneraTesoreria()) {
@@ -146,10 +147,10 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arCuentaPagar->setCodigoEmpresaFk($arMovimiento->getCodigoEmpresaFk());
                 $arCuentaPagar->setVrSaldoOperado($arCuentaPagar->getVrSaldo() * $arCuentaPagar->getOperacion());
                 $arCuentaPagar->setEstadoAutorizado(1);
+                $arCuentaPagar->setEstadoAprobado(1);
                 $em->persist($arCuentaPagar);
             }
             $em->persist($arMovimiento);
-            $em->flush();
         } else {
             Mensajes::error('El registro se encuentra anulado');
         }

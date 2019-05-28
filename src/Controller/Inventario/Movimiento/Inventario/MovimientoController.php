@@ -162,6 +162,7 @@ class MovimientoController extends Controller
             }
             if ($form->get('btnAprobado')->isClicked()) {
                 $em->getRepository(InvMovimiento::class)->aprobar($arMovimiento);
+                $em->flush();
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnAutorizar')->isClicked()) {

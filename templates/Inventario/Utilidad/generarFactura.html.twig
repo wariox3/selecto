@@ -37,7 +37,12 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Identificacion</th>
                                  <th>Cliente</th>
+                                 <th>Referencia</th>
+                                 <th>Subtotal</th>
+                                 <th>Iva</th>
+                                 <th>Total</th>
                                  <th title="Autorizado">Aut</th>
                                  <th title="Aprobado">Apr</th>
                                  <th title="Anulado">Anu</th>
@@ -49,7 +54,12 @@
                              {% for contrato in arContratos %}
                                  <tr>
                                      <td>{{ contrato.codigoContratoPk }}</td>
+                                     <td>{{ contrato.clienteIdentificacion }}</td>
                                      <td>{{ contrato.clienteNombre }}</td>
+                                     <td>{{ contrato.referencia }}</td>
+                                     <td class="numero">{{ contrato.vrSubtotal | number_format(0, '.', ',') }}</td>
+                                     <td class="numero">{{ contrato.vrIva | number_format(0, '.', ',') }}</td>
+                                     <td class="numero">{{ contrato.vrTotalNeto | number_format(0, '.', ',') }}</td>
                                      <td>{{ contrato.estadoAutorizado ? 'SI':'NO' }}</td>
                                      <td>{{ contrato.estadoAprobado ? 'SI':'NO' }}</td>
                                      <td>{{ contrato.estadoAnulado ? 'SI':'NO' }}</td>
