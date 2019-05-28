@@ -35,7 +35,7 @@ class RhuEntidad
     private $direccion;
 
     /**
-     * @ORM\Column(name="telefono", type="string", length=15, nullable=true)
+     * @ORM\Column(name="telefono", type="string", length=80, nullable=true)
      */
     private $telefono;
 
