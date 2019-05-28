@@ -25,7 +25,7 @@ class RhuEntidad
     private $nombre;
 
     /**
-     * @ORM\Column(name="nit", type="string", length=10, nullable=true)
+     * @ORM\Column(name="nit", type="string", length=80, nullable=true)
      */
     private $nit;
 
