@@ -79,7 +79,6 @@ class EmpleadoController extends Controller
                 $arEmpleadoBuscar = $em->getRepository(RhuEmpleado::class)->findOneBy(
                     ['codigoIdentificacionFk' => $arEmpleado->getIdentificacionRel()->getCodigoIdentificacionPk(),
                         'numeroIdentificacion' => $arEmpleado->getNumeroIdentificacion()]);
-                //dd($arEmpleadoBuscar);
                 if (is_null($arEmpleadoBuscar) || $id != 0) {
                     $arEmpleado = $form->getData();
                     $arEmpleado->setCodigoEmpresaFk($empresa);

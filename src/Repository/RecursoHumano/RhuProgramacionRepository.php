@@ -16,8 +16,10 @@ use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use App\Entity\RecursoHumano\RhuVacacion;
 use App\Entity\Seguridad\Usuario;
 use App\Utilidades\Mensajes;
+use function Complex\add;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 class RhuProgramacionRepository extends ServiceEntityRepository
@@ -25,6 +27,25 @@ class RhuProgramacionRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, RhuProgramacion::class);
+    }
+
+    public function lista($codigoEmpresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuProgramacion::class, 'p')
+            ->select('p.codigoProgramacionPk')
+            ->addSelect('g.nombre as grupoNombre')
+            ->addSelect('p.nombre')
+            ->addSelect('pt.nombre as pagoTipo')
+            ->addSelect('p.fechaDesde')
+            ->addSelect('p.fechaHasta')
+            ->addSelect('p.dias')
+            ->addSelect('p.cantidad')
+            ->leftJoin('p.grupoRel', 'g')
+            ->leftJoin('p.pagoTipoRel', 'pt')
+            ->where("p.codigoEmpresaFk = {$codigoEmpresa}");
+
+        return $queryBuilder;
     }
 
     /**

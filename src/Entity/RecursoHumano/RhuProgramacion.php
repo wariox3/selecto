@@ -105,6 +105,11 @@ class RhuProgramacion
     private $usuario;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="RhuGrupo", inversedBy="programacionesGrupoRel")
      * @ORM\JoinColumn(name="codigo_grupo_fk",referencedColumnName="codigo_grupo_pk")
      */
@@ -477,4 +482,22 @@ class RhuProgramacion
     {
         $this->pagosProgramacionRel = $pagosProgramacionRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+
 }
