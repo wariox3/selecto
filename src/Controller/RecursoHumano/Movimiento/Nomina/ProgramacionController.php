@@ -21,15 +21,16 @@ class ProgramacionController extends Controller
     /**
      * @Route("/recursoHumano/movimiento/nomina/programacion/lista", name="recursoHumano_programacion_lista")
      */
-    public function lista(Request $request){
+    public function lista(Request $request)
+    {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('codigo', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuProgramacionCodigoProgramacion')])
             ->add('nombre', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuProgramacionNombreProgramacion')])
-            ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ',  'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInvInformeAsesorVentasFechaDesde') ? date_create($session->get('filtroInvInformeAsesorVentasFechaDesde')): null])
-            ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false,  'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInvInformeAsesorVentasFechaHasta') ? date_create($session->get('filtroInvInformeAsesorVentasFechaHasta')): null])
+            ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInvInformeAsesorVentasFechaDesde') ? date_create($session->get('filtroInvInformeAsesorVentasFechaDesde')) : null])
+            ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInvInformeAsesorVentasFechaHasta') ? date_create($session->get('filtroInvInformeAsesorVentasFechaHasta')) : null])
             ->add('Grupo', EntityType::class, $em->getRepository(RhuGrupo::class)->llenarCombo())
             ->add('tipo', EntityType::class, $em->getRepository(RhuPagoTipo::class)->llenarCombo())
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
@@ -41,16 +42,16 @@ class ProgramacionController extends Controller
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroRhuProgramacionCodigo', $form->get('codigo')->getData());
                 $session->set('filtroRhuProgramacionNombre', $form->get('nombre')->getData());
-                $session->set('filtroRhuProgramacionFechaDesde',  $form->get('fechaDesde')->getData() ?$form->get('fechaDesde')->getData()->format('Y-m-d'): null);
-                $session->set('filtroRhuProgramacionFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d'): null);
+                $session->set('filtroRhuProgramacionFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
+                $session->set('filtroRhuProgramacionFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
                 $arGrupo = $form->get('Grupo')->getData();
                 $arTipo = $form->get('tipo')->getData();
-                if($arGrupo) {
+                if ($arGrupo) {
                     $session->set('filtroRhuProgramacionGrupo', $arGrupo->getNombre());
                 } else {
                     $session->set('filtroRhuProgramacionGrupo', null);
                 }
-                if($arTipo) {
+                if ($arTipo) {
                     $session->set('filtroRhuProgramaciontipo', $arTipo->getNombre());
                 } else {
                     $session->set('filtroRhuProgramaciontipo', null);
@@ -73,7 +74,8 @@ class ProgramacionController extends Controller
     /**
      * @Route("/recursoHumano/movimiento/nomina/programacion/nuevo/{id}", name="recursoHumano_programacion_nuevo")
      */
-    public function nuevo(Request $request, $id){
+    public function nuevo(Request $request, $id)
+    {
         $em = $this->getDoctrine()->getManager();
         $arProgramacion = $this->getUser()->getCodigoEmpresaFk();
         $arProgramacion = new RhuProgramacion();
@@ -102,11 +104,15 @@ class ProgramacionController extends Controller
     /**
      * @Route("/recursoHumano/movimiento/nomina/programacion/detalle/{id}", name="recursoHumano_programacion_detalle")
      */
-    public function detalle(Request $request, $id){
+    public function detalle(Request $request, $id)
+    {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $arProgramacion = $em->getRepository(RhuProgramacion::class)->find($id);
-        $form = $this->createFormBuilder()->getForm();
+        $form = $this->createFormBuilder()
+            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
+            ->add('btnCargarContratos', SubmitType::class, ['label' => 'Cargar contratos', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
@@ -117,4 +123,5 @@ class ProgramacionController extends Controller
             'arProgramacion' => $arProgramacion,
         ]);
     }
+
 }

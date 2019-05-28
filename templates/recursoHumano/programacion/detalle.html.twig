@@ -5,6 +5,14 @@
         <div class="btn-group">
             <a class="btn btn-default btn-sm" href="{{ path('recursoHumano_programacion_lista') }}">Volver</a>
         </div>
+        <div class="btn-group">
+            <button type="submit" id="form_btnAutorizar" name="form[btnAutorizar]" class="btn btn-sm btn-default btn">Autorizar</button>
+            <button type="submit" id="form_btnDesautorizar" name="form[btnDesautorizar]" disabled="disabled" class="btn btn-sm btn-default btn">Desautorizar</button>
+            <button type="submit" id="form_btnImprimir" name="form[btnImprimir]" class="btn btn-sm btn-default btn">Imprimir</button>
+            <button type="submit" id="form_btnAprobar" name="form[btnAprobar]" disabled="disabled" class="btn btn-sm btn-default btn">Aprobar</button>
+            <button type="submit" id="form_btnAnular" name="form[btnAnular]" disabled="disabled" class="btn btn-default btn-sm btn" onclick="return confirm(&quot;Esta seguro de anular el registro?&quot;)">Anular</button>
+            <button type="submit" id="form_btnImprimirResumen" name="form[btnImprimirResumen]" disabled="disabled" class="btn btn-sm btn-default btn">Resumen</button>
+        </div>
     </div>
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
@@ -65,6 +73,63 @@
             <td class="td-in-well">{{  arProgramacion.dias }}</td>
         </tr>
     </table>
+    <br>
+    <div class="col-mg-12">
+        <div class="tabs tabs-primary">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#popular1" data-toggle="tab"><i class="fa fa-star"></i>Detalle</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="popular1" class="tab-pane active">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>COD</td>
+                                    <td>DOC</td>
+                                    <td>NOMBRE</td>
+                                    <td>CONT</td>
+                                    <td>DESDE</td>
+                                    <td>HASTA</td>
+                                    <td>SALARIO</td>
+                                    <td>D</td>
+                                    <td>N</td>
+                                    <td>FD</td>
+                                    <td>ED</td>
+                                    <td>EN</td>
+                                    <td>EFD</td>
+                                    <td>EFN</td>
+                                    <td>RN</td>
+                                    <td>RFD</td>
+                                    <td>RFN</td>
+                                    <td>VR. NETO</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-9 col-sm-offset-3 ">
+                                <div class="btn-group pull-right">
+                                    {{ form_widget(form.btnCargarContratos) }}
+                                    {{ form_widget(form.btnEliminar) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     {{ form_end(form) }}
 {% endblock %}
 

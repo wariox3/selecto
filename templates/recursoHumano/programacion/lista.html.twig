@@ -84,10 +84,10 @@
                                      <td>{{ arProgramacion.dias }}</td>
                                      <td>{{ arProgramacion.cantidad }}</td>
                                      <td align="center">
-                                         <a href="{{  path('RecursoHumano_programacion_nuevo', { 'id': arProgramacion.codigoProgramacionPk }) }}"
+                                         <a href="{{  path('recursoHumano_programacion_nuevo', { 'id': arProgramacion.codigoProgramacionPk }) }}"
                                             title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
                                      <td align="center">
-                                         <a href="{{  path('RecursoHumano_programacion_detalle', { 'id': arProgramacion.codigoProgramacionPk }) }}"
+                                         <a href="{{  path('recursoHumano_programacion_detalle', { 'id': arProgramacion.codigoProgramacionPk }) }}"
                                             title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                      <td class="text-center">
                                          <input type="checkbox" name="ChkSeleccionar[]"
@@ -108,7 +108,7 @@
                              <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                   aria-label="...">
                                  <a class="btn btn-sm btn-default"
-                                    href="{{  path('RecursoHumano_programacion_nuevo',{'id':0}) }}">Nuevo</a>
+                                    href="{{  path('recursoHumano_programacion_nuevo',{'id':0}) }}">Nuevo</a>
                                  {{ form_widget(form.btnEliminar) }}
                              </div>
 
