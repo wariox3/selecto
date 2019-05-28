@@ -9,18 +9,18 @@ class GenFormPago extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $arFormaPago = $manager->getRepository(\App\Entity\General\GenFormaPago::class)->find(1);
+        $arFormaPago = $manager->getRepository(\App\Entity\General\GenFormaPago::class)->find('CON');
         if(!$arFormaPago){
             $arFormaPago = new \App\Entity\General\GenFormaPago();
-            $arFormaPago->setCodigoFormaPagoPk(1);
-            $arFormaPago->setNombre('CREDITO');
+            $arFormaPago->setCodigoFormaPagoPk('CON');
+            $arFormaPago->setNombre('CONTADO');
             $manager->persist($arFormaPago);
         }
-        $arFormaPago = $manager->getRepository(\App\Entity\General\GenFormaPago::class)->find(2);
+        $arFormaPago = $manager->getRepository(\App\Entity\General\GenFormaPago::class)->find('CRE');
         if(!$arFormaPago){
             $arFormaPago = new \App\Entity\General\GenFormaPago();
-            $arFormaPago->setCodigoFormaPagoPk(2);
-            $arFormaPago->setNombre('CONTADO');
+            $arFormaPago->setCodigoFormaPagoPk('CRE');
+            $arFormaPago->setNombre('CREDITO');
             $manager->persist($arFormaPago);
         }
 
