@@ -79,7 +79,7 @@ class Factura extends \FPDF
         $this->SetXY(140, 38);
         $this->Cell(35, 4, 'FORMA PAGO:', 0, 0, 'L', 0);
         $this->SetFont('Arial', '', 8);
-        $this->Cell(25, 4, $arMovimiento->getTerceroRel()->getFormaPagoRel()->getNombre(), 0, 0, 'R', 0);
+        $this->Cell(25, 4, $arMovimiento->getFormaPagoRel()->getNombre(), 0, 0, 'R', 0);
         //
         $this->SetFont('Arial', 'B', 8);
         $this->SetXY(140, 42);
