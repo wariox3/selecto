@@ -32,7 +32,7 @@ class GenTercero
     private $codigoCiudadFk;
 
     /**
-     * @ORM\Column(name="codigo_forma_pago_fk", type="integer", nullable=true)
+     * @ORM\Column(name="codigo_forma_pago_fk", type="string", length=3, nullable=true)
      */
     private $codigoFormaPagoFk;
 
@@ -113,7 +113,7 @@ class GenTercero
     protected $ciudadRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenFormaPago", inversedBy="formaPagoTerceroRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenFormaPago", inversedBy="tercerosFormaPagoRel")
      * @ORM\JoinColumn(name="codigo_forma_pago_fk", referencedColumnName="codigo_forma_pago_pk")
      */
     protected $formaPagoRel;
@@ -551,6 +551,22 @@ class GenTercero
     /**
      * @return mixed
      */
+    public function getEgresosTerceroRel()
+    {
+        return $this->egresosTerceroRel;
+    }
+
+    /**
+     * @param mixed $egresosTerceroRel
+     */
+    public function setEgresosTerceroRel($egresosTerceroRel): void
+    {
+        $this->egresosTerceroRel = $egresosTerceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCuentaPagarRel()
     {
         return $this->cuentaPagarRel;
@@ -564,21 +580,7 @@ class GenTercero
         $this->cuentaPagarRel = $cuentaPagarRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEgresosTerceroRel()
-    {
-        return $this->egresosTerceroRel;
-    }
 
-    /**
-     * @param mixed $egresosTerceroRel
-     */
-    public function setEgresosTerceroRel($egresosTerceroRel): void
-    {
-        $this->egresosTerceroRel = $egresosTerceroRel;
-    }
 
 
 

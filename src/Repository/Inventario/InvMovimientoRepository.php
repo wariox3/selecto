@@ -2,6 +2,7 @@
 
 namespace App\Repository\Inventario;
 
+use App\Controller\Estructura\FuncionesController;
 use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Compra\ComCuentaPagar;
@@ -109,7 +110,12 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $arMovimiento->setEstadoAprobado(1);
             $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk(), $arMovimiento->getCodigoEmpresaFk());
             $arMovimiento->setNumero($consecutivo);
-
+            $arMovimiento->setFecha(new \DateTime('now'));
+            if($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC') {
+                $objFunciones = new FuncionesController();
+                $fecha = new \DateTime('now');
+                $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
+            }
             if ($arMovimiento->getDocumentoRel()->getGeneraCartera()) {
                 $arCuentaCobrarTipo = $em->getRepository(CarCuentaCobrarTipo::class)->find($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk());
                 $arCuentaCobrar = New CarCuentaCobrar();
