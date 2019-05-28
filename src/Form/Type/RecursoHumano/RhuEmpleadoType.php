@@ -4,6 +4,7 @@
 namespace App\Form\Type\RecursoHumano;
 
 
+use App\Entity\General\GenBanco;
 use App\Entity\General\GenCiudad;
 use App\Entity\General\GenEstadoCivil;
 use App\Entity\General\GenIdentificacion;
@@ -56,10 +57,10 @@ class RhuEmpleadoType extends AbstractType
                 'choice_label' => 'nombre',
             ])
             ->add('bancoRel', EntityType::class, [
-                'class' => RhuBanco::class,
+                'class' => GenBanco::class,
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('i')
-                        ->orderBy('i.nombre', 'ASC');
+                    return $er->createQueryBuilder('b')
+                        ->orderBy('b.codigoBancoPk', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'label' => 'Banco:',

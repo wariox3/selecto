@@ -46,6 +46,11 @@ class GenBanco
     protected $cuentasBancoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="bancoRel")
+     */
+    protected $empleadosBancoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoBancoPk()
@@ -75,22 +80,6 @@ class GenBanco
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumeroDigitos()
-    {
-        return $this->numeroDigitos;
-    }
-
-    /**
-     * @param mixed $numeroDigitos
-     */
-    public function setNumeroDigitos($numeroDigitos): void
-    {
-        $this->numeroDigitos = $numeroDigitos;
     }
 
     /**
@@ -171,6 +160,22 @@ class GenBanco
     public function setCuentasBancoRel($cuentasBancoRel): void
     {
         $this->cuentasBancoRel = $cuentasBancoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpleadosBancoRel()
+    {
+        return $this->empleadosBancoRel;
+    }
+
+    /**
+     * @param mixed $empleadosBancoRel
+     */
+    public function setEmpleadosBancoRel($empleadosBancoRel): void
+    {
+        $this->empleadosBancoRel = $empleadosBancoRel;
     }
 
 

@@ -59,6 +59,7 @@
                                  <th title="Aplica para prima">Pri</th>
                                  <th title="Inactivo">Ina</th>
                                  <th></th>
+                                 <th></th>
                                  <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
                                             OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                              </tr>
@@ -75,6 +76,7 @@
                                      <td>{{ arAdicional.detalle }}</td>
                                      <td class="numero">{{ arAdicional.vrValor | number_format }}</td>
                                      <td align="center">{% if arAdicional.permanente == true %}{{ 'SI' }}{% else %}{{ 'NO' }}{% endif %}</td>
+                                     <td align="center">{% if arAdicional.aplicaNomina == true %}{{ 'SI' }}{% else %}{{ 'NO' }}{% endif %}</td>
                                      <td align="center">{% if arAdicional.aplicaPrima == true %}{{ 'SI' }}{% else %}{{ 'NO' }}{% endif %}</td>
                                      <td align="center">{% if arAdicional.estadoInactivo == true %}{{ 'SI' }}{% else %}{{ 'NO' }}{% endif %}</td>
                                      <td align="center">
