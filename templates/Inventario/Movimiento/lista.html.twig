@@ -53,6 +53,9 @@
                                  <th>Id</th>
                                  <th>Fecha</th>
                                  <th>Tercero</th>
+                                 <th>Subtotal</th>
+                                 <th>Iva</th>
+                                 <th>Neto</th>
                                  <th title="Autorizado">Aut</th>
                                  <th title="Aprobado">Apr</th>
                                  <th title="Anulado">Anu</th>
@@ -68,6 +71,9 @@
                                      <td>{{ movimiento.codigoMovimientoPk }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
                                      <td>{{ movimiento.tercero }}</td>
+                                     <td class="numero">{{ movimiento.vrSubtotal | number_format }}</td>
+                                     <td class="numero">{{ movimiento.vrIva | number_format }}</td>
+                                     <td class="numero">{{ movimiento.vrTotalNeto | number_format }}</td>
                                      <td>{{ movimiento.estadoAutorizado ? 'SI':'NO' }}</td>
                                      <td>{{ movimiento.estadoAprobado ? 'SI':'NO' }}</td>
                                      <td>{{ movimiento.estadoAnulado ? 'SI':'NO' }}</td>
