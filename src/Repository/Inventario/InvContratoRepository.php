@@ -58,6 +58,10 @@ class InvContratoRepository extends ServiceEntityRepository
             ->addSelect('c.fecha')
             ->addSelect('c.referencia')
             ->addSelect('ct.nombreCorto AS clienteNombre')
+            ->addSelect('ct.numeroIdentificacion AS clienteIdentificacion')
+            ->addSelect('c.vrSubtotal')
+            ->addSelect('c.vrIva')
+            ->addSelect('c.vrTotalNeto')
             ->addSelect('c.estadoAutorizado')
             ->addSelect('c.estadoAprobado')
             ->addSelect('c.estadoAnulado')
@@ -72,12 +76,20 @@ class InvContratoRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $queryBuilder = $em->createQueryBuilder()->from(InvContrato::class, 'c')
             ->select('c.codigoContratoPk')
-            ->setMaxResults(5);
+            ->where("c.codigoEmpresaFk = ${codigoEmpresa}")
+            ->andWhere("c.estadoAprobado=1");
         $arContratos = $queryBuilder->getQuery()->getResult();
         foreach ($arContratos as $arContrato) {
             $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContratoDetalle::class, 'cd')
                 ->select('cd.codigoContratoDetallePk')
-                ->addSelect('cd.codigoItemFk');
+                ->addSelect('cd.codigoItemFk')
+                ->addSelect('cd.cantidad')
+                ->addSelect('cd.porcentajeIva')
+                ->addSelect('cd.vrPrecio')
+                ->addSelect('cd.vrIva')
+                ->addSelect('cd.vrSubtotal')
+                ->addSelect('cd.vrTotal')
+            ->where('cd.codigoContratoFk = ' . $arContrato['codigoContratoPk']);
             $arContratoDetalles = $queryBuilder->getQuery()->getResult();
             if($arContratoDetalles) {
                 /** @var $arContrato InvContrato */
@@ -92,14 +104,24 @@ class InvContratoRepository extends ServiceEntityRepository
                 $arFactura->setVrTotalBruto($arContrato->getVrTotalBruto());
                 $arFactura->setVrTotalNeto($arContrato->getVrTotalNeto());
                 $arFactura->setVrIva($arContrato->getVrIva());
+                $arFactura->setEstadoAutorizado(1);
                 $em->persist($arFactura);
+                /** @var $arContratoDetalle InvContratoDetalle */
                 foreach ($arContratoDetalles as $arContratoDetalle) {
                     $arItem = $em->getRepository(InvItem::class)->find($arContratoDetalle['codigoItemFk']);
                     $arFacturaDetalle = new InvMovimientoDetalle();
                     $arFacturaDetalle->setItemRel($arItem);
                     $arFacturaDetalle->setMovimientoRel($arFactura);
+                    $arFacturaDetalle->setCodigoEmpresaFk($codigoEmpresa);
+                    $arFacturaDetalle->setCantidad($arContratoDetalle['cantidad']);
+                    $arFacturaDetalle->setPorcentajeIva($arContratoDetalle['porcentajeIva']);
+                    $arFacturaDetalle->setVrPrecio($arContratoDetalle['vrPrecio']);
+                    $arFacturaDetalle->setVrIva($arContratoDetalle['vrIva']);
+                    $arFacturaDetalle->setVrSubtotal($arContratoDetalle['vrSubtotal']);
+                    $arFacturaDetalle->setVrTotal($arContratoDetalle['vrTotal']);
                     $em->persist($arFacturaDetalle);
                 }
+                $em->getRepository(InvMovimiento::class)->aprobar($arFactura);
             }
         }
         $em->flush();
