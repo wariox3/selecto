@@ -287,6 +287,11 @@ class RhuEmpleado
     protected $contratosEmpleadoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuAdicional", mappedBy="empleadoRel")
+     */
+    protected $adicionalesEmpleadoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpleadoPk()

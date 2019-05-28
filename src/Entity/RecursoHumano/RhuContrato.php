@@ -302,6 +302,11 @@ class RhuContrato
     protected $pagosContratoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuAdicional", mappedBy="contratoRel")
+     */
+    protected $adicionalesContratoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoContratoPk()
@@ -1196,6 +1201,7 @@ class RhuContrato
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
+
 
 
 }

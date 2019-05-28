@@ -73,4 +73,26 @@ class RhuEmpleadoRepository extends ServiceEntityRepository
         $queryBuilder->orderBy('C.codigoContratoPk', 'DESC');
         return $queryBuilder;
     }
+
+    public function llenarCombo($empresa)
+    {
+        $session = new Session();
+        $array = [
+            'class' => RhuEmpleado::class,
+            'query_builder' => function (EntityRepository $er) use ($empresa) {
+                return $er->createQueryBuilder('e')
+                    ->orderBy('e.nombreCorto', 'ASC')
+                    ->where('e.codigoEmpresaFk = ' . $empresa);
+            },
+            'choice_label' => 'nombreCorto',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "TODOS",
+            'data' => ""
+        ];
+        if ($session->get('filtroEmpleado')) {
+            $array['data'] = $this->getEntityManager()->getReference(RhuEmpleado::class, $session->get('filtroEmpleado'));
+        }
+        return $array;
+    }
 }
