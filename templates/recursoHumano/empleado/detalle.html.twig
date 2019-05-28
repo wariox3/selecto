@@ -3,7 +3,7 @@
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
-            <a class="btn btn-default btn-sm" href="{{ path('RecursoHumano_empleado_lista') }}">Volver</a>
+            <a class="btn btn-default btn-sm" href="{{ path('recursoHumano_empleado_lista') }}">Volver</a>
         </div>
     </div>
     <br><br>
@@ -41,12 +41,6 @@
         <tr>
             <td class="titulo">ESTADO CONTRATO</td>
             <td class="td-in-well">{{ arEmpleado.estadoContrato }}</td>
-            <td class="titulo">CARRO</td>
-            <td class="td-in-well">{{ arEmpleado.carro ?"si":"no" }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">CABEZA DE HOGAR</td>
-            <td class="td-in-well">{{ arEmpleado.cabezaHogar?"si":"no" }}</td>
             <td class="titulo">NOMBRE CORTO</td>
             <td class="td-in-well">{{ arEmpleado.nombreCorto}}</td>
         </tr>
@@ -83,8 +77,6 @@
         <tr>
             <td class="titulo">TIPO DE RH</td>
             <td class="td-in-well">{{ arEmpleado.rhRel.nombre }}</td>
-            <td class="titulo">PESO</td>
-            <td class="td-in-well">{{ arEmpleado.peso }}</td>
         </tr>
         <tr>
             <td class="titulo">ESTADO CIVIL</td>
@@ -93,8 +85,6 @@
             <td class="td-in-well">{{ arEmpleado.celular }}</td>
         </tr>
         <tr>
-            <td class="titulo">TIPO DE CUENTA</td>
-            <td class="td-in-well">{{ arEmpleado.cuetaTipo }}</td>
             <td class="titulo">NÚMERO DE CUENTA</td>
             <td class="td-in-well">{{ arEmpleado.cuenta }}</td>
         </tr>
@@ -103,22 +93,6 @@
             <td class="td-in-well">{{ arEmpleado.bancoRel.nombre }}</td>
             <td class="titulo">CARGO</td>
             <td class="td-in-well">{{ arEmpleado.cargoRel.nombre }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">TALLA CAMISA</td>
-            <td class="td-in-well">{{ arEmpleado.tallaCamisa }}</td>
-            <td class="titulo">TALLA PANTALON</td>
-            <td class="td-in-well">{{ arEmpleado.tallaPantalon }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">TALLA CALZADO</td>
-            <td class="td-in-well">{{ arEmpleado.tallaCalzado }}</td>
-            <td class="titulo">ESTATURA</td>
-            <td class="td-in-well">{{ arEmpleado.estatura }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">DISCAPACIDAD</td>
-            <td class="td-in-well">{{ arEmpleado.discapacidad ?"si":"no" }}</td>
         </tr>
     </table>
     <br>
@@ -167,12 +141,12 @@
                                         <td>{{ arContratos.vrSalario }}</td>
                                         <td>{{ arContratos.estadoTerminado? "Terminado" : "Actual"}}</td>
                                         <td class="text-center">
-                                            <a href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id':arContratos.codigoContratoPk, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'Editar contrato', 800, 1200)">
+                                            <a href="javascript:abrirVentana3('{{ path('recursoHumano_empleado_contrato_nuevo', {'id':arContratos.codigoContratoPk, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'Editar contrato', 800, 1200)">
                                                 <i class="fa fa-edit" style="color: black;font-size: large;"></i>
                                             </a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ path('RecursoHumano_contrato_detalle', {'id':arContratos.codigoContratoPk}) }}" target="_blank">
+                                            <a href="{{ path('recursoHumano_contrato_detalle', {'id':arContratos.codigoContratoPk}) }}" target="_blank">
                                                 <i class="fa fa-share-square-o" style="font-size: large;color: black;"></i>
                                             </a>
                                         </td>
@@ -189,7 +163,7 @@
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-sm-9 col-sm-offset-3 ">
-                                <a class="btn btn-sm btn-default pull-right" href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id': 0, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'Nuevo contrato', 800, 1200)">Nuevo</a>
+                                <a class="btn btn-sm btn-default pull-right" href="javascript:abrirVentana3('{{ path('recursoHumano_empleado_contrato_nuevo', {'id': 0, 'codigoEmpleado':  arEmpleado.codigoEmpleadoPk}) }}', 'Nuevo contrato', 800, 1200)">Nuevo</a>
                             </div>
                         </div>
                     </div>

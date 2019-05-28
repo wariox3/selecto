@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\RecursoHumano;
+namespace App\Controller\RecursoHumano\Administracion;
 
 
 use App\Entity\General\GenCiudad;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EmpleadoController extends Controller
 {
     /**
-     * @Route("/recursoHumano/administracion/empleado/lista", name="RecursoHumano_empleado_lista")
+     * @Route("/recursoHumano/administracion/empleado/lista", name="recursoHumano_empleado_lista")
      */
     public function lista(Request $request)
     {
@@ -48,7 +48,7 @@ class EmpleadoController extends Controller
             if ($form->get('btnEliminar')->isClicked()) {
                 $arRhuEmpleado = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(RhuEmpleado::class, $arRhuEmpleado);
-                return $this->redirect($this->generateUrl('RecursoHumano_empleado_lista'));
+                return $this->redirect($this->generateUrl('recursoHumano_empleado_lista'));
             }
         }
         $empresa = $this->getUser()->getCodigoEmpresaFk();
@@ -60,7 +60,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/RecursoHumano/administracion/empleado/nuevo/{id}", name="RecursoHumano_empleado_nuevo")
+     * @Route("/recursoHumano/administracion/empleado/nuevo/{id}", name="recursoHumano_empleado_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -82,9 +82,10 @@ class EmpleadoController extends Controller
                 if (is_null($arEmpleadoBuscar) || $id != 0) {
                     $arEmpleado = $form->getData();
                     $arEmpleado->setCodigoEmpresaFk($empresa);
+                    $arEmpleado->setNombreCorto("{$form->get('nombre1')->getData()} {$form->get('nombre2')->getData()} {$form->get('apellido1')->getData()} {$form->get('apellido2')->getData()}");
                     $em->persist($arEmpleado);
                     $em->flush();
-                    return $this->redirect($this->generateUrl('RecursoHumano_empleado_detalle', ['id' => $arEmpleado->getCodigoEmpleadoPk()]));
+                    return $this->redirect($this->generateUrl('recursoHumano_empleado_detalle', ['id' => $arEmpleado->getCodigoEmpleadoPk()]));
                 } else {
                     Mensajes::error('Ya existe un empleado con la identificación ingresada.');
                 }
@@ -98,7 +99,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/RecursoHumano/administracion/empleado/detalle/{id}", name="RecursoHumano_empleado_detalle")
+     * @Route("/recursoHumano/administracion/empleado/detalle/{id}", name="recursoHumano_empleado_detalle")
      */
     public function detalle(Request $request, $id)
     {
@@ -108,7 +109,7 @@ class EmpleadoController extends Controller
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirect($this->generateUrl('RecursoHumano_detalle', ['id' => $id]));
+            return $this->redirect($this->generateUrl('recursoHumano_detalle', ['id' => $id]));
         }
         $empresa = $this->getUser()->getCodigoEmpresaFk();
 
@@ -122,7 +123,7 @@ class EmpleadoController extends Controller
     }
 
     /**
-     * @Route("/RecursoHumano/administracion/empleado/nuevo/{id}/{codigoEmpleado}", name="RecursoHumano_empleado_contrato_nuevo")
+     * @Route("/recursoHumano/administracion/empleado/nuevo/{id}/{codigoEmpleado}", name="recursoHumano_empleado_contrato_nuevo")
      */
     public function nuevoContrato(Request $request, $id, $codigoEmpleado)
     {

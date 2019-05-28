@@ -65,7 +65,6 @@ class RhuEmpleadoType extends AbstractType
                 'label' => 'Banco:',
                 'required' => true
             ])
-            ->add('nombreCorto', TextType::class, array('required' => true))
             ->add('nombre1', TextType::class, array('required' => true))
             ->add('nombre2', TextType::class, array('required' => false))
             ->add('apellido1', TextType::class, array('required' => true))
@@ -90,8 +89,6 @@ class RhuEmpleadoType extends AbstractType
                 'choice_label' => 'nombre',
                 'label' => 'Estado civil:'
             ])
-            ->add('estatura', NumberType::class, ['required' => false, 'label' => 'Estatura:'])
-            ->add('peso', NumberType::class, ['required' => false, 'label' => 'Peso:'])
             ->add('correo', EmailType::class, ['required' => false, 'label' => 'Correo:'])
             ->add('rhRel', EntityType::class, [
                 'required' => true,
@@ -122,23 +119,13 @@ class RhuEmpleadoType extends AbstractType
                 },
                 'choice_label' => 'nombre',
             ])
-
             ->add('telefono', NumberType::class, ['required' => false, 'label' => 'Telefono:'])
             ->add('numeroIdentificacion', NumberType::class, ['required' => true, 'label' => 'numero identificacion:'])
             ->add('celular', NumberType::class, ['required' => false, 'label' => 'Celular:'])
             ->add('direccion', TextType::class, ['required' => false, 'label' => 'Direccion:'])
-            ->add('tallaCamisa', TextType::class, ['required' => false, 'label' => ''])
-            ->add('tallaPantalon', TextType::class, ['required' => false, 'label' => ''])
-            ->add('tallaCalzado', TextType::class, ['required' => false, 'label' => ''])
             ->add('codigoCuentaTipoFk', ChoiceType::class, array('choices' => array('AHORRO' => 'S', 'CORRIENTE' => 'D', 'DAVIPLATA' => 'DP')))
             ->add('fechaExpedicionIdentificacion', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
-            ->add('barrio', TextType::class, ['required' => false, 'label' => 'Barrio:'])
             ->add('cuenta', TextType::class, ['required' => false, 'label' => 'Cuenta:'])
-            ->add('discapacidad', CheckboxType::class, ['required' => false, 'label' => 'Discapacidad'])
-            ->add('carro', CheckboxType::class, ['required' => false, 'label' => 'Carro'])
-            ->add('moto', CheckboxType::class, ['required' => false, 'label' => 'Moto'])
-            ->add('padreFamilia', CheckboxType::class, ['required' => false, 'label' => 'Padre familia'])
-            ->add('cabezaHogar', CheckboxType::class, ['required' => false, 'label' => 'Cabeza hogar'])
             ->add('guardar', SubmitType::class, ['attr' => ['class' => 'btn btn-sm btn-primary']]);
     }
 }

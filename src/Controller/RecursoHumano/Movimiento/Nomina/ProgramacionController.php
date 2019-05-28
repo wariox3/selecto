@@ -111,6 +111,12 @@ class ProgramacionController extends Controller
         $arProgramacion = $em->getRepository(RhuProgramacion::class)->find($id);
         $form = $this->createFormBuilder()
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
+            ->add('btnAutorizar', SubmitType::class, ['label' => 'Autorizar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnDesautorizar', SubmitType::class, ['label' => 'Autorizar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnImprimir', SubmitType::class, ['label' => 'Imprimir', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnAprobar', SubmitType::class, ['label' => 'Aprobar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnAnular', SubmitType::class, ['label' => 'Anular', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnImprimirResumen', SubmitType::class, ['label' => 'Imprimir resumen', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnCargarContratos', SubmitType::class, ['label' => 'Cargar contratos', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);

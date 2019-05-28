@@ -70,10 +70,10 @@
                                      <td>{{ arEmpleado.correo }}</td>
                                      <td>{{ arEmpleado.fechaNacimiento| date('Y-m-d') }}</td>
                                      <td align="center">
-                                         <a href="{{  path('RecursoHumano_empleado_nuevo', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
+                                         <a href="{{  path('recursoHumano_empleado_nuevo', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
                                             title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
                                      <td align="center">
-                                         <a href="{{  path('RecursoHumano_empleado_detalle', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
+                                         <a href="{{  path('recursoHumano_empleado_detalle', { 'id': arEmpleado.codigoEmpleadoPk }) }}"
                                                  title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                      <td class="text-center">
                                          <input type="checkbox" name="ChkSeleccionar[]"
@@ -94,7 +94,7 @@
                              <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                   aria-label="...">
                                  <a class="btn btn-sm btn-default"
-                                    href="{{  path('RecursoHumano_empleado_nuevo',{'id':0}) }}">Nuevo</a>
+                                    href="{{  path('recursoHumano_empleado_nuevo',{'id':0}) }}">Nuevo</a>
                                  {{ form_widget(form.btnEliminar) }}
                              </div>
 

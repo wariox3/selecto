@@ -50,25 +50,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-
-                        <label class="col-md-1 control-label" for="rhu_empleado_nombreCorto">nombre Corto:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.nombreCorto) }}
-                        </div>
                         <label class="col-md-1 control-label">Estado civil:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.estadoCivilRel) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono">Estatura:</label>
-                        <div class="col-md-2">
-                            {{ form_widget(form.estatura) }}
-                        </div>
-                        <label class="col-md-1 control-label" for="_telefono">Peso:</label>
-                        <div class="col-md-2">
-                            {{ form_widget(form.peso) }}
-                        </div>
                         <label class="col-md-1 control-label">correo:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.correo) }}
@@ -99,10 +86,6 @@
                         <div class="col-md-5">
                             {{ form_widget(form.ciudadRel) }}
                         </div>
-                        <label  class="col-md-1 control-label" for="form_barrio">Barrio:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.barrio, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-1 control-label" for="form_direccion">Dirección:</label>
@@ -122,39 +105,6 @@
                         <label  class="col-md-1 control-label" for="form_celular">Celular:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.celular, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-1 control-label" for="form_tallaCamisa">Talla camisa:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.tallaCamisa, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                        <label  class="col-md-1 control-label" for="form_tallaPantalon">Talla pantalón:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.tallaPantalon, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label  class="col-md-1 control-label" for="form_tallaCalzado">Talla calzado:</label>
-                        <div class="col-md-5">
-                            {{ form_widget(form.tallaCalzado, { 'attr': {'class': 'form-control'} }) }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-1 col-md-2">
-                            {{ form_widget(form.discapacidad) }}
-                        </div>
-                        <div class=" col-sm-2">
-                            {{ form_widget(form.carro) }}
-                        </div>
-                        <div class=" col-sm-2">
-                            {{ form_widget(form.moto) }}
-                        </div>
-                        <div class=" col-sm-2">
-                            {{ form_widget(form.padreFamilia) }}
-                        </div>
-                        <div class="col-sm-2">
-                            {{ form_widget(form.cabezaHogar) }}
                         </div>
                     </div>
                 </div>
@@ -182,7 +132,7 @@
                 <footer class="panel-footer">
                     <div class="row">
                         <div class="col-sm-6">
-                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('RecursoHumano_empleado_lista') }}">Cancelar</a>
+                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('recursoHumano_empleado_lista') }}">Cancelar</a>
                         </div>
                         <div class="col-sm-6">
                             {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}

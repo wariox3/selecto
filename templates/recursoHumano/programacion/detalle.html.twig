@@ -6,12 +6,12 @@
             <a class="btn btn-default btn-sm" href="{{ path('recursoHumano_programacion_lista') }}">Volver</a>
         </div>
         <div class="btn-group">
-            <button type="submit" id="form_btnAutorizar" name="form[btnAutorizar]" class="btn btn-sm btn-default btn">Autorizar</button>
-            <button type="submit" id="form_btnDesautorizar" name="form[btnDesautorizar]" disabled="disabled" class="btn btn-sm btn-default btn">Desautorizar</button>
-            <button type="submit" id="form_btnImprimir" name="form[btnImprimir]" class="btn btn-sm btn-default btn">Imprimir</button>
-            <button type="submit" id="form_btnAprobar" name="form[btnAprobar]" disabled="disabled" class="btn btn-sm btn-default btn">Aprobar</button>
-            <button type="submit" id="form_btnAnular" name="form[btnAnular]" disabled="disabled" class="btn btn-default btn-sm btn" onclick="return confirm(&quot;Esta seguro de anular el registro?&quot;)">Anular</button>
-            <button type="submit" id="form_btnImprimirResumen" name="form[btnImprimirResumen]" disabled="disabled" class="btn btn-sm btn-default btn">Resumen</button>
+            {{ form_widget(form.btnAutorizar) }}
+            {{ form_widget(form.btnDesautorizar) }}
+            {{ form_widget(form.btnImprimir) }}
+            {{ form_widget(form.btnAprobar) }}
+            {{ form_widget(form.btnAnular) }}
+            {{ form_widget(form.btnImprimirResumen) }}
         </div>
     </div>
     <br><br>
