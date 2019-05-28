@@ -37,6 +37,7 @@ class GenerarFacturaController extends Controller
         $form = $this->createFormBuilder()
             ->add('cboTerceroRel', EntityType::class, $em->getRepository(GenTercero::class)->llenarCombo($this->getUser()->getCodigoEmpresaFk()))
             ->add('btnGenerarTodo', SubmitType::class, ['label' => 'Generar todo', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnGenerarSeleccionados', SubmitType::class, ['label' => 'Generar seleccionados', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -50,8 +51,14 @@ class GenerarFacturaController extends Controller
                 }
             }
             if ($form->get('btnGenerarTodo')->isClicked()) {
-                $em->getRepository(InvContrato::class)->generarFactura($this->getUser()->getCodigoEmpresaFk());
+                $em->getRepository(InvContrato::class)->generarFacturaTodos($this->getUser()->getCodigoEmpresaFk());
             }
+            if ($form->get('btnGenerarSeleccionados')->isClicked()) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository(InvContrato::class)->generarFacturaSeleccionados($this->getUser()->getCodigoEmpresaFk(), $arrSeleccionados);
+            }
+
+
         }
         $arContratos = $paginator->paginate($em->getRepository(InvContrato::class)->listaGenerarFactura($this->getUser()->getCodigoEmpresaFk()), $request->query->getInt('page', 1), 100);
         return $this->render('Inventario/Utilidad/generarFactura.html.twig', [

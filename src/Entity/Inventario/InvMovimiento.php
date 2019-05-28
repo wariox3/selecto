@@ -38,6 +38,11 @@ class InvMovimiento
     private $plazoPago = 0;
 
     /**
+     * @ORM\Column(name="codigo_forma_pago_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoFormaPagoFk;
+
+    /**
      * @ORM\Column(name="codigo_tercero_fk", type="integer", nullable=true)
      */
     private $codigoTerceroFk;
@@ -98,6 +103,12 @@ class InvMovimiento
      * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
      */
     protected $documentoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenFormaPago", inversedBy="movimientosFormaPagoRel")
+     * @ORM\JoinColumn(name="codigo_forma_pago_fk", referencedColumnName="codigo_forma_pago_pk")
+     */
+    protected $formaPagoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="movimientoRel")
@@ -182,6 +193,22 @@ class InvMovimiento
     public function setPlazoPago($plazoPago): void
     {
         $this->plazoPago = $plazoPago;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoFormaPagoFk()
+    {
+        return $this->codigoFormaPagoFk;
+    }
+
+    /**
+     * @param mixed $codigoFormaPagoFk
+     */
+    public function setCodigoFormaPagoFk($codigoFormaPagoFk): void
+    {
+        $this->codigoFormaPagoFk = $codigoFormaPagoFk;
     }
 
     /**
@@ -374,6 +401,22 @@ class InvMovimiento
     public function setDocumentoRel($documentoRel): void
     {
         $this->documentoRel = $documentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormaPagoRel()
+    {
+        return $this->formaPagoRel;
+    }
+
+    /**
+     * @param mixed $formaPagoRel
+     */
+    public function setFormaPagoRel($formaPagoRel): void
+    {
+        $this->formaPagoRel = $formaPagoRel;
     }
 
     /**

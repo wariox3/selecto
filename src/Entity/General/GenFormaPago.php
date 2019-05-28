@@ -11,8 +11,7 @@ class GenFormaPago
 {
     /**
      * @ORM\Id
-     * @ORM\Column(name="codigo_forma_pago_pk", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="codigo_forma_pago_pk", type="string", length=3)
      */
     private $codigoFormaPagoPk;
 
@@ -24,7 +23,12 @@ class GenFormaPago
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\General\GenTercero", mappedBy="formaPagoRel")
      */
-    private $formaPagoTerceroRel;
+    private $tercerosFormaPagoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="formaPagoRel")
+     */
+    private $movimientosFormaPagoRel;
 
     /**
      * @return mixed
@@ -61,18 +65,35 @@ class GenFormaPago
     /**
      * @return mixed
      */
-    public function getFormaPagoTerceroRel()
+    public function getTercerosFormaPagoRel()
     {
-        return $this->formaPagoTerceroRel;
+        return $this->tercerosFormaPagoRel;
     }
 
     /**
-     * @param mixed $formaPagoTerceroRel
+     * @param mixed $tercerosFormaPagoRel
      */
-    public function setFormaPagoTerceroRel($formaPagoTerceroRel): void
+    public function setTercerosFormaPagoRel($tercerosFormaPagoRel): void
     {
-        $this->formaPagoTerceroRel = $formaPagoTerceroRel;
+        $this->tercerosFormaPagoRel = $tercerosFormaPagoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosFormaPagoRel()
+    {
+        return $this->movimientosFormaPagoRel;
+    }
+
+    /**
+     * @param mixed $movimientosFormaPagoRel
+     */
+    public function setMovimientosFormaPagoRel($movimientosFormaPagoRel): void
+    {
+        $this->movimientosFormaPagoRel = $movimientosFormaPagoRel;
+    }
+
 
 
 }
