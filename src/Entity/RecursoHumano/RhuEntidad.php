@@ -30,16 +30,6 @@ class RhuEntidad
     private $nit;
 
     /**
-     * @ORM\Column(name="direccion", type="string", length=80, nullable=true)
-     */
-    private $direccion;
-
-    /**
-     * @ORM\Column(name="telefono", type="string", length=80, nullable=true)
-     */
-    private $telefono;
-
-    /**
      * @ORM\Column(name="eps", type="boolean", nullable=true,options={"default":false})
      */
     private $eps = false;
