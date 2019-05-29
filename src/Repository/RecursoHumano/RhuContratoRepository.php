@@ -38,7 +38,7 @@ class RhuContratoRepository extends ServiceEntityRepository
             ->leftJoin('c.contratoTipoRel' , 'Tipo')
             ->leftJoin('c.grupoRel' , 'Grupo')
             ->leftJoin('c.cargoRel' , 'Cargo')
-            ->where("c.empleadoRel = {$codigoEmpresa}");
+            ->where("c.codigoEmpresaFk = {$codigoEmpresa}");
         $queryBuilder->orderBy('c.codigoContratoPk', 'DESC');
 
         if ($session->get('filtroRhuContratoCodigoContato') != '') {

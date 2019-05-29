@@ -3,7 +3,7 @@
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
-            <a class="btn btn-default btn-sm" href="{{ path('RecursoHumano_contrato_lista') }}">Volver</a>
+            <a class="btn btn-default btn-sm" href="{{ path('recursoHumano_contrato_lista') }}">Volver</a>
         </div>
     </div>
     <br><br>
@@ -18,13 +18,13 @@
             <td class="titulo">NÚMERO</td>
             <td class="td-in-well">{{ arContrato.numero }}</td>
             <td class="titulo">GRUPO</td>
-            <td class="td-in-well">{{  arContrato.grupoRel.nombre }}</td>
+            <td class="td-in-well">{{  arContrato.grupoRel.nombre | default('') }}</td>
         </tr>
         <tr>
             <td class="titulo">ClASIFICACIÓN RIESGO</td>
-            <td class="td-in-well">{{ arContrato.clasificacionRiesgoRel.nombre }}</td>
+            <td class="td-in-well">{{ arContrato.clasificacionRiesgoRel.nombre | default ('') }}</td>
             <td class="titulo">PORCENTAJE DEL RIESGO</td>
-            <td class="td-in-well">{{ arContrato.clasificacionRiesgoRel.porcentaje }}</td>
+            <td class="td-in-well">{{ arContrato.clasificacionRiesgoRel.porcentaje | default('') }}</td>
         </tr>
         <tr>
             <td class="titulo">CARGO</td>
@@ -88,7 +88,7 @@
         </tr>
         <tr>
             <td class="titulo">SUCURSAL</td>
-            <td class="td-in-well">{{ arContrato.sucursalRel.nombre }}</td>
+            <td class="td-in-well">{{ arContrato.sucursalRel.nombre | default ('') }}</td>
             <td class="titulo">CIUDAD CONTRATO</td>
             <td class="td-in-well">{{ arContrato.auxilioTransporte ?"si":"no" }}</td>
         </tr>
@@ -100,9 +100,9 @@
         </tr>
         <tr>
             <td class="titulo">ENTIDAD PENSIÓN</td>
-            <td class="td-in-well">{{ arContrato.entidadPensionRel.nombre }}</td>
+            <td class="td-in-well">{{ arContrato.entidadPensionRel.nombre | default('') }}</td>
             <td class="titulo">GRUPO</td>
-            <td class="td-in-well">{{ arContrato.grupoRel.nombre }}</td>
+            <td class="td-in-well">{{ arContrato.grupoRel.nombre | default('') }}</td>
         </tr>
     </table>
     {{ form_end(form) }}

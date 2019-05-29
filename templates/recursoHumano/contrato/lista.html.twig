@@ -80,11 +80,11 @@
                                      <td>{{  arRhuContrato.fechaDesde | date('Y-m-d')}}</td>
                                      <td>{{  arRhuContrato.fechaHasta | date('Y-m-d') }}</td>
                                      <td align="center">
-                                         <a href="javascript:abrirVentana3('{{ path('RecursoHumano_empleado_contrato_nuevo', {'id':arRhuContrato.codigoContratoPk, 'codigoEmpleado':  arRhuContrato.codigoEmpleadoFk}) }}', 'Editar contrato', 800, 1200)">
+                                         <a href="javascript:abrirVentana3('{{ path('recursoHumano_empleado_contrato_nuevo', {'id':arRhuContrato.codigoContratoPk, 'codigoEmpleado':  arRhuContrato.codigoEmpleadoFk}) }}', 'Editar contrato', 800, 1200)">
                                              <i class="fa fa-edit fa-lg" ></i>
                                          </a>
                                      <td align="center">
-                                         <a href="{{   path('RecursoHumano_contrato_detalle', { 'id': arRhuContrato.codigoContratoPk }) }}"
+                                         <a href="{{   path('recursoHumano_contrato_detalle', { 'id': arRhuContrato.codigoContratoPk }) }}"
                                                  title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                  </tr>
                              {% endfor %}
