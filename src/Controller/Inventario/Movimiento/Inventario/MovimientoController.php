@@ -93,9 +93,6 @@ class MovimientoController extends Controller
             if ($form->get('guardar')->isClicked()) {
                 if ($id == 0) {
                     $arMovimiento->setFecha(new \DateTime('now'));
-                    if ($arMovimiento->getFormaPagoRel() == 'CON' AND $arMovimiento->getPlazoPago() == 0) {
-                        $arMovimiento->setPlazoPago($arMovimiento->getTerceroRel()->getPlazoPago());
-                    }
                 }
                 $fecha = new \DateTime('now');
                 $arMovimiento = $form->getData();
