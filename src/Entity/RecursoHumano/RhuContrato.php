@@ -23,7 +23,6 @@ class RhuContrato
      */
     private $codigoContratoTipoFk;
 
-
     /**
      * @ORM\Column(name="codigo_clasificacion_riesgo_fk", type="string", length=10, nullable=true)
      */

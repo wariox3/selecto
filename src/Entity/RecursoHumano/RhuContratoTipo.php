@@ -38,11 +38,11 @@ class RhuContratoTipo
      */
     protected $contratosContratoTipoRel;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="RhuContratoClase", inversedBy="contratosTiposContratoClaseRel")
-//     * @ORM\JoinColumn(name="codigo_contrato_clase_fk", referencedColumnName="codigo_contrato_clase_pk")
-//     */
-//    protected $contratoClaseRel;
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuContratoClase", inversedBy="contratosTiposContratoClaseRel")
+     * @ORM\JoinColumn(name="codigo_contrato_clase_fk", referencedColumnName="codigo_contrato_clase_pk")
+     */
+    protected $contratoClaseRel;
 
     /**
      * @return mixed
@@ -95,22 +95,6 @@ class RhuContratoTipo
     /**
      * @return mixed
      */
-    public function getContratosContratoTipoRel()
-    {
-        return $this->contratosContratoTipoRel;
-    }
-
-    /**
-     * @param mixed $contratosContratoTipoRel
-     */
-    public function setContratosContratoTipoRel($contratosContratoTipoRel): void
-    {
-        $this->contratosContratoTipoRel = $contratosContratoTipoRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getOrden()
     {
         return $this->orden;
@@ -122,6 +106,22 @@ class RhuContratoTipo
     public function setOrden($orden): void
     {
         $this->orden = $orden;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosContratoTipoRel()
+    {
+        return $this->contratosContratoTipoRel;
+    }
+
+    /**
+     * @param mixed $contratosContratoTipoRel
+     */
+    public function setContratosContratoTipoRel($contratosContratoTipoRel): void
+    {
+        $this->contratosContratoTipoRel = $contratosContratoTipoRel;
     }
 
     /**
@@ -139,4 +139,6 @@ class RhuContratoTipo
     {
         $this->contratoClaseRel = $contratoClaseRel;
     }
+
+
 }
