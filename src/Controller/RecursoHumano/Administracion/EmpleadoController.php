@@ -129,7 +129,7 @@ class EmpleadoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $empresa = $this->getUser()->getCodigoEmpresaFk();
-        $editarContrato= false;
+        $editarContrato = false;
         $arContrato = new RhuContrato();
         $arrContratosEmpleado = $em->getRepository(RhuContrato::class)->findBy(['codigoEmpleadoFk' => $codigoEmpleado, 'estadoTerminado' => 0]);
         if ($id != 0) {

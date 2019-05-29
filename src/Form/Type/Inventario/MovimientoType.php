@@ -4,6 +4,7 @@
 namespace App\Form\Type\Inventario;
 
 
+use App\Entity\General\GenFormaPago;
 use App\Entity\General\GenTercero;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -27,6 +28,15 @@ class MovimientoType extends AbstractType
                         ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+            ])
+            ->add('formaPagoRel', EntityType::class, [
+                'required' => true,
+                'class' => GenFormaPago::class,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('fp')
+                        ->orderBy('fp.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
             ])
             ->add('plazoPago', TextType::class, array('required' => true))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

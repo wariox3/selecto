@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller\RecursoHumano;
+namespace App\Controller\RecursoHumano\Administracion;
 
 
 use App\Entity\RecursoHumano\RhuContrato;

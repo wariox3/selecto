@@ -92,9 +92,8 @@ class MovimientoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 if ($id == 0) {
-                    $arMovimiento->setFormaPagoRel($arMovimiento->getTerceroRel()->getFormaPago());
                     $arMovimiento->setFecha(new \DateTime('now'));
-                    if ($arMovimiento->getPlazoPago() == 0) {
+                    if ($arMovimiento->getFormaPagoRel() == 'CON' AND $arMovimiento->getPlazoPago() == 0) {
                         $arMovimiento->setPlazoPago($arMovimiento->getTerceroRel()->getPlazoPago());
                     }
                 }
@@ -187,7 +186,7 @@ class MovimientoController extends Controller
                     $objFormato = new Salida();
                     $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'FAC') {
-                    if($arrConfiguracionImpresion['formatoFactura'] == 1) {
+                    if ($arrConfiguracionImpresion['formatoFactura'] == 1) {
                         $objFormato = new Factura1();
                     } else {
                         $objFormato = new Factura();
