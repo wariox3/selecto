@@ -139,7 +139,7 @@ class RhuContratoType  extends AbstractType
                         ->orderBy('r.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => false
+                'required' => true
             ])
             ->add('entidadCesantiaRel', EntityType::class, [
                 'class' => RhuEntidad::class,
@@ -149,7 +149,7 @@ class RhuContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => false
+                'required' => true
             ])
             ->add('pensionRel', EntityType::class, [
                 'class' => RhuPension::class,
