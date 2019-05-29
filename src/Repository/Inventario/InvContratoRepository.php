@@ -120,6 +120,7 @@ class InvContratoRepository extends ServiceEntityRepository
             $arFactura->setTerceroRel($arContrato->getTerceroRel());
             $arFactura->setPlazoPago($arContrato->getTerceroRel()->getPlazoPago());
             $arFactura->setFormaPagoRel($arContrato->getTerceroRel()->getFormaPagoRel());
+            $arFactura->setReferencia($arContrato->getReferencia());
             $arFactura->setFecha(new \DateTime('now'));
             $arFactura->setVrSubtotal($arContrato->getVrSubtotal());
             $arFactura->setVrTotalBruto($arContrato->getVrTotalBruto());

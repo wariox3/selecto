@@ -43,6 +43,11 @@ class InvMovimiento
     private $codigoFormaPagoFk;
 
     /**
+     * @ORM\Column(name="referencia", type="string", length=100, nullable=true)
+     */
+    private $referencia;
+
+    /**
      * @ORM\Column(name="codigo_tercero_fk", type="integer", nullable=true)
      */
     private $codigoTerceroFk;
@@ -433,6 +438,22 @@ class InvMovimiento
     public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReferencia()
+    {
+        return $this->referencia;
+    }
+
+    /**
+     * @param mixed $referencia
+     */
+    public function setReferencia($referencia): void
+    {
+        $this->referencia = $referencia;
     }
 
 

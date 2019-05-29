@@ -4,6 +4,7 @@ namespace App\Controller\Inventario\Movimiento\Inventario;
 
 use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
+use App\Entity\General\GenConfiguracion;
 use App\Entity\General\GenDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
@@ -181,11 +182,16 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnImprimir')->isClicked()) {
+                $arrConfiguracionImpresion = $em->getRepository(GenConfiguracion::class)->formato($this->getUser()->getCodigoEmpresaFk());
                 if ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'SAL') {
                     $objFormato = new Salida();
                     $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'FAC') {
-                    $objFormato = new Factura();
+                    if($arrConfiguracionImpresion['formatoFactura'] == 1) {
+                        $objFormato = new Factura1();
+                    } else {
+                        $objFormato = new Factura();
+                    }
                     $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
                 } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'COM') {
                     $objFormato = new Compra();

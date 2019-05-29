@@ -30,7 +30,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
+            ->addSelect('m.numero')
             ->addSelect('m.fecha')
+            ->addSelect('m.referencia')
             ->addSelect('m.vrSubtotal')
             ->addSelect('m.vrIva')
             ->addSelect('m.vrTotalNeto')

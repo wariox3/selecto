@@ -51,7 +51,9 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Numero</th>
                                  <th>Fecha</th>
+                                 <th>Referencia</th>
                                  <th>Tercero</th>
                                  <th>Subtotal</th>
                                  <th>Iva</th>
@@ -69,7 +71,9 @@
                              {% for movimiento in arMovimientos %}
                                  <tr>
                                      <td>{{ movimiento.codigoMovimientoPk }}</td>
+                                     <td>{{ movimiento.numero }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
+                                     <td>{{ movimiento.referencia }}</td>
                                      <td>{{ movimiento.tercero }}</td>
                                      <td class="numero">{{ movimiento.vrSubtotal | number_format }}</td>
                                      <td class="numero">{{ movimiento.vrIva | number_format }}</td>
