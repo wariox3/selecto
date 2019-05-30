@@ -16,17 +16,19 @@ class Factura1 extends \FPDF
 
     public static $em;
     public static $codigoMovimiento;
+    public static $codigoEmpresa;
 
     /**
      * @param $em ObjectManager
      * @param $codigoMovimiento integer
      */
     public function
-    Generar($em, $codigoMovimiento)
+    Generar($em, $codigoMovimiento, $codigoEmpresa)
     {
 
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
+        self::$codigoEmpresa = $codigoEmpresa;
         /** @var  $arMovimiento Movimiento */
         $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
         ob_clean();
@@ -52,71 +54,57 @@ class Factura1 extends \FPDF
      */
     public function Header()
     {
+        /**
+         * @var $arMovimiento InvMovimiento
+         */
         $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
-        $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(1);
+        $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(self::$codigoEmpresa);
         $this->setDrawColor('227', '227', '227');
         $this->SetFillColor(277, 277, 277);
         $this->SetFont('Arial', 'B', 10);
-        //Logo
-//        $this->SetXY(10, 10);
-//        try {
-//            $this->Image('../public/assets/img/empresa/logo.jpg', 12, 13, 40, 25);
-//        } catch (\Exception $exception) {
-//        }
-        $this->SetXY(101, 8);
-        $this->SetFont('Arial', 'B', 9);
-        $this->Cell(100, 4, utf8_decode($arEmpresa ? $arEmpresa->getNombreCorto() : ''), 0, 0, 'L', 0);
-        $this->SetXY(93, 12);
-        $this->SetFont('Arial', '', 9);
-        $this->Cell(7, 4, "NIT:", 0, 0, 'L', 1);
-        $this->Cell(100, 4, $arEmpresa ? $arEmpresa->getNit() . '- ' . $arEmpresa->getDigitoVerificacion() : '', 0, 0, 'L', 0);
-        $this->SetXY(97, 16);
-        $this->Cell(100, 4, substr(utf8_decode($arEmpresa ? $arEmpresa->getDireccion() : ''), 0, 45), 0, 0, 'L', 0);
-        $this->SetXY(95, 20);
-        $this->Cell(100, 4, $arEmpresa ? $arEmpresa->getTelefono() : '', 0, 0, 'L', 0);
-        $this->SetXY(84, 24);
-        $this->Cell(20, 4, utf8_decode("TELÉFONO:"), 0, 0, 'L', 1);
-        $this->Cell(100, 4, $arEmpresa ? $arEmpresa->getTelefono() : '', 0, 0, 'L', 0);
+        $this->SetXY(10, 10);
+        try {
+            $this->Image('../public/assets/img/empresa/logo.jpg', 12, 13, 40, 25);
+        } catch (\Exception $exception) {
+        }
+        $this->SetXY(100, 10);
+        $this->SetFont('Arial', 'B', 8);
+        $this->Cell(10, 4, utf8_decode($arEmpresa ? $arEmpresa->getNombreCorto() : ''), 0, 0, 'C', 0);
+        $this->SetXY(100, 14);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(10, 4, $arEmpresa ? "NIT: ".  $arEmpresa->getNit() . '- ' . $arEmpresa->getDigitoVerificacion() : '', 0, 0, 'C', 0);
+        $this->SetXY(100, 18);
+        $this->Cell(10, 4, substr(utf8_decode($arEmpresa ? $arEmpresa->getDireccion() : ''), 0, 45), 0, 0, 'C', 0);
+        $this->SetXY(100, 22);
+        $this->Cell(10, 4, $arEmpresa ? "TELS: " . $arEmpresa->getTelefono() : '', 0, 0, 'C', 0);
 
 
 
-//        style="border-spacing:0px; border-color:#000
         $this->SetXY(150, 18);
         $this->SetFont('Arial', '', 8);
-//        $this->SetFillColor(200, 200, 200);
         $this->Cell(56,6,"CUENTA DE COBRO",'LTR',0,'C');
         $this->SetXY(150, 24);
         $this->SetFont('Arial', 'B', 8);
         $this->Cell(56,6,"No. ".$arMovimiento->getNumero(),'LBR',0,'C');
-//        $this->Cell(56, 4, $arMovimiento->getNumero(), 1, 0, 'C', 1);
-
-//        $this->Cell(56, 4, "NUMERO:", 1, 0, 'C', 1);
-//        $this->SetXY(150, 16);
-//        $this->SetFont('Arial', '', 8);
-//        $this->SetFillColor(272, 272, 272);
-
-
 
         //ENCABEZADO ORDEN DE COMPRA
         $intY = 40;
         $this->SetXY(8, $intY);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Numero:", 1, 0, 'L', 1);
+        $this->Cell(18, 5, "Inmueble:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(100, 5, $arMovimiento->getNumero(), 1, 0, 'L', 1);
+        $this->Cell(100, 5, $arEmpresa->getNombreCorto() . " - " . $arMovimiento->getReferencia() , 1, 0, 'L', 1);
 
 
         $this->SetXY(8, $intY + 5);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Fecha:", 1, 0, 'L', 1);
+        $this->Cell(18, 5, "Propietario:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(100, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
-
-
+        $this->Cell(100, 5, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 0, 'L', 1);
 
         $this->SetXY(8, $intY + 10);
         $this->SetFont('Arial', 'B', 7);
@@ -124,14 +112,14 @@ class Factura1 extends \FPDF
         $this->Cell(18, 5, "Nit:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(45, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
+        $this->Cell(45, 5, $arMovimiento->getTerceroRel()->getNumeroIdentificacion(), 1, 0, 'L', 1);
 
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Telefonos:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(37, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
+        $this->Cell(37, 5, $arMovimiento->getTerceroRel()->getTelefono(), 1, 0, 'L', 1);
 
 
         $this->SetXY(8, $intY + 15);
@@ -140,14 +128,14 @@ class Factura1 extends \FPDF
         $this->Cell(18, 5, "Direccion:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(45, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
+        $this->Cell(45, 5, $arMovimiento->getTerceroRel()->getDireccion(), 1, 0, 'L', 1);
 
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
         $this->Cell(18, 5, "Correo:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(37, 5, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
+        $this->Cell(37, 5, $arMovimiento->getTerceroRel()->getEmail(), 1, 0, 'L', 1);
 
 
 
@@ -164,56 +152,15 @@ class Factura1 extends \FPDF
         $this->SetXY(150, $intY + 9);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(28, 8, $arMovimiento->getNumero(), 1, 0, 'C', 1);
+        $this->Cell(28, 8, $arMovimiento->getFecha()->format('Y-m-d'), 1, 0, 'C', 1);
 
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(28, 8, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'C', 1);
-
-
-
-
-
-        //ENCABEZADO ORDEN DE COMPRA
-//        $intY = 70;
-////        $this->SetFillColor(272, 272, 272);
-//        $this->SetFillColor(200, 200, 200);
-//        $this->SetXY(10, $intY);
-//        $this->SetFont('Arial', 'B', 8);
-//        $this->Cell(40, 4, "NUMERO:", 1, 0, 'L', 1);
-//        $this->SetFont('Arial', '', 8);
-//        $this->SetFillColor(272, 272, 272);
-//        $this->Cell(55, 4, $arMovimiento->getNumero(), 1, 0, 'L', 1);
-//        $this->SetFont('Arial', 'B', 8);
-//        $this->SetFillColor(200, 200, 200);
-//        $this->Cell(40, 4, "FECHA:", 1, 0, 'L', 1);
-//        $this->SetFont('Arial', '', 7);
-//        $this->SetFillColor(272, 272, 272);
-//        $this->Cell(55, 4, $arMovimiento->getFecha()->format('Y/m/d'), 1, 0, 'L', 1);
-//
-//        $this->SetXY(10, $intY + 4);
-//        $this->SetFont('Arial', 'B', 8);
-//        $this->SetFillColor(200, 200, 200);
-//        $this->Cell(40, 4, "TERCERO:", 1, 0, 'L', 1);
-//        $this->SetFont('Arial', '', 8);
-//        $this->SetFillColor(272, 272, 272);
-//        $this->Cell(55, 4, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
-//        $this->SetFont('Arial', 'B', 8);
-//        $this->SetFillColor(200, 200, 200);
-//        $this->Cell(40, 4, '', 1, 0, 'L', 1);
-//        $this->SetFont('Arial', '', 7);
-//        $this->SetFillColor(272, 272, 272);
-//        $this->Cell(55, 4, '', 1, 'L', 1);
-
-
-
-
-
-
+        $this->Cell(28, 8, $arMovimiento->getFechaVence()->format('Y-m-d'), 1, 0, 'C', 1);
         $this->EncabezadoDetalles();
 
     }
-//
+
     public function EncabezadoDetalles()
     {
 //        $this->Ln(70);
@@ -286,7 +233,7 @@ class Factura1 extends \FPDF
 
 
     }
-//
+
     public function Footer()
     {
         /**
@@ -328,7 +275,7 @@ class Factura1 extends \FPDF
         $this->Cell(46, 6, 'Anticipos', 1, 0, 'L');
         $this->SetX($x);
         $this->SetFont('Arial', '', 7);
-        $this->Cell(35, 6, number_format($arMovimiento->getVrTotalBruto()), 1, 0, 'R');
+        $this->Cell(35, 6, number_format(0), 1, 0, 'R');
 
         $y += 6;
         $this->SetFont('Arial', '', 7);
@@ -375,29 +322,10 @@ class Factura1 extends \FPDF
         $this->SetFont('Arial', '', 7);
         $this->Cell(20, 3, "-.00", 0, 'R');
 
-//        $this->Line(202.3, 212, 18.7, 212);
-
-//        $this->Line(20, 239.2, 102.9, 239.2);
-//        $this->Line(120, 239, 200, 239);
-//        $this->SetFont('Arial', 'B', 6);
-//        $this->Text(50, 242, 'AUTORIZADO');
-//        $this->Text(152, 242, 'FIRMA DE RECIBIDO');
-//        $this->SetFont('Arial', 'B', 7.5);
-//
         $this->SetFont('Arial', 'B', 7);
         $this->Text(8.5, $y+12, 'Observaciones:');
-
-//        $this->SetFont('Arial', '', 5.5);
-//        $this->Text(20.5, 220, '* IVA REGIMEN COMUN');
-//        $this->Text(20.5, 222, '* NO SOMOS AUTORETENEDORES');
-//        $this->Text(20.5, 224, '* NO SOMOS GRANDES CONTRIBUYENTES');
-//        $this->Text(20.5, 226, '* CODIGO CIIU 4645 - CREE 0.3%');
-//        $this->Text(20.5, 228, '* LA PRESENTE FACTURA PRESENTA MERITO EJECUTIVO COMO TITULO VALOR');
-//        $this->Text(20.5, 230, ' SEGUN LO ESTABLECIDO EN EL ART.3 DE LA LEY 1231 DE 2008');
-//        $this->Text(20.5, 232, '* RESOLUCION DIAN DE AUTORIZACION PARA FACTURACION POR COMPUTADOR');
-//        $this->SetFont('Arial', '', 6.5);
         $this->SetFont('Arial', '', 7);
-        $this->Text(50, $y+26.5, 'CRA 90 CL 65C-10 APTO 1917 MEDELLIN - CEL 300 448 02 19 - E-MAIL: comercial@filtramed.com');
+        $this->Text(50, $y+26.5, '');
 
         //Marco
         $y+=28;
