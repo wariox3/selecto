@@ -20,7 +20,7 @@
             <td class="titulo">ID</td>
             <td class="td-in-well">{{ arProgramacion.codigoProgramacionPk }}</td>
             <td class="titulo">TIPO CONTRATO</td>
-            <td class="td-in-well">{{ arProgramacion.grupoRel.nombre }}</td>
+            <td class="td-in-well">{{ arProgramacion.grupoRel.nombre | default('') }}</td>
         </tr>
         <tr>
             <td class="titulo">FECHA DESDE</td>
@@ -44,7 +44,7 @@
             <td class="titulo">VALOR NETO</td>
             <td class="td-in-well">{{arProgramacion.vrNeto }}</td>
             <td class="titulo">GRUPO</td>
-            <td class="td-in-well">{{ arProgramacion.grupoRel.nombre }}</td>
+            <td class="td-in-well">{{ arProgramacion.grupoRel.nombre | default('') }}</td>
         </tr>
         <tr>
             <td class="titulo">FECHA PAGO</td>
