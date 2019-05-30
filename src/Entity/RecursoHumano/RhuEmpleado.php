@@ -58,35 +58,11 @@ class RhuEmpleado
      * @ORM\Column(name="numero_identificacion", type="string", length=20 ,nullable=false)
      */
     private $numeroIdentificacion;
-    /**
-     * @ORM\Column(name="discapacidad", type="boolean", nullable=false,options={"default":false})
-     */
-    private $discapacidad = false;
 
     /**
      * @ORM\Column(name="estado_contrato", type="boolean", nullable=false,options={"default":false})
      */
     private $estadoContrato = false;
-
-    /**
-     * @ORM\Column(name="carro", type="boolean",options={"default":false}, nullable=false)
-     */
-    private $carro = false;
-
-    /**
-     * @ORM\Column(name="moto", type="boolean",options={"default":false}, nullable=false)
-     */
-    private $moto = false;
-
-    /**
-     * @ORM\Column(name="padre_familia", type="boolean", nullable=false,options={"default":false})
-     */
-    private $padreFamilia = false;
-
-    /**
-     * @ORM\Column(name="cabeza_hogar", type="boolean", nullable=false,options={"default":false})
-     */
-    private $cabezaHogar = false;
 
     /**
      * @ORM\Column(name="nombre_corto", type="string", length=80, nullable=true)
@@ -146,11 +122,6 @@ class RhuEmpleado
     private $fechaExpedicionIdentificacion;
 
     /**
-     * @ORM\Column(name="barrio", type="string", length=100, nullable=true)
-     */
-    private $barrio;
-
-    /**
      * @ORM\Column(name="codigo_rh_fk", type="string", length=10, nullable=true)
      */
     private $codigoRhFk;
@@ -196,30 +167,6 @@ class RhuEmpleado
      */
     private $codigoBancoFk;
 
-    /**
-     * @ORM\Column(name="talla_camisa", type="string", length=10,  nullable=true)
-     */
-    private $tallaCamisa;
-
-    /**
-     * @ORM\Column(name="talla_pantalon", type="string", length=10,  nullable=true)
-     */
-    private $tallaPantalon;
-
-    /**
-     * @ORM\Column(name="talla_calzado", type="string", length=10,  nullable=true)
-     */
-    private $tallaCalzado;
-
-    /**
-     * @ORM\Column(name="estatura", type="integer", nullable=true)
-     */
-    private $estatura = 0;
-
-    /**
-     * @ORM\Column(name="peso", type="integer", nullable=true)
-     */
-    private $peso = 0;
 
     /**
      * @ORM\Column(name="codigo_cargo_fk", type="string", length=10, nullable=true)
@@ -438,22 +385,6 @@ class RhuEmpleado
     /**
      * @return mixed
      */
-    public function getDiscapacidad()
-    {
-        return $this->discapacidad;
-    }
-
-    /**
-     * @param mixed $discapacidad
-     */
-    public function setDiscapacidad($discapacidad): void
-    {
-        $this->discapacidad = $discapacidad;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getEstadoContrato()
     {
         return $this->estadoContrato;
@@ -465,70 +396,6 @@ class RhuEmpleado
     public function setEstadoContrato($estadoContrato): void
     {
         $this->estadoContrato = $estadoContrato;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCarro()
-    {
-        return $this->carro;
-    }
-
-    /**
-     * @param mixed $carro
-     */
-    public function setCarro($carro): void
-    {
-        $this->carro = $carro;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMoto()
-    {
-        return $this->moto;
-    }
-
-    /**
-     * @param mixed $moto
-     */
-    public function setMoto($moto): void
-    {
-        $this->moto = $moto;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPadreFamilia()
-    {
-        return $this->padreFamilia;
-    }
-
-    /**
-     * @param mixed $padreFamilia
-     */
-    public function setPadreFamilia($padreFamilia): void
-    {
-        $this->padreFamilia = $padreFamilia;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCabezaHogar()
-    {
-        return $this->cabezaHogar;
-    }
-
-    /**
-     * @param mixed $cabezaHogar
-     */
-    public function setCabezaHogar($cabezaHogar): void
-    {
-        $this->cabezaHogar = $cabezaHogar;
     }
 
     /**
@@ -710,22 +577,6 @@ class RhuEmpleado
     /**
      * @return mixed
      */
-    public function getBarrio()
-    {
-        return $this->barrio;
-    }
-
-    /**
-     * @param mixed $barrio
-     */
-    public function setBarrio($barrio): void
-    {
-        $this->barrio = $barrio;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoRhFk()
     {
         return $this->codigoRhFk;
@@ -865,86 +716,6 @@ class RhuEmpleado
     public function setCodigoBancoFk($codigoBancoFk): void
     {
         $this->codigoBancoFk = $codigoBancoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTallaCamisa()
-    {
-        return $this->tallaCamisa;
-    }
-
-    /**
-     * @param mixed $tallaCamisa
-     */
-    public function setTallaCamisa($tallaCamisa): void
-    {
-        $this->tallaCamisa = $tallaCamisa;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTallaPantalon()
-    {
-        return $this->tallaPantalon;
-    }
-
-    /**
-     * @param mixed $tallaPantalon
-     */
-    public function setTallaPantalon($tallaPantalon): void
-    {
-        $this->tallaPantalon = $tallaPantalon;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTallaCalzado()
-    {
-        return $this->tallaCalzado;
-    }
-
-    /**
-     * @param mixed $tallaCalzado
-     */
-    public function setTallaCalzado($tallaCalzado): void
-    {
-        $this->tallaCalzado = $tallaCalzado;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstatura()
-    {
-        return $this->estatura;
-    }
-
-    /**
-     * @param mixed $estatura
-     */
-    public function setEstatura($estatura): void
-    {
-        $this->estatura = $estatura;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPeso()
-    {
-        return $this->peso;
-    }
-
-    /**
-     * @param mixed $peso
-     */
-    public function setPeso($peso): void
-    {
-        $this->peso = $peso;
     }
 
     /**
@@ -1138,7 +909,5 @@ class RhuEmpleado
     {
         $this->adicionalesEmpleadoRel = $adicionalesEmpleadoRel;
     }
-
-
 
 }
