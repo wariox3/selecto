@@ -106,11 +106,33 @@
                                     <td>RFD</td>
                                     <td>RFN</td>
                                     <td>VR. NETO</td>
-                                    <td></td>
                                 </tr>
                             </thead>
                             <tbody>
+                            {% for arProgramacionDetalle in arProgramacionDetalles %}
+                                <tr>
+                                    <td>{{ arProgramacionDetalle.codigoProgramacionDetallePk }}</td>
+                                    <td>{{ arProgramacionDetalle.codigoContratoFk }}</td>
+                                    <td>{{ arProgramacionDetalle.numeroIdentificacion }}</td>
+                                    <td>{{ arProgramacionDetalle.nombreCorto }}</td>
+                                    <td></td>
+                                    <td>{{ arProgramacionDetalle.fechaDesdeContrato | date('Y-m-d')  }}</td>
+                                    <td>{{ arProgramacionDetalle.fechaHastaContrato | date('Y-m-d')  }}</td>
+                                    <td>{{ arProgramacionDetalle.horasDiurnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasNocturnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasFestivasDiurnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasFestivasNocturnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasExtrasOrdinariasDiurnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasExtrasOrdinariasNocturnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasExtrasFestivasDiurnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasExtrasFestivasNocturnas }}</td>
+                                    <td>{{ arProgramacionDetalle.horasRecargoNocturno }}</td>
+                                    <td>{{ arProgramacionDetalle.horasRecargoFestivoDiurno }}</td>
+                                    <td>{{ arProgramacionDetalle.horasRecargoFestivoNocturno }}</td>
+                                    <td>{{ arProgramacionDetalle.vrNeto }}</td>
 
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

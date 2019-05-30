@@ -4,7 +4,11 @@
 namespace App\Repository\RecursoHumano;
 
 
+use App\Entity\RecursoHumano\RhuConfiguracion;
 use App\Entity\RecursoHumano\RhuContrato;
+use App\Entity\RecursoHumano\RhuPagoDetalle;
+use App\Entity\RecursoHumano\RhuProgramacionDetalle;
+use App\Entity\RecursoHumano\RhuVacacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -60,4 +64,79 @@ class RhuContratoRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
+
+    public function cargarContratos($arProgramacion, $codigoEmpresa)
+    {
+        $em = $this->getEntityManager();
+        $arConfiguracion = $em->getRepository(RhuConfiguracion::class)->cargarContratos();
+        $arContratos = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'c')
+            ->select("c")
+            ->where("c.codigoEmpresaFk = {$codigoEmpresa}")
+            ->where("c.codigoGrupoFk = '{$arProgramacion->getCodigoGrupoFk()}'")
+            ->andWhere("c.fechaDesde >= '{$arProgramacion->getFechaDesde()->format('Y-m-d')}'")
+            ->andWhere("c.fechaHasta <= '{$arProgramacion->getFechaHasta()->format('Y-m-d')}'")
+            ->andWhere("c.fechaUltimoPago < '{$arProgramacion->getFechaHastaPeriodo()->format('Y-m-d')}'")
+            ->getQuery()->execute();
+
+        foreach ($arContratos as $arContrato){
+            $arProgramacionDetalle = new RhuProgramacionDetalle();
+            $arProgramacionDetalle->setProgramacionRel($arProgramacion);
+            $arProgramacionDetalle->setEmpleadoRel($arContrato->getEmpleadoRel());
+            $arProgramacionDetalle->setContratoRel($arContrato);
+            $arProgramacionDetalle->setVrSalario($arContrato->getVrSalario());
+
+            if ($arContrato->getContratoTipoRel()->getCodigoContratoClaseFk() == 'APR' || $arContrato->getContratoTipoRel()->getCodigoContratoClaseFk() == 'PRA') {
+                $arProgramacionDetalle->setDescuentoPension(0);
+                $arProgramacionDetalle->setDescuentoSalud(0);
+                $arProgramacionDetalle->setPagoAuxilioTransporte(0);
+            }
+
+            if ($arContrato->getCodigoPensionFk() == 'PEN') {
+                $arProgramacionDetalle->setDescuentoPension(0);
+            }
+            $fechaDesde = $this->fechaDesdeContrato($arProgramacion->getFechaDesde(), $arContrato->getFechaDesde());
+            $fechaHasta = $this->fechaHastaContrato($arProgramacion->getFechaHasta(), $arContrato->getFechaHasta(), $arContrato->getIndefinido());
+            $dias = $fechaDesde->diff($fechaHasta)->days + 1;
+            $arProgramacionDetalle->setFechaDesde($arProgramacion->getFechaDesde());
+            $arProgramacionDetalle->setFechaHasta($arProgramacion->getFechaHasta());
+            $arProgramacionDetalle->setFechaDesdeContrato($fechaDesde);
+            $arProgramacionDetalle->setFechaHastaContrato($fechaHasta);
+            $arrIbc = $em->getRepository(RhuPagoDetalle::class)->ibcMes($fechaDesde->format('Y'), $fechaDesde->format('m'), $arContrato->getCodigoContratoPk(), $arConfiguracion['codigoConceptoFondoPensionFk']);
+            $arProgramacionDetalle->setVrDeduccionFondoPensionAnterior($arrIbc['deduccionAnterior']);
+            $arrVacaciones = $em->getRepository(RhuVacacion::class)->diasProgramacion($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
+            $arProgramacionDetalle->setDiasVacaciones($arrVacaciones['dias']);
+            $dias -= $arrVacaciones['dias'];
+            $horas = $dias * $arContrato->getFactorHorasDia();
+            $arProgramacionDetalle->setDias($dias);
+            $arProgramacionDetalle->setDiasTransporte($dias);
+            $arProgramacionDetalle->setHorasDiurnas($horas);
+            $em->persist($arProgramacionDetalle);
+        }
+        $em->flush();
+    }
+
+    private function fechaDesdeContrato($fechaDesdePeriodo, $fechaDesdeContrato)
+    {
+        $fechaDesde = $fechaDesdeContrato;
+        if ($fechaDesdeContrato < $fechaDesdePeriodo) {
+            $fechaDesde = $fechaDesdePeriodo;
+        }
+        return $fechaDesde;
+    }
+
+    private function fechaHastaContrato($fechaHastaPeriodo, $fechaHastaContrato, $indefinido)
+    {
+        $fechaHasta = $fechaHastaContrato;
+        if ($indefinido) {
+            $fecha = date_create(date('Y-m-d'));
+            date_modify($fecha, '+100000 day');
+            $fechaHasta = $fecha;
+        }
+        if ($fechaHasta > $fechaHastaPeriodo) {
+            $fechaHasta = $fechaHastaPeriodo;
+        }
+        return $fechaHasta;
+    }
+
+
 }

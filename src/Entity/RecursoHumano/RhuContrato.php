@@ -196,6 +196,17 @@ class RhuContrato
     private $codigoEntidadPensionFk;
 
     /**
+     * @ORM\Column(name="codigo_pension_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoPensionFk;
+
+    /**
+     * @ORM\Column(name="indefinido",options={"default": false}, type="boolean")
+     */
+    private $indefinido = false;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="RhuContratoTipo", inversedBy="contratosContratoTipoRel")
      * @ORM\JoinColumn(name="codigo_contrato_tipo_fk",referencedColumnName="codigo_contrato_tipo_pk")
      */
@@ -1199,6 +1210,54 @@ class RhuContrato
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoPensionFk()
+    {
+        return $this->codigoPensionFk;
+    }
+
+    /**
+     * @param mixed $codigoPensionFk
+     */
+    public function setCodigoPensionFk($codigoPensionFk): void
+    {
+        $this->codigoPensionFk = $codigoPensionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdicionalesContratoRel()
+    {
+        return $this->adicionalesContratoRel;
+    }
+
+    /**
+     * @param mixed $adicionalesContratoRel
+     */
+    public function setAdicionalesContratoRel($adicionalesContratoRel): void
+    {
+        $this->adicionalesContratoRel = $adicionalesContratoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIndefinido()
+    {
+        return $this->indefinido;
+    }
+
+    /**
+     * @param mixed $indefinido
+     */
+    public function setIndefinido($indefinido): void
+    {
+        $this->indefinido = $indefinido;
     }
 
 

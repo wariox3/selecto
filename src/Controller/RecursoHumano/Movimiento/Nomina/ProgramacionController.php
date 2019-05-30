@@ -3,9 +3,11 @@
 namespace App\Controller\RecursoHumano\Movimiento\Nomina;
 
 
+use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuGrupo;
 use App\Entity\RecursoHumano\RhuPagoTipo;
 use App\Entity\RecursoHumano\RhuProgramacion;
+use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use App\Form\Type\RecursoHumano\ProgramacionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -121,12 +123,17 @@ class ProgramacionController extends Controller
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
+            if ($form->get('btnCargarContratos')->isClicked()) {
+                    $em->getRepository(RhuContrato::class)->cargarContratos($arProgramacion,$this->getUser()->getCodigoEmpresaFk());
+            }
         }
 
+        $arProgramacionDetalles=$paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()),$request->query->getInt('page', 1), 30);
+        dump($arProgramacionDetalles);
         return $this->render('recursoHumano/programacion/detalle.html.twig', [
             'form' => $form->createView(),
             'arProgramacion' => $arProgramacion,
+            'arProgramacionDetalles'=>$arProgramacionDetalles
         ]);
     }
 
