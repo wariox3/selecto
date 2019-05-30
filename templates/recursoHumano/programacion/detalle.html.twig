@@ -21,36 +21,41 @@
             <td class="td-in-well">{{ arProgramacion.codigoProgramacionPk }}</td>
             <td class="titulo">TIPO CONTRATO</td>
             <td class="td-in-well">{{ arProgramacion.grupoRel.nombre | default('') }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">FECHA DESDE</td>
-            <td class="td-in-well">{{ arProgramacion.fechaDesde | date("Y/m/d") }}</td>
-            <td class="titulo">FECHA HASTA</td>
-            <td class="td-in-well">{{ arProgramacion.fechaHasta | date("Y/m/d") }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">FECHA HASTA PERIODO</td>
-            <td class="td-in-well">{{ arProgramacion.fechaHastaPeriodo | date("Y/m/d") }}</td>
-            <td class="titulo">NOMBRE</td>
-            <td class="td-in-well">{{ arProgramacion.NOMBRE }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">ClASIFICACIÓN RIESGO</td>
-            <td class="td-in-well"> arProgramacion.clasificacionRiesgoRel.nombre }}</td>
-            <td class="titulo">CANTIDAD</td>
-            <td class="td-in-well">{{ arProgramacion.cantidad }}</td>
-        </tr>
-        <tr>
             <td class="titulo">VALOR NETO</td>
             <td class="td-in-well">{{arProgramacion.vrNeto }}</td>
+
+        </tr>
+        <tr>
+            <td class="titulo">NOMBRE</td>
+            <td class="td-in-well">{{ arProgramacion.NOMBRE }}</td>
+            <td class="titulo">FECHA DESDE</td>
+            <td class="td-in-well">{{ arProgramacion.fechaDesde | date("Y/m/d") }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+        </tr>
+        <tr>
             <td class="titulo">GRUPO</td>
             <td class="td-in-well">{{ arProgramacion.grupoRel.nombre | default('') }}</td>
+            <td class="titulo">FECHA HASTA</td>
+            <td class="td-in-well">{{ arProgramacion.fechaHasta | date("Y/m/d") }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+        </tr>
+        <tr>
+            <td class="titulo">CANTIDAD</td>
+            <td class="td-in-well">{{ arProgramacion.cantidad }}</td>
+            <td class="titulo">FECHA HASTA PERIODO</td>
+            <td class="td-in-well">{{ arProgramacion.fechaHastaPeriodo | date("Y/m/d") }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
         <tr>
             <td class="titulo">FECHA PAGO</td>
             <td class="td-in-well">{{arProgramacion.fechaPagado |date('Y/m/d') }}</td>
             <td class="titulo">EMPLEADOS GENERADOS</td>
             <td class="td-in-well">{{arProgramacion.empleadosGenerados  ?"si":"no" }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
 
         <tr>
@@ -58,6 +63,8 @@
             <td class="td-in-well">{{ arProgramacion.estadoAutorizado  ?"si":"no" }}</td>
             <td class="titulo">ESTADO APROBADO</td>
             <td class="td-in-well">{{ arProgramacion.estadoAprobado ?"si":"no" }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
         <tr>
 
@@ -65,12 +72,16 @@
             <td class="td-in-well">{{ arProgramacion.estadoPagado ?"si":"no" }}</td>
             <td class="titulo">ESTADO ANULADO</td>
             <td class="td-in-well">{{ arProgramacion.estadoAnulado ?"si":"no" }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
         <tr>
             <td class="titulo">MENSAJE PAGO</td>
             <td class="td-in-well">{{ arProgramacion.mensajePago }}</td>
             <td class="titulo">DÍAS</td>
             <td class="td-in-well">{{  arProgramacion.dias }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
         </tr>
     </table>
     <br>
@@ -87,13 +98,13 @@
                         <table class="table  table-bordered">
                             <thead>
                                 <tr>
-                                    <td>ID</td>
-                                    <td>COD</td>
-                                    <td>DOC</td>
-                                    <td>NOMBRE</td>
-                                    <td>DESDE</td>
-                                    <td>HASTA</td>
-                                    <td>SALARIO</td>
+                                    <td>Id</td>
+                                    <td>Cód</td>
+                                    <td>Doc</td>
+                                    <td>Nombre</td>
+                                    <td>Desde</td>
+                                    <td>Hasta</td>
+                                    <td>Salario</td>
                                     <th title="Horas diurnas">D</th>
                                     <th title="Horas nocturnas">N</th>
                                     <th title="Horas festivas diurnas">FD</th>
@@ -105,8 +116,11 @@
                                     <th title="Recargos nocturnos">RN</th>
                                     <th title="Recargo festivo diurno">RFD</th>
                                     <th title="Recargo festivo nocturno">RFN</th>
-                                    <td>VR. NETO</td>
+                                    <td title="Valor neto">VR. NETO</td>
                                     <th></th>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                               OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,7 +145,14 @@
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoDiurno | number_format(0, '.', ',') }}</td>
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoNocturno | number_format(0, '.', ',') }}</td>
                                     <td>{{ arProgramacionDetalle.vrNeto }}</td>
-                                    <td></td>
+                                    <td class="text-center">
+                                        <a href="  path('recursoHumano_programacion_detalle', { 'id': arProgramacion.codigoProgramacionPk }) }}"
+                                           title="mostrar informacion"><i class="fa fa-table fa-lg"></i></a></td>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="ChkSeleccionar[]"
+                                               value="{{ arProgramacion.codigoProgramacionPk }}"/></td>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
