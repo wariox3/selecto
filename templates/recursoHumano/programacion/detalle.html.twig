@@ -91,21 +91,22 @@
                                     <td>COD</td>
                                     <td>DOC</td>
                                     <td>NOMBRE</td>
-                                    <td>CONT</td>
                                     <td>DESDE</td>
                                     <td>HASTA</td>
                                     <td>SALARIO</td>
-                                    <td>D</td>
-                                    <td>N</td>
-                                    <td>FD</td>
-                                    <td>ED</td>
-                                    <td>EN</td>
-                                    <td>EFD</td>
-                                    <td>EFN</td>
-                                    <td>RN</td>
-                                    <td>RFD</td>
-                                    <td>RFN</td>
+                                    <th title="Horas diurnas">D</th>
+                                    <th title="Horas nocturnas">N</th>
+                                    <th title="Horas festivas diurnas">FD</th>
+                                    <th title="Horas festivas nocturnas">FN</th>
+                                    <th title="Horas extras diurnas">ED</th>
+                                    <th title="Horas extras nocturnas">EN</th>
+                                    <th title="Horas extras festivas diurnas">EFD</th>
+                                    <th title="Horas extras festivas nocturnas">EFN</th>
+                                    <th title="Recargos nocturnos">RN</th>
+                                    <th title="Recargo festivo diurno">RFD</th>
+                                    <th title="Recargo festivo nocturno">RFN</th>
                                     <td>VR. NETO</td>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,22 +116,22 @@
                                     <td>{{ arProgramacionDetalle.codigoContratoFk }}</td>
                                     <td>{{ arProgramacionDetalle.numeroIdentificacion }}</td>
                                     <td>{{ arProgramacionDetalle.nombreCorto }}</td>
-                                    <td></td>
                                     <td>{{ arProgramacionDetalle.fechaDesdeContrato | date('Y-m-d')  }}</td>
                                     <td>{{ arProgramacionDetalle.fechaHastaContrato | date('Y-m-d')  }}</td>
-                                    <td>{{ arProgramacionDetalle.horasDiurnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasNocturnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasFestivasDiurnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasFestivasNocturnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasExtrasOrdinariasDiurnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasExtrasOrdinariasNocturnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasExtrasFestivasDiurnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasExtrasFestivasNocturnas }}</td>
-                                    <td>{{ arProgramacionDetalle.horasRecargoNocturno }}</td>
-                                    <td>{{ arProgramacionDetalle.horasRecargoFestivoDiurno }}</td>
-                                    <td>{{ arProgramacionDetalle.horasRecargoFestivoNocturno }}</td>
+                                    <td class="numero">{{ arProgramacionDetalle.vrSalario | number_format }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasDiurnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasNocturnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasFestivasDiurnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasFestivasNocturnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasExtrasOrdinariasDiurnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasExtrasOrdinariasNocturnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasExtrasFestivasDiurnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasExtrasFestivasNocturnas | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoNocturno | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoDiurno | number_format(0, '.', ',') }}</td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoNocturno | number_format(0, '.', ',') }}</td>
                                     <td>{{ arProgramacionDetalle.vrNeto }}</td>
-
+                                    <td></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

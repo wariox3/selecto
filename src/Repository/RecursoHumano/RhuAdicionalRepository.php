@@ -53,4 +53,23 @@ class RhuAdicionalRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function programacionPago ($codigoEmpleado = "", $codigoContrato = "", $pagoTipo, $fechaDesde, $fechaHasta) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(RhuAdicional::class, 'a')
+            ->select('a.codigoAdicionalPk')
+            ->addSelect('a.codigoConceptoFk')
+            ->addSelect('a.vrValor')
+            ->addSelect('a.detalle')
+            ->where('a.estadoInactivo = 0 AND a.estadoInactivoPeriodo = 0')
+            ->andWhere("a.codigoEmpleadoFk = {$codigoEmpleado} ")
+            ->andWhere("(a.permanente = 1 or (a.fecha >= '" . $fechaDesde . "' AND a.fecha <= '" . $fechaHasta . "'))");
+
+        if($pagoTipo == 'NOM') {
+            $queryBuilder->andWhere('a.aplicaNomina = 1');
+        }
+
+        $arrResultado = $queryBuilder->getQuery()->getResult();
+        return $arrResultado;
+    }
+
 }

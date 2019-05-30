@@ -52,7 +52,7 @@ class RhuPagoRepository extends ServiceEntityRepository
      * @return int|mixed
      * @throws \Doctrine\ORM\ORMException
      */
-    public function generar($arProgramacionDetalle, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario)
+    public function generar($arProgramacionDetalle, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario, $empresa)
     {
         $em = $this->getEntityManager();
 
@@ -65,6 +65,7 @@ class RhuPagoRepository extends ServiceEntityRepository
         $arPago->setProgramacionRel($arProgramacion);
         $arPago->setVrSalarioContrato($arContrato->getVrSalario());
         $arPago->setUsuario($usuario);
+        $arPago->setCodigoEmpresaFk($empresa);
         $arPago->setEntidadPensionRel($arContrato->getEntidadPensionRel());
         $arPago->setEntidadSaludRel($arContrato->getEntidadSaludRel());
         $arPago->setFechaDesde($arProgramacion->getFechaDesde());

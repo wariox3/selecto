@@ -3,7 +3,6 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * RhuPago
@@ -12,10 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class RhuPago
 {
-    public $infoLog = [
-        "primaryKey" => "codigoPagoPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_pago_pk", type="integer")
@@ -42,6 +37,11 @@ class RhuPago
      * @ORM\Column(name="codigo_periodo_fk", type="string", length=10, nullable=true)
      */
     private $codigoPeriodoFk;
+
+    /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
 
     /**
      * @ORM\Column(name="numero", options={"default" : 0}, type="integer", nullable=true)
@@ -718,4 +718,22 @@ class RhuPago
     {
         $this->egresosDetallesPagoRel = $egresosDetallesPagoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+
 }

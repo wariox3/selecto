@@ -7,6 +7,7 @@ namespace App\Repository\RecursoHumano;
 use App\Entity\RecursoHumano\RhuConfiguracion;
 use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuPagoDetalle;
+use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use App\Entity\RecursoHumano\RhuVacacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -38,10 +39,10 @@ class RhuContratoRepository extends ServiceEntityRepository
             ->addSelect('c.fechaDesde')
             ->addSelect('c.fechaHasta')
             ->addSelect('c.codigoEmpleadoFk')
-            ->leftJoin('c.empleadoRel' , 'Empleado')
-            ->leftJoin('c.contratoTipoRel' , 'Tipo')
-            ->leftJoin('c.grupoRel' , 'Grupo')
-            ->leftJoin('c.cargoRel' , 'Cargo')
+            ->leftJoin('c.empleadoRel', 'Empleado')
+            ->leftJoin('c.contratoTipoRel', 'Tipo')
+            ->leftJoin('c.grupoRel', 'Grupo')
+            ->leftJoin('c.cargoRel', 'Cargo')
             ->where("c.codigoEmpresaFk = {$codigoEmpresa}");
         $queryBuilder->orderBy('c.codigoContratoPk', 'DESC');
 
@@ -65,10 +66,19 @@ class RhuContratoRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    /**
+     * @param $arProgramacion RhuProgramacion
+     * @param $codigoEmpresa
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function cargarContratos($arProgramacion, $codigoEmpresa)
     {
         $em = $this->getEntityManager();
         $arConfiguracion = $em->getRepository(RhuConfiguracion::class)->cargarContratos();
+        $em->getRepository(RhuProgramacionDetalle::class)->eliminarTodoDetalles($arProgramacion);
         $arContratos = $this->getEntityManager()->createQueryBuilder()->from(RhuContrato::class, 'c')
             ->select("c")
             ->where("c.codigoEmpresaFk = {$codigoEmpresa}")
@@ -78,7 +88,7 @@ class RhuContratoRepository extends ServiceEntityRepository
             ->andWhere("c.fechaUltimoPago < '{$arProgramacion->getFechaHastaPeriodo()->format('Y-m-d')}' OR c.indefinido = 1")
             ->getQuery()->execute();
 
-        foreach ($arContratos as $arContrato){
+        foreach ($arContratos as $arContrato) {
             $arProgramacionDetalle = new RhuProgramacionDetalle();
             $arProgramacionDetalle->setProgramacionRel($arProgramacion);
             $arProgramacionDetalle->setEmpleadoRel($arContrato->getEmpleadoRel());
@@ -110,8 +120,15 @@ class RhuContratoRepository extends ServiceEntityRepository
             $arProgramacionDetalle->setDias($dias);
             $arProgramacionDetalle->setDiasTransporte($dias);
             $arProgramacionDetalle->setHorasDiurnas($horas);
+
             $em->persist($arProgramacionDetalle);
+            $em->flush();
         }
+
+        $cantidad = $em->getRepository(RhuProgramacion::class)->cantidadRegistros($arProgramacion->getCodigoProgramacionPk());
+        $arProgramacion->setCantidad($cantidad);
+        $arProgramacion->setEmpleadosGenerados(1);
+        $em->persist($arProgramacion);
         $em->flush();
     }
 

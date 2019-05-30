@@ -11,10 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RhuSalud
 {
-    public $infoLog = [
-        "primaryKey" => "codigoSaludPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_salud_pk", type="string", length=10)
@@ -46,11 +42,11 @@ class RhuSalud
      */
     private $codigoConceptoFk;
 
-
     /**
-     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="saludRel")
+     * @ORM\ManyToOne(targetEntity="RhuConcepto", inversedBy="saludesConceptoRel")
+     * @ORM\JoinColumn(name="codigo_concepto_fk", referencedColumnName="codigo_concepto_pk")
      */
-    protected $contratosSaludRel;
+    protected $conceptoRel;
 
     /**
      * @return mixed
@@ -103,22 +99,6 @@ class RhuSalud
     /**
      * @return mixed
      */
-    public function getPorcentajeEmpleador()
-    {
-        return $this->porcentajeEmpleador;
-    }
-
-    /**
-     * @param mixed $porcentajeEmpleador
-     */
-    public function setPorcentajeEmpleador($porcentajeEmpleador): void
-    {
-        $this->porcentajeEmpleador = $porcentajeEmpleador;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getOrden()
     {
         return $this->orden;
@@ -135,17 +115,17 @@ class RhuSalud
     /**
      * @return mixed
      */
-    public function getContratosSaludRel()
+    public function getPorcentajeEmpleador()
     {
-        return $this->contratosSaludRel;
+        return $this->porcentajeEmpleador;
     }
 
     /**
-     * @param mixed $contratosSaludRel
+     * @param mixed $porcentajeEmpleador
      */
-    public function setContratosSaludRel($contratosSaludRel): void
+    public function setPorcentajeEmpleador($porcentajeEmpleador): void
     {
-        $this->contratosSaludRel = $contratosSaludRel;
+        $this->porcentajeEmpleador = $porcentajeEmpleador;
     }
 
     /**
@@ -159,7 +139,7 @@ class RhuSalud
     /**
      * @param mixed $codigoConceptoFk
      */
-    public function setCodigoConceptoFk( $codigoConceptoFk ): void
+    public function setCodigoConceptoFk($codigoConceptoFk): void
     {
         $this->codigoConceptoFk = $codigoConceptoFk;
     }
@@ -175,10 +155,11 @@ class RhuSalud
     /**
      * @param mixed $conceptoRel
      */
-    public function setConceptoRel( $conceptoRel ): void
+    public function setConceptoRel($conceptoRel): void
     {
         $this->conceptoRel = $conceptoRel;
     }
+
 
 
 }

@@ -124,15 +124,18 @@ class ProgramacionController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnCargarContratos')->isClicked()) {
-                    $em->getRepository(RhuContrato::class)->cargarContratos($arProgramacion,$this->getUser()->getCodigoEmpresaFk());
+                $em->getRepository(RhuContrato::class)->cargarContratos($arProgramacion, $this->getUser()->getCodigoEmpresaFk());
+            }
+            if ($form->get('btnAutorizar')->isClicked()) {
+                $em->getRepository(RhuProgramacion::class)->autorizar($arProgramacion, $this->getUser()->getNombres(), $this->getUser()->getCodigoEmpresaFk());
             }
         }
 
-        $arProgramacionDetalles=$paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()),$request->query->getInt('page', 1), 30);
+        $arProgramacionDetalles = $paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()), $request->query->getInt('page', 1), 30);
         return $this->render('recursoHumano/programacion/detalle.html.twig', [
             'form' => $form->createView(),
             'arProgramacion' => $arProgramacion,
-            'arProgramacionDetalles'=>$arProgramacionDetalles
+            'arProgramacionDetalles' => $arProgramacionDetalles
         ]);
     }
 

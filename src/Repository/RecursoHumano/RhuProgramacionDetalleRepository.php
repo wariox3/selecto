@@ -51,7 +51,7 @@ class RhuProgramacionDetalleRepository extends ServiceEntityRepository
         ->delete(RhuProgramacionDetalle::class,'pd')
         ->where("pd.codigoProgramacionFk = {$arProgramacion->getCodigoProgramacionPk()}")->getQuery()->execute();
         $arProgramacion->setEmpleadosGenerados(0);
-        $cantidad = $this->_em->getRepository(RhuProgramacion::class)->getCantidadRegistros($arProgramacion->getCodigoProgramacionPk());
+        $cantidad = $this->_em->getRepository(RhuProgramacion::class)->cantidadRegistros($arProgramacion->getCodigoProgramacionPk());
         $arProgramacion->setCantidad($cantidad);
         $this->_em->persist($arProgramacion);
         $this->_em->flush();

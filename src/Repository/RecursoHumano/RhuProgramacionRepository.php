@@ -2,6 +2,7 @@
 
 namespace App\Repository\RecursoHumano;
 
+use App\Entity\Empresa;
 use App\Entity\RecursoHumano\RhuConcepto;
 use App\Entity\RecursoHumano\RhuConceptoHora;
 use App\Entity\RecursoHumano\RhuConfiguracion;
@@ -14,7 +15,6 @@ use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use App\Entity\RecursoHumano\RhuVacacion;
-use App\Entity\Seguridad\Usuario;
 use App\Utilidades\Mensajes;
 use function Complex\add;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -103,7 +103,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getCantidadRegistros($codigoProgramacion)
+    public function cantidadRegistros($codigoProgramacion)
     {
         return $this->_em->createQueryBuilder()->from(RhuProgramacionDetalle::class, 'pd')
             ->select('count(pd.codigoProgramacionDetallePk)')
@@ -179,10 +179,10 @@ class RhuProgramacionRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function autorizar($arProgramacion, $usuario)
+    public function autorizar($arProgramacion, $usuario, $empresa)
     {
         if (!$arProgramacion->getEstadoAutorizado()) {
-            $this->generar($arProgramacion, null, $usuario);
+            $this->generar($arProgramacion, null, $usuario, $empresa);
         }
     }
 
@@ -320,7 +320,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
             ->getQuery()->execute();
     }
 
-    public function generar($arProgramacion, $codigoProgramacionDetalle, $usuario) {
+    public function generar($arProgramacion, $codigoProgramacionDetalle, $usuario, $empresa) {
         $em = $this->getEntityManager();
         $douNetoTotal = 0;
         $numeroPagos = 0;
@@ -329,7 +329,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
         $arConceptoFondoPension = $em->getRepository(RhuConcepto::class)->find($arConfiguracion['codigoConceptoFondoPensionFk']);
         if($codigoProgramacionDetalle) {
             $arProgramacionDetalleActualizar = $em->getRepository(RhuProgramacionDetalle::class)->find($codigoProgramacionDetalle);
-            $vrNeto = $em->getRepository(RhuPago::class)->generar($arProgramacionDetalleActualizar, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario);
+            $vrNeto = $em->getRepository(RhuPago::class)->generar($arProgramacionDetalleActualizar, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario , $empresa);
             $arProgramacionDetalleActualizar->setVrNeto($vrNeto);
             $em->persist($arProgramacionDetalleActualizar);
             $arProgramacion->setVrNeto($arProgramacion->getVrNeto() + $vrNeto);
@@ -339,7 +339,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
             $arProgramacionDetalles = $em->getRepository(RhuProgramacionDetalle::class)->findBy(['codigoProgramacionFk' => $arProgramacion->getCodigoProgramacionPk()]);
             if ($arProgramacionDetalles) {
                 foreach ($arProgramacionDetalles as $arProgramacionDetalle) {
-                    $vrNeto = $em->getRepository(RhuPago::class)->generar($arProgramacionDetalle, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario);
+                    $vrNeto = $em->getRepository(RhuPago::class)->generar($arProgramacionDetalle, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario , $empresa);
                     $arProgramacionDetalle->setVrNeto($vrNeto);
                     $em->persist($arProgramacionDetalle);
                     $douNetoTotal += $vrNeto;

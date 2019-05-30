@@ -135,6 +135,11 @@ class RhuConcepto
     protected $adicionalesConceptoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuConceptoHora", mappedBy="conceptoRel")
+     */
+    protected $conceptosHorasConceptoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoConceptoPk()
@@ -473,17 +478,33 @@ class RhuConcepto
     /**
      * @return mixed
      */
-    public function getEmbargosTiposConceptoRel()
+    public function getPagosDetallesConceptoRel()
     {
-        return $this->embargosTiposConceptoRel;
+        return $this->pagosDetallesConceptoRel;
     }
 
     /**
-     * @param mixed $embargosTiposConceptoRel
+     * @param mixed $pagosDetallesConceptoRel
      */
-    public function setEmbargosTiposConceptoRel($embargosTiposConceptoRel): void
+    public function setPagosDetallesConceptoRel($pagosDetallesConceptoRel): void
     {
-        $this->embargosTiposConceptoRel = $embargosTiposConceptoRel;
+        $this->pagosDetallesConceptoRel = $pagosDetallesConceptoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSaludesConceptoRel()
+    {
+        return $this->saludesConceptoRel;
+    }
+
+    /**
+     * @param mixed $saludesConceptoRel
+     */
+    public function setSaludesConceptoRel($saludesConceptoRel): void
+    {
+        $this->saludesConceptoRel = $saludesConceptoRel;
     }
 
     /**
@@ -505,22 +526,6 @@ class RhuConcepto
     /**
      * @return mixed
      */
-    public function getPagosDetallesConceptoRel()
-    {
-        return $this->pagosDetallesConceptoRel;
-    }
-
-    /**
-     * @param mixed $pagosDetallesConceptoRel
-     */
-    public function setPagosDetallesConceptoRel($pagosDetallesConceptoRel): void
-    {
-        $this->pagosDetallesConceptoRel = $pagosDetallesConceptoRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getConceptosHorasConceptoRel()
     {
         return $this->conceptosHorasConceptoRel;
@@ -532,38 +537,6 @@ class RhuConcepto
     public function setConceptosHorasConceptoRel($conceptosHorasConceptoRel): void
     {
         $this->conceptosHorasConceptoRel = $conceptosHorasConceptoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSaludesConceptoRel()
-    {
-        return $this->saludesConceptoRel;
-    }
-
-    /**
-     * @param mixed $saludesConceptoRel
-     */
-    public function setSaludesConceptoRel( $saludesConceptoRel ): void
-    {
-        $this->saludesConceptoRel = $saludesConceptoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPensionesConceptoRel()
-    {
-        return $this->pensionesConceptoRel;
-    }
-
-    /**
-     * @param mixed $pensionesConceptoRel
-     */
-    public function setPensionesConceptoRel( $pensionesConceptoRel ): void
-    {
-        $this->pensionesConceptoRel = $pensionesConceptoRel;
     }
 
 
