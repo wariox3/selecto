@@ -3,7 +3,6 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * RhuNovedad
@@ -43,6 +42,11 @@ class RhuNovedad
      * @ORM\Column(name="codigo_grupo_fk", type="string",length=10, nullable=true)
      */
     private $codigoGrupoFk;
+
+    /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
 
     /**
      * @ORM\Column(name="fecha", type="date", nullable=true)
@@ -627,4 +631,22 @@ class RhuNovedad
     {
         $this->grupoRel = $grupoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+
 }

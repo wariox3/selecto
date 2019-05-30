@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-sm btn-default" href="{{ path('recursoHumano_novedad_lista') }}">Volver</a>
+        </div>
+    </div>
+    <br/><br/>
+    <table width="100%" class="table table-condensed table-bordered">
+        <tr>
+            <td class="titulo">CODIGO:</td>
+            <td class="td-in-well">{{ arNovedad.codigoNovedadPk }}</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+{% endblock %}

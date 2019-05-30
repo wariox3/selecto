@@ -6,6 +6,7 @@ use App\Entity\RecursoHumano\RhuCredito;
 use App\Entity\RecursoHumano\RhuNovedad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class RhuNovedadRepository extends ServiceEntityRepository
 {
@@ -23,13 +24,25 @@ class RhuNovedadRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $codigoEmpresa
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function lista()
+    public function lista($codigoEmpresa)
     {
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuCredito::class, 'e');
-        $queryBuilder
-            ->select('e.codigoCreditoPk');
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuNovedad::class, 'n')
+            ->select('n.codigoNovedadPk')
+            ->addSelect('nt.nombre AS tipo')
+            ->addSelect('n.fecha')
+            ->addSelect('e.nombreCorto AS empleado')
+            ->addSelect('e.numeroIdentificacion')
+            ->addSelect('e.codigoContratoFk AS contrato')
+            ->addSelect('n.fechaDesde')
+            ->addSelect('n.fechaHasta')
+            ->leftJoin('n.novedadTipoRel', 'nt')
+            ->leftJoin('n.empleadoRel', 'e')
+            ->where("n.codigoEmpresaFk = {$codigoEmpresa}");
+
         return $queryBuilder;
     }
 
