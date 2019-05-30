@@ -129,7 +129,6 @@ class ProgramacionController extends Controller
         }
 
         $arProgramacionDetalles=$paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()),$request->query->getInt('page', 1), 30);
-        dump($arProgramacionDetalles);
         return $this->render('recursoHumano/programacion/detalle.html.twig', [
             'form' => $form->createView(),
             'arProgramacion' => $arProgramacion,
