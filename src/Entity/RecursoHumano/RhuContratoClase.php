@@ -34,6 +34,11 @@ class RhuContratoClase
     protected $contratosTiposContratoClaseRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="contratoClaseRel")
+     */
+    protected $contratosContratoClaseRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoContratoClasePk()
@@ -95,6 +100,22 @@ class RhuContratoClase
     public function setContratosTiposContratoClaseRel($contratosTiposContratoClaseRel): void
     {
         $this->contratosTiposContratoClaseRel = $contratosTiposContratoClaseRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosContratoClaseRel()
+    {
+        return $this->contratosContratoClaseRel;
+    }
+
+    /**
+     * @param mixed $contratosContratoClaseRel
+     */
+    public function setContratosContratoClaseRel($contratosContratoClaseRel): void
+    {
+        $this->contratosContratoClaseRel = $contratosContratoClaseRel;
     }
 
 

@@ -28,6 +28,11 @@ class RhuCargo
     protected $empleadosCargoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="cargoRel")
+     */
+    protected $contratosCargoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoCargoPk()
@@ -74,5 +79,23 @@ class RhuCargo
     {
         $this->empleadosCargoRel = $empleadosCargoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosCargoRel()
+    {
+        return $this->contratosCargoRel;
+    }
+
+    /**
+     * @param mixed $contratosCargoRel
+     */
+    public function setContratosCargoRel($contratosCargoRel): void
+    {
+        $this->contratosCargoRel = $contratosCargoRel;
+    }
+
+
 
 }

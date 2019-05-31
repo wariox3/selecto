@@ -49,6 +49,11 @@ class RhuSalud
     protected $conceptoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="saludRel")
+     */
+    protected $contratosSaludRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoSaludPk()
@@ -158,6 +163,22 @@ class RhuSalud
     public function setConceptoRel($conceptoRel): void
     {
         $this->conceptoRel = $conceptoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosSaludRel()
+    {
+        return $this->contratosSaludRel;
+    }
+
+    /**
+     * @param mixed $contratosSaludRel
+     */
+    public function setContratosSaludRel($contratosSaludRel): void
+    {
+        $this->contratosSaludRel = $contratosSaludRel;
     }
 
 

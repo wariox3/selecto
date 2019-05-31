@@ -186,11 +186,10 @@ class RhuEmpleado
     protected $ciudadRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="EmpleadosCiudadExpedicionRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="empleadosCiudadExpedicionRel")
      * @ORM\JoinColumn(name="codigo_ciudad_expedicion_identificacion_fk",referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadExpedicionRel;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="EmpleadosCiudadNacimientoRel")
@@ -909,5 +908,7 @@ class RhuEmpleado
     {
         $this->adicionalesEmpleadoRel = $adicionalesEmpleadoRel;
     }
+
+
 
 }

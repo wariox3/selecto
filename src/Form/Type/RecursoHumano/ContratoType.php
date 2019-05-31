@@ -18,6 +18,7 @@ use App\Entity\RecursoHumano\RhuPension;
 use App\Entity\RecursoHumano\RhuRh;
 use App\Entity\RecursoHumano\RhuSalud;
 use App\Entity\RecursoHumano\RhuSucursal;
+use App\Entity\RecursoHumano\RhuTiempo;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,7 +31,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class RhuContratoType  extends AbstractType
+class ContratoType  extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
@@ -62,9 +63,16 @@ class RhuContratoType  extends AbstractType
             ->add('vrAdicionalPrestacional',NumberType::class,['required' => true])
             ->add('salarioIntegral',CheckboxType::class,['required' => false, 'label' => 'Salario integral'])
             ->add('auxilioTransporte',CheckboxType::class,['required' => false, 'label' => 'Auxilio transporte'])
-            ->add('tiempo', ChoiceType::class, ['choices' => ['TIEMPO COMPLETO' => 'TIEMPO COMPLETO', 'MEDIO TIEMPO' => 'MEDIO TIEMPO', 'SABATINO' => 'SABATINO'], 'required' => false])
             ->add('tipoSalario', ChoiceType::class, ['choices' => ['VARIABLE' => 'VARIABLE', 'FIJO' => 'FIJO'], 'required' => false])
-            //->add('tipoSalud', ChoiceType::class, ['choices' => ['EMPLEADO' => 'EMPLEADO', 'EMPLEADOR' => 'FIJO'], 'required' => false])
+            ->add('tiempoRel', EntityType::class, [
+                'class' => RhuTiempo::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.orden', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'required' => true
+            ])
             ->add('ciudadLaboraRel', EntityType::class, [
                 'class' => GenCiudad::class,
                 'query_builder' => function (EntityRepository $er) {

@@ -11,10 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RhuTiempo
 {
-    public $infoLog = [
-        "primaryKey" => "codigoTiempoPk",
-        "todos"     => true,
-    ];
     /**
      * @ORM\Id
      * @ORM\Column(name="codigo_tiempo_pk", type="string", length=10)
@@ -46,10 +42,10 @@ class RhuTiempo
      */    
     private $abreviatura;    
     
-//    /**
-//     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="tiempoRel")
-//     */
-//    protected $contratosTiempoRel;
+    /**
+     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="tiempoRel")
+     */
+    protected $contratosTiempoRel;
 
     /**
      * @return mixed
@@ -118,6 +114,22 @@ class RhuTiempo
     /**
      * @return mixed
      */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param mixed $orden
+     */
+    public function setOrden($orden): void
+    {
+        $this->orden = $orden;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getAbreviatura()
     {
         return $this->abreviatura;
@@ -147,19 +159,5 @@ class RhuTiempo
         $this->contratosTiempoRel = $contratosTiempoRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOrden()
-    {
-        return $this->orden;
-    }
 
-    /**
-     * @param mixed $orden
-     */
-    public function setOrden($orden): void
-    {
-        $this->orden = $orden;
-    }
 }

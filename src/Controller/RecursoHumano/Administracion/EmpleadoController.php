@@ -5,10 +5,11 @@ namespace App\Controller\RecursoHumano\Administracion;
 
 
 use App\Entity\General\GenCiudad;
+use App\Entity\RecursoHumano\RhuConfiguracion;
 use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuEmpleado;
-use App\Form\Type\RecursoHumano\RhuContratoType;
-use App\Form\Type\RecursoHumano\RhuEmpleadoType;
+use App\Form\Type\RecursoHumano\ContratoType;
+use App\Form\Type\RecursoHumano\EmpleadoType;
 use App\Repository\RecursoHumano\RhuEmpleadoRepository;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -70,7 +71,7 @@ class EmpleadoController extends Controller
         if ($id != 0) {
             $arEmpleado = $em->getRepository(RhuEmpleado::class)->find($id);
         }
-        $form = $this->createForm(RhuEmpleadoType::class, $arEmpleado);
+        $form = $this->createForm(EmpleadoType::class, $arEmpleado);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -127,16 +128,26 @@ class EmpleadoController extends Controller
      */
     public function nuevoContrato(Request $request, $id, $codigoEmpleado)
     {
+        /**
+         * @var $arContrato RhuContrato
+         * @var $arEmpleado RhuEmpleado
+         */
         $em = $this->getDoctrine()->getManager();
         $empresa = $this->getUser()->getCodigoEmpresaFk();
         $editarContrato = false;
+        $arConfiguracion = $em->find(RhuConfiguracion::class, 1);
         $arContrato = new RhuContrato();
         $arrContratosEmpleado = $em->getRepository(RhuContrato::class)->findBy(['codigoEmpleadoFk' => $codigoEmpleado, 'estadoTerminado' => 0]);
         if ($id != 0) {
             $arContrato = $em->getRepository(RhuContrato::class)->find($id);
             $editarContrato = true;
+        } else {
+            $arContrato->setVrSalario($arConfiguracion->getVrSalarioMinimo());
+            $arContrato->setFecha(new \DateTime('now'));
+            $arContrato->setFechaDesde(new \DateTime('now'));
+            $arContrato->setFechaHasta(new \DateTime('now'));
         }
-        $form = $this->createForm(RhuContratoType::class, $arContrato);
+        $form = $this->createForm(ContratoType::class, $arContrato);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
@@ -144,16 +155,30 @@ class EmpleadoController extends Controller
                 $arContrato = $form->getData();
                 $arContrato->setEmpleadoRel($arEmpleado);
                 $arContrato->setFecha(new \DateTime('now'));
-                $arContrato->setFechaUltimoPagoCesantias(new \DateTime('now'));
-                $arContrato->setFechaUltimoPagoVacaciones(new \DateTime('now'));
-                $arContrato->setFechaUltimoPagoPrimas(new \DateTime('now'));
-                $arContrato->setFechaUltimoPago(new \DateTime('now'));
                 $arContrato->setCodigoEmpresaFk($empresa);
+                $arContrato->setContratoClaseRel($arContrato->getContratoTipoRel()->getContratoClaseRel());
+                $arContrato->setIndefinido($arContrato->getContratoTipoRel()->getContratoClaseRel()->getIndefinido());
+                $arContrato->setFactorHorasDia($arContrato->getTiempoRel()->getFactorHorasDia());
+                if ($id == 0) {
+                    if ($arContrato->getVrSalario() <= ($arConfiguracion->getVrSalarioMinimo() * 2)) {
+                        $arContrato->setAuxilioTransporte(true);
+                    }
+                    $arContrato->setFechaUltimoPago($arContrato->getFechaDesde());
+                    $arContrato->setFechaUltimoPagoCesantias($arContrato->getFechaDesde());
+                    $arContrato->setFechaUltimoPagoPrimas($arContrato->getFechaDesde());
+                    $arContrato->setFechaUltimoPagoVacaciones($arContrato->getFechaDesde());
+                }
                 if ($arrContratosEmpleado && $editarContrato == false) {
                     Mensajes::error("No se puede registrar ya que el empleado ya cuenta con un contrato vigente, por favor terminé el contrato anterior");
                 } else {
                     $em->persist($arContrato);
                     $em->flush();
+
+                    $arEmpleado->setCodigoContratoFk($arContrato->getCodigoContratoPk());
+                    $arEmpleado->setEstadoContrato(true);
+                    $em->persist($arEmpleado);
+                    $em->flush();
+
                     echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
                 }
             }
