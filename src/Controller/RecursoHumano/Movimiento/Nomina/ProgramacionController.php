@@ -5,10 +5,13 @@ namespace App\Controller\RecursoHumano\Movimiento\Nomina;
 
 use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuGrupo;
+use App\Entity\RecursoHumano\RhuPago;
+use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuPagoTipo;
 use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use App\Form\Type\RecursoHumano\ProgramacionType;
+use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -129,6 +132,11 @@ class ProgramacionController extends Controller
             if ($form->get('btnAutorizar')->isClicked()) {
                 $em->getRepository(RhuProgramacion::class)->autorizar($arProgramacion, $this->getUser()->getNombres(), $this->getUser()->getCodigoEmpresaFk());
             }
+            if ($form->get('btnEliminar')->isClicked()) {
+                $arProgramacionDetalles = $request->request->get('ChkSeleccionar');
+                $this->get("UtilidadesModelo")->eliminar(RhuProgramacionDetalle::class, $arProgramacionDetalles);
+                return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
+            }
         }
 
         $arProgramacionDetalles = $paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()), $request->query->getInt('page', 1), 30);
@@ -138,5 +146,42 @@ class ProgramacionController extends Controller
             'arProgramacionDetalles' => $arProgramacionDetalles
         ]);
     }
+
+    /**
+     * @Route("/recursoHumano/movimiento/nomina/programacion/detalle/resumen/{id}", name="recursoHumano_programacion_resumen")
+     */
+    public function resumenPagoDetalle(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $arProgramacionDetalle = $em->getRepository(RhuProgramacionDetalle::class)->find($id);
+        $arrBtnActualizar = ['attr' => ['class' => 'btn btn-sm btn-default'], 'label' => 'Actualizar'];
+        $form = $this->createFormBuilder()
+            ->add('btnActualizar', SubmitType::class, $arrBtnActualizar)
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnActualizar')->isClicked()) {
+                $em->getRepository(RhuProgramacionDetalle::class)->actualizar($arProgramacionDetalle, $this->getUser()->getUsername());
+            }
+        }
+        if (!$arProgramacionDetalle->getProgramacionRel()->getEstadoAutorizado()) {
+            Mensajes::error('El empleado aun no tiene pagos generados');
+            echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+        }
+        $arPago = $em->getRepository(RhuPago::class)->findOneBy(array('codigoProgramacionDetalleFk' => $id));
+        if($arPago) {
+            $arPagoDetalles = $em->getRepository(RhuPagoDetalle::class)->lista($arPago->getCodigoPagoPk());
+        } else {
+            $arPagoDetalles = null;
+        }
+        return $this->render('recursoHumano/programacion/resumen.html.twig', [
+            'arProgramacionDetalle' => $arProgramacionDetalle,
+            'arPago' => $arPago,
+            'arPagoDetalles' => $arPagoDetalles,
+            'form' => $form->createView()
+        ]);
+    }
+
+
 
 }

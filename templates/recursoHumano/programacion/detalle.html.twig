@@ -146,8 +146,11 @@
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoNocturno | number_format(0, '.', ',') }}</td>
                                     <td>{{ arProgramacionDetalle.vrNeto }}</td>
                                     <td class="text-center">
-                                        <a href="  path('recursoHumano_programacion_detalle', { 'id': arProgramacion.codigoProgramacionPk }) }}"
-                                           title="mostrar informacion"><i class="fa fa-table fa-lg"></i></a></td>
+                                        <a class="btn btn-default btn-sm"
+                                           href="javascript:abrirVentana3('{{ path('recursoHumano_programacion_resumen', {'id': arProgramacionDetalle.codigoProgramacionDetallePk }) }}', 'ProgramcionDetalle', 600, 900)">
+                                            <i class="fa fa-table fa-lg"></i>
+                                        </a>
+                                    </td>
                                     </td>
                                     <td class="text-center">
                                         <input type="checkbox" name="ChkSeleccionar[]"
