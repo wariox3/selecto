@@ -108,7 +108,7 @@ class RhuProgramacionDetalleRepository extends ServiceEntityRepository
     /**
      * @param $arProgramacionDetalle RhuProgramacionDetalle
      */
-    public function actualizar($arProgramacionDetalle, $usuario){
+    public function actualizar($arProgramacionDetalle, $usuario, $empresa){
         $em = $this->getEntityManager();
         /** @var  $arProgramacion RhuProgramacion */
         $arProgramacion = $em->getRepository(RhuProgramacion::class)->find($arProgramacionDetalle->getCodigoProgramacionFk());
@@ -125,7 +125,8 @@ class RhuProgramacionDetalleRepository extends ServiceEntityRepository
         $arProgramacionDetalle->setVrNeto(0);
         $em->persist($arProgramacionDetalle);
         $em->flush();
-        $em->getRepository(RhuProgramacion::class)->generar($arProgramacion, $arProgramacionDetalle->getCodigoProgramacionDetallePk(), $usuario);
+        $arProgramacion->setVrNeto($arProgramacion->getVrNeto() - $arProgramacionDetalle->getVrNeto());
+        $em->getRepository(RhuProgramacion::class)->generar($arProgramacion, $arProgramacionDetalle->getCodigoProgramacionDetallePk(), $usuario, $empresa);
     }
 
     public function exportar($id)

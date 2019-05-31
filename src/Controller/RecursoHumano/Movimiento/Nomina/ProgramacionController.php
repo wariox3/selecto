@@ -173,7 +173,7 @@ class ProgramacionController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnActualizar')->isClicked()) {
-                $em->getRepository(RhuProgramacionDetalle::class)->actualizar($arProgramacionDetalle, $this->getUser()->getUsername());
+                $em->getRepository(RhuProgramacionDetalle::class)->actualizar($arProgramacionDetalle, $this->getUser()->getUsername(), $this->getUser()->getCodigoEmpresaFk());
             }
         }
         if (!$arProgramacionDetalle->getProgramacionRel()->getEstadoAutorizado()) {
