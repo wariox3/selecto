@@ -97,6 +97,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $arMovimiento->setEstadoAutorizado(1);
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();
+        } else {
+            Mensajes::error("El registro no tiene detalles");
         }
     }
 

@@ -1,9 +1,9 @@
 {% extends 'base_sin_menu.html.twig' %}
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
-    {{ notificar()|raw }}
     <br>
     <div class="col-md-12">
+        {{ notificar()|raw }}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4> Filtros de búsqueda</h4>

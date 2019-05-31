@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    {{ notificar()|raw }}
     <div class="btn-group" style="float:left">
         <a class="btn btn-default btn-sm"
            href="{{ path('movimiento_lista', {'documento': arMovimiento.documentoRel.codigoDocumentoPk}) }}">Volver</a>
