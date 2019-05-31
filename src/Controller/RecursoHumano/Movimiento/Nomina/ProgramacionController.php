@@ -107,6 +107,13 @@ class ProgramacionController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/recursoHumano/movimiento/nomina/programacion/detalle/{id}", name="recursoHumano_programacion_detalle")
      */
     public function detalle(Request $request, $id)
@@ -131,6 +138,11 @@ class ProgramacionController extends Controller
             }
             if ($form->get('btnAutorizar')->isClicked()) {
                 $em->getRepository(RhuProgramacion::class)->autorizar($arProgramacion, $this->getUser()->getNombres(), $this->getUser()->getCodigoEmpresaFk());
+                return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnDesautorizar')->isClicked()) {
+                $em->getRepository(RhuProgramacion::class)->desautorizar($arProgramacion, $this->getUser()->getNombres(), $this->getUser()->getCodigoEmpresaFk());
+                return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arProgramacionDetalles = $request->request->get('ChkSeleccionar');

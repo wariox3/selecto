@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    {{ notificar()|raw }}
     <div class="btn-toolbar" style="float:left">
         <div class="btn-group">
             <a class="btn btn-default btn-sm" href="{{ path('recursoHumano_programacion_lista') }}">Volver</a>
@@ -95,7 +96,7 @@
             <div class="tab-content">
                 <div id="popular1" class="tab-pane active">
                     <div class="table-responsive">
-                        <table class="table  table-bordered">
+                        <table class="table  table-bordered tabla-datos">
                             <thead>
                                 <tr>
                                     <td>Id</td>
