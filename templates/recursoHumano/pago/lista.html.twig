@@ -16,19 +16,15 @@
                          <div class="col-sm-2">
                              {{ form_widget(form.EmpleadoRel) }}
                          </div>
+                         <label class="col-sm-1 control-label">Tiṕo:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.TipoRel) }}
+                         </div>
                      </div>
                      <div class="form-group form-group-sm">
                          <label class="col-sm-1 control-label">Id:</label>
                          <div class="col-sm-2">
                              {{ form_widget(form.codigo) }}
-                         </div>
-                         <label class="col-sm-1 control-label">Número identificación:</label>
-                         <div class="col-sm-2">
-                             {{ form_widget(form.numeroIdentificacion) }}
-                         </div>
-                         <label class="col-sm-1 control-label">Tiṕo:</label>
-                         <div class="col-sm-5">
-                             {{ form_widget(form.TipoRel) }}
                          </div>
                      </div>
                      <div class="form-group form-group-sm">
@@ -84,12 +80,12 @@
                                      <td>{{ arPago.nombreCorto }}</td>
                                      <td>{{ arPago.fechaDesde | date('Y/m/d') }}</td>
                                      <td>{{ arPago.fechaHasta | date('Y/m/d') }}</td>
-                                     <td class="numero">{{ arPago.vrSalarioContrato }}</td>
-                                     <td class="numero">{{ arPago.vrDevengado }}</td>
-                                     <td class="numero">{{ arPago.vrDeduccion }}</td>
-                                     <td class="numero">{{ arPago.vrNeto }}</td>
+                                     <td class="numero">{{ arPago.vrSalarioContrato |number_format(0, '.', ',') }}</td>
+                                     <td class="numero">{{ arPago.vrDevengado |number_format(0, '.', ',') }}</td>
+                                     <td class="numero">{{ arPago.vrDeduccion |number_format(0, '.', ',') }}</td>
+                                     <td class="numero">{{ arPago.vrNeto |number_format(0, '.', ',') }}</td>
                                      <td align="center">
-                                         <a href="{{  path('recursoHumano_programacion_detalle', { 'id': arPago.codigoPagoPk }) }}"
+                                         <a href="{{  path('recursoHumano_pagos_detalle', { 'id': arPago.codigoPagoPk }) }}"
                                             title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                  </tr>
                              {% endfor %}

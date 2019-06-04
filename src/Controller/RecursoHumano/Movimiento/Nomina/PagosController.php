@@ -7,6 +7,7 @@ use App\Entity\RecursoHumano\RhuAdicional;
 use App\Entity\RecursoHumano\RhuEmpleado;
 use App\Entity\RecursoHumano\RhuGrupo;
 use App\Entity\RecursoHumano\RhuPago;
+use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuPagoTipo;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,7 +32,6 @@ class PagosController extends  controller
         $form = $this->createFormBuilder()
             ->add('EmpleadoRel', EntityType::class, $em->getRepository(RhuEmpleado::class)->llenarCombo($this->getUser()->getCodigoEmpresaFk()))
             ->add('codigo', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuProgramacionCodigoProgramacion')])
-            ->add('numeroIdentificacion', NumberType::class, ['required' => false, 'data' => $session->get('filtroRhuProgramacionNombreProgramacion')])
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInvInformeAsesorVentasFechaDesde') ? date_create($session->get('filtroInvInformeAsesorVentasFechaDesde')) : null])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroInvInformeAsesorVentasFechaHasta') ? date_create($session->get('filtroInvInformeAsesorVentasFechaHasta')) : null])
             ->add('TipoRel', EntityType::class, $em->getRepository(RhuPagoTipo::class)->llenarCombo())
@@ -41,7 +41,6 @@ class PagosController extends  controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroRhuPagoCodigo', $form->get('codigo')->getData());
-                $session->set('filtroRhuPagoNumeroIdentificacion', $form->get('numeroIdentificacion')->getData());
                 $session->set('filtroRhuPagoFechaDesde', $form->get('fechaDesde')->getData() ? $form->get('fechaDesde')->getData()->format('Y-m-d') : null);
                 $session->set('filtroRhuPagoFechaHasta', $form->get('fechaHasta')->getData() ? $form->get('fechaHasta')->getData()->format('Y-m-d') : null);
                 $arEmpleado = $form->get('EmpleadoRel')->getData();
@@ -71,5 +70,22 @@ class PagosController extends  controller
     */
     public function detalle(Request $request, $id)
     {
+        $paginator = $this->get('knp_paginator');
+        $em = $this->getDoctrine()->getManager();
+        $arPago = $em->find(RhuPago::class, $id);
+        $form = $this->createFormBuilder()->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('btnImprimir')->isClicked()){
+                $objFormato = new Pago();
+                $objFormato->Generar($em, $id);
+            }
+        }
+        $arPagoDetalles = $paginator->paginate($em->getRepository(RhuPagoDetalle::class)->lista($id), $request->query->getInt('page', 1), 30);
+        return $this->render('recursoHumano/pago/detalle.html.twig', [
+            'arPago' => $arPago,
+            'arPagoDetalles' => $arPagoDetalles,
+            'form' => $form->createView()
+        ]);
     }
 }

@@ -44,9 +44,6 @@ class RhuPagoRepository extends ServiceEntityRepository
         if ($session->get('filtroRhuPagoCodigo') != '') {
             $queryBuilder->andWhere("p.codigoPagoPk = '{$session->get('filtroRhuPagoCodigo')}'");
         }
-        if ($session->get('filtroRhuPagoNumeroIdentificacion') != '') {
-            $queryBuilder->andWhere("em.numeroIdentificacion LIKE '%{$session->get('filtroRhuPagoNumeroIdentificacion')}%'");
-        }
         if ($session->get('filtroRhuPagoEmpleado') != ''){
             $queryBuilder->andWhere("p.codigoEmpleadoFk LIKE '%{$session->get('filtroRhuPagoEmpleado')}%'");
         }
