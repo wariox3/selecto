@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+                 <div class="panel-body">
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Emplado:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.EmpleadoRel) }}
+                         </div>
+                     </div>
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Id:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.codigo) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Número identificación:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.numeroIdentificacion) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Tiṕo:</label>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.TipoRel) }}
+                         </div>
+                     </div>
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Desde:</label>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.fechaDesde) }}
+                         </div>
+                     </div>
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Hasta:</label>
+                         <div class="col-sm-5">
+                             {{ form_widget(form.fechaHasta) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-body">
+                     <div class="table-responsive">
+                         <table class="table table-bordered mb-none tabla-datos">
+                             <thead>
+                             <tr>
+                                 <th>Id</th>
+                                 <th>Número</th>
+                                 <th>Tipo pago</th>
+                                 <th>Número identificación</th>
+                                 <th>Nombre corto</th>
+                                 <th>Fecha desde</th>
+                                 <th>Fecha hasta</th>
+                                 <th>Salario</th>
+                                 <th>Devengado</th>
+                                 <th>Deducciones</th>
+                                 <th>Neto</th>
+                                 <th></th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             {% for arPago in arPagos %}
+                                 <tr>
+                                     <td>{{ arPago.codigoPagoPk }}</td>
+                                     <td>{{ arPago.numero }}</td>
+                                     <td>{{ arPago.tipoPago }}</td>
+                                     <td>{{ arPago.numeroIdentificacion }}</td>
+                                     <td>{{ arPago.nombreCorto }}</td>
+                                     <td>{{ arPago.fechaDesde | date('Y/m/d') }}</td>
+                                     <td>{{ arPago.fechaHasta | date('Y/m/d') }}</td>
+                                     <td class="numero">{{ arPago.vrSalarioContrato }}</td>
+                                     <td class="numero">{{ arPago.vrDevengado }}</td>
+                                     <td class="numero">{{ arPago.vrDeduccion }}</td>
+                                     <td class="numero">{{ arPago.vrNeto }}</td>
+                                     <td align="center">
+                                         <a href="{{  path('recursoHumano_programacion_detalle', { 'id': arPago.codigoPagoPk }) }}"
+                                            title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
+                                 </tr>
+                             {% endfor %}
+                             </tbody>
+                         </table>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arPagos.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arPagos) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}

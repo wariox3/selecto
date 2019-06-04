@@ -13,12 +13,61 @@ use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class RhuPagoRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, RhuPago::class);
+    }
+
+    public function lista($codigoEmpresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuPago::class, 'p')
+            ->select('p.codigoPagoPk')
+            ->addSelect('p.numero')
+            ->addSelect('pt.nombre as tipoPago')
+            ->addSelect('em.numeroIdentificacion as numeroIdentificacion')
+            ->addSelect('em.nombreCorto as nombreCorto')
+            ->addSelect('p.fechaDesde')
+            ->addSelect('p.fechaHasta')
+            ->addSelect('p.vrSalarioContrato')
+            ->addSelect('p.vrDevengado')
+            ->addSelect('p.vrDeduccion')
+            ->addSelect('p.vrNeto')
+            ->leftJoin('p.pagoTipoRel', 'pt')
+            ->leftJoin('p.empleadoRel', 'em')
+            ->where("p.codigoEmpresaFk = {$codigoEmpresa}");
+
+        if ($session->get('filtroRhuPagoCodigo') != '') {
+            $queryBuilder->andWhere("p.codigoPagoPk = '{$session->get('filtroRhuPagoCodigo')}'");
+        }
+        if ($session->get('filtroRhuPagoNumeroIdentificacion') != '') {
+            $queryBuilder->andWhere("em.numeroIdentificacion LIKE '%{$session->get('filtroRhuPagoNumeroIdentificacion')}%'");
+        }
+        if ($session->get('filtroRhuPagoEmpleado') != ''){
+            $queryBuilder->andWhere("p.codigoEmpleadoFk LIKE '%{$session->get('filtroRhuPagoEmpleado')}%'");
+        }
+        if ($session->get('filtroRhuNombreCorto') != '') {
+            $queryBuilder->andWhere("em.nombreCorto LIKE '%{$session->get('filtroRhuNombreCorto')}%'");
+        }
+        if ($session->get('filtroRhuPagoFechaDesde') != null) {
+            $queryBuilder->andWhere("p.fechaDesde >= '{$session->get('filtroRhuPagoFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroRhuPagoFechaHasta') != null) {
+            $queryBuilder->andWhere("p.fechaHasta <= '{$session->get('filtroRhuPagoFechaHasta')} 23:59:59'");
+        }
+
+        if ($session->get('filtroRhuPagoFechaHasta') != null) {
+            $queryBuilder->andWhere("p.fechaHasta <= '{$session->get('filtroRhuPagoFechaHasta')} 23:59:59'");
+        }
+        if ($session->get('filtroRhuPagoTipo') != '') {
+            $queryBuilder->andWhere("p.codigoPagoTipoFk = '{$session->get('filtroRhuPagoTipo')}'");
+        }
+
+        return $queryBuilder;
     }
 
     /**
