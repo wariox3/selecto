@@ -9,6 +9,7 @@ use App\Entity\RecursoHumano\RhuGrupo;
 use App\Entity\RecursoHumano\RhuPago;
 use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuPagoTipo;
+use App\Formatos\Pago;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -73,12 +74,14 @@ class PagosController extends  controller
         $paginator = $this->get('knp_paginator');
         $em = $this->getDoctrine()->getManager();
         $arPago = $em->find(RhuPago::class, $id);
-        $form = $this->createFormBuilder()->getForm();
+        $form = $this->createFormBuilder()
+            ->add('btnImprimir', SubmitType::class, ['label' => 'Imprimir', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if($form->get('btnImprimir')->isClicked()){
-                $objFormato = new Pago();
-                $objFormato->Generar($em, $id);
+               $objFormato = new Pago();
+                $objFormato->Generar($em, $arPago->getCodigoPagoPk(),$arPago->getCodigoEmpresaFk());
             }
         }
         $arPagoDetalles = $paginator->paginate($em->getRepository(RhuPagoDetalle::class)->lista($id), $request->query->getInt('page', 1), 30);
