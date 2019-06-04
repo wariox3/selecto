@@ -35,7 +35,7 @@ class RhuProgramacionDetalleRepository extends ServiceEntityRepository
                 $em->remove($arProgramacionDetalle);
             }
         }
-        $cantidad = $em->getRepository(RhuProgramacion::class)->getCantidadRegistros($arProgramacion->getCodigoProgramacionPk());
+        $cantidad = $em->getRepository(RhuProgramacion::class)->cantidadRegistros($arProgramacion->getCodigoProgramacionPk());
         $arProgramacion->setCantidad($cantidad);
         $em->persist($arProgramacion);
         $em->flush();

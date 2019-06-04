@@ -186,7 +186,7 @@ class RhuEmpleado
     protected $ciudadRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="empleadosCiudadExpedicionRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="rhuEmpleadosCiudadExpedicionRel")
      * @ORM\JoinColumn(name="codigo_ciudad_expedicion_identificacion_fk",referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadExpedicionRel;

@@ -10,13 +10,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class RhuVacacionRepository extends ServiceEntityRepository
 {
 
-    /**
-     * @return string
-     */
-    public function getRuta(){
-        return 'recursohumano_movimiento_nomina_vacacion_';
-    }
-
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, RhuVacacion::class);
@@ -27,9 +20,9 @@ class RhuVacacionRepository extends ServiceEntityRepository
      */
     public function lista()
     {
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuCredito::class, 'e');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuVacacion::class, 'v');
         $queryBuilder
-            ->select('e.codigoCreditoPk');
+            ->select('v');
         return $queryBuilder;
     }
 
@@ -78,6 +71,5 @@ class RhuVacacionRepository extends ServiceEntityRepository
         return $arrDevolver;
 
     }
-
 
 }

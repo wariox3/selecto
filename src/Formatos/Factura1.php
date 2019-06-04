@@ -89,14 +89,6 @@ class Factura1 extends \FPDF
 
         //ENCABEZADO ORDEN DE COMPRA
         $intY = 40;
-        $this->SetXY(8, $intY);
-        $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Inmueble:", 1, 0, 'L', 1);
-        $this->SetFont('Arial', '', 7);
-        $this->SetFillColor(272, 272, 272);
-        $this->Cell(100, 5, $arEmpresa->getNombreCorto() . " - " . $arMovimiento->getReferencia() , 1, 0, 'L', 1);
-
 
         $this->SetXY(8, $intY + 5);
         $this->SetFont('Arial', 'B', 7);
@@ -109,7 +101,7 @@ class Factura1 extends \FPDF
         $this->SetXY(8, $intY + 10);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Nit:", 1, 0, 'L', 1);
+        $this->Cell(18, 5, "Refsemantica:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(45, 5, $arMovimiento->getTerceroRel()->getNumeroIdentificacion(), 1, 0, 'L', 1);

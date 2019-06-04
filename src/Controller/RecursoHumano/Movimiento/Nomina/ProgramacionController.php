@@ -11,6 +11,8 @@ use App\Entity\RecursoHumano\RhuPagoTipo;
 use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
 use App\Form\Type\RecursoHumano\ProgramacionType;
+use App\Formatos\Programacion;
+use App\Formatos\ResumenConceptos;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -121,18 +123,40 @@ class ProgramacionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $arProgramacion = $em->getRepository(RhuProgramacion::class)->find($id);
+        $arrBtnEliminar = ['label' => 'Eliminar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-danger']];
+        $arrBtnActualizar = ['label' => 'Actualizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnCargarContratos = ['label' => 'Cargar Contratos', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
+        $arrBtnEliminarTodos = ['attr' => ['class' => 'btn btn-sm btn-danger'], 'label' => 'Eliminar todos'];
+        if ($arProgramacion->getEstadoAutorizado()) {
+            $arrBtnCargarContratos['disabled'] = true;
+            $arrBtnAutorizar['disabled'] = true;
+            $arrBtnEliminar['disabled'] = true;
+            $arrBtnAprobado['disabled'] = false;
+            $arrBtnActualizar['disabled'] = true;
+            $arrBtnDesautorizar['disabled'] = false;
+            $arrBtnEliminarTodos['attr']['class'] .= ' hidden';
+        }
+        if ($arProgramacion->getEstadoAprobado()) {
+            $arrBtnDesautorizar['disabled'] = true;
+            $arrBtnAprobado['disabled'] = true;
+        }
         $form = $this->createFormBuilder()
-            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
-            ->add('btnAutorizar', SubmitType::class, ['label' => 'Autorizar', 'attr' => ['class' => 'btn btn-sm btn-default']])
-            ->add('btnDesautorizar', SubmitType::class, ['label' => 'Desautorizar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnEliminar', SubmitType::class, $arrBtnEliminar)
+            ->add('btnAutorizar', SubmitType::class, $arrBtnAutorizar)
+            ->add('btnDesautorizar', SubmitType::class, $arrBtnDesautorizar)
             ->add('btnImprimir', SubmitType::class, ['label' => 'Imprimir', 'attr' => ['class' => 'btn btn-sm btn-default']])
-            ->add('btnAprobar', SubmitType::class, ['label' => 'Aprobar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnAprobar', SubmitType::class, $arrBtnAprobado)
             ->add('btnAnular', SubmitType::class, ['label' => 'Anular', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnImprimirResumen', SubmitType::class, ['label' => 'Imprimir resumen', 'attr' => ['class' => 'btn btn-sm btn-default']])
-            ->add('btnCargarContratos', SubmitType::class, ['label' => 'Cargar contratos', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->add('btnEliminarTodos', SubmitType::class, $arrBtnEliminarTodos)
+            ->add('btnCargarContratos', SubmitType::class, $arrBtnCargarContratos)
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $arrSeleccionados = $request->request->get('ChkSeleccionar');
             if ($form->get('btnCargarContratos')->isClicked()) {
                 $em->getRepository(RhuContrato::class)->cargarContratos($arProgramacion, $this->getUser()->getCodigoEmpresaFk());
             }
@@ -144,10 +168,23 @@ class ProgramacionController extends Controller
                 $em->getRepository(RhuProgramacion::class)->desautorizar($arProgramacion, $this->getUser()->getNombres(), $this->getUser()->getCodigoEmpresaFk());
                 return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
             }
+            if ($form->get('btnImprimir')->isClicked()) {
+                $objFormato = new Programacion();
+                $objFormato->Generar($em, $id, $this->getUser()->getCodigoEmpresaFk());
+            }
+            if ($form->get('btnImprimirResumen')->isClicked()) {
+                $objFormato = new ResumenConceptos();
+                $objFormato->Generar($em, $id, $this->getUser()->getCodigoEmpresafK());
+            }
             if ($form->get('btnEliminar')->isClicked()) {
-                $arProgramacionDetalles = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(RhuProgramacionDetalle::class, $arProgramacionDetalles);
+                $em->getRepository(RhuProgramacionDetalle::class)->eliminar($arrSeleccionados, $arProgramacion);
                 return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
+            }
+            if ($form->get('btnEliminarTodos')->isClicked()) {
+                if (!$arProgramacion->getEstadoAutorizado()) {
+                    $em->getRepository(RhuProgramacionDetalle::class)->eliminarTodoDetalles($arProgramacion);
+                    return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
+                }
             }
         }
 

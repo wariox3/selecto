@@ -45,11 +45,6 @@ class GenCiudad
     private $ciudadTerceroRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadExpedicionRel")
-     */
-    protected $empleadosCiudadExpedicionRel;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadRel")
      */
     protected $EmpleadosCiudadRel;
@@ -173,22 +168,6 @@ class GenCiudad
     /**
      * @return mixed
      */
-    public function getEmpleadosCiudadExpedicionRel()
-    {
-        return $this->empleadosCiudadExpedicionRel;
-    }
-
-    /**
-     * @param mixed $empleadosCiudadExpedicionRel
-     */
-    public function setEmpleadosCiudadExpedicionRel($empleadosCiudadExpedicionRel): void
-    {
-        $this->empleadosCiudadExpedicionRel = $empleadosCiudadExpedicionRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getEmpleadosCiudadRel()
     {
         return $this->EmpleadosCiudadRel;
@@ -265,6 +244,7 @@ class GenCiudad
     {
         $this->rhuContratosCiudadLaboraRel = $rhuContratosCiudadLaboraRel;
     }
+
 
 
 

@@ -15,6 +15,15 @@
             {{ form_widget(form.btnImprimirResumen) }}
         </div>
     </div>
+    <div style="float:right">
+        {% if arProgramacion.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}
+    </div>
+    <div style="float:right">
+        {% if arProgramacion.estadoAnulado == true %}<span class="badge badge-success">Desautorizado</span>{% endif %}
+    </div>
+    <div style="float:right">
+        {% if arProgramacion.estadoAprobado == true %}<span class="badge label-success">Aprobado</span>{% endif %}
+    </div>
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
@@ -23,7 +32,7 @@
             <td class="titulo">TIPO CONTRATO</td>
             <td class="td-in-well">{{ arProgramacion.grupoRel.nombre | default('') }}</td>
             <td class="titulo">VALOR NETO</td>
-            <td class="td-in-well">{{arProgramacion.vrNeto }}</td>
+            <td class="td-in-well numero">{{ arProgramacion.vrNeto | number_format }}</td>
 
         </tr>
         <tr>
@@ -52,9 +61,9 @@
         </tr>
         <tr>
             <td class="titulo">FECHA PAGO</td>
-            <td class="td-in-well">{{arProgramacion.fechaPagado |date('Y/m/d') }}</td>
+            <td class="td-in-well">{{ arProgramacion.fechaPagado |date('Y/m/d') }}</td>
             <td class="titulo">EMPLEADOS GENERADOS</td>
-            <td class="td-in-well">{{arProgramacion.empleadosGenerados  ?"si":"no" }}</td>
+            <td class="td-in-well">{{ arProgramacion.empleadosGenerados  ?"si":"no" }}</td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
         </tr>
@@ -80,17 +89,17 @@
             <td class="titulo">MENSAJE PAGO</td>
             <td class="td-in-well">{{ arProgramacion.mensajePago }}</td>
             <td class="titulo">DÍAS</td>
-            <td class="td-in-well">{{  arProgramacion.dias }}</td>
+            <td class="td-in-well">{{ arProgramacion.dias }}</td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
         </tr>
     </table>
     <br>
     <div class="col-mg-12">
-        <div class="tabs tabs-primary">
+        <div class="tabs tabs-default">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#popular1" data-toggle="tab"><i class="fa fa-star"></i>Detalle</a>
+                    <a href="#popular1" data-toggle="tab">Detalle</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -98,31 +107,32 @@
                     <div class="table-responsive">
                         <table class="table  table-bordered tabla-datos">
                             <thead>
-                                <tr>
-                                    <td>Id</td>
-                                    <td>Cód</td>
-                                    <td>Doc</td>
-                                    <td>Nombre</td>
-                                    <td>Desde</td>
-                                    <td>Hasta</td>
-                                    <td>Salario</td>
-                                    <th title="Horas diurnas">D</th>
-                                    <th title="Horas nocturnas">N</th>
-                                    <th title="Horas festivas diurnas">FD</th>
-                                    <th title="Horas festivas nocturnas">FN</th>
-                                    <th title="Horas extras diurnas">ED</th>
-                                    <th title="Horas extras nocturnas">EN</th>
-                                    <th title="Horas extras festivas diurnas">EFD</th>
-                                    <th title="Horas extras festivas nocturnas">EFN</th>
-                                    <th title="Recargos nocturnos">RN</th>
-                                    <th title="Recargo festivo diurno">RFD</th>
-                                    <th title="Recargo festivo nocturno">RFN</th>
-                                    <td title="Valor neto">VR. NETO</td>
-                                    <th></th>
-                                    <td class="text-center">
-                                        <input type="checkbox" name="ChkSeleccionarTodosDetalle"
-                                               OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
-                                </tr>
+                            <tr>
+                                <td>Id</td>
+                                <td>Cód</td>
+                                <td>Doc</td>
+                                <td>Nombre</td>
+                                <td>Desde</td>
+                                <td>Hasta</td>
+                                <td>Salario</td>
+                                <th title="Horas diurnas">D</th>
+                                <th title="Horas nocturnas">N</th>
+                                <th title="Horas festivas diurnas">FD</th>
+                                <th title="Horas festivas nocturnas">FN</th>
+                                <th title="Horas extras diurnas">ED</th>
+                                <th title="Horas extras nocturnas">EN</th>
+                                <th title="Horas extras festivas diurnas">EFD</th>
+                                <th title="Horas extras festivas nocturnas">EFN</th>
+                                <th title="Recargos nocturnos">RN</th>
+                                <th title="Recargo festivo diurno">RFD</th>
+                                <th title="Recargo festivo nocturno">RFN</th>
+                                <td title="Valor neto">VR. NETO</td>
+                                <th></th>
+                                <td class="text-center">
+                                    <input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                           OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/>
+                                </th>
+                            </tr>
                             </thead>
                             <tbody>
                             {% for arProgramacionDetalle in arProgramacionDetalles %}
@@ -131,8 +141,8 @@
                                     <td>{{ arProgramacionDetalle.codigoContratoFk }}</td>
                                     <td>{{ arProgramacionDetalle.numeroIdentificacion }}</td>
                                     <td>{{ arProgramacionDetalle.nombreCorto }}</td>
-                                    <td>{{ arProgramacionDetalle.fechaDesdeContrato | date('Y-m-d')  }}</td>
-                                    <td>{{ arProgramacionDetalle.fechaHastaContrato | date('Y-m-d')  }}</td>
+                                    <td>{{ arProgramacionDetalle.fechaDesdeContrato | date('Y-m-d') }}</td>
+                                    <td>{{ arProgramacionDetalle.fechaHastaContrato | date('Y-m-d') }}</td>
                                     <td class="numero">{{ arProgramacionDetalle.vrSalario | number_format }}</td>
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasDiurnas | number_format(0, '.', ',') }}</td>
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasNocturnas | number_format(0, '.', ',') }}</td>
@@ -145,13 +155,16 @@
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoNocturno | number_format(0, '.', ',') }}</td>
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoDiurno | number_format(0, '.', ',') }}</td>
                                     <td style="text-align: right">{{ arProgramacionDetalle.horasRecargoFestivoNocturno | number_format(0, '.', ',') }}</td>
-                                    <td>{{ arProgramacionDetalle.vrNeto }}</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-default btn-sm"
-                                           href="javascript:abrirVentana3('{{ path('recursoHumano_programacion_resumen', {'id': arProgramacionDetalle.codigoProgramacionDetallePk }) }}', 'ProgramcionDetalle', 600, 900)">
-                                            <i class="fa fa-table fa-lg"></i>
-                                        </a>
-                                    </td>
+                                    <td style="text-align: right">{{ arProgramacionDetalle.vrNeto | number_format }}</td>
+                                    {% if arProgramacion.estadoAutorizado %}
+                                        <td class="text-center">
+                                            <a class="btn btn-default btn-sm"
+                                               href="javascript:abrirVentana3('{{ path('recursoHumano_programacion_resumen', {'id': arProgramacionDetalle.codigoProgramacionDetallePk }) }}', 'ProgramcionDetalle', 600, 900)">
+                                                <i class="fa fa-table fa-lg"></i>
+                                            </a>
+                                        </td> {% else %}
+                                        <td></td>
+                                    {% endif %}
                                     </td>
                                     <td class="text-center">
                                         <input type="checkbox" name="ChkSeleccionar[]"
@@ -165,9 +178,10 @@
                     <div class="panel-footer">
                         <div class="row">
                             <div class="col-sm-9 col-sm-offset-3 ">
-                                <div class="btn-group pull-right">
+                                <div class="btn-group" style="float: right">
                                     {{ form_widget(form.btnCargarContratos) }}
                                     {{ form_widget(form.btnEliminar) }}
+                                    {{ form_widget(form.btnEliminarTodos) }}
                                 </div>
                             </div>
                         </div>

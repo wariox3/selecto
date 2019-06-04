@@ -34,6 +34,11 @@ class RhuVacacion
     private $codigoGrupoFk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\Column(name="fecha", type="date",nullable=true)
      */
     private $fecha;
@@ -355,6 +360,22 @@ class RhuVacacion
     public function setCodigoGrupoFk($codigoGrupoFk): void
     {
         $this->codigoGrupoFk = $codigoGrupoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
     /**
@@ -1172,4 +1193,7 @@ class RhuVacacion
     {
         $this->grupoRel = $grupoRel;
     }
+
+
+
 }

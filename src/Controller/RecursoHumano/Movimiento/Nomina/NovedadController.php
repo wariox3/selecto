@@ -85,18 +85,23 @@ class NovedadController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arNovedad = $form->getData();
+                if ($arNovedad->getEmpleadoRel()->getCodigoContratoFk()) {
+                    $arContrato = $em->getRepository(RhuContrato::class)->find($arNovedad->getEmpleadoRel()->getCodigoContratoFk());
+                } elseif ($arNovedad->getEmpleadoRel()->getCodigoContratoUltimoFk()) {
+                    $arContrato = $em->getRepository(RhuContrato::class)->find($arNovedad->getEmpleadoRel()->getCodigoContratoUltimoFk());
+                } else {
+                    $arContrato = null;
+                }
+                $arNovedad->setContratoRel($arContrato);
                 $arNovedad->setFecha(new \DateTime('now'));
                 $arNovedad->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                 $em->persist($arNovedad);
                 $em->flush();
                 return $this->redirect($this->generateUrl('recursoHumano_novedad_detalle', ['id' => $arNovedad->getCodigoNovedadPk()]));
-
             }
         }
-        return $this->render('recursoHumano/Movimiento/Nomina/Novedad/nuevo.html.twig', [
-            'arNovedad' => $arNovedad,
-            'form' => $form->createView()
-        ]);
+        return $this->render('recursoHumano/Movimiento/Nomina/Novedad/nuevo.html.twig', ['arNovedad' => $arNovedad,
+            'form' => $form->createView()]);
     }
 
     /**
@@ -105,7 +110,8 @@ class NovedadController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("recursohumano/movimiento/nomina/novedad/detalle/{id}", name="recursoHumano_novedad_detalle")
      */
-    public function detalle(Request $request, $id)
+    public
+    function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $arNovedad = $em->getRepository(RhuNovedad::class)->find($id);
