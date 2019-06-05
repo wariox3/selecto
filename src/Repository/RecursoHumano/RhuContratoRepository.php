@@ -6,6 +6,7 @@ namespace App\Repository\RecursoHumano;
 
 use App\Entity\RecursoHumano\RhuConfiguracion;
 use App\Entity\RecursoHumano\RhuContrato;
+use App\Entity\RecursoHumano\RhuNovedad;
 use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
@@ -76,6 +77,9 @@ class RhuContratoRepository extends ServiceEntityRepository
      */
     public function cargarContratos($arProgramacion, $codigoEmpresa)
     {
+        /**
+         * @var $arProgramacionDetalle RhuProgramacionDetalle
+         */
         $em = $this->getEntityManager();
         $arConfiguracion = $em->getRepository(RhuConfiguracion::class)->cargarContratos();
         $em->getRepository(RhuProgramacionDetalle::class)->eliminarTodoDetalles($arProgramacion);
@@ -104,6 +108,47 @@ class RhuContratoRepository extends ServiceEntityRepository
             if ($arContrato->getCodigoPensionFk() == 'PEN') {
                 $arProgramacionDetalle->setDescuentoPension(0);
             }
+            $dateFechaDesde = "";
+            $dateFechaHasta = "";
+            $intDiasDevolver = 0;
+            $fechaFinalizaContrato = $arContrato->getFechaHasta();
+            if ($arContrato->getIndefinido() == 1) {
+                $fecha = date_create(date('Y-m-d'));
+                date_modify($fecha, '+100000 day');
+                $fechaFinalizaContrato = $fecha;
+            }
+            if ($arContrato->getFechaDesde() < $arProgramacion->getFechaDesde() == true) {
+                $dateFechaDesde = $arProgramacion->getFechaDesde();
+            } else {
+                if ($arContrato->getFechaDesde() > $arProgramacion->getFechaHasta() == true) {
+                    if ($arContrato->getFechaDesde() == $arProgramacion->getFechaHastaReal()) {
+                        $dateFechaDesde = $arProgramacion->getFechaHastaReal();
+                        $intDiasDevolver = 1;
+                    } else {
+                        $intDiasDevolver = 0;
+                    }
+                } else {
+                    $dateFechaDesde = $arContrato->getFechaDesde();
+                }
+            }
+            if ($fechaFinalizaContrato > $arProgramacion->getFechaHasta() == true) {
+                $dateFechaHasta = $arProgramacion->getFechaHasta();
+            } else {
+                if ($fechaFinalizaContrato < $arProgramacion->getFechaDesde() == true) {
+                    $intDiasDevolver = 0;
+                } else {
+                    $dateFechaHasta = $fechaFinalizaContrato;
+                }
+            }
+            if ($dateFechaDesde != "" && $dateFechaHasta != "") {
+                $intDias = $dateFechaDesde->diff($dateFechaHasta);
+                $intDias = $intDias->format('%a');
+                $intDiasDevolver = $intDias + 1;
+                $intDiasPeriodoReales = $intDias + 1;
+                //Mes de febrero para periodos NO continuos
+                $intDiasInhabilesFebrero = 0;
+            }
+
             $fechaDesde = $this->fechaDesdeContrato($arProgramacion->getFechaDesde(), $arContrato->getFechaDesde());
             $fechaHasta = $this->fechaHastaContrato($arProgramacion->getFechaHasta(), $arContrato->getFechaHasta(), $arContrato->getIndefinido());
             $dias = $fechaDesde->diff($fechaHasta)->days + 1;
@@ -120,6 +165,74 @@ class RhuContratoRepository extends ServiceEntityRepository
             $arProgramacionDetalle->setDias($dias);
             $arProgramacionDetalle->setDiasTransporte($dias);
             $arProgramacionDetalle->setHorasDiurnas($horas);
+
+            /*
+             * Se cargan los dias correspondientes a vacaciones del periodo
+             */
+            $arrVacaciones = $em->getRepository(RhuVacacion::class)->dias($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde(), $arProgramacion->getFechaHasta());
+            $intDiasVacaciones = $arrVacaciones['dias'];
+            if ($intDiasVacaciones > 0) {
+                $arProgramacionDetalle->setDiasVacaciones($intDiasVacaciones);
+                $arProgramacionDetalle->setIbcVacacion($arrVacaciones['ibc']);
+            }
+
+            /*
+             * Se cargan las licencias correspondientes al periodo
+             */
+            $intDiasLicencia = 0;
+            $arLicencias = new RhuNovedad();
+            $arLicencias = $em->getRepository(RhuNovedad::class)->periodoLicencias($arProgramacionDetalle->getFechaDesde(), $arProgramacionDetalle->getFechaHasta(), $arContrato->getCodigoEmpleadoFk());
+            foreach ($arLicencias as $arLicencia) {
+                $fechaDesde = $arProgramacionDetalle->getFechaDesde();
+                $fechaHasta = $arProgramacionDetalle->getFechaHasta();
+                if ($arLicencia->getFechaDesde() > $fechaDesde) {
+                    $fechaDesde = $arLicencia->getFechaDesde();
+                }
+                if ($arLicencia->getFechaHasta() < $fechaHasta) {
+                    $fechaHasta = $arLicencia->getFechaHasta();
+                }
+                $intDias = $fechaDesde->diff($fechaHasta);
+                $intDias = $intDias->format('%a');
+                $intDias += 1;
+                $intDiasLicencia += $intDias;
+            }
+            if ($intDiasLicencia > 0) {
+                $arProgramacionDetalle->setDiasLicencia($intDiasLicencia);
+            }
+
+            /*
+             * Se cargan las incapacidades correspondientes al periodo
+             */
+            $intDiasIncapacidad = 0;
+            $arIncapacidades = new RhuNovedad();
+            $arIncapacidades = $em->getRepository(RhuNovedad::class)->periodoIncapacidades($arProgramacionDetalle->getFechaDesde(), $arProgramacionDetalle->getFechaHasta(), $arContrato->getCodigoEmpleadoFk());
+            foreach ($arIncapacidades as $arIncapacidad) {
+                $fechaDesde = $arProgramacionDetalle->getFechaDesde();
+                $fechaHasta = $arProgramacionDetalle->getFechaHasta();
+                if ($arIncapacidad->getFechaDesde() > $fechaDesde) {
+                    $fechaDesde = $arIncapacidad->getFechaDesde();
+                }
+                if ($arIncapacidad->getFechaHasta() < $fechaHasta) {
+                    $fechaHasta = $arIncapacidad->getFechaHasta();
+                }
+                $intDias = $fechaDesde->diff($fechaHasta);
+                $intDias = $intDias->format('%a');
+                $intDias += 1;
+                $intDiasIncapacidad += $intDias;
+            }
+            if ($intDiasIncapacidad > 0) {
+                $arProgramacionDetalle->setDiasIncapacidad($intDiasIncapacidad);
+            }
+
+            $diasNovedad = $intDiasIncapacidad + $intDiasLicencia + $intDiasVacaciones;
+            $dias = $intDiasDevolver - $diasNovedad;
+            $horasNovedad = ($intDiasIncapacidad + $intDiasLicencia + $intDiasVacaciones) * $arContrato->getFactorHorasDia();
+            $horasDiurnas = ($intDiasDevolver * $arContrato->getFactorHorasDia()) - $horasNovedad;
+            if ($intDiasPeriodoReales == $diasNovedad) {
+                $dias = 0;
+                $horasDiurnas = 0;
+            }
+
 
             $em->persist($arProgramacionDetalle);
             $em->flush();

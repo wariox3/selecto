@@ -5,6 +5,7 @@ namespace App\Controller\RecursoHumano\Movimiento\Nomina;
 
 use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuGrupo;
+use App\Entity\RecursoHumano\RhuNovedad;
 use App\Entity\RecursoHumano\RhuPago;
 use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuPagoTipo;
@@ -189,10 +190,12 @@ class ProgramacionController extends Controller
         }
 
         $arProgramacionDetalles = $paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()), $request->query->getInt('page', 1), 30);
+        $arNovedades = $paginator->paginate($em->getRepository(RhuNovedad::class)->periodo($arProgramacion->getFechaDesde(), $arProgramacion->getFechaHasta(), ""), $request->query->getInt('page', 1, 30));
         return $this->render('recursoHumano/programacion/detalle.html.twig', [
             'form' => $form->createView(),
             'arProgramacion' => $arProgramacion,
-            'arProgramacionDetalles' => $arProgramacionDetalles
+            'arProgramacionDetalles' => $arProgramacionDetalles,
+            'arNovedades' => $arNovedades
         ]);
     }
 

@@ -89,5 +89,52 @@ class RhuNovedadRepository extends ServiceEntityRepository
         return $arIncapacidades;
     }
 
+    public function periodoLicencias($fechaDesde, $fechaHasta, $codigoEmpleado = "")
+    {
+        $em = $this->getEntityManager();
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuNovedad::class, 'n')
+            ->select('n')
+            ->leftJoin('n.novedadTipoRel', 'nt')
+            ->where("n.fechaDesde BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaDesde >= '{$strFechaDesde}' AND n.fechaDesde <= '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta >= '{$strFechaHasta}' AND n.fechaDesde <= '{$strFechaDesde}'")
+            ->andWhere('nt.licencia = true');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function periodoIncapacidades($fechaDesde, $fechaHasta, $codigoEmpleado = "")
+    {
+        $em = $this->getEntityManager();
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuNovedad::class, 'n')
+            ->select('n')
+            ->leftJoin('n.novedadTipoRel', 'nt')
+            ->where("n.fechaDesde BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaDesde >= '{$strFechaDesde}' AND n.fechaDesde <= '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta >= '{$strFechaHasta}' AND n.fechaDesde <= '{$strFechaDesde}'")
+            ->andWhere('nt.incapacidad = true');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function periodo($fechaDesde, $fechaHasta, $codigoEmpleado = "")
+    {
+        $em = $this->getEntityManager();
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuNovedad::class, 'n')
+            ->select('n')
+            ->leftJoin('n.novedadTipoRel', 'nt')
+            ->where("n.fechaDesde BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaDesde >= '{$strFechaDesde}' AND n.fechaDesde <= '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta >= '{$strFechaHasta}' AND n.fechaDesde <= '{$strFechaDesde}'");
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 
 }

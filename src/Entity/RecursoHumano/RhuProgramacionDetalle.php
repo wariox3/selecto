@@ -135,6 +135,26 @@ class RhuProgramacionDetalle
     private $horasRecargoFestivoNocturno = 0;
 
     /**
+     * @ORM\Column(name="dias_licencia", type="integer")
+     */
+    private $diasLicencia = 0;
+
+    /**
+     * @ORM\Column(name="dias_incapacidad", type="integer")
+     */
+    private $diasIncapacidad = 0;
+
+    /**
+     * @ORM\Column(name="dias_vacacion", type="integer")
+     */
+    private $diasVacacion = 0;
+
+    /**
+     * @ORM\Column(name="ibc_vacacion", type="float")
+     */
+    private $ibcVacacion = 0;
+
+    /**
      * @ORM\Column(name="descuento_salud", options={"default": true}, type="boolean", nullable=true)
      */
     private $descuentoSalud = true;
@@ -708,6 +728,70 @@ class RhuProgramacionDetalle
     public function setDiasVacaciones($diasVacaciones): void
     {
         $this->diasVacaciones = $diasVacaciones;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiasLicencia()
+    {
+        return $this->diasLicencia;
+    }
+
+    /**
+     * @param mixed $diasLicencia
+     */
+    public function setDiasLicencia($diasLicencia): void
+    {
+        $this->diasLicencia = $diasLicencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiasIncapacidad()
+    {
+        return $this->diasIncapacidad;
+    }
+
+    /**
+     * @param mixed $diasIncapacidad
+     */
+    public function setDiasIncapacidad($diasIncapacidad): void
+    {
+        $this->diasIncapacidad = $diasIncapacidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiasVacacion()
+    {
+        return $this->diasVacacion;
+    }
+
+    /**
+     * @param mixed $diasVacacion
+     */
+    public function setDiasVacacion($diasVacacion): void
+    {
+        $this->diasVacacion = $diasVacacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbcVacacion()
+    {
+        return $this->ibcVacacion;
+    }
+
+    /**
+     * @param mixed $ibcVacacion
+     */
+    public function setIbcVacacion($ibcVacacion): void
+    {
+        $this->ibcVacacion = $ibcVacacion;
     }
 
 

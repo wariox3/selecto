@@ -28,14 +28,14 @@ class RhuNovedadTipo
     private $nombre;
 
     /**
-     * @ORM\Column(name="abreviatura", type="string", length=5, nullable=true)
+     * @ORM\Column(name="incapacidad", type="boolean", nullable=true, options={"default":false})
      */
-    private $abreviatura;
+    private $incapacidad = false;
 
     /**
-     * @ORM\Column(name="sub_tipo", type="string", length=1, nullable=true)
+     * @ORM\Column(name="licencia", type="boolean", nullable=true, options={"default":false})
      */
-    private $subTipo;
+    private $licencia = false;
 
     /**
      * @ORM\OneToMany(targetEntity="RhuNovedad", mappedBy="novedadTipoRel")
@@ -159,4 +159,38 @@ class RhuNovedadTipo
     {
         $this->conceptoRel = $conceptoRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIncapacidad()
+    {
+        return $this->incapacidad;
+    }
+
+    /**
+     * @param mixed $incapacidad
+     */
+    public function setIncapacidad($incapacidad): void
+    {
+        $this->incapacidad = $incapacidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLicencia()
+    {
+        return $this->licencia;
+    }
+
+    /**
+     * @param mixed $licencia
+     */
+    public function setLicencia($licencia): void
+    {
+        $this->licencia = $licencia;
+    }
+
+
 }
