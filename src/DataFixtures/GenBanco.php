@@ -284,17 +284,6 @@ class GenBanco extends Fixture
             $arBanco->setTelefono(2868609);
             $manager->persist($arBanco);
         }
-        $arBanco = $manager->getRepository(\App\Entity\General\GenBanco::class)->find(26);
-        if(!$arBanco){
-            $arBanco = new \App\Entity\General\GenBanco();
-            $arBanco->setCodigoBancoPk(26);
-            $arBanco->setNombre('BANCO COMPARTIR S.A');
-            $arBanco->setCodigoGeneral(63);
-            $arBanco->setNit(860043186-6);
-            $arBanco->setDireccion('CALLE 72 No. 54 - 63');
-            $arBanco->setTelefono(3509131);
-            $manager->persist($arBanco);
-        }
 
         $manager->flush();
     }
