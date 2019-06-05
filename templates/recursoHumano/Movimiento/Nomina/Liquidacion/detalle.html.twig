@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-sm btn-default" href="{{ path('recursoHumano_liquidacion_lista') }}">Volver</a>
+        </div>
+        <div class="btn-group">
+        </div>
+    </div>
+    <br/><br/>
+    <table width="100%" class="table table-condensed table-bordered">
+        <tr>
+            <td class="titulo">CÓDIGO:</td>
+            <td class="td-in-well">{{ arLiquidacion.codigoLiquidacionPk }}</td>
+            <td class="titulo">FECHA:</td>
+            <td class="td-in-well">{{ arLiquidacion.fecha|date("Y/m/d") }}</td>
+            <td class="titulo">NÚMERO:</td>
+            <td class="td-in-well">{{ arLiquidacion.numero }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well-numerico" ></td>
+        </tr>
+        <tr>
+            <td class="titulo">CÓDIGO EMPLEADO:</td>
+            <td class="td-in-well">{{ arLiquidacion.codigoEmpleadoFk | default('') }}</td>
+            <td class="titulo">CONTRATO MOTIVO:</td>
+            <td class="td-in-well">{{ arLiquidacion.codigoContratoMotivoFk | default('') }}</td>
+            <td class="titulo">DESDE:</td>
+            <td class="td-in-well">{{ arLiquidacion.fechaDesde|date("Y/m/d") }}</td>
+            <td class="titulo">HASTA:</td>
+            <td class="td-in-well">{{ arLiquidacion.fechaHasta|date("Y/m/d") }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">VALOR CENSANTIAS</td>
+            <td class="td-in-well-numerico" >{{ arLiquidacion.vrCesantias | number_format(0, '.', ',') }}</td>
+            <td class="titulo">VALOR INTERESES CENSANTIAS:</td>
+            <td class="td-in-well-numerico" >{{ arLiquidacion.vrInteresesCesantias | number_format(0, '.', ',') }}</td>
+            <td class="titulo">VALOR PRIMAR</td>
+            <td class="td-in-well-numerico" >{{ arLiquidacion.vrPrima | number_format(0, '.', ',')   }}</td>
+            <td class="titulo">VALOR VACIONES:</td>
+            <td class="td-in-well-numerico" >{{ arLiquidacion.vrVacacion | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">VALOR INDEMNIZACIÓN:</td>
+            <td class="td-in-well-numerico" >{{ arLiquidacion.vrIndemnizacion | number_format(0, '.', ',') }}</td>
+            <td class="titulo">DÍAS CESANTIAS:</td>
+            <td class="td-in-well">{{ arLiquidacion.diasCesantias| default('') }}</td>
+            <td class="titulo">DÍAS CESANTIAS AUSENTISMO</td>
+            <td class="td-in-well">{{ arLiquidacion.diasCesantiasAusentismo| default('') }}</td>
+            <td class="titulo">DÍAS PRIMA:</td>
+            <td class="td-in-well">{{ arLiquidacion.diasPrima| default('') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">DÍAS PRIMA AUSENTISMO:</td>
+            <td class="td-in-well">{{ arLiquidacion.diasPrimaAusentismo }}</td>
+            <td class="titulo">FECHA ULTIMO PAGO PRIMA:</td>
+            <td class="td-in-well">{{ arLiquidacion.fechaUltimoPagoPrima|date("Y/m/d") }}</td>
+            <td class="titulo">FECHA ULTIMO PAGO VACACIONES:</td>
+            <td class="td-in-well">{{ arLiquidacion.fechaUltimoPagoVacacion|date("Y/m/d") }}</td>
+            <td class="titulo">FECHA ULTIMO PAGO CESANTIAS:</td>
+            <td class="td-in-well">{{ arLiquidacion.fechaUltimoPagoCesantias|date("Y/m/d") }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">ESTADO AUTORIZADO:</td>
+            <td class="td-in-well">{{ arLiquidacion.estadoAutorizado ? "SI": "NO" }}</td>
+            <td class="titulo">ESTADO APROBADO:</td>
+            <td class="td-in-well">{{ arLiquidacion.estadoAprobado ? "SI": "NO" }}</td>
+            <td class="titulo">ESTADO ANULADO:</td>
+            <td class="td-in-well">{{ arLiquidacion.estadoAnulado ? "SI": "NO" }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+        </tr>
+    </table>
+{% endblock %}

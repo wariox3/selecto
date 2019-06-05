@@ -8,6 +8,7 @@ use App\Entity\RecursoHumano\RhuReclamo;
 use function Complex\add;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class RhuLiquidacionRepository extends ServiceEntityRepository
 {
@@ -21,6 +22,7 @@ class RhuLiquidacionRepository extends ServiceEntityRepository
 
     public function lista($codigoEmpresa)
     {
+        $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuLiquidacion::class, 'l')
             ->select('l.codigoLiquidacionPk')
             ->addSelect('l.numero')
@@ -33,6 +35,42 @@ class RhuLiquidacionRepository extends ServiceEntityRepository
             ->addSelect('l.estadoAprobado')
             ->addSelect('l.estadoAnulado')
             ->where("l.codigoEmpresaFk = {$codigoEmpresa}");
+        if ($session->get('filtroRhuLiquidacionEmpleado') != ''){
+            $queryBuilder->andWhere("l.codigoEmpleadoFk LIKE '%{$session->get('filtroRhuLiquidacionEmpleado')}%'");
+        }
+        if ($session->get('filtroRhuLiquidacionCodigo') != '') {
+            $queryBuilder->andWhere("l.codigoLiquidacionPk = '{$session->get('filtroRhuLiquidacionCodigo')}'");
+        }
+        if ($session->get('filtroRhuLiquidacionFechaDesde') != null) {
+            $queryBuilder->andWhere("l.fechaDesde >= '{$session->get('filtroRhuLiquidacionFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('filtroRhuLiquidacionFechaHasta') != null) {
+            $queryBuilder->andWhere("l.fechaHasta <= '{$session->get('filtroRhuLiquidacionFechaHasta')} 23:59:59'");
+        }
+        switch ($session->get('filtroRhuLiquidacionEstadoAutorizado')) {
+            case '0':
+                $queryBuilder->andWhere("l.estadoAutorizado = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("l.estadoAutorizado = 1");
+                break;
+        }
+        switch ($session->get('filtroRhuLiquidacionEstadoAprobado')) {
+            case '0':
+                $queryBuilder->andWhere("l.estadoAprobado = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("l.estadoAprobado = 1");
+                break;
+        }
+        switch ($session->get('filtroRhuLiquidacionEstadAnulado')) {
+            case '0':
+                $queryBuilder->andWhere("l.estadoAnulado = 0");
+                break;
+            case '1':
+                $queryBuilder->andWhere("l.estadoAnulado = 1");
+                break;
+        }
         return $queryBuilder;
     }
 
