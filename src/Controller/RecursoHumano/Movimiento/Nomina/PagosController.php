@@ -59,7 +59,7 @@ class PagosController extends  controller
             }
         }
         $arPagos = $paginator->paginate($em->getRepository(RhuPago::class)->lista($this->getUser()->getCodigoEmpresaFk()), $request->query->getInt('page', 1), 30);
-        return $this->render('recursoHumano/pago/lista.html.twig', [
+        return $this->render('recursoHumano/Movimiento/Nomina/Pago/lista.html.twig', [
             'arPagos' => $arPagos,
             'form' => $form->createView()
         ]);
@@ -85,7 +85,7 @@ class PagosController extends  controller
             }
         }
         $arPagoDetalles = $paginator->paginate($em->getRepository(RhuPagoDetalle::class)->lista($id), $request->query->getInt('page', 1), 30);
-        return $this->render('recursoHumano/pago/detalle.html.twig', [
+        return $this->render('recursoHumano/Movimiento/Nomina/Pago/detalle.html.twig', [
             'arPago' => $arPago,
             'arPagoDetalles' => $arPagoDetalles,
             'form' => $form->createView()
