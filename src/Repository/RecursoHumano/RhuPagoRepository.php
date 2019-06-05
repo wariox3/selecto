@@ -7,6 +7,7 @@ use App\Entity\RecursoHumano\RhuConcepto;
 use App\Entity\RecursoHumano\RhuConfiguracion;
 use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuCredito;
+use App\Entity\RecursoHumano\RhuNovedad;
 use App\Entity\RecursoHumano\RhuPago;
 use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuProgramacion;
@@ -218,7 +219,6 @@ class RhuPagoRepository extends ServiceEntityRepository
                 }
             }
         }
-
         //Salud
         if($arProgramacionDetalle->getDescuentoSalud()) {
             $arSalud = $arContrato->getSaludRel();

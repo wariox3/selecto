@@ -20,7 +20,7 @@ class GenEstadoCivil extends Fixture
         if(!$arEstadoCivil){
             $arEstadoCivil = new \App\Entity\General\GenEstadoCivil();
             $arEstadoCivil->setCodigoEstadoCivilPk('D');
-            $arEstadoCivil->setNombre('DIVORSIADO');
+            $arEstadoCivil->setNombre('DIVORCIADO');
             $manager->persist($arEstadoCivil);
         }
         $arEstadoCivil = $manager->getRepository(\App\Entity\General\GenEstadoCivil::class)->find('S');
