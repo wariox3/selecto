@@ -82,8 +82,6 @@
                                  <th title="Estado aprobado">APR</th>
                                  <th title="Estado anualdo">ANU</th>
                                  <th></th>
-                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
-                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                              </tr>
                              </thead>
                              <tbody>
@@ -102,9 +100,6 @@
                                      <td align="center">
                                          <a href="{{  path('recursoHumano_liquidacion_detalle', { 'id': arLiquidacion.codigoLiquidacionPk }) }}"
                                             title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
-                                     <td class="text-center">
-                                         <input type="checkbox" name="ChkSeleccionar[]"
-                                                value="{{ arLiquidacion.codigoLiquidacionPk }}"/></td>
                                  </tr>
                              {% endfor %}
                              </tbody>
@@ -112,13 +107,6 @@
                          <div style="display: flex; flex-direction: row;">
                              <span style="margin-right: 4px">registros: {{ arLiquidaciones.getTotalItemCount }}</span>
                              {{ knp_pagination_render(arLiquidaciones) }}
-                         </div>
-                     </div>
-                 </div>
-                 <div class="panel-footer">
-                     <div class="row">
-                         <div class="col-sm-9 col-sm-offset-3">
-                             {{ form_widget(form.btnEliminar, { 'attr': {'class': 'btn btn-danger', 'style':'float:right'} }) }}
                          </div>
                      </div>
                  </div>
