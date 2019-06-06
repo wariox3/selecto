@@ -138,5 +138,20 @@ class RhuNovedadRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    public function programacionPago ($codigoEmpleado, $fechaDesde, $fechaHasta) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(RhuNovedad::class, 'n')
+            ->select('n.codigoNovedadPk')
+            ->addSelect('nt.codigoConceptoFk')
+            ->addSelect('n.vrValor')
+            ->addSelect('n.dias')
+            ->leftJoin('n.novedadTipoRel', 'nt')
+            ->where('n.estadoAnulado = 0')
+            ->andWhere("n.codigoEmpleadoFk = {$codigoEmpleado} ")
+            ->andWhere("n.fecha >= '{$fechaDesde}' AND n.fecha <= '{$fechaHasta}'");
+
+        $arrResultado = $queryBuilder->getQuery()->getResult();
+        return $arrResultado;
+    }
 
 }

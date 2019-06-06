@@ -164,6 +164,20 @@ class RhuPagoRepository extends ServiceEntityRepository
             $em->persist($arPagoDetalle);
         }
 
+        /*
+         * Novedades
+         */
+        $arNovedades = $em->getRepository(RhuNovedad::class)->programacionPago($arProgramacionDetalle->getCodigoEmpleadoFk(),  $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
+        foreach ($arNovedades as $arNovedad) {
+            $arConcepto = $em->getRepository(RhuConcepto::class)->find($arNovedad['codigoConceptoFk']);
+            $arPagoDetalle = new RhuPagoDetalle();
+            $arPagoDetalle->setPagoRel($arPago);
+            $arPagoDetalle->setConceptoRel($arConcepto);
+            $dias =  $arNovedad['dias'];
+            $arPagoDetalle->setDias($dias);
+            $em->persist($arPagoDetalle);
+        }
+
         //Horas
         $arrHoras = $this->getHoras($arProgramacionDetalle);
         foreach ($arrHoras AS $arrHora) {

@@ -238,6 +238,31 @@ class RhuEmpleado
     protected $adicionalesEmpleadoRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="RhuProgramacionDetalle", mappedBy="empleadoRel")
+     */
+    protected $programacionesPagosDetallesEmpleadoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RhuPago", mappedBy="empleadoRel")
+     */
+    protected $pagosEmpleadoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RhuNovedad", mappedBy="empleadoRel")
+     */
+    protected $novedadesEmpleadoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RhuVacacion", mappedBy="empleadoRel")
+     */
+    protected $vacacionesEmpleadoRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RhuCredito", mappedBy="empleadoRel")
+     */
+    protected $creditosEmpleadoRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpleadoPk()
@@ -907,6 +932,86 @@ class RhuEmpleado
     public function setAdicionalesEmpleadoRel($adicionalesEmpleadoRel): void
     {
         $this->adicionalesEmpleadoRel = $adicionalesEmpleadoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProgramacionesPagosDetallesEmpleadoRel()
+    {
+        return $this->programacionesPagosDetallesEmpleadoRel;
+    }
+
+    /**
+     * @param mixed $programacionesPagosDetallesEmpleadoRel
+     */
+    public function setProgramacionesPagosDetallesEmpleadoRel($programacionesPagosDetallesEmpleadoRel): void
+    {
+        $this->programacionesPagosDetallesEmpleadoRel = $programacionesPagosDetallesEmpleadoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPagosEmpleadoRel()
+    {
+        return $this->pagosEmpleadoRel;
+    }
+
+    /**
+     * @param mixed $pagosEmpleadoRel
+     */
+    public function setPagosEmpleadoRel($pagosEmpleadoRel): void
+    {
+        $this->pagosEmpleadoRel = $pagosEmpleadoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNovedadesEmpleadoRel()
+    {
+        return $this->novedadesEmpleadoRel;
+    }
+
+    /**
+     * @param mixed $novedadesEmpleadoRel
+     */
+    public function setNovedadesEmpleadoRel($novedadesEmpleadoRel): void
+    {
+        $this->novedadesEmpleadoRel = $novedadesEmpleadoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVacacionesEmpleadoRel()
+    {
+        return $this->vacacionesEmpleadoRel;
+    }
+
+    /**
+     * @param mixed $vacacionesEmpleadoRel
+     */
+    public function setVacacionesEmpleadoRel($vacacionesEmpleadoRel): void
+    {
+        $this->vacacionesEmpleadoRel = $vacacionesEmpleadoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreditosEmpleadoRel()
+    {
+        return $this->creditosEmpleadoRel;
+    }
+
+    /**
+     * @param mixed $creditosEmpleadoRel
+     */
+    public function setCreditosEmpleadoRel($creditosEmpleadoRel): void
+    {
+        $this->creditosEmpleadoRel = $creditosEmpleadoRel;
     }
 
 
