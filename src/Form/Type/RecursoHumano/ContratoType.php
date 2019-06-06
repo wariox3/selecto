@@ -59,8 +59,6 @@ class ContratoType  extends AbstractType
             ->add('fechaHasta', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])
             ->add('vrSalario',NumberType::class,['required' => true])
             ->add('vrSalario',NumberType::class,['required' => true])
-            ->add('vrAdicional',NumberType::class,['required' => true])
-            ->add('vrAdicionalPrestacional',NumberType::class,['required' => true])
             ->add('salarioIntegral',CheckboxType::class,['required' => false, 'label' => 'Salario integral'])
             ->add('auxilioTransporte',CheckboxType::class,['required' => false, 'label' => 'Auxilio transporte'])
             ->add('tipoSalario', ChoiceType::class, ['choices' => ['VARIABLE' => 'VARIABLE', 'FIJO' => 'FIJO'], 'required' => false])

@@ -204,6 +204,27 @@ class RhuContrato
     private $indefinido = false;
 
     /**
+     * @ORM\Column(name="ibp_cesantias_inicial",options={"default":0},type="float", nullable=true)
+     */
+    private $ibpCesantiasInicial;
+
+    /**
+     * @ORM\Column(name="ibp_primas_inicial",options={"default":0},type="float", nullable=true)
+     */
+    private $ibpPrimasInicial;
+
+    /**
+     * @ORM\Column(name="ibp_recargo_noctorno_inicial",options={"default":0},type="float", nullable=true)
+     */
+    private $ibpRecargoNoctornoInicial;
+
+    /**
+     * @ORM\Column(name="codigo_tipo_cotizante_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoTipoCotizanteFk;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="RhuEmpleado", inversedBy="contratosEmpleadoRel")
      * @ORM\JoinColumn(name="codigo_empleado_fk",referencedColumnName="codigo_empleado_pk")
      */
@@ -281,7 +302,6 @@ class RhuContrato
      */
     protected $entidadPensionRel;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="RhuPension", inversedBy="contratosPensionRel")
      * @ORM\JoinColumn(name="codigo_pension_fk",referencedColumnName="codigo_pension_pk")
@@ -328,6 +348,12 @@ class RhuContrato
      * @ORM\OneToMany(targetEntity="RhuAdicional", mappedBy="contratoRel")
      */
     protected $adicionalesContratoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuTipoCotizante", inversedBy="contratosTipoCotizanteRel")
+     * @ORM\JoinColumn(name="codigo_tipo_cotizante_fk",referencedColumnName="codigo_tipo_cotizante_pk")
+     */
+    protected $tipoCotizanteRel;
 
     /**
      * @return mixed
@@ -1287,6 +1313,86 @@ class RhuContrato
     public function setAdicionalesContratoRel($adicionalesContratoRel): void
     {
         $this->adicionalesContratoRel = $adicionalesContratoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbpCesantiasInicial()
+    {
+        return $this->ibpCesantiasInicial;
+    }
+
+    /**
+     * @param mixed $ibpCesantiasInicial
+     */
+    public function setIbpCesantiasInicial($ibpCesantiasInicial): void
+    {
+        $this->ibpCesantiasInicial = $ibpCesantiasInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbpPrimasInicial()
+    {
+        return $this->ibpPrimasInicial;
+    }
+
+    /**
+     * @param mixed $ibpPrimasInicial
+     */
+    public function setIbpPrimasInicial($ibpPrimasInicial): void
+    {
+        $this->ibpPrimasInicial = $ibpPrimasInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbpRecargoNoctornoInicial()
+    {
+        return $this->ibpRecargoNoctornoInicial;
+    }
+
+    /**
+     * @param mixed $ibpRecargoNoctornoInicial
+     */
+    public function setIbpRecargoNoctornoInicial($ibpRecargoNoctornoInicial): void
+    {
+        $this->ibpRecargoNoctornoInicial = $ibpRecargoNoctornoInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTipoCotizanteFk()
+    {
+        return $this->codigoTipoCotizanteFk;
+    }
+
+    /**
+     * @param mixed $codigoTipoCotizanteFk
+     */
+    public function setCodigoTipoCotizanteFk($codigoTipoCotizanteFk): void
+    {
+        $this->codigoTipoCotizanteFk = $codigoTipoCotizanteFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipoCotizanteRel()
+    {
+        return $this->tipoCotizanteRel;
+    }
+
+    /**
+     * @param mixed $tipoCotizanteRel
+     */
+    public function setTipoCotizanteRel($tipoCotizanteRel): void
+    {
+        $this->tipoCotizanteRel = $tipoCotizanteRel;
     }
 
 

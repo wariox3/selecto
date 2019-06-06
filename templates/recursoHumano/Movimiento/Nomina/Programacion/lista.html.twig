@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
  {% block content %}
      {{ form_start(form) }}
+     {{ notificar()|raw }}
+
      <div class="row">
          <div class="col-md-12">
              <section class="panel">

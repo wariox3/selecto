@@ -77,7 +77,6 @@ class ContratoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirect($this->generateUrl('RecursoHumano_contrato_detalle', ['id' => $id]));
         }
-
         return $this->render('recursoHumano/contrato/detalle.html.twig', [
             'form' => $form->createView(),
             'arContrato'=>$arContrato

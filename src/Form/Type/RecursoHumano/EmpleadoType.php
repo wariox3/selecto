@@ -112,15 +112,6 @@ class EmpleadoType extends AbstractType
                 },
                 'choice_label' => 'nombre',
             ])
-            ->add('cargoRel', EntityType::class, [
-                'required' => true,
-                'class' => RhuCargo::class,
-                'query_builder' => function (EntityRepository $er) use ($options) {
-                    return $er->createQueryBuilder('c')
-                        ->orderBy('c.nombre', 'ASC');
-                },
-                'choice_label' => 'nombre',
-            ])
             ->add('telefono', IntegerType::class, ['required' => false, 'label' => 'Telefono:'])
             ->add('numeroIdentificacion', NumberType::class, ['required' => true, 'label' => 'numero identificacion:'])
             ->add('celular', IntegerType::class, ['required' => false, 'label' => 'Celular:'])
