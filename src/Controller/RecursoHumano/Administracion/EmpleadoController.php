@@ -32,9 +32,9 @@ class EmpleadoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
-            ->add('codigoEmpleado', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuCodigoEmpleado')])
-            ->add('numeroIdentificacion', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNumeroIdentificacion')])
-            ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuNombreCorto')])
+            ->add('codigoEmpleado', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuEmpleadoCodigo')])
+            ->add('numeroIdentificacion', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuEmpleadoNumeroIdentificacion')])
+            ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroRhuEmpleadoNombreCorto')])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -42,9 +42,9 @@ class EmpleadoController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
-                $session->set('filtroRhuCodigoEmpleado', $form->get('codigoEmpleado')->getData());
-                $session->set('filtroRhuNumeroIdentificacion', $form->get('numeroIdentificacion')->getData());
-                $session->set('filtroRhuNombreCorto', $form->get('nombreCorto')->getData());
+                $session->set('filtroRhuEmpleadoCodigo', $form->get('codigoEmpleado')->getData());
+                $session->set('filtroRhuEmpleadoNumeroIdentificacion', $form->get('numeroIdentificacion')->getData());
+                $session->set('filtroRhuEmpleadoNombreCorto', $form->get('nombreCorto')->getData());
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arRhuEmpleado = $request->request->get('ChkSeleccionar');

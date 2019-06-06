@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -120,13 +121,13 @@ class EmpleadoType extends AbstractType
                 },
                 'choice_label' => 'nombre',
             ])
-            ->add('telefono', NumberType::class, ['required' => false, 'label' => 'Telefono:'])
+            ->add('telefono', IntegerType::class, ['required' => false, 'label' => 'Telefono:'])
             ->add('numeroIdentificacion', NumberType::class, ['required' => true, 'label' => 'numero identificacion:'])
-            ->add('celular', NumberType::class, ['required' => false, 'label' => 'Celular:'])
+            ->add('celular', IntegerType::class, ['required' => false, 'label' => 'Celular:'])
             ->add('direccion', TextType::class, ['required' => false, 'label' => 'Direccion:'])
             ->add('codigoCuentaTipoFk', ChoiceType::class, array('choices' => array('AHORRO' => 'S', 'CORRIENTE' => 'D', 'DAVIPLATA' => 'DP')))
             ->add('fechaExpedicionIdentificacion', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
-            ->add('cuenta', TextType::class, ['required' => false, 'label' => 'Cuenta:'])
+            ->add('cuenta', IntegerType::class, ['required' => false, 'label' => 'Cuenta:'])
             ->add('guardar', SubmitType::class, ['attr' => ['class' => 'btn btn-sm btn-primary']]);
     }
 }

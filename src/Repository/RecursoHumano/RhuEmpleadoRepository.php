@@ -35,14 +35,14 @@ class RhuEmpleadoRepository extends ServiceEntityRepository
             ->leftJoin('em.ciudadRel', 'ciu')
             ->where("em.codigoEmpresaFk = {$codigoEmpresa}");
 
-        if ($session->get('filtroRhuCodigoEmpleado') != '') {
-            $queryBuilder->andWhere("Em.codigoEmpleadoPk = '{$session->get('filtroRhuCodigoEmpleado')}'");
+        if ($session->get('filtroRhuEmpleadoCodigo') != '') {
+            $queryBuilder->andWhere("em.codigoEmpleadoPk = '{$session->get('filtroRhuEmpleadoCodigo')}'");
         }
-        if ($session->get('filtroRhuNumeroIdentificacion') != '') {
-            $queryBuilder->andWhere("Em.numeroIdentificacion LIKE '%{$session->get('filtroRhuNumeroIdentificacion')}%'");
+        if ($session->get('filtroRhuEmpleadoNumeroIdentificacion') != '') {
+            $queryBuilder->andWhere("em.numeroIdentificacion LIKE '%{$session->get('filtroRhuEmpleadoNumeroIdentificacion')}%'");
         }
-        if ($session->get('filtroRhuNombreCorto') != '') {
-            $queryBuilder->andWhere("Em.nombreCorto LIKE '%{$session->get('filtroRhuNombreCorto')}%'");
+        if ($session->get('filtroRhuEmpleadoNombreCorto') != '') {
+            $queryBuilder->andWhere("em.nombreCorto LIKE '%{$session->get('filtroRhuEmpleadoNombreCorto')}%'");
         }
 
 

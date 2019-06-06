@@ -74,7 +74,7 @@
                         <div class="col-md-5">
                             {{ form_widget(form.rhRel) }}
                         </div>
-                        <label class="col-md-1 control-label">correo:</label>
+                        <label class="col-md-1 control-label">Correo:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.correo) }}
                         </div>
@@ -92,7 +92,7 @@
                     <div class="form-group">
                         <label  class="col-md-1 control-label" for="form_telefono">Teléfono:</label>
                         <div class="col-md-5">
-                            {{ form_widget(form.telefono, { 'attr': {'class': 'form-control'} }) }}
+                            {{ form_widget(form.telefono, { 'attr': {'class': 'form-control', 'pattern': "[09]"} }) }}
                         </div>
                         <label  class="col-md-1 control-label" for="form_celular">Celular:</label>
                         <div class="col-md-5">
