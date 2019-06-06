@@ -89,7 +89,7 @@ class RhuNovedadRepository extends ServiceEntityRepository
         return $arIncapacidades;
     }
 
-    public function periodoLicencias($fechaDesde, $fechaHasta, $codigoEmpleado = "")
+    public function periodoLicencias($fechaDesde, $fechaHasta, $codigoEmpleado)
     {
         $em = $this->getEntityManager();
         $strFechaDesde = $fechaDesde->format('Y-m-d');
@@ -101,11 +101,12 @@ class RhuNovedadRepository extends ServiceEntityRepository
             ->orWhere("n.fechaHasta BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
             ->orWhere("n.fechaDesde >= '{$strFechaDesde}' AND n.fechaDesde <= '{$strFechaHasta}'")
             ->orWhere("n.fechaHasta >= '{$strFechaHasta}' AND n.fechaDesde <= '{$strFechaDesde}'")
-            ->andWhere('nt.licencia = true');
+            ->andWhere('nt.licencia = true')
+        ->andWhere("n.codigoEmpleadoFk = {$codigoEmpleado}");
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function periodoIncapacidades($fechaDesde, $fechaHasta, $codigoEmpleado = "")
+    public function periodoIncapacidades($fechaDesde, $fechaHasta, $codigoEmpleado)
     {
         $em = $this->getEntityManager();
         $strFechaDesde = $fechaDesde->format('Y-m-d');
@@ -117,7 +118,8 @@ class RhuNovedadRepository extends ServiceEntityRepository
             ->orWhere("n.fechaHasta BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
             ->orWhere("n.fechaDesde >= '{$strFechaDesde}' AND n.fechaDesde <= '{$strFechaHasta}'")
             ->orWhere("n.fechaHasta >= '{$strFechaHasta}' AND n.fechaDesde <= '{$strFechaDesde}'")
-            ->andWhere('nt.incapacidad = true');
+            ->andWhere('nt.incapacidad = true')
+        ->andWhere("n.codigoEmpleadoFk = {$codigoEmpleado}");
         return $queryBuilder->getQuery()->getResult();
     }
 

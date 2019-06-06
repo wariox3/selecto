@@ -128,4 +128,20 @@ class RhuVacacionRepository extends ServiceEntityRepository
         return $arrDevolver;
     }
 
+    public function diasPeriodo($fechaDesde, $fechaHasta)
+    {
+        $em = $this->getEntityManager();
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuVacacion::class, 'v')
+            ->select('v')
+            ->where("v.fechaDesdeDisfrute BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("v.fechaDesdeDisfrute BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("v.fechaHastaDisfrute >= '{$strFechaDesde}' AND v.fechaHastaDisfrute <= '{$strFechaHasta}'")
+            ->orWhere("v.fechaDesdeDisfrute >= '{$strFechaHasta}' AND v.fechaDesdeDisfrute <= '{$strFechaDesde}'")
+            ->andWhere('v.diasDisfrutados > 0')
+            ->andWhere('v.estadoAnulado = 0');
+        return $queryBuilder;
+    }
+
 }

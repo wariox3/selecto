@@ -99,10 +99,13 @@
         <div class="tabs tabs-default">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#popular1" data-toggle="tab">Detalle</a>
+                    <a href="#popular1" data-toggle="tab">Detalles<span style="margin-left: 4px" class="badge"> {{ arProgramacionDetalles.getTotalItemCount }}</span> </a>
                 </li>
                 <li>
-                    <a href="#novedades" data-toggle="tab">Novedades</a>
+                    <a href="#novedades" data-toggle="tab">Novedades <span style="margin-left: 4px" class="badge"> {{ arNovedades.getTotalItemCount }}</span></a>
+                </li>
+                <li>
+                    <a href="#vacaciones" data-toggle="tab">Vacaciones <span style="margin-left: 4px" class="badge"> {{ arVacaciones.getTotalItemCount }}</span></a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -206,6 +209,36 @@
                                     <td>{{ arNovedad.empleadoRel.numeroIdentificacion }}</td>
                                     <td>{{ arNovedad.empleadoRel.nombreCorto }}</td>
                                     <td style="text-align: right">{{ arNovedad.dias | number_format(0, '.', ',') }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="vacaciones" class="tab-pane">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered tabla-datos">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Desde</th>
+                                <th>Hasta</th>
+                                <th>Codigo</th>
+                                <th>Documento</th>
+                                <th>Empleado</th>
+                                <th>Dias</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arVacacion in arVacaciones %}
+                                <tr>
+                                    <td>{{ arVacacion.codigoVacacionPk }}</td>
+                                    <td>{{ arVacacion.fechaDesdeDisfrute |date("Y/m/d") }}</td>
+                                    <td>{{ arVacacion.fechaHastaDisfrute |date("Y/m/d") }}</td>
+                                    <td>{{ arVacacion.codigoEmpleadoFk }}</td>
+                                    <td>{{ arVacacion.empleadoRel.numeroIdentificacion }}</td>
+                                    <td>{{ arVacacion.empleadoRel.nombreCorto }}</td>
+                                    <td style="text-align: right">{{ arVacacion.dias | number_format(0, '.', ',') }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -11,6 +11,7 @@ use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuPagoTipo;
 use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
+use App\Entity\RecursoHumano\RhuVacacion;
 use App\Form\Type\RecursoHumano\ProgramacionType;
 use App\Formatos\Programacion;
 use App\Formatos\ResumenConceptos;
@@ -191,11 +192,13 @@ class ProgramacionController extends Controller
 
         $arProgramacionDetalles = $paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()), $request->query->getInt('page', 1), 30);
         $arNovedades = $paginator->paginate($em->getRepository(RhuNovedad::class)->periodo($arProgramacion->getFechaDesde(), $arProgramacion->getFechaHasta(), ""), $request->query->getInt('page', 1, 30));
+        $arVacaciones = $paginator->paginate($em->getRepository(RhuVacacion::class)->diasPeriodo($arProgramacion->getFechaDesde(), $arProgramacion->getFechaHasta()), $request->query->getInt('page', 1, 30));
         return $this->render('recursoHumano/Movimiento/Nomina/Programacion/detalle.html.twig', [
             'form' => $form->createView(),
             'arProgramacion' => $arProgramacion,
             'arProgramacionDetalles' => $arProgramacionDetalles,
-            'arNovedades' => $arNovedades
+            'arNovedades' => $arNovedades,
+            'arVacaciones' => $arVacaciones
         ]);
     }
 

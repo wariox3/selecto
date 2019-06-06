@@ -158,18 +158,14 @@ class RhuContratoRepository extends ServiceEntityRepository
             $arProgramacionDetalle->setFechaHastaContrato($fechaHasta);
             $arrIbc = $em->getRepository(RhuPagoDetalle::class)->ibcMes($fechaDesde->format('Y'), $fechaDesde->format('m'), $arContrato->getCodigoContratoPk(), $arConfiguracion['codigoConceptoFondoPensionFk']);
             $arProgramacionDetalle->setVrDeduccionFondoPensionAnterior($arrIbc['deduccionAnterior']);
-            $arrVacaciones = $em->getRepository(RhuVacacion::class)->diasProgramacion($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
-            $arProgramacionDetalle->setDiasVacaciones($arrVacaciones['dias']);
-            $dias -= $arrVacaciones['dias'];
-            $horas = $dias * $arContrato->getFactorHorasDia();
-            $arProgramacionDetalle->setDias($dias);
-            $arProgramacionDetalle->setDiasTransporte($dias);
-            $arProgramacionDetalle->setHorasDiurnas($horas);
+//            $arrVacaciones = $em->getRepository(RhuVacacion::class)->diasProgramacion($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
+//            $arProgramacionDetalle->setDiasVacaciones($arrVacaciones['dias']);
+//            $dias -= $arrVacaciones['dias'];
 
             /*
              * Se cargan los dias correspondientes a vacaciones del periodo
              */
-            $arrVacaciones = $em->getRepository(RhuVacacion::class)->dias($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde(), $arProgramacion->getFechaHasta());
+            $arrVacaciones = $em->getRepository(RhuVacacion::class)->diasProgramacion($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
             $intDiasVacaciones = $arrVacaciones['dias'];
             if ($intDiasVacaciones > 0) {
                 $arProgramacionDetalle->setDiasVacaciones($intDiasVacaciones);
@@ -232,6 +228,11 @@ class RhuContratoRepository extends ServiceEntityRepository
                 $dias = 0;
                 $horasDiurnas = 0;
             }
+
+            $horas = $dias * $arContrato->getFactorHorasDia();
+            $arProgramacionDetalle->setDias($dias);
+            $arProgramacionDetalle->setDiasTransporte($dias);
+            $arProgramacionDetalle->setHorasDiurnas($horas);
 
 
             $em->persist($arProgramacionDetalle);
