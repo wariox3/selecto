@@ -12,6 +12,7 @@ use App\Entity\RecursoHumano\RhuPago;
 use App\Entity\RecursoHumano\RhuPagoDetalle;
 use App\Entity\RecursoHumano\RhuProgramacion;
 use App\Entity\RecursoHumano\RhuProgramacionDetalle;
+use App\Entity\RecursoHumano\RhuVacacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -45,7 +46,7 @@ class RhuPagoRepository extends ServiceEntityRepository
         if ($session->get('filtroRhuPagoCodigo') != '') {
             $queryBuilder->andWhere("p.codigoPagoPk = '{$session->get('filtroRhuPagoCodigo')}'");
         }
-        if ($session->get('filtroRhuPagoEmpleado') != ''){
+        if ($session->get('filtroRhuPagoEmpleado') != '') {
             $queryBuilder->andWhere("p.codigoEmpleadoFk LIKE '%{$session->get('filtroRhuPagoEmpleado')}%'");
         }
         if ($session->get('filtroRhuNombreCorto') != '') {
@@ -132,6 +133,7 @@ class RhuPagoRepository extends ServiceEntityRepository
         $diaAuxilioTransporte = $auxilioTransporte / 30;
         $salarioMinimo = $arConfiguracion['vrSalarioMinimo'];
         $ibcVacaciones = 0;
+        $intFactorDia = $arProgramacionDetalle->getFactorDia();
 
         //Adicionales
         $arAdicionales = $em->getRepository(RhuAdicional::class)->programacionPago($arProgramacionDetalle->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getCodigoPagoTipoFk(), $arProgramacion->getFechaDesde()->format('Y/m/d'), $arProgramacion->getFechaHasta()->format('Y/m/d'));
@@ -167,15 +169,68 @@ class RhuPagoRepository extends ServiceEntityRepository
         /*
          * Novedades
          */
-        $arNovedades = $em->getRepository(RhuNovedad::class)->programacionPago($arProgramacionDetalle->getCodigoEmpleadoFk(),  $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
+        $arNovedades = $em->getRepository(RhuNovedad::class)->programacionPago($arProgramacionDetalle->getCodigoEmpleadoFk(), $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
         foreach ($arNovedades as $arNovedad) {
             $arConcepto = $em->getRepository(RhuConcepto::class)->find($arNovedad['codigoConceptoFk']);
             $arPagoDetalle = new RhuPagoDetalle();
             $arPagoDetalle->setPagoRel($arPago);
             $arPagoDetalle->setConceptoRel($arConcepto);
-            $dias =  $arNovedad['dias'];
+            $dias = $arNovedad['dias'];
             $arPagoDetalle->setDias($dias);
             $em->persist($arPagoDetalle);
+        }
+
+        //Procesar vacaciones
+        $arVacaciones = $em->getRepository(RhuVacacion::class)->periodo($arProgramacionDetalle->getFechaDesde(), $arProgramacionDetalle->getFechaHasta(), $arProgramacionDetalle->getCodigoEmpleadoFk());
+        foreach ($arVacaciones as $arVacacion) {
+            /**
+             * @var RhuVacacion $arVacacion
+             */
+            if ($arVacacion->getDiasDisfrutadosReales() > 0) {
+                $arPagoConcepto = $em->getRepository(RhuConcepto::class)->find($arConfiguracion['codigoConceptoVacacionFk']);
+                $arPagoDetalle = new RhuPagoDetalle();
+                $arPagoDetalle->setPagoRel($arPago);
+                $arPagoDetalle->setConceptoRel($arPagoConcepto);
+                $fechaDesde = $arProgramacionDetalle->getFechaDesde();
+                $fechaHasta = $arProgramacionDetalle->getFechaHasta();
+                if ($arVacacion->getFechaDesdeDisfrute() > $fechaDesde) {
+                    $fechaDesde = $arVacacion->getFechaDesdeDisfrute();
+                }
+                if ($arVacacion->getFechaHastaDisfrute() < $fechaHasta) {
+                    $fechaHasta = $arVacacion->getFechaHastaDisfrute();
+                }
+                $intDias = $fechaDesde->diff($fechaHasta);
+                $intDias = $intDias->format('%a');
+                $intDias += 1;
+                //Se valida si el mes es de febrero y si la incapacidad es mayor a la fecha de pago de la nomina. para pagar 29 y 30
+//                        if ($arVacacion->getFechaDesdeDisfrute()->format('m') == 02 && $arVacacion->getFechaHastaDisfrute() > $arProgramacionPagoDetalle->getFechaHastaPago() && $arProgramacionPagoDetalle->getFechaDesde()->format('m') == 02) {
+//                            $numero = cal_days_in_month(CAL_GREGORIAN, 2, $arProgramacionPagoDetalle->getFechaHastaPago()->format('Y'));
+//                            if ($arVacacion->getFechaHastaDisfrute()->format('m') > 2 && ($arProgramacionPagoDetalle->getFechaHasta()->format('d') == 28 || $arProgramacionPagoDetalle->getFechaHasta()->format('d') == 29)) {
+//                                if ($numero == 29) {
+//                                    $intDias += 1;
+//                                } elseif ($numero == 28) {
+//                                    $intDias += 2;
+//                                }
+//                            }
+//                        }
+
+                $intHoras = $intDias * $intFactorDia;
+                $ibcVacaciones = $intDias * $arVacacion->getVrIbcPromedio();
+                $arPagoDetalle->setOperacion($arPagoConcepto->getOperacion());
+                $arPagoDetalle->setDias($intDias);
+                $arPagoDetalle->setHoras($intHoras);
+                //Se descarta porque este item no acumula para ibp
+                //$arPagoDetalle->setVrIngresoBasePrestacion($ibcVacaciones);
+                if ($arPagoConcepto->getGeneraIngresoBasePrestacion() == 1) {//Se agrega validación si el concepto genera ibp, para seracis si lo maneja.
+                    $arPagoDetalle->setVrIngresoBasePrestacion($ibcVacaciones);
+//                    $arPagoDetalle->setPrestacional(1);
+                }
+                $arPagoDetalle->setVrIngresoBaseCotizacion($ibcVacaciones);
+//                $arPagoDetalle->setVacacionRel($arVacacion);
+//                $arPagoDetalle->setFechaDesdeNovedad($fechaDesde);
+//                $arPagoDetalle->setFechaHastaNovedad($fechaHasta);
+                $em->persist($arPagoDetalle);
+            }
         }
 
         //Horas
@@ -234,7 +289,7 @@ class RhuPagoRepository extends ServiceEntityRepository
             }
         }
         //Salud
-        if($arProgramacionDetalle->getDescuentoSalud()) {
+        if ($arProgramacionDetalle->getDescuentoSalud()) {
             $arSalud = $arContrato->getSaludRel();
             $porcentajeSalud = $arSalud->getPorcentajeEmpleado();
             if ($porcentajeSalud > 0) {
@@ -264,7 +319,7 @@ class RhuPagoRepository extends ServiceEntityRepository
         }
 
         //Pension
-        if($arProgramacionDetalle->getDescuentoPension()) {
+        if ($arProgramacionDetalle->getDescuentoPension()) {
             $arPension = $arContrato->getPensionRel();
             $porcentajePension = $arPension->getPorcentajeEmpleado();
             if ($porcentajePension > 0) {
@@ -315,7 +370,7 @@ class RhuPagoRepository extends ServiceEntityRepository
         }
 
         //Auxilio de transporte
-        if($arProgramacionDetalle->getPagoAuxilioTransporte()) {
+        if ($arProgramacionDetalle->getPagoAuxilioTransporte()) {
             if ($arContrato->getAuxilioTransporte() == 1) {
                 $arConcepto = $em->getRepository(RhuConcepto::class)->find($arConfiguracion['codigoConceptoAuxilioTransporteFk']);
                 $pagoDetalle = round($diaAuxilioTransporte * $arProgramacionDetalle->getDiasTransporte());

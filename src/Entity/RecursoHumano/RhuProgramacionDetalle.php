@@ -45,11 +45,6 @@ class RhuProgramacionDetalle
     private $diasTransporte = 0;
 
     /**
-     * @ORM\Column(name="dias_vacaciones", type="integer", nullable=true)
-     */
-    private $diasVacaciones = 0;
-
-    /**
      * @ORM\Column(name="vr_salario", type="float")
      */
     private $vrSalario = 0;
@@ -138,6 +133,11 @@ class RhuProgramacionDetalle
      * @ORM\Column(name="dias_licencia", type="integer")
      */
     private $diasLicencia = 0;
+
+    /**
+     * @ORM\Column(name="factor_dia", type="integer")
+     */
+    private $factorDia = 0;
 
     /**
      * @ORM\Column(name="dias_incapacidad", type="integer")
@@ -573,6 +573,70 @@ class RhuProgramacionDetalle
     /**
      * @return mixed
      */
+    public function getDiasLicencia()
+    {
+        return $this->diasLicencia;
+    }
+
+    /**
+     * @param mixed $diasLicencia
+     */
+    public function setDiasLicencia($diasLicencia): void
+    {
+        $this->diasLicencia = $diasLicencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiasIncapacidad()
+    {
+        return $this->diasIncapacidad;
+    }
+
+    /**
+     * @param mixed $diasIncapacidad
+     */
+    public function setDiasIncapacidad($diasIncapacidad): void
+    {
+        $this->diasIncapacidad = $diasIncapacidad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiasVacacion()
+    {
+        return $this->diasVacacion;
+    }
+
+    /**
+     * @param mixed $diasVacacion
+     */
+    public function setDiasVacacion($diasVacacion): void
+    {
+        $this->diasVacacion = $diasVacacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbcVacacion()
+    {
+        return $this->ibcVacacion;
+    }
+
+    /**
+     * @param mixed $ibcVacacion
+     */
+    public function setIbcVacacion($ibcVacacion): void
+    {
+        $this->ibcVacacion = $ibcVacacion;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDescuentoSalud()
     {
         return $this->descuentoSalud;
@@ -616,6 +680,38 @@ class RhuProgramacionDetalle
     public function setPagoAuxilioTransporte($pagoAuxilioTransporte): void
     {
         $this->pagoAuxilioTransporte = $pagoAuxilioTransporte;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrIbcAcumulado()
+    {
+        return $this->vrIbcAcumulado;
+    }
+
+    /**
+     * @param mixed $vrIbcAcumulado
+     */
+    public function setVrIbcAcumulado($vrIbcAcumulado): void
+    {
+        $this->vrIbcAcumulado = $vrIbcAcumulado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrDeduccionFondoPensionAnterior()
+    {
+        return $this->vrDeduccionFondoPensionAnterior;
+    }
+
+    /**
+     * @param mixed $vrDeduccionFondoPensionAnterior
+     */
+    public function setVrDeduccionFondoPensionAnterior($vrDeduccionFondoPensionAnterior): void
+    {
+        $this->vrDeduccionFondoPensionAnterior = $vrDeduccionFondoPensionAnterior;
     }
 
     /**
@@ -685,116 +781,18 @@ class RhuProgramacionDetalle
     /**
      * @return mixed
      */
-    public function getVrIbcAcumulado()
+    public function getFactorDia()
     {
-        return $this->vrIbcAcumulado;
+        return $this->factorDia;
     }
 
     /**
-     * @param mixed $vrIbcAcumulado
+     * @param mixed $factorDia
      */
-    public function setVrIbcAcumulado($vrIbcAcumulado): void
+    public function setFactorDia($factorDia): void
     {
-        $this->vrIbcAcumulado = $vrIbcAcumulado;
+        $this->factorDia = $factorDia;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getVrDeduccionFondoPensionAnterior()
-    {
-        return $this->vrDeduccionFondoPensionAnterior;
-    }
-
-    /**
-     * @param mixed $vrDeduccionFondoPensionAnterior
-     */
-    public function setVrDeduccionFondoPensionAnterior($vrDeduccionFondoPensionAnterior): void
-    {
-        $this->vrDeduccionFondoPensionAnterior = $vrDeduccionFondoPensionAnterior;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDiasVacaciones()
-    {
-        return $this->diasVacaciones;
-    }
-
-    /**
-     * @param mixed $diasVacaciones
-     */
-    public function setDiasVacaciones($diasVacaciones): void
-    {
-        $this->diasVacaciones = $diasVacaciones;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDiasLicencia()
-    {
-        return $this->diasLicencia;
-    }
-
-    /**
-     * @param mixed $diasLicencia
-     */
-    public function setDiasLicencia($diasLicencia): void
-    {
-        $this->diasLicencia = $diasLicencia;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDiasIncapacidad()
-    {
-        return $this->diasIncapacidad;
-    }
-
-    /**
-     * @param mixed $diasIncapacidad
-     */
-    public function setDiasIncapacidad($diasIncapacidad): void
-    {
-        $this->diasIncapacidad = $diasIncapacidad;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDiasVacacion()
-    {
-        return $this->diasVacacion;
-    }
-
-    /**
-     * @param mixed $diasVacacion
-     */
-    public function setDiasVacacion($diasVacacion): void
-    {
-        $this->diasVacacion = $diasVacacion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIbcVacacion()
-    {
-        return $this->ibcVacacion;
-    }
-
-    /**
-     * @param mixed $ibcVacacion
-     */
-    public function setIbcVacacion($ibcVacacion): void
-    {
-        $this->ibcVacacion = $ibcVacacion;
-    }
-
-
 
 
 

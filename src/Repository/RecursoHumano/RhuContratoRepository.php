@@ -168,7 +168,7 @@ class RhuContratoRepository extends ServiceEntityRepository
             $arrVacaciones = $em->getRepository(RhuVacacion::class)->diasProgramacion($arContrato->getCodigoEmpleadoFk(), $arContrato->getCodigoContratoPk(), $arProgramacion->getFechaDesde()->format('Y-m-d'), $arProgramacion->getFechaHasta()->format('Y-m-d'));
             $intDiasVacaciones = $arrVacaciones['dias'];
             if ($intDiasVacaciones > 0) {
-                $arProgramacionDetalle->setDiasVacaciones($intDiasVacaciones);
+                $arProgramacionDetalle->setDiasVacacion($intDiasVacaciones);
                 $arProgramacionDetalle->setIbcVacacion($arrVacaciones['ibc']);
             }
 
@@ -233,6 +233,7 @@ class RhuContratoRepository extends ServiceEntityRepository
             $arProgramacionDetalle->setDias($dias);
             $arProgramacionDetalle->setDiasTransporte($dias);
             $arProgramacionDetalle->setHorasDiurnas($horas);
+            $arProgramacionDetalle->setFactorDia($arContrato->getFactorHorasDia());
 
 
             $em->persist($arProgramacionDetalle);

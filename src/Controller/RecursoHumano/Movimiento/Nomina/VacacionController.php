@@ -3,8 +3,10 @@
 namespace App\Controller\RecursoHumano\Movimiento\Nomina;
 
 use App\Entity\RecursoHumano\RhuAdicional;
+use App\Entity\RecursoHumano\RhuConfiguracion;
 use App\Entity\RecursoHumano\RhuContrato;
 use App\Entity\RecursoHumano\RhuEmpleado;
+use App\Entity\RecursoHumano\RhuLiquidacion;
 use App\Entity\RecursoHumano\RhuNovedad;
 use App\Entity\RecursoHumano\RhuVacacion;
 use App\Form\Type\RecursoHumano\NovedadType;
@@ -86,20 +88,79 @@ class VacacionController extends Controller
         }
         $form = $this->createForm(VacacionType::class, $arVacacion);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('guardar')->isClicked()) {
-                if ($arVacacion->getEmpleadoRel()->getCodigoContratoFk()) {
-                    $arVacacion = $form->getData();
-                    $arContrato = $em->getRepository(RhuContrato::class)->find($arVacacion->getEmpleadoRel()->getCodigoContratoFk());
-                    $arVacacion->setContratoRel($arContrato);
-                    $arVacacion->setGrupoRel($arContrato->getGrupoRel());
-                    $arVacacion->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
-                    $em->persist($arVacacion);
-                    $em->flush();
-                    return $this->redirect($this->generateUrl('recursoHumano_vacacion_detalle', ['id' => $arVacacion->getCodigoVacacionPk()]));
+        if ($form->get('guardar')->isClicked()) {
+            $arVacacion = $form->getData();
+            $validarVacacion = true;
+            if ($id == 0) {
+                $validarVacacion = $em->getRepository(RhuVacacion::class)->validarVacacion($arVacacion->getFechaDesdeDisfrute(), $arVacacion->getFechaDesdeDisfrute(), $arVacacion->getCodigoEmpleadoFk());
+            }
+            if ($validarVacacion) {
+                $boolNovedad = $em->getRepository(RhuNovedad::class)->validarFecha($arVacacion->getFechaDesdeDisfrute(), $arVacacion->getFechaHastaDisfrute(), $arVacacion->getCodigoEmpleadoFk());
+                if ($boolNovedad) {
+                    $arConfiguracion = $em->getRepository(RhuConfiguracion::class)->find(1);
+                    if ($arVacacion->getEmpleadoRel()->getCodigoContratoFk() != '') {
+                        if ($form->get('fechaDesdeDisfrute')->getData() > $form->get('fechaHastaDisfrute')->getData()) {
+                            Mensajes::error("La fecha desde no debe ser mayor a la fecha hasta");
+                        } else {
+                            if ($form->get('diasDisfrutados')->getData() == 0 && $form->get('diasPagados')->getData() == 0) {
+                                Mensajes::error("Los dias pagados o los dias disfrutados, no pueden estar en ceros");
+                            } else {
+                                $arContrato = new RhuContrato();
+                                $arContrato = $em->getRepository(RhuContrato::class)->find($arVacacion->getEmpleadoRel()->getCodigoContratoFk());
+                                $arVacacion->setContratoRel($arContrato);
+                                // Calcular fecha desde periodo y hasta periodo
+                                $fechaDesdePeriodo = $arContrato->getFechaUltimoPagoVacaciones();
+                                if ($fechaDesdePeriodo == null) {
+                                    $fechaDesdePeriodo = $arContrato->getFechaDesde();
+                                }
+                                $intDias = ($arVacacion->getDiasDisfrutados() + $arVacacion->getDiasPagados()) * 24;
+                                $fechaHastaPeriodo = $em->getRepository(RhuLiquidacion::class)->diasPrestacionesHasta($intDias + 1, $fechaDesdePeriodo);
+                                $arVacacion->setFechaDesdePeriodo($fechaDesdePeriodo);
+                                $arVacacion->setFechaHastaPeriodo($fechaHastaPeriodo);
+                                // Calcular fecha desde periodo y hasta periodo
+
+                                $intDiasDevolver = $arVacacion->getDiasPagados();
+                                $diasDisfrutadosReales = 0;
+                                if ($arVacacion->getDiasDisfrutados() > 0) {
+                                    $intDias = $arVacacion->getFechaDesdeDisfrute()->diff($arVacacion->getFechaHastaDisfrute());
+                                    $intDias = $intDias->format('%a');
+                                    $intDiasDevolver += $intDias + 1;
+                                    $diasDisfrutadosReales = $intDias + 1;
+                                }
+                                $arVacacion->setDias($intDiasDevolver);
+                                $arVacacion->setDiasDisfrutadosReales($diasDisfrutadosReales);
+                                if ($id == 0) {
+//                                    $arVacacion->setCodigoUsuario($this->getUser()->getUserName());
+                                }
+                                $arVacacion->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+                                $arVacacion->setGrupoRel($arContrato->getGrupoRel());
+                                $em->persist($arVacacion);
+                                // calcular adicionales al pago permanentes
+//                                if ($id == 0) {
+//                                    $arAdicionales = $em->getRepository(RhuAdicional::class)->findBy(['codigoContratoFk' => $arContrato->getCodigoContratoPk(), 'tipoAdicional' => 2, 'permanente' => 1, 'estadoInactivo' => 0]);
+//                                    foreach ($arAdicionales as $arAdicional) {
+//                                        $arVacacionAdicional = new \Brasa\RecursoHumanoBundle\Entity\RhuVacacionAdicional();
+//                                        $arVacacionAdicional->setVacacionRel($arVacacion);
+//                                        $arVacacionAdicional->setPagoConceptoRel($arAdicional->getPagoConceptoRel());
+//                                        $arVacacionAdicional->setVrDeduccion($arAdicional->getValor());
+//                                        $em->persist($arVacacionAdicional);
+//                                    }
+//                                }
+
+                                $em->flush();
+//                                $em->getRepository(RhuVacacion::class)->liquidar($arVacacion->getCodigoVacacionPk());
+
+                                return $this->redirect($this->generateUrl('recursoHumano_vacacion_detalle', ['id' => $arVacacion->getCodigoVacacionPk()]));
+                            }
+                        }
+                    } else {
+                        Mensajes::error("error", "El empleado no tiene contrato activo");
+                    }
                 } else {
-                    Mensajes::error('El empleado no tiene contratos activos en el sistema');
+                    Mensajes::error("El empleado tiene una novedad registrada en este periodo.");
                 }
+            } else {
+                Mensajes::error("El empleado tiene una vacación registrada en este periodo.");
             }
         }
         return $this->render('recursoHumano/Movimiento/Nomina/Vacaciones/nuevo.html.twig', [

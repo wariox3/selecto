@@ -3,7 +3,6 @@
 namespace App\Entity\RecursoHumano;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecursoHumano\RhuConfiguracionRepository")
@@ -36,6 +35,11 @@ class RhuConfiguracion
      * @ORM\Column(name="codigo_concepto_fondo_pension_fk", type="string", length=10, nullable=true)
      */
     private $codigoConceptoFondoPensionFk;
+
+    /**
+     * @ORM\Column(name="codigo_concepto_vacacion_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoConceptoVacacionFk;
 
     /**
      * @return mixed
@@ -115,6 +119,22 @@ class RhuConfiguracion
     public function setCodigoConceptoFondoPensionFk($codigoConceptoFondoPensionFk): void
     {
         $this->codigoConceptoFondoPensionFk = $codigoConceptoFondoPensionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoConceptoVacacionFk()
+    {
+        return $this->codigoConceptoVacacionFk;
+    }
+
+    /**
+     * @param mixed $codigoConceptoVacacionFk
+     */
+    public function setCodigoConceptoVacacionFk($codigoConceptoVacacionFk): void
+    {
+        $this->codigoConceptoVacacionFk = $codigoConceptoVacacionFk;
     }
 
 

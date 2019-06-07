@@ -46,48 +46,22 @@ class RhuNovedadRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    /**
-     * @return array
-     */
-    public function parametrosLista(){
-        $arEmbargo = new RhuEmbargo();
-        $queryBuilder = $this->_em->createQueryBuilder()->from(RhuEmbargo::class,'re')
-            ->select('re.codigoEmbargoPk')
-            ->addSelect('re.fecha')
-            ->where('re.codigoEmbargoPk <> 0');
-        $arrOpciones = ['json' =>'[{"campo":"codigoEmbargoPk","ayuda":"Codigo del embargo","titulo":"ID"},
-        {"campo":"fecha","ayuda":"Fecha de registro","titulo":"FECHA"}]',
-            'query' => $queryBuilder,'ruta' => $this->getRuta()];
-        return $arrOpciones;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function parametrosExcel(){
-        $queryBuilder = $this->_em->createQueryBuilder()->from(RhuEmbargo::class,'re')
-            ->select('re.codigoEmbargoPk')
-            ->addSelect('re.fecha')
-            ->where('re.codigoEmbargoPk <> 0');
-        return $queryBuilder->getQuery()->execute();
-    }
-
-    public function periodoEmpresa($fechaDesde, $fechaHasta, $codigoEmpleado = "")
-    {
-        $em = $this->getEntityManager();
-        $strFechaDesde = $fechaDesde->format('Y-m-d');
-        $strFechaHasta = $fechaHasta->format('Y-m-d');
-        $dql = "SELECT incapacidad FROM RhuNovedad "
-            . "WHERE incapacidad.pagarEmpleado = 1 AND (((incapacidad.fechaDesdeEmpresa BETWEEN '$strFechaDesde' AND '$strFechaHasta') OR (incapacidad.fechaHastaEmpresa BETWEEN '$strFechaDesde' AND '$strFechaHasta')) "
-            . "OR (incapacidad.fechaDesdeEmpresa >= '$strFechaDesde' AND incapacidad.fechaDesdeEmpresa <= '$strFechaHasta') "
-            . "OR (incapacidad.fechaHastaEmpresa >= '$strFechaHasta' AND incapacidad.fechaDesdeEmpresa <= '$strFechaDesde')) ";
-        if ($codigoEmpleado != "") {
-            $dql = $dql . "AND incapacidad.codigoEmpleadoFk = " . $codigoEmpleado . " ";
-        }
-        $objQuery = $em->createQuery($dql);
-        $arIncapacidades = $objQuery->getResult();
-        return $arIncapacidades;
-    }
+//    public function periodoEmpresa($fechaDesde, $fechaHasta, $codigoEmpleado = "")
+//    {
+//        $em = $this->getEntityManager();
+//        $strFechaDesde = $fechaDesde->format('Y-m-d');
+//        $strFechaHasta = $fechaHasta->format('Y-m-d');
+//        $dql = "SELECT incapacidad FROM RhuNovedad "
+//            . "WHERE incapacidad.pagarEmpleado = 1 AND (((incapacidad.fechaDesdeEmpresa BETWEEN '$strFechaDesde' AND '$strFechaHasta') OR (incapacidad.fechaHastaEmpresa BETWEEN '$strFechaDesde' AND '$strFechaHasta')) "
+//            . "OR (incapacidad.fechaDesdeEmpresa >= '$strFechaDesde' AND incapacidad.fechaDesdeEmpresa <= '$strFechaHasta') "
+//            . "OR (incapacidad.fechaHastaEmpresa >= '$strFechaHasta' AND incapacidad.fechaDesdeEmpresa <= '$strFechaDesde')) ";
+//        if ($codigoEmpleado != "") {
+//            $dql = $dql . "AND incapacidad.codigoEmpleadoFk = " . $codigoEmpleado . " ";
+//        }
+//        $objQuery = $em->createQuery($dql);
+//        $arIncapacidades = $objQuery->getResult();
+//        return $arIncapacidades;
+//    }
 
     public function periodoLicencias($fechaDesde, $fechaHasta, $codigoEmpleado)
     {
@@ -152,6 +126,28 @@ class RhuNovedadRepository extends ServiceEntityRepository
 
         $arrResultado = $queryBuilder->getQuery()->getResult();
         return $arrResultado;
+    }
+
+    public function validarFecha($fechaDesde, $fechaHasta, $codigoEmpleado)
+    {
+        $em = $this->getEntityManager();
+        $boolValidar = TRUE;
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $qb = $this->getEntityManager()->createQueryBuilder()->from(RhuNovedad::class, 'n')
+            ->select("count(n.codigoNovedadPk) AS novedades")
+            ->where("n.fechaDesde BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("n.fechaDesde >= '{$strFechaDesde}' AND n.fechaDesde <= '{$strFechaHasta}'")
+            ->orWhere("n.fechaHasta >= '{$strFechaHasta}' AND n.fechaDesde <= '{$strFechaDesde}'")
+            ->andWhere("n.codigoEmpleadoFk = '{$codigoEmpleado}'");
+        $r = $qb->getQuery();
+        $arrNovedades = $r->getResult();
+        if ($arrNovedades[0]['novedades'] > 0) {
+            $boolValidar = FALSE;
+        }
+
+        return $boolValidar;
     }
 
 }

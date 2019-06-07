@@ -144,4 +144,43 @@ class RhuVacacionRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function validarVacacion($fechaDesde, $fechaHasta, $codigoEmpleado)
+    {
+        $em = $this->getEntityManager();
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $boolValidar = TRUE;
+
+        $qb = $this->getEntityManager()->createQueryBuilder()->from(RhuVacacion::class, 'v')
+            ->select("count(v.codigoVacacionPk) AS vacaciones")
+            ->where("v.fechaDesdeDisfrute <= '{$strFechaHasta}' AND  v.fechaHastaDisfrute >= '{$strFechaHasta}'")
+            ->orWhere("v.fechaDesdeDisfrute <= '{$strFechaDesde}' AND  v.fechaHastaDisfrute >='{$strFechaDesde}' AND v.codigoEmpleadoFk = '{$codigoEmpleado}'")
+            ->orWhere("v.fechaDesdeDisfrute >= '{$strFechaDesde}' AND  v.fechaHastaDisfrute <='{$strFechaHasta}' AND v.codigoEmpleadoFk = '{$codigoEmpleado}'")
+            ->andWhere("v.codigoEmpleadoFk = '{$codigoEmpleado}' AND v.estadoAnulado = 0 ");
+        $r = $qb->getQuery();
+        $arrVacaciones = $r->getResult();
+        if ($arrVacaciones[0]['vacaciones'] > 0) {
+            $boolValidar = FALSE;
+        }
+
+        return $boolValidar;
+    }
+
+    public function periodo($fechaDesde, $fechaHasta, $codigoEmpleado)
+    {
+        $em = $this->getEntityManager();
+        $strFechaDesde = $fechaDesde->format('Y-m-d');
+        $strFechaHasta = $fechaHasta->format('Y-m-d');
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(RhuVacacion::class, 'v')
+            ->select('v')
+            ->where("v.fechaDesdeDisfrute BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("v.fechaDesdeDisfrute BETWEEN '{$strFechaDesde}' AND '{$strFechaHasta}'")
+            ->orWhere("v.fechaHastaDisfrute >= '{$strFechaDesde}' AND v.fechaHastaDisfrute <= '{$strFechaHasta}'")
+            ->orWhere("v.fechaDesdeDisfrute >= '{$strFechaHasta}' AND v.fechaDesdeDisfrute <= '{$strFechaDesde}'")
+            ->andWhere('v.diasDisfrutados > 0')
+            ->andWhere('v.estadoAnulado = 0')
+        ->andWhere("v.codigoEmpleadoFk = {$codigoEmpleado}");
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 }
