@@ -37,6 +37,7 @@ class AdicionalType extends AbstractType
                         ->where("e.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('conceptoRel',EntityType::class,[
                 'class' => RhuConcepto::class,
@@ -46,6 +47,7 @@ class AdicionalType extends AbstractType
                         ->orderBy('er.nombre','ASC');
                 },'choice_label' => 'nombre',
                 'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('vrValor', NumberType::class, ['required' => true])
             ->add('permanente',CheckboxType::class,['required' => false])

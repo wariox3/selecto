@@ -27,9 +27,14 @@
                         <div class="col-md-1">
                             {{ form_widget(form.vrPrecio) }}
                         </div>
-                        <label class="col-md-1 control-label"></label>
-                        <div class="col-md-1">
-                            {{ form_widget(form.servicio) }}
+                        <div class="col-md-2">
+                            {{ form_widget(form.afectaInventario) }}
+                        </div>
+                        <div class="col-sm-1"><input type="radio" name="tipo"
+                                                     value="1" {{ arItem.producto == true?"checked='checked'":"" }}>Producto
+                        </div>
+                        <div class="col-sm-1"><input type="radio" name="tipo"
+                                                     value="2" {{ arItem.servicio == true?"checked='checked'":"" }}>Servicio
                         </div>
                     </div>
                 </div>

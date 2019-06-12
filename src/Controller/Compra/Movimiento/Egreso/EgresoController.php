@@ -78,6 +78,7 @@ class EgresoController extends Controller
         $arDocumento = $em->getRepository(GenDocumento::class)->find($documento);
         if ($id == 0) {
             $arEgreso->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+            $arEgreso->setFechaPago(new \DateTime('now'));
         } else {
             $arEgreso = $em->getRepository(ComEgreso::class)->find($id);
         }

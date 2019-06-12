@@ -30,6 +30,7 @@ class ReciboType extends AbstractType
                         ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('cuentaRel', EntityType::class, [
                 'required' => true,
@@ -40,6 +41,7 @@ class ReciboType extends AbstractType
                         ->where("c.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('comentario', TextareaType::class, array('required' => false))
             ->add('fechaPago', DateType::class, array('required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'))

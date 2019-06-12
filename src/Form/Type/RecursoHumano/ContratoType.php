@@ -42,7 +42,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('clasificacionRiesgoRel', EntityType::class, [
                 'class' => RhuClasificacionRiesgo::class,
@@ -51,7 +52,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('cargoDescripcion',TextType::class,['required' => false])
             ->add('comentarioContrato',TextType::class,['required' => false])
@@ -69,7 +71,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('ciudadLaboraRel', EntityType::class, [
                 'class' => GenCiudad::class,
@@ -78,7 +81,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('ciudadContratoRel', EntityType::class, [
                 'class' => GenCiudad::class,
@@ -87,7 +91,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('cargoRel', EntityType::class, [
                 'class' => RhuCargo::class,
@@ -96,7 +101,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('sucursalRel', EntityType::class, [
                 'class' => RhuSucursal::class,
@@ -106,7 +112,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
 
             ->add('entidadCajaRel', EntityType::class, [
@@ -116,7 +123,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('entidadSaludRel', EntityType::class, [
                 'class' => RhuEntidad::class,
@@ -126,7 +134,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('entidadPensionRel', EntityType::class, [
                 'class' => RhuEntidad::class,
@@ -136,7 +145,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('saludRel', EntityType::class, [
                 'class' => RhuSalud::class,
@@ -145,7 +155,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('entidadCesantiaRel', EntityType::class, [
                 'class' => RhuEntidad::class,
@@ -155,7 +166,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('pensionRel', EntityType::class, [
                 'class' => RhuPension::class,
@@ -164,7 +176,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('grupoRel', EntityType::class, [
                 'class' => RhuGrupo::class,
@@ -173,7 +186,8 @@ class ContratoType  extends AbstractType
                         ->orderBy('r.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('guardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-primary']]);
 

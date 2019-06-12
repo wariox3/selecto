@@ -48,9 +48,19 @@ class InvItem
     private $vrPrecio;
 
     /**
-     * @ORM\Column(name="servicio", type="boolean", nullable=true, options={"default" : false})
+     * @ORM\Column(name="producto", type="boolean", nullable=true, options={"default":false})
+     */
+    private $producto = false;
+
+    /**
+     * @ORM\Column(name="servicio", type="boolean", nullable=true, options={"default":false})
      */
     private $servicio = false;
+
+    /**
+     * @ORM\Column(name="afecta_inventario", type="boolean", nullable=true, options={"default":false})
+     */
+    private $afectaInventario = true;
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="itemRel")
@@ -177,6 +187,22 @@ class InvItem
     /**
      * @return mixed
      */
+    public function getProducto()
+    {
+        return $this->producto;
+    }
+
+    /**
+     * @param mixed $producto
+     */
+    public function setProducto($producto): void
+    {
+        $this->producto = $producto;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getServicio()
     {
         return $this->servicio;
@@ -220,6 +246,22 @@ class InvItem
     public function setContratosDetallesItemRel($contratosDetallesItemRel): void
     {
         $this->contratosDetallesItemRel = $contratosDetallesItemRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAfectaInventario()
+    {
+        return $this->afectaInventario;
+    }
+
+    /**
+     * @param mixed $afectaInventario
+     */
+    public function setAfectaInventario($afectaInventario): void
+    {
+        $this->afectaInventario = $afectaInventario;
     }
 
 

@@ -58,7 +58,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->leftJoin('m.documentoRel', 'd')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin("md.itemRel", "i")
-        ->where('md.codigoEmpresaFk = ' .$empresa );
+            ->where('md.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroInformeMovimientoFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroInformeMovimientoFechaDesde')} 00:00:00'");
         }

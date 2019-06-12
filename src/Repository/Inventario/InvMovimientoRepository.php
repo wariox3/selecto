@@ -182,7 +182,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
             $arItem = $this->getEntityManager()->getRepository(InvItem::class)->find($arMovimientoDetalle->getCodigoItemFk());
-            if($arItem->getServicio() == false){
+            if($arItem->getAfectaInventario() == true){
                 $existenciaAnterior = $arItem->getCantidadExistencia();
                 if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
                     $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());

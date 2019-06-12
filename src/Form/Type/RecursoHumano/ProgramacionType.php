@@ -36,7 +36,7 @@ class ProgramacionType extends AbstractType
                 },
                 'required' => true,
                 'choice_label' => 'nombre',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('pagoTipoRel', EntityType::class, [
                 'class' => RhuPagoTipo::class,
@@ -46,7 +46,7 @@ class ProgramacionType extends AbstractType
                 },
                 'required' => true,
                 'choice_label' => 'nombre',
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('fechaDesde', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])
             ->add('fechaHasta', DateType::class, ['required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => ['class' => 'date',]])

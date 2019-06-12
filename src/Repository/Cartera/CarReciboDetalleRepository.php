@@ -98,6 +98,7 @@ class CarReciboDetalleRepository extends ServiceEntityRepository
             ->addSelect('rd.numeroFactura')
             ->addSelect('cc.fecha')
             ->addSelect('rd.vrPagoAfectar')
+            ->addSelect('cc.vrSaldo')
             ->leftJoin('rd.reciboRel', 'r')
             ->leftJoin('r.terceroRel', 'tr')
             ->leftJoin('rd.cuentaCobrarRel', 'cc')

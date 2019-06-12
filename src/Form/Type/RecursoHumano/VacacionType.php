@@ -28,6 +28,7 @@ class VacacionType extends AbstractType
                         ->where("e.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('fechaDesdeDisfrute', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
             ->add('fechaHastaDisfrute', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))

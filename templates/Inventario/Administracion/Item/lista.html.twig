@@ -43,6 +43,8 @@
                                  <th>Referencia</th>
                                  <th>Existencia</th>
                                  <th>% IVA</th>
+                                 <th>Afecta inventario</th>
+                                 <th>Producto</th>
                                  <th>Servicio</th>
                                  <th></th>
                                  <th></th>
@@ -58,6 +60,8 @@
                                      <td>{{ arItem.referencia }}</td>
                                      <td>{{ arItem.cantidadExistencia }}</td>
                                      <td>{{ arItem.porcentajeIva }}</td>
+                                     <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                     <td align="center">{% if arItem.producto == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
                                      <td align="center">{% if arItem.servicio == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
                                      <td align="center"><a
                                                  href="{{ path('item_nuevo', { 'id': arItem.codigoItemPk }) }}"

@@ -40,6 +40,7 @@ class NovedadType extends AbstractType
                         ->where("e.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('novedadTipoRel',EntityType::class,[
                 'class' => RhuNovedadTipo::class,
@@ -48,6 +49,7 @@ class NovedadType extends AbstractType
                         ->orderBy('nt.nombre','ASC');
                 },'choice_label' => 'nombre',
                 'required' => true,
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('vrIbcPropuesto', NumberType::class, ['required' => true])
             ->add('vrPropuesto', NumberType::class, ['required' => true])

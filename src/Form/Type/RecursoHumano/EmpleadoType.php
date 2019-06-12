@@ -31,13 +31,14 @@ class EmpleadoType extends AbstractType
     {
         $builder
             ->add('ciudadRel', EntityType::class, [
-            'required' => true,
-            'class' => GenCiudad::class,
-            'query_builder' => function (EntityRepository $er) use ($options) {
-                return $er->createQueryBuilder('c')
-                    ->orderBy('c.nombre', 'ASC');
-            },
-            'choice_label' => 'nombre',
+                'required' => true,
+                'class' => GenCiudad::class,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('ciudadExpedicionRel', EntityType::class, [
                 'required' => true,
@@ -47,6 +48,7 @@ class EmpleadoType extends AbstractType
                         ->orderBy('c.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('identificacionRel', EntityType::class, [
                 'required' => true,
@@ -56,16 +58,18 @@ class EmpleadoType extends AbstractType
                         ->orderBy('c.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('bancoRel', EntityType::class, [
                 'class' => GenBanco::class,
-                'query_builder' => function (EntityRepository $er) {
+                'required' => true,
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('b')
                         ->orderBy('b.codigoBancoPk', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'label' => 'Banco:',
-                'required' => true
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('nombre1', TextType::class, array('required' => true))
             ->add('nombre2', TextType::class, array('required' => false))
@@ -79,7 +83,8 @@ class EmpleadoType extends AbstractType
                         ->orderBy('g.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'label' => 'Sexo:'
+                'label' => 'Sexo:',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('estadoCivilRel', EntityType::class, [
                 'required' => true,
@@ -89,7 +94,8 @@ class EmpleadoType extends AbstractType
                         ->orderBy('ec.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'label' => 'Estado civil:'
+                'label' => 'Estado civil:',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('correo', EmailType::class, ['required' => false, 'label' => 'Correo:'])
             ->add('rhRel', EntityType::class, [
@@ -100,7 +106,8 @@ class EmpleadoType extends AbstractType
                         ->orderBy('ac.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
-                'label' => 'Rh:'
+                'label' => 'Rh:',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('fechaNacimiento', DateType::class, array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))
             ->add('ciudadNacimientoRel', EntityType::class, [
@@ -111,6 +118,7 @@ class EmpleadoType extends AbstractType
                         ->orderBy('c.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('telefono', IntegerType::class, ['required' => false, 'label' => 'Telefono:'])
             ->add('numeroIdentificacion', NumberType::class, ['required' => true, 'label' => 'numero identificacion:'])

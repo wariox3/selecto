@@ -61,7 +61,6 @@ class TerceroController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arTercero = new GenTercero();
-//        $respuesta = '';
         if ($id != 0) {
             $arTercero = $em->getRepository(GenTercero::class)->find($id);
         }
@@ -71,7 +70,6 @@ class TerceroController extends Controller
 
             if ($form->get('guardar')->isClicked()) {
                 if ($arTercero->getCliente() == true || $arTercero->getProveedor() == true) {
-
                     $arTercero = $form->getData();
                     $arTercero->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                     $em->persist($arTercero);

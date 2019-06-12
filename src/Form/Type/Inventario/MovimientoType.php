@@ -28,6 +28,7 @@ class MovimientoType extends AbstractType
                         ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('formaPagoRel', EntityType::class, [
                 'required' => true,
@@ -37,6 +38,7 @@ class MovimientoType extends AbstractType
                         ->orderBy('fp.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('plazoPago', TextType::class, array('required' => true))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

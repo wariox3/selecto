@@ -74,6 +74,7 @@ class ReciboController extends Controller
         $arDocumento = $em->getRepository(GenDocumento::class)->find($documento);
         if ($id == 0) {
             $arRecibo->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+            $arRecibo->setFechaPago(new \DateTime('now'));
         } else {
             $arRecibo = $em->getRepository(CarRecibo::class)->find($id);
         }

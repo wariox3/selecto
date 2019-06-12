@@ -21,7 +21,7 @@ class ItemType extends AbstractType
             ->add('referencia', TextType::class, array('required' => true))
             ->add('vrPrecio', NumberType::class, array('required' => true))
             ->add('porcentajeIva', TextType::class, array('required' => true))
-            ->add('servicio', CheckboxType::class, array('required' => false, 'label' => 'Servicio'))
+            ->add('afectaInventario', CheckboxType::class, array('required' => false))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }
 }

@@ -73,7 +73,8 @@ class GenTerceroRepository extends ServiceEntityRepository
             'required' => false,
             'empty_data' => "",
             'placeholder' => "TODOS",
-            'data' => ""
+            'data' => "",
+            'attr' => ['class' => 'form-control to-select-2']
         ];
         if ($session->get('filtroTercero')) {
             $array['data'] = $this->getEntityManager()->getReference(GenTercero::class, $session->get('filtroTercero'));

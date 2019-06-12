@@ -26,6 +26,8 @@ class InvItemRepository extends ServiceEntityRepository
             ->addSelect('i.cantidadExistencia')
             ->addSelect('i.porcentajeIva')
             ->addSelect('i.servicio')
+            ->addSelect('i.producto')
+            ->addSelect('i.afectaInventario')
             ->orderBy('i.codigoItemPk', 'ASC')
             ->where('i.codigoEmpresaFk = '. $empresa);
         if ($session->get('filtroItemCodigo') != '') {
@@ -46,8 +48,9 @@ class InvItemRepository extends ServiceEntityRepository
             ->addSelect('i.descripcion')
             ->addSelect('i.cantidadExistencia')
             ->orderBy('i.codigoItemPk', 'ASC')
-            ->where('i.servicio = 1')
-        ->andWhere('i.codigoEmpresaFk = ' .$empresa);
+            ->where('i.servicio = false')
+        ->andWhere('i.codigoEmpresaFk = ' . $empresa)
+        ->andWhere('i.cantidadExistencia > 0');
         if ($session->get('filtroItemReferencia') != '') {
             $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
         }

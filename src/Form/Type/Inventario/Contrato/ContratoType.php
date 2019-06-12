@@ -28,6 +28,7 @@ class ContratoType extends AbstractType
                         ->orderBy('t.nombreCorto', 'ASC');
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('comentario', TextareaType::class, array('required' => false))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

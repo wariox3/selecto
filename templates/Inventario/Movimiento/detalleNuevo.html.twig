@@ -39,7 +39,11 @@
                                 <th>Item</th>
                                 <th>Existencia</th>
                                 <th>Precio</th>
+                                <th>Afecta inventario</th>
                                 <th>Cantidad</th>
+                                <th>Producto</th>
+                                <th>Servicio</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +53,10 @@
                                     <td>{{ arItem.descripcion }}</td>
                                     <td align="center">{{ arItem.cantidadExistencia }}</td>
                                     <td class="numero">{{ arItem.vrPrecio | number_format }}</td>
+                                    <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                    <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                    <td align="center">{% if arItem.producto == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                    <td align="center">{% if arItem.servicio == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
                                     <td style="text-align: center;"><input type="number"
                                                                            name="itemCantidad[{{ arItem.codigoItemPk }}]"
                                                                            size="10" style="width:70px"></td>

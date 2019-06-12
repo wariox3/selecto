@@ -29,6 +29,7 @@ class TerceroType extends AbstractType
                         ->orderBy('c.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',
+                'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('formaPagoRel', EntityType::class, [
                 'required' => true,

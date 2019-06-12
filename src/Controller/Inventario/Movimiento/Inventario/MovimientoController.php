@@ -240,7 +240,7 @@ class MovimientoController extends Controller
                 foreach ($arrItems as $codigoItem => $cantidad) {
                     $arItem = $em->getRepository(InvItem::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
-                        if ($arItem->getServicio() == false) {
+                        if ($arItem->getAfectaInventario() == true) {
                             if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
                             } else {
                                 $respuesta = "La cantidad seleccionada para el item: " . $arItem->getDescripcion() . " no puede ser mayor a las existencias del mismo.";

@@ -27,6 +27,7 @@
             <link href="{{ asset('plantilla/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css') }}" rel="stylesheet">
             <link href="{{ asset('plantilla/vendor/bootstrap-multiselect/bootstrap-multiselect.css') }}" rel="stylesheet">
             <link href="{{ asset('plantilla/vendor/morris/morris.css') }}" rel="stylesheet">
+            <link href="{{ asset('plantilla/vendor/select2/select2.css') }}" rel="stylesheet">
 
             <!-- Theme CSS -->
             <link href="{{ asset('plantilla/stylesheets/theme.css') }}" rel="stylesheet">
@@ -69,6 +70,8 @@
             <script src="{{ asset('plantilla/vendor/jquery-appear/jquery.appear.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/jquery-easypiechart/jquery.easypiechart.js') }}"></script>
+            <script src="{{ asset('plantilla/vendor/select2/select2.js') }}"></script>
+            <script src="{{ asset('plantilla/vendor/select2/select2_locale_es.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/flot/jquery.flot.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/flot-tooltip/jquery.flot.tooltip.js') }}"></script>
             <script src="{{ asset('plantilla/vendor/flot/jquery.flot.pie.js') }}"></script>
@@ -101,7 +104,23 @@
 
             <!-- Examples -->
             <script src="{{ asset('plantilla/javascripts/dashboard/examples.dashboard.js') }}"></script>
-
+            <script>
+                /**
+                 * Función para convertir los combobox en select2.
+                 */
+                $(function () {
+                    $(".to-select-2").select2({
+                        width: '100%',
+                        language: 'es'
+                    });
+                    /**
+                     * Solucionar el problema del tab index que tiene el select 2.
+                     */
+                    $(".to-select-2").on("select2:close", function (e) {
+                        e.target.focus();
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

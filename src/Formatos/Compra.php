@@ -82,10 +82,10 @@ class Compra extends \FPDF
         $this->Cell(55, 4, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 'L', 1);
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200, 200, 200);
-        $this->Cell(40, 4, '', 1, 0, 'L', 1);
+        $this->Cell(40, 4, 'IDENTIFICACION:', 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(55, 4, '', 1, 'L', 1);
+        $this->Cell(55, 4, $arMovimiento->getTerceroRel()->getNumeroIdentificacion(), 1, 'L', 1);
 
         $this->EncabezadoDetalles();
 
