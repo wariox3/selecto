@@ -92,4 +92,18 @@ class CarCuentaCobrarRepository extends ServiceEntityRepository
 
         return $queryBuilder;
     }
+
+    public function saldo($tercero){
+        $saldo = 0;
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(CarCuentaCobrar::class, 'cc')
+            ->select('SUM(cc.vrSaldoOperado)')
+            ->where("cc.codigoTerceroFk = {$tercero}");
+        $arrResultado = $queryBuilder->getQuery()->getResult();
+
+        if($arrResultado){
+            $saldo =  $arrResultado[0][1];
+        }
+
+        return $saldo;
+    }
 }

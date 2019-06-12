@@ -82,4 +82,8 @@ class ContratoController extends Controller
             'arContrato'=>$arContrato
         ]);
     }
+
+    public function terminar(Request $request, $id){
+        $em = $this->getDoctrine()->getManager();
+    }
 }

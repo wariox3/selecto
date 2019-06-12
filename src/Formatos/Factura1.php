@@ -101,7 +101,7 @@ class Factura1 extends \FPDF
         $this->SetXY(8, $intY + 10);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Refsemantica:", 1, 0, 'L', 1);
+        $this->Cell(18, 5, "Ref:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(45, 5, $arMovimiento->getTerceroRel()->getNumeroIdentificacion(), 1, 0, 'L', 1);
@@ -112,25 +112,6 @@ class Factura1 extends \FPDF
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(37, 5, $arMovimiento->getTerceroRel()->getTelefono(), 1, 0, 'L', 1);
-
-
-        $this->SetXY(8, $intY + 15);
-        $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Direccion:", 1, 0, 'L', 1);
-        $this->SetFont('Arial', '', 7);
-        $this->SetFillColor(272, 272, 272);
-        $this->Cell(45, 5, $arMovimiento->getTerceroRel()->getDireccion(), 1, 0, 'L', 1);
-
-        $this->SetFont('Arial', 'B', 7);
-        $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Correo:", 1, 0, 'L', 1);
-        $this->SetFont('Arial', '', 7);
-        $this->SetFillColor(272, 272, 272);
-        $this->Cell(37, 5, $arMovimiento->getTerceroRel()->getEmail(), 1, 0, 'L', 1);
-
-
-
 
         $this->SetXY(150, $intY + 3);
         $this->SetFont('Arial', 'B', 7);

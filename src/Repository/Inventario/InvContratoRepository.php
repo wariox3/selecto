@@ -2,6 +2,9 @@
 
 namespace App\Repository\Inventario;
 
+use App\Entity\Cartera\CarCuentaCobrar;
+use App\Entity\Empresa;
+use App\Entity\General\GenConfiguracion;
 use App\Entity\Inventario\InvContrato;
 use App\Entity\Inventario\InvContratoDetalle;
 use App\Entity\General\GenDocumento;
@@ -66,7 +69,7 @@ class InvContratoRepository extends ServiceEntityRepository
             ->addSelect('c.estadoAprobado')
             ->addSelect('c.estadoAnulado')
             ->leftJoin('c.terceroRel', 'ct')
-        ->where("c.codigoEmpresaFk = ${codigoEmpresa}" );
+            ->where("c.codigoEmpresaFk = ${codigoEmpresa}");
         $queryBuilder->orderBy("c.codigoContratoPk", 'DESC');
         return $queryBuilder;
     }
@@ -88,7 +91,7 @@ class InvContratoRepository extends ServiceEntityRepository
     public function generarFacturaSeleccionados($codigoEmpresa, $arrSeleccionados)
     {
         $em = $this->getEntityManager();
-        if($arrSeleccionados) {
+        if ($arrSeleccionados) {
             foreach ($arrSeleccionados as $codigo) {
                 $this->generarFactura($codigoEmpresa, $codigo);
             }
@@ -96,9 +99,22 @@ class InvContratoRepository extends ServiceEntityRepository
         $em->flush();
     }
 
+    /**
+     * @param $codigoEmpresa
+     * @param $codigoContrato
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     private function generarFactura($codigoEmpresa, $codigoContrato)
     {
         $em = $this->getEntityManager();
+        $arItemInteres = null;
+        $arrConfiguracion = $em->getRepository(GenConfiguracion::class)->generarFacturaMasiva($codigoEmpresa);
+        if ($arrConfiguracion['generaInteresMora']) {
+            $arItemInteres = $em->getRepository(InvItem::class)->find($arrConfiguracion['codigoItemInteresMora']);
+        }
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvContratoDetalle::class, 'cd')
             ->select('cd.codigoContratoDetallePk')
             ->addSelect('cd.codigoItemFk')
@@ -110,7 +126,7 @@ class InvContratoRepository extends ServiceEntityRepository
             ->addSelect('cd.vrTotal')
             ->where('cd.codigoContratoFk = ' . $codigoContrato);
         $arContratoDetalles = $queryBuilder->getQuery()->getResult();
-        if($arContratoDetalles) {
+        if ($arContratoDetalles) {
             /** @var $arContrato InvContrato */
             $arContrato = $em->getRepository(InvContrato::class)->find($codigoContrato);
             $arDocumento = $em->getRepository(GenDocumento::class)->find('FAC');
@@ -122,16 +138,14 @@ class InvContratoRepository extends ServiceEntityRepository
             $arFactura->setFormaPagoRel($arContrato->getTerceroRel()->getFormaPagoRel());
             $arFactura->setReferencia($arContrato->getReferencia());
             $arFactura->setFecha(new \DateTime('now'));
-            $arFactura->setVrSubtotal($arContrato->getVrSubtotal());
-            $arFactura->setVrTotalBruto($arContrato->getVrTotalBruto());
-            $arFactura->setVrTotalNeto($arContrato->getVrTotalNeto());
-            $arFactura->setVrIva($arContrato->getVrIva());
-            $arFactura->setEstadoAutorizado(1);
-            $em->persist($arFactura);
+            $subTotalGeneral = $arContrato->getVrSubtotal();
+            $totalBrutoGeneral = $arContrato->getVrTotalBruto();
+            $totalNetoGeneral = $arContrato->getVrTotalNeto();
+
             /** @var $arContratoDetalle InvContratoDetalle */
             foreach ($arContratoDetalles as $arContratoDetalle) {
-                $arItem = $em->getRepository(InvItem::class)->find($arContratoDetalle['codigoItemFk']);
                 $arFacturaDetalle = new InvMovimientoDetalle();
+                $arItem = $em->getRepository(InvItem::class)->find($arContratoDetalle['codigoItemFk']);
                 $arFacturaDetalle->setItemRel($arItem);
                 $arFacturaDetalle->setMovimientoRel($arFactura);
                 $arFacturaDetalle->setCodigoEmpresaFk($codigoEmpresa);
@@ -143,6 +157,32 @@ class InvContratoRepository extends ServiceEntityRepository
                 $arFacturaDetalle->setVrTotal($arContratoDetalle['vrTotal']);
                 $em->persist($arFacturaDetalle);
             }
+            if ($arrConfiguracion['generaInteresMora']) {
+                $vrSaldoMora = $em->getRepository(CarCuentaCobrar::class)->saldo($arContrato->getCodigoTerceroFk());
+                if ($vrSaldoMora > 0) {
+                    $precio = $vrSaldoMora * $arrConfiguracion['porcentajeInteresMora'] / 100;
+                    $arFacturaDetalle = new InvMovimientoDetalle();
+                    $arFacturaDetalle->setMovimientoRel($arFactura);
+                    $arFacturaDetalle->setItemRel($arItemInteres);
+                    $arFacturaDetalle->setCantidad(1);
+                    $arFacturaDetalle->setVrPrecio($precio);
+                    $arFacturaDetalle->setVrIva(0);
+                    $arFacturaDetalle->setVrSubtotal($precio);
+                    $arFacturaDetalle->setVrTotal($precio);
+                    $em->persist($arFacturaDetalle);
+                    $subTotalGeneral += $precio;
+                    $totalBrutoGeneral += $precio;
+                    $totalNetoGeneral += $precio;
+                }
+            }
+
+            $arFactura->setVrSubtotal($subTotalGeneral);
+            $arFactura->setVrTotalBruto($totalBrutoGeneral);
+            $arFactura->setVrTotalNeto($totalNetoGeneral);
+            $arFactura->setVrIva($arContrato->getVrIva());
+            $arFactura->setEstadoAutorizado(1);
+            $em->persist($arFactura);
+
             $em->getRepository(InvMovimiento::class)->aprobar($arFactura);
         }
     }

@@ -24,4 +24,16 @@ class GenConfiguracionRepository extends ServiceEntityRepository
         $arConfiguracion = $queryBuilder->getQuery()->getResult();
         return $arConfiguracion[0];
     }
+
+    public function generarFacturaMasiva($codigoEmpresa) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(GenConfiguracion::class, 'c')
+            ->select('c.codigoConfiguracionPk')
+            ->addSelect('c.codigoItemInteresMora')
+            ->addSelect('c.generaInteresMora')
+            ->addSelect('c.porcentajeInteresMora')
+            ->where("c.codigoConfiguracionPk = {$codigoEmpresa}");
+        $arConfiguracion = $queryBuilder->getQuery()->getResult();
+        return $arConfiguracion[0];
+    }
 }

@@ -161,6 +161,38 @@ class InvItem
     /**
      * @return mixed
      */
+    public function getVrPrecio()
+    {
+        return $this->vrPrecio;
+    }
+
+    /**
+     * @param mixed $vrPrecio
+     */
+    public function setVrPrecio($vrPrecio): void
+    {
+        $this->vrPrecio = $vrPrecio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getServicio()
+    {
+        return $this->servicio;
+    }
+
+    /**
+     * @param mixed $servicio
+     */
+    public function setServicio($servicio): void
+    {
+        $this->servicio = $servicio;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMovimientosDetallesItemRel()
     {
         return $this->movimientosDetallesItemRel;
@@ -190,37 +222,6 @@ class InvItem
         $this->contratosDetallesItemRel = $contratosDetallesItemRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getServicio()
-    {
-        return $this->servicio;
-    }
-
-    /**
-     * @param mixed $servicio
-     */
-    public function setServicio($servicio): void
-    {
-        $this->servicio = $servicio;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVrPrecio()
-    {
-        return $this->vrPrecio;
-    }
-
-    /**
-     * @param mixed $vrPrecio
-     */
-    public function setVrPrecio($vrPrecio): void
-    {
-        $this->vrPrecio = $vrPrecio;
-    }
 
 
 }
