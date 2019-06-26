@@ -100,22 +100,27 @@ class Factura extends \FPDF
         }
 
         $this->SetFont('Arial', 'B', 9);
-        $this->SetXY(95, 25);
+        $this->SetXY(95, 24);
         $this->Cell(10, 4, utf8_decode($arEmpresa->getNombreCorto()), 0, 0, 'C', 0);
         $this->SetFont('Arial', '', 8);
 
         $this->SetFont('Arial', 'B', 9);
-        $this->SetXY(95, 29);
+        $this->SetXY(95, 28);
+        $this->Cell(10, 4, 'REGIMEN COMUN', 0, 0, 'C', 0);
+        $this->SetFont('Arial', '', 8);
+
+        $this->SetFont('Arial', 'B', 9);
+        $this->SetXY(95, 32);
         $this->Cell(10, 4, 'NIT: ' .$arEmpresa->getNit(). '-' . $arEmpresa->getDigitoVerificacion(), 0, 0, 'C', 0);
         $this->SetFont('Arial', '', 8);
 
         $this->SetFont('Arial', 'B', 9);
-        $this->SetXY(95, 33);
+        $this->SetXY(95, 36);
         $this->Cell(10, 4, utf8_decode($arEmpresa->getDireccion()), 0, 0, 'C', 0);
         $this->SetFont('Arial', '', 8);
 
         $this->SetFont('Arial', 'B', 9);
-        $this->SetXY(95, 37);
+        $this->SetXY(95, 40);
         $this->Cell(10, 4, 'TEL: '. $arEmpresa->getTelefono(), 0, 0, 'C', 0);
         $this->SetFont('Arial', '', 8);
 
