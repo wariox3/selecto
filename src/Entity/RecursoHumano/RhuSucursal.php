@@ -30,6 +30,12 @@ class RhuSucursal {
     private $estadoActivo = 0;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="sucursalRel")
      */
     protected $contratosSucursalRel;
@@ -97,5 +103,23 @@ class RhuSucursal {
     {
         $this->contratosSucursalRel = $contratosSucursalRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+
 }
 

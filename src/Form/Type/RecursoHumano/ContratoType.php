@@ -106,9 +106,10 @@ class ContratoType  extends AbstractType
             ])
             ->add('sucursalRel', EntityType::class, [
                 'class' => RhuSucursal::class,
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('s')
                         ->where('s.estadoActivo = 1')
+                        ->where("s.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'")
                         ->orderBy('s.nombre', 'ASC');
                 },
                 'choice_label' => 'nombre',

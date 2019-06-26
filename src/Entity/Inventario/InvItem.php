@@ -43,6 +43,17 @@ class InvItem
     private $porcentajeIva = 0;
 
     /**
+     * @ORM\Column(name="codigo_impuesto_retencion_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoImpuestoRetencionFk;
+
+    /**
+     * @ORM\Column(name="codigo_impuesto_iva_venta_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoImpuestoIvaVentaFk;
+
+
+    /**
      * @ORM\Column(name="vr_precio", type="float", nullable=true, options={"default" : 0})
      */
     private $vrPrecio;
@@ -262,6 +273,38 @@ class InvItem
     public function setAfectaInventario($afectaInventario): void
     {
         $this->afectaInventario = $afectaInventario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoImpuestoRetencionFk()
+    {
+        return $this->codigoImpuestoRetencionFk;
+    }
+
+    /**
+     * @param mixed $codigoImpuestoRetencionFk
+     */
+    public function setCodigoImpuestoRetencionFk($codigoImpuestoRetencionFk): void
+    {
+        $this->codigoImpuestoRetencionFk = $codigoImpuestoRetencionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoImpuestoIvaVentaFk()
+    {
+        return $this->codigoImpuestoIvaVentaFk;
+    }
+
+    /**
+     * @param mixed $codigoImpuestoIvaVentaFk
+     */
+    public function setCodigoImpuestoIvaVentaFk($codigoImpuestoIvaVentaFk): void
+    {
+        $this->codigoImpuestoIvaVentaFk = $codigoImpuestoIvaVentaFk;
     }
 
 
