@@ -254,6 +254,7 @@ class MovimientoController extends Controller
                         $arMovimientoDetalle->setVrPrecio($arItem->getVrPrecio());
                         $arMovimientoDetalle->setCantidad($cantidad);
                         $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
+                        $arMovimientoDetalle->setCodigoImpuestoRetencionFk($arItem->getCodigoImpuestoRetencionFk());
                         $em->persist($arMovimientoDetalle);
                     }
                 }

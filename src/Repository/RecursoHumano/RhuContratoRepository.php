@@ -87,9 +87,9 @@ class RhuContratoRepository extends ServiceEntityRepository
             ->select("c")
             ->where("c.codigoEmpresaFk = {$codigoEmpresa}")
             ->andWhere("c.codigoGrupoFk = '{$arProgramacion->getCodigoGrupoFk()}'")
-            ->andWhere("c.fechaDesde >= '{$arProgramacion->getFechaDesde()->format('Y-m-d')}'")
-            ->andWhere("c.fechaHasta <= '{$arProgramacion->getFechaHasta()->format('Y-m-d')}'")
-            ->andWhere("c.fechaUltimoPago < '{$arProgramacion->getFechaHastaPeriodo()->format('Y-m-d')}' OR c.indefinido = 1")
+            ->andWhere("c.fechaUltimoPago < '{$arProgramacion->getFechaHastaPeriodo()->format('Y-m-d')}'")
+            ->andWhere("c.fechaDesde <= '{$arProgramacion->getFechaHastaPeriodo()->format('Y-m-d')}'")
+            ->andWhere("(c.fechaHasta >= '{$arProgramacion->getFechaDesde()->format('Y-m-d')}' OR c.indefinido=1)")
             ->getQuery()->execute();
 
         foreach ($arContratos as $arContrato) {
