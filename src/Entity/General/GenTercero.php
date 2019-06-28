@@ -107,6 +107,21 @@ class GenTercero
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="retencion_iva", type="boolean", options={"default":false})
+     */
+    private $retencionIva = false;
+
+    /**
+     * @ORM\Column(name="retencion_fuente", type="boolean", options={"default":false})
+     */
+    private $retencionFuente = false;
+
+    /**
+     * @ORM\Column(name="retencion_fuente_sin_base", type="boolean", options={"default":false})
+     */
+    private $retencionFuenteSinBase = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="ciudadTerceroRel")
      * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
      */
@@ -580,7 +595,53 @@ class GenTercero
         $this->cuentaPagarRel = $cuentaPagarRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRetencionIva()
+    {
+        return $this->retencionIva;
+    }
 
+    /**
+     * @param mixed $retencionIva
+     */
+    public function setRetencionIva($retencionIva): void
+    {
+        $this->retencionIva = $retencionIva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRetencionFuente()
+    {
+        return $this->retencionFuente;
+    }
+
+    /**
+     * @param mixed $retencionFuente
+     */
+    public function setRetencionFuente($retencionFuente): void
+    {
+        $this->retencionFuente = $retencionFuente;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRetencionFuenteSinBase()
+    {
+        return $this->retencionFuenteSinBase;
+    }
+
+    /**
+     * @param mixed $retencionFuenteSinBase
+     */
+    public function setRetencionFuenteSinBase($retencionFuenteSinBase): void
+    {
+        $this->retencionFuenteSinBase = $retencionFuenteSinBase;
+    }
 
 
 

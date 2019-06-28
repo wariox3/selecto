@@ -54,6 +54,9 @@ class TerceroType extends AbstractType
             ->add('celular', TextType::class, array('required' => false))
             ->add('cliente', CheckboxType::class, array('required' => false, 'label' => 'Cliente'))
             ->add('proveedor', CheckboxType::class, array('required' => false, 'label' => 'Proveedor'))
+            ->add('retencionIva', CheckboxType::class, ['required' => false])
+            ->add('retencionFuente', CheckboxType::class, ['required' => false])
+            ->add('retencionFuenteSinBase', CheckboxType::class, ['required' => false])
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }
 }

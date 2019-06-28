@@ -9,6 +9,8 @@ use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComCuentaPagarTipo;
 use App\Entity\General\GenDocumento;
 use App\Entity\General\GenDocumentoEmpresa;
+use App\Entity\General\GenImpuesto;
+use App\Entity\Inventario\InvConfiguracion;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -42,7 +44,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('t.nombreCorto AS tercero')
             ->leftJoin('m.terceroRel', 't')
             ->where("m.codigoDocumentoFk = '" . $documento . "'")
-        ->andWhere('m.codigoEmpresaFk = ' . $empresa);
+            ->andWhere('m.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroMovimientoFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('filtroMovimientoFechaDesde')} 00:00:00'");
         }
@@ -58,30 +60,116 @@ class InvMovimientoRepository extends ServiceEntityRepository
 
     /**
      * @param $arMovimiento InvMovimiento
+     * @param $arMovimientoDetalles InvMovimientoDetalle
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function liquidar($arMovimiento)
     {
         $em = $this->getEntityManager();
+        $respuesta = '';
+        $retencionFuente = $arMovimiento->getTerceroRel()->getRetencionFuente();
+        $retencionFuenteSinBase = $arMovimiento->getTerceroRel()->getRetencionFuenteSinBase();
         $vrSubtotalGlobal = 0;
         $vrTotalBrutoGlobal = 0;
+        $vrTotalNetoGlobal = 0;
         $vrIvaGlobal = 0;
+        $vrTotalGlobal = 0;
+        $vrRetencionFuenteGlobal = 0;
+        $vrRetencionIvaGlobal = 0;
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
+        $arrImpuestoRetenciones = $this->retencion($arMovimientoDetalles, $retencionFuenteSinBase);
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
-            $vrSubtotal = $arMovimientoDetalle->getVrSubtotal();
-            $vrSubtotalGlobal += $vrSubtotal;
-            $vrTotal = $arMovimientoDetalle->getVrTotal();
-            $vrTotalBrutoGlobal += $vrTotal;
-            $vrIva = $arMovimientoDetalle->getVrIva();
+
+            $vrSubtotal = $arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad();
+            $vrIva = ($vrSubtotal * ($arMovimientoDetalle->getPorcentajeIva()) / 100);
+            $vrTotalBruto = $vrSubtotal;
+            $vrTotal = $vrTotalBruto + $vrIva;
+            $vrRetencionFuente = 0;
+            $vrTotalGlobal += $vrTotal;
+            $vrTotalBrutoGlobal += $vrTotalBruto;
             $vrIvaGlobal += $vrIva;
+            $vrSubtotalGlobal += $vrSubtotal;
+            if ($arMovimiento->getCodigoDocumentoFk() == 'FAC' || $arMovimiento->getCodigoDocumentoFk() == 'COM') {
+                if ($arMovimientoDetalle->getCodigoImpuestoRetencionFk()) {
+                    if ($retencionFuente) {
+                        if ($arrImpuestoRetenciones[$arMovimientoDetalle->getCodigoImpuestoRetencionFk()]['base'] == true || $retencionFuenteSinBase) {
+                            $vrRetencionFuente = $vrSubtotal * $arrImpuestoRetenciones[$arMovimientoDetalle->getCodigoImpuestoRetencionFk()]['porcentaje'] / 100;
+                        }
+                    }
+                }
+            }
+            $vrRetencionFuenteGlobal += $vrRetencionFuente;
+            $arMovimientoDetalle->setVrSubtotal($vrSubtotal);
+            $arMovimientoDetalle->setVrIva($vrIva);
+            $arMovimientoDetalle->setVrTotal($vrTotal);
+            $arMovimientoDetalle->setVrRetencionFuente($vrRetencionFuente);
+            $this->getEntityManager()->persist($arMovimientoDetalle);
         }
-        $arMovimiento->setVrSubtotal($vrSubtotalGlobal);
-        $arMovimiento->setVrTotalBruto($vrTotalBrutoGlobal);
+        //Calcular retenciones en Ventas
+        if ($arMovimiento->getCodigoDocumentoFk() == 'FAC') {
+            //Liquidar retencion de iva para las ventas, solo los grandes contribuyentes y entidades del estado nos retienen 50% iva
+            $arrConfiguracion = $em->getRepository(InvConfiguracion::class)->liquidarMovimiento();
+            if ($arMovimiento->getTerceroRel()->getRetencionIva() == 1) {
+                //Validacion acordada con Luz Dary de que las devoluciones tambien validen la base
+                if ($vrIvaGlobal >= $arrConfiguracion['vrBaseRetencionIvaVenta']) {
+                    $vrRetencionIvaGlobal = ($vrIvaGlobal * $arrConfiguracion['porcentajeRetencionIva']) / 100;
+                }
+            }
+        }
+
+        $vrTotalNetoGlobal = $vrTotalGlobal - $vrRetencionFuenteGlobal - $vrRetencionIvaGlobal;
         $arMovimiento->setVrIva($vrIvaGlobal);
-        $arMovimiento->setVrTotalNeto($vrTotalBrutoGlobal);
-        $em->persist($arMovimiento);
-        $em->flush();
+        $arMovimiento->setVrSubtotal($vrSubtotalGlobal);
+        $arMovimiento->setVrTotalBruto($vrTotalGlobal);
+        $arMovimiento->setVrTotalNeto($vrTotalNetoGlobal);
+        $arMovimiento->setVrRetencionFuente($vrRetencionFuenteGlobal);
+        $arMovimiento->setVrRetencionIva($vrRetencionIvaGlobal);
+        $this->getEntityManager()->persist($arMovimiento);
+        if ($respuesta == '') {
+            $em->flush();
+        } else {
+            Mensajes::error($respuesta);
+        }
+    }
+
+    /**
+     * @param $arMovimientoDetalles
+     * @param $retencionFuenteSinBase
+     * @return array
+     */
+    private function retencion($arMovimientoDetalles, $retencionFuenteSinBase)
+    {
+        /**
+         * @var $arMovimientoDetalle InvMovimientoDetalle
+         */
+        $em = $this->getEntityManager();
+        $arrImpuestoRetenciones = array();
+        foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
+            if ($arMovimientoDetalle->getCodigoImpuestoRetencionFk()) {
+                $vrPrecio = $arMovimientoDetalle->getVrPrecio() - (($arMovimientoDetalle->getVrPrecio()) / 100);
+                $vrSubtotal = $vrPrecio * $arMovimientoDetalle->getCantidad();
+                if (!array_key_exists($arMovimientoDetalle->getCodigoImpuestoRetencionFk(), $arrImpuestoRetenciones)) {
+                    $arrImpuestoRetenciones[$arMovimientoDetalle->getCodigoImpuestoRetencionFk()] = array('codigo' => $arMovimientoDetalle->getCodigoImpuestoRetencionFk(),
+                        'valor' => $vrSubtotal, 'base' => false, 'porcentaje' => 0);
+                } else {
+                    $arrImpuestoRetenciones[$arMovimientoDetalle->getCodigoImpuestoRetencionFk()]['valor'] += $vrSubtotal;
+                }
+            }
+        }
+
+        if ($arrImpuestoRetenciones) {
+            foreach ($arrImpuestoRetenciones as $arrImpuestoRetencion) {
+                $arImpuesto = $em->getRepository(GenImpuesto::class)->find($arrImpuestoRetencion['codigo']);
+                if ($arImpuesto) {
+                    if ($arrImpuestoRetencion['valor'] >= $arImpuesto->getBase() || $retencionFuenteSinBase) {
+                        $arrImpuestoRetenciones[$arrImpuestoRetencion['codigo']]['base'] = true;
+                        $arrImpuestoRetenciones[$arrImpuestoRetencion['codigo']]['porcentaje'] = $arImpuesto->getPorcentaje();
+                    }
+                }
+            }
+        }
+        return $arrImpuestoRetenciones;
     }
 
     /**
@@ -118,7 +206,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk(), $arMovimiento->getCodigoEmpresaFk());
             $arMovimiento->setNumero($consecutivo);
             $arMovimiento->setFecha(new \DateTime('now'));
-            if($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC') {
+            if ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC') {
                 $objFunciones = new FuncionesController();
                 $fecha = new \DateTime('now');
                 $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
@@ -134,11 +222,18 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arCuentaCobrar->setNumeroDocumento($arMovimiento->getNumero());
                 $arCuentaCobrar->setFecha($arMovimiento->getFecha());
                 $arCuentaCobrar->setFechaVence($arMovimiento->getFechaVence());
-                $arCuentaCobrar->setVrSaldo($arMovimiento->getVrTotalNeto());
-                $arCuentaCobrar->setVrSaldoOriginal($arMovimiento->getVrTotalNeto());
                 $arCuentaCobrar->setOperacion($arCuentaCobrarTipo->getOperacion());
                 $arCuentaCobrar->setCodigoEmpresaFk($arMovimiento->getCodigoEmpresaFk());
-                $arCuentaCobrar->setVrSaldoOperado($arCuentaCobrar->getVrSaldo() * $arCuentaCobrar->getOperacion());
+                $arCuentaCobrar->setVrRetencionIva($arMovimiento->getVrRetencionIva());
+                $arrConfiguracion = $em->getRepository(InvConfiguracion::class)->aprobarMovimiento();
+                $saldo = $arMovimiento->getVrTotalNeto();
+                if ($arrConfiguracion['impuestoRecaudo']) {
+                    $saldo = $arMovimiento->getVrTotalBruto();
+                    $arCuentaCobrar->setVrRetencionFuente($arMovimiento->getVrRetencionFuente());
+                }
+                $arCuentaCobrar->setVrSaldoOriginal($saldo);
+                $arCuentaCobrar->setVrSaldo($saldo);
+                $arCuentaCobrar->setVrSaldoOperado($saldo * $arCuentaCobrarTipo->getOperacion());
                 $arCuentaCobrar->setEstadoAutorizado(1);
                 $arCuentaCobrar->setEstadoAprobado(1);
                 $em->persist($arCuentaCobrar);
@@ -182,7 +277,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
             $arItem = $this->getEntityManager()->getRepository(InvItem::class)->find($arMovimientoDetalle->getCodigoItemFk());
-            if($arItem->getAfectaInventario() == true){
+            if ($arItem->getAfectaInventario() == true) {
                 $existenciaAnterior = $arItem->getCantidadExistencia();
                 if ($arMovimiento->getDocumentoRel()->getOperacionInventario() == -1) {
                     $arItem->setCantidadExistencia($existenciaAnterior - $arMovimientoDetalle->getCantidad());
@@ -253,4 +348,5 @@ class InvMovimientoRepository extends ServiceEntityRepository
         }
         return $array;
     }
+
 }

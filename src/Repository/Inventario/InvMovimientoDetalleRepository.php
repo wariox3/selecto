@@ -2,8 +2,10 @@
 
 namespace App\Repository\Inventario;
 
+use App\Entity\General\GenImpuesto;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
+use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -30,6 +32,8 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.porcentajeIva')
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')
+            ->addSelect('md.codigoImpuestoRetencionFk')
+            ->addSelect('md.codigoImpuestoIvaFk')
             ->leftJoin("md.itemRel", "i")
             ->where('md.codigoMovimientoFk = ' . $id);
         return $queryBuilder->getQuery()->getResult();
@@ -86,22 +90,39 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
     public function actualizarDetalles($arrControles, $form, $arMovimiento)
     {
         $em = $this->getEntityManager();
+        $this->getEntityManager()->persist($arMovimiento);
         if ($this->getEntityManager()->getRepository(InvMovimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
             $arrCantidad = $arrControles['arrCantidad'];
             $arrPrecio = $arrControles['arrValor'];
             $arrCodigo = $arrControles['arrCodigo'];
+            $arrImpuestoIva = $arrControles['cboImpuestoIva'];
+            $arrImpuestoRetencion = $arrControles['cboImpuestoRetencion'];
+            $mensajeError = "";
             foreach ($arrCodigo as $codigoMovimientoDetalle) {
                 $arMovimientoDetalle = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->find($codigoMovimientoDetalle);
                 $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
                 $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
-                $arMovimientoDetalle->setVrSubtotal($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad());
-                $arMovimientoDetalle->setVrIva($arMovimientoDetalle->getVrSubtotal() * $arMovimientoDetalle->getPorcentajeIva() / 100);
-                $arMovimientoDetalle->setvrTotal($arMovimientoDetalle->getVrSubtotal() + $arMovimientoDetalle->getVrIva());
+                $codigoImpuestoIva = $arrImpuestoIva[$codigoMovimientoDetalle];
+                if($arMovimientoDetalle->getCodigoImpuestoIvaFk() != $codigoImpuestoIva) {
+                    $arImpuestoIva = $em->getRepository(GenImpuesto::class)->find($codigoImpuestoIva);
+                    $arMovimientoDetalle->setPorcentajeIva($arImpuestoIva->getPorcentaje());
+                }
+                $arMovimientoDetalle->setCodigoImpuestoIvaFk($codigoImpuestoIva);
+                $codigoImpuestoRetencion = $arrImpuestoRetencion[$codigoMovimientoDetalle];
+                if($arMovimientoDetalle->getCodigoImpuestoRetencionFk() != $codigoImpuestoRetencion) {
+                    $arImpuestoRetencion = $em->getRepository(GenImpuesto::class)->find($codigoImpuestoRetencion);
+//                    $arMovimientoDetalle->setPorcentajeRetencion($arImpuestoRetencion->getPorcentaje());
+                }
+                $arMovimientoDetalle->setCodigoImpuestoRetencionFk($codigoImpuestoRetencion);
                 $em->persist($arMovimientoDetalle);
                 $em->flush();
             }
-            $em->getRepository(InvMovimiento::class)->liquidar($arMovimiento);
-            $this->getEntityManager()->flush();
+            if ($mensajeError == "") {
+                $em->getRepository(InvMovimiento::class)->liquidar($arMovimiento);
+                $this->getEntityManager()->flush();
+            } else {
+                Mensajes::error($mensajeError);
+            }
         }
     }
 

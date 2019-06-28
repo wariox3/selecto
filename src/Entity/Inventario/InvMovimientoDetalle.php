@@ -68,6 +68,11 @@ class InvMovimientoDetalle
     private $vrIva = 0;
 
     /**
+     * @ORM\Column(name="vr_retencion_fuente", type="float", options={"default" : 0})
+     */
+    private $vrRetencionFuente = 0;
+
+    /**
      * @ORM\Column(name="vr_total", type="float", nullable=true, options={"default" : 0})
      */
     private $vrTotal;
@@ -307,6 +312,23 @@ class InvMovimientoDetalle
     {
         $this->codigoImpuestoIvaFk = $codigoImpuestoIvaFk;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVrRetencionFuente()
+    {
+        return $this->vrRetencionFuente;
+    }
+
+    /**
+     * @param mixed $vrRetencionFuente
+     */
+    public function setVrRetencionFuente($vrRetencionFuente): void
+    {
+        $this->vrRetencionFuente = $vrRetencionFuente;
+    }
+
 
 
 }

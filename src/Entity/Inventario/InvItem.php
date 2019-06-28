@@ -52,7 +52,6 @@ class InvItem
      */
     private $codigoImpuestoIvaVentaFk;
 
-
     /**
      * @ORM\Column(name="vr_precio", type="float", nullable=true, options={"default" : 0})
      */
@@ -72,6 +71,18 @@ class InvItem
      * @ORM\Column(name="afecta_inventario", type="boolean", nullable=true, options={"default":false})
      */
     private $afectaInventario = true;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenImpuesto", inversedBy="itemsImpuestoRetencionRel")
+     * @ORM\JoinColumn(name="codigo_impuesto_retencion_fk",referencedColumnName="codigo_impuesto_pk")
+     */
+    protected $impuestoRetencionRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenImpuesto", inversedBy="itemsImpuestoIvaVentaRel")
+     * @ORM\JoinColumn(name="codigo_impuesto_iva_venta_fk",referencedColumnName="codigo_impuesto_pk")
+     */
+    protected $impuestoIvaVentaRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="itemRel")
@@ -182,6 +193,38 @@ class InvItem
     /**
      * @return mixed
      */
+    public function getCodigoImpuestoRetencionFk()
+    {
+        return $this->codigoImpuestoRetencionFk;
+    }
+
+    /**
+     * @param mixed $codigoImpuestoRetencionFk
+     */
+    public function setCodigoImpuestoRetencionFk($codigoImpuestoRetencionFk): void
+    {
+        $this->codigoImpuestoRetencionFk = $codigoImpuestoRetencionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoImpuestoIvaVentaFk()
+    {
+        return $this->codigoImpuestoIvaVentaFk;
+    }
+
+    /**
+     * @param mixed $codigoImpuestoIvaVentaFk
+     */
+    public function setCodigoImpuestoIvaVentaFk($codigoImpuestoIvaVentaFk): void
+    {
+        $this->codigoImpuestoIvaVentaFk = $codigoImpuestoIvaVentaFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getVrPrecio()
     {
         return $this->vrPrecio;
@@ -230,6 +273,54 @@ class InvItem
     /**
      * @return mixed
      */
+    public function getAfectaInventario()
+    {
+        return $this->afectaInventario;
+    }
+
+    /**
+     * @param mixed $afectaInventario
+     */
+    public function setAfectaInventario($afectaInventario): void
+    {
+        $this->afectaInventario = $afectaInventario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImpuestoRetencionRel()
+    {
+        return $this->impuestoRetencionRel;
+    }
+
+    /**
+     * @param mixed $impuestoRetencionRel
+     */
+    public function setImpuestoRetencionRel($impuestoRetencionRel): void
+    {
+        $this->impuestoRetencionRel = $impuestoRetencionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImpuestoIvaVentaRel()
+    {
+        return $this->impuestoIvaVentaRel;
+    }
+
+    /**
+     * @param mixed $impuestoIvaVentaRel
+     */
+    public function setImpuestoIvaVentaRel($impuestoIvaVentaRel): void
+    {
+        $this->impuestoIvaVentaRel = $impuestoIvaVentaRel;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMovimientosDetallesItemRel()
     {
         return $this->movimientosDetallesItemRel;
@@ -257,54 +348,6 @@ class InvItem
     public function setContratosDetallesItemRel($contratosDetallesItemRel): void
     {
         $this->contratosDetallesItemRel = $contratosDetallesItemRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAfectaInventario()
-    {
-        return $this->afectaInventario;
-    }
-
-    /**
-     * @param mixed $afectaInventario
-     */
-    public function setAfectaInventario($afectaInventario): void
-    {
-        $this->afectaInventario = $afectaInventario;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoImpuestoRetencionFk()
-    {
-        return $this->codigoImpuestoRetencionFk;
-    }
-
-    /**
-     * @param mixed $codigoImpuestoRetencionFk
-     */
-    public function setCodigoImpuestoRetencionFk($codigoImpuestoRetencionFk): void
-    {
-        $this->codigoImpuestoRetencionFk = $codigoImpuestoRetencionFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoImpuestoIvaVentaFk()
-    {
-        return $this->codigoImpuestoIvaVentaFk;
-    }
-
-    /**
-     * @param mixed $codigoImpuestoIvaVentaFk
-     */
-    public function setCodigoImpuestoIvaVentaFk($codigoImpuestoIvaVentaFk): void
-    {
-        $this->codigoImpuestoIvaVentaFk = $codigoImpuestoIvaVentaFk;
     }
 
 

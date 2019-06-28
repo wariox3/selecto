@@ -83,6 +83,16 @@ class CarCuentaCobrar
     private $vrIva;
 
     /**
+     * @ORM\Column(name="vr_retencion_fuente", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrRetencionFuente = 0;
+
+    /**
+     * @ORM\Column(name="vr_retencion_iva", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrRetencionIva = 0;
+
+    /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
      */
     private $codigoEmpresaFk;
@@ -474,6 +484,38 @@ class CarCuentaCobrar
     public function setTerceroRel($terceroRel): void
     {
         $this->terceroRel = $terceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrRetencionFuente()
+    {
+        return $this->vrRetencionFuente;
+    }
+
+    /**
+     * @param mixed $vrRetencionFuente
+     */
+    public function setVrRetencionFuente($vrRetencionFuente): void
+    {
+        $this->vrRetencionFuente = $vrRetencionFuente;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrRetencionIva()
+    {
+        return $this->vrRetencionIva;
+    }
+
+    /**
+     * @param mixed $vrRetencionIva
+     */
+    public function setVrRetencionIva($vrRetencionIva): void
+    {
+        $this->vrRetencionIva = $vrRetencionIva;
     }
 
 

@@ -6,6 +6,7 @@ use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
 use App\Entity\General\GenConfiguracion;
 use App\Entity\General\GenDocumento;
+use App\Entity\General\GenImpuesto;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -199,10 +200,14 @@ class MovimientoController extends Controller
             }
         }
         $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
+        $arImpuestosRetencion = $em->getRepository(GenImpuesto::class)->findBy(array('codigoImpuestoTipoFk' => 'R'));
+        $arImpuestosIva = $em->getRepository(GenImpuesto::class)->findBy(array('codigoImpuestoTipoFk' => 'I'));
         return $this->render('Inventario/Movimiento/detalle.html.twig', [
             'form' => $form->createView(),
             'arMovimiento' => $arMovimiento,
-            'arMovimientoDetalles' => $arMovimientoDetalles
+            'arMovimientoDetalles' => $arMovimientoDetalles,
+            'arImpuestosIva' => $arImpuestosIva,
+            'arImpuestosRetencion' => $arImpuestosRetencion,
         ]);
     }
 
@@ -253,8 +258,9 @@ class MovimientoController extends Controller
                         $arMovimientoDetalle->setItemRel($arItem);
                         $arMovimientoDetalle->setVrPrecio($arItem->getVrPrecio());
                         $arMovimientoDetalle->setCantidad($cantidad);
-                        $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
                         $arMovimientoDetalle->setCodigoImpuestoRetencionFk($arItem->getCodigoImpuestoRetencionFk());
+                        $arMovimientoDetalle->setCodigoImpuestoIvaFk($arItem->getCodigoImpuestoIvaVentaFk());
+                        $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
                         $em->persist($arMovimientoDetalle);
                     }
                 }

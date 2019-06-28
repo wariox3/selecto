@@ -94,14 +94,23 @@
                             </div>
                         </div>
                         <br>
-                        <div class="form-group">
-                            <label class="col-sm-1 control-label"></label>
-                            <div class="col-sm-5">
-                                {{ form_widget(form.cliente) }}
-                                {{ form_widget(form.proveedor) }}
+                        <div class="form-group form-group-sm">
+                            <div class="col-sm-offset-2 col-sm-2">
+                                {{ form_widget(form.retencionIva) }}
                             </div>
-                            <label class="col-sm-1 control-label"></label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-2">
+                                {{ form_widget(form.retencionFuente) }}
+                            </div>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.retencionFuenteSinBase) }}
+                            </div>
+                        </div>
+                        <div class="form-group  form-group-sm">
+                            <div class="col-sm-offset-2 col-sm-2">
+                                {{ form_widget(form.cliente) }}
+                            </div>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.proveedor) }}
                             </div>
                         </div>
                     </div>
