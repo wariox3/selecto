@@ -17,6 +17,7 @@ class Factura extends \FPDF
     public static $em;
     public static $codigoMovimiento;
     public static $codigoEmpresa;
+
     /**
      * @param $em ObjectManager
      * @param $codigoMovimiento integer
@@ -90,11 +91,10 @@ class Factura extends \FPDF
         $this->SetFillColor(200, 200, 200);
         $this->SetFont('Arial', 'B', 10);
         //Logo
-        $this->SetXY(50, 10);
         try {
-            $logo=$em->getRepository('App\Entity\General\GenImagen')->find('LOGO');
-            if($logo ){
-                $this->Image("data:image/'{$logo->getExtension()}';base64,".base64_encode(stream_get_contents($logo->getImagen())), 17, 13, 40, 25,$logo->getExtension());
+            $logo = $em->getRepository('App\Entity\Empresa')->find(self::$codigoEmpresa);
+            if ($logo) {
+                $this->Image("data:image/'{$logo->getExtension()}';base64," . base64_encode(stream_get_contents($logo->getLogo())), 20, 18, 40, 25, $logo->getExtension());
             }
         } catch (\Exception $exception) {
         }
@@ -111,7 +111,7 @@ class Factura extends \FPDF
 
         $this->SetFont('Arial', 'B', 9);
         $this->SetXY(95, 32);
-        $this->Cell(10, 4, 'NIT: ' .$arEmpresa->getNit(). '-' . $arEmpresa->getDigitoVerificacion(), 0, 0, 'C', 0);
+        $this->Cell(10, 4, 'NIT: ' . $arEmpresa->getNit() . '-' . $arEmpresa->getDigitoVerificacion(), 0, 0, 'C', 0);
         $this->SetFont('Arial', '', 8);
 
         $this->SetFont('Arial', 'B', 9);
@@ -121,7 +121,7 @@ class Factura extends \FPDF
 
         $this->SetFont('Arial', 'B', 9);
         $this->SetXY(95, 40);
-        $this->Cell(10, 4, 'TEL: '. $arEmpresa->getTelefono(), 0, 0, 'C', 0);
+        $this->Cell(10, 4, 'TEL: ' . $arEmpresa->getTelefono(), 0, 0, 'C', 0);
         $this->SetFont('Arial', '', 8);
 
         $this->SetFont('Arial', 'B', 9);
@@ -215,7 +215,7 @@ class Factura extends \FPDF
         /** @var  $arMovimientoDetalle InvMovimientoDetalle */
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(19.5);
-            $pdf->Cell(120, 4, substr(utf8_decode($arMovimientoDetalle->getItemRel()->getDescripcion()),0,60), 1, 0, 'L');
+            $pdf->Cell(120, 4, substr(utf8_decode($arMovimientoDetalle->getItemRel()->getDescripcion()), 0, 60), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle->getCantidad(), 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arMovimientoDetalle->getVrSubtotal(), 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(10, 4, $arMovimientoDetalle->getPorcentajeIva() . '%', 1, 0, 'C');
@@ -266,13 +266,13 @@ class Factura extends \FPDF
         $this->Text(80, 228, utf8_decode('FECHA:________________________________'));
         $this->Text(140, 228, utf8_decode('FECHA:________________________________'));
         //Bloque resolucion facturacion
-        $this->Text(48,236, utf8_decode($arEmpresa->getNumeroResolucionDianFactura()) . ' Intervalo ' . $arEmpresa->getNumeracionDesde(). ' al '. $arEmpresa->getNumeracionHasta());
-        $this->Text(32,240, utf8_decode($arEmpresa->getInformacionCuentaPago()));
+        $this->Text(48, 236, utf8_decode($arEmpresa->getNumeroResolucionDianFactura()) . ' Intervalo ' . $arEmpresa->getNumeracionDesde() . ' al ' . $arEmpresa->getNumeracionHasta());
+        $this->Text(32, 240, utf8_decode($arEmpresa->getInformacionCuentaPago()));
         //Informacion final
         $this->SetXY(160, 244);
         $this->Cell(10, 4, utf8_decode('Impreso por computador'), 0, 0, 'C');
         $this->SetXY(160, 248);
-        $this->Cell(10, 4, utf8_decode('SEMANTICA DIGITAL SAS Nit: 901192048-4'),0, 0, 'C');
+        $this->Cell(10, 4, utf8_decode('SEMANTICA DIGITAL SAS Nit: 901192048-4'), 0, 0, 'C');
         $this->SetXY(160, 252);
         $this->Cell(10, 4, utf8_decode('CALLE 34 NRO 66A-33 OF 201'), 0, 0, 'C');
         $this->SetXY(160, 256);

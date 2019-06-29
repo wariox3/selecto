@@ -48,6 +48,16 @@ class Empresa
     private $rutaTemporal;
 
     /**
+     * @ORM\Column(name="logo", type="blob", nullable=true)
+     */
+    private $logo;
+
+    /**
+     * @ORM\Column(type="string", length=5, name="extension", nullable=true)
+     */
+    private $extension;
+
+    /**
      * @ORM\OneToMany(targetEntity="Usuario", mappedBy="empresaRel")
      */
     protected $usuariosEmpresaRel;
@@ -306,6 +316,37 @@ class Empresa
         $this->informacionCuentaPago = $informacionCuentaPago;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param mixed $logo
+     */
+    public function setLogo($logo): void
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param mixed $extension
+     */
+    public function setExtension($extension): void
+    {
+        $this->extension = $extension;
+    }
 
 
 }
