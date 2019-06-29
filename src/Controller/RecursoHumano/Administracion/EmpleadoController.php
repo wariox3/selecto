@@ -146,6 +146,7 @@ class EmpleadoController extends Controller
             $arContrato->setFecha(new \DateTime('now'));
             $arContrato->setFechaDesde(new \DateTime('now'));
             $arContrato->setFechaHasta(new \DateTime('now'));
+            $arContrato->setCodigoEmpresaFk($empresa);
         }
         $form = $this->createForm(ContratoType::class, $arContrato);
         $form->handleRequest($request);
@@ -155,7 +156,6 @@ class EmpleadoController extends Controller
                 $arContrato = $form->getData();
                 $arContrato->setEmpleadoRel($arEmpleado);
                 $arContrato->setFecha(new \DateTime('now'));
-                $arContrato->setCodigoEmpresaFk($empresa);
                 $arContrato->setContratoClaseRel($arContrato->getContratoTipoRel()->getContratoClaseRel());
                 $arContrato->setIndefinido($arContrato->getContratoTipoRel()->getContratoClaseRel()->getIndefinido());
                 $arContrato->setFactorHorasDia($arContrato->getTiempoRel()->getFactorHorasDia());
@@ -163,6 +163,7 @@ class EmpleadoController extends Controller
                     if ($arContrato->getVrSalario() <= ($arConfiguracion->getVrSalarioMinimo() * 2)) {
                         $arContrato->setAuxilioTransporte(true);
                     }
+                    $arContrato->setCodigoEmpresaFk($empresa);
                     $arContrato->setFechaUltimoPago($arContrato->getFechaDesde());
                     $arContrato->setFechaUltimoPagoCesantias($arContrato->getFechaDesde());
                     $arContrato->setFechaUltimoPagoPrimas($arContrato->getFechaDesde());

@@ -16,6 +16,7 @@ use App\Formatos\Compra;
 use App\Formatos\Entrada;
 use App\Formatos\Factura;
 use App\Formatos\Factura1;
+use App\Formatos\Factura2;
 use App\Formatos\Salida;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -186,7 +187,11 @@ class MovimientoController extends Controller
                 } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'FAC') {
                     if ($arrConfiguracionImpresion['formatoFactura'] == 1) {
                         $objFormato = new Factura1();
-                    } else {
+                    }
+                    if($arrConfiguracionImpresion['formatoFactura'] == 2){
+                        $objFormato = new Factura2();
+                    }
+                    if($arrConfiguracionImpresion['formatoFactura'] == 0){
                         $objFormato = new Factura();
                     }
                     $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
