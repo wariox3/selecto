@@ -2,6 +2,7 @@
 
 namespace App\Repository\RecursoHumano;
 
+use App\Entity\General\GenDocumento;
 use App\Entity\RecursoHumano\RhuAdicional;
 use App\Entity\RecursoHumano\RhuConcepto;
 use App\Entity\RecursoHumano\RhuConfiguracion;
@@ -103,12 +104,13 @@ class RhuPagoRepository extends ServiceEntityRepository
     public function generar($arProgramacionDetalle, $arProgramacion, $arConceptoHora, $arConfiguracion, $arConceptoFondoPension, $usuario, $empresa)
     {
         $em = $this->getEntityManager();
-
+        $arDocumento = $em->getRepository(GenDocumento::class)->find('PAG');
         $arPago = new RhuPago();
         $arContrato = $em->getRepository(RhuContrato::class)->find($arProgramacionDetalle->getCodigoContratoFk());
         $arPago->setPagoTipoRel($arProgramacion->getPagoTipoRel());
         $arPago->setEmpleadoRel($arProgramacionDetalle->getEmpleadoRel());
         $arPago->setContratoRel($arProgramacionDetalle->getContratoRel());
+        $arPago->setDocumentoRel($arDocumento);
         $arPago->setProgramacionDetalleRel($arProgramacionDetalle);
         $arPago->setProgramacionRel($arProgramacion);
         $arPago->setVrSalarioContrato($arContrato->getVrSalario());

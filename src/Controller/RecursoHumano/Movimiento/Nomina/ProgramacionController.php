@@ -188,6 +188,12 @@ class ProgramacionController extends Controller
                     return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
                 }
             }
+            if ($form->get('btnAprobar')->isClicked()) {
+                set_time_limit(0);
+                ini_set("memory_limit", -1);
+                $em->getRepository(RhuProgramacion::class)->aprobar($arProgramacion);
+                return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
+            }
         }
 
         $arProgramacionDetalles = $paginator->paginate($em->getRepository(RhuProgramacionDetalle::class)->lista($arProgramacion->getCodigoProgramacionPk()), $request->query->getInt('page', 1), 30);

@@ -24,6 +24,11 @@ class RhuPago
     private $codigoPagoTipoFk;
 
     /**
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoDocumentoFk;
+
+    /**
      * @ORM\Column(name="codigo_entidad_salud_fk", type="integer",  nullable=true)
      */
     private $codigoEntidadSaludFk;
@@ -138,6 +143,12 @@ class RhuPago
      * @ORM\Column(name="usuario", type="string", length=25, nullable=true)
      */
     private $usuario;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenDocumento", inversedBy="pagosDocumentoRel")
+     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     */
+    protected $documentoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuEmpleado", inversedBy="pagosEmpleadoRel")
@@ -735,5 +746,35 @@ class RhuPago
         $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
 
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocumentoRel()
+    {
+        return $this->documentoRel;
+    }
+
+    /**
+     * @param mixed $documentoRel
+     */
+    public function setDocumentoRel($documentoRel): void
+    {
+        $this->documentoRel = $documentoRel;
+    }
 }

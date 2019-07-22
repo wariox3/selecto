@@ -3,6 +3,7 @@
 namespace App\Repository\RecursoHumano;
 
 use App\Entity\Empresa;
+use App\Entity\General\GenDocumento;
 use App\Entity\RecursoHumano\RhuConcepto;
 use App\Entity\RecursoHumano\RhuConceptoHora;
 use App\Entity\RecursoHumano\RhuConfiguracion;
@@ -198,43 +199,16 @@ class RhuProgramacionRepository extends ServiceEntityRepository
         if($arProgramacion->getEstadoAutorizado() == 1 && $arProgramacion->getEstadoAprobado() == 0) {
             $arProgramacion->setEstadoAprobado(1);
             $em->persist($arProgramacion);
-            $arConsecutivo = $em->getRepository(RhuConsecutivo::class)->find(1);
             $arPagos = $em->getRepository(RhuPago::class)->findBy(array('codigoProgramacionFk' => $arProgramacion->getCodigoProgramacionPk()));
             foreach ($arPagos as $arPago) {
-                $arPago->setNumero($arConsecutivo->getPago());
+                $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arPago->getCodigoDocumentoFk(), $arPago->getCodigoEmpresaFk());
+                $arPago->setNumero($consecutivo);
                 $arPago->setEstadoAutorizado(1);
                 $arPago->setEstadoAprobado(1);
                 $em->persist($arPago);
-                $arConsecutivo->setPago($arConsecutivo->getPago() + 1);
+                $em->flush();
             }
-            $em->persist($arConsecutivo);
-
-            //Procesar creditos
-            $arPagoDetalleCreditos = $em->getRepository(RhuPagoDetalle::class)->creditos($arProgramacion->getCodigoProgramacionPk());
-            foreach ($arPagoDetalleCreditos as $arPagoDetalleCredito) {
-                $arPagoDetalle = $em->getRepository(RhuPagoDetalle::class)->find($arPagoDetalleCredito['codigoPagoDetallePk']);
-                /** @var  $arCredito RhuCredito */
-                $arCredito = $arPagoDetalle->getCreditoRel();
-                //Crear credito pago, se guarda el pago en la tabla rhu_pago_credito
-                $arPagoCredito = new RhuCreditoPago();
-                $arPagoCredito->setCreditoRel($arCredito);
-                $arPagoCredito->setPagoDetalleRel($arPagoDetalle);
-                $arPagoCredito->setfechaPago(new \ DateTime("now"));
-                $arPagoCredito->setCreditoPagoTipoRel($arCredito->getCreditoPagoTipoRel());
-                $arPagoCredito->setVrPago($arPagoDetalle->getVrPago());
-
-                //Actualizar el saldo del credito
-                $arCredito->setNumeroCuotaActual($arCredito->getNumeroCuotaActual() + 1);
-                $arCredito->setVrSaldo($arCredito->getVrSaldo() - $arPagoDetalleCredito['vrPago']);
-                $arCredito->setVrAbonos($arCredito->getVrAbonos() + $arPagoDetalleCredito['vrPago']);
-                if ($arCredito->getVrSaldo() <= 0) {
-                    $arCredito->setEstadoPagado(1);
-                }
-                $arPagoCredito->setVrSaldo($arCredito->getVrSaldo());
-                $arPagoCredito->setNumeroCuotaActual($arCredito->getNumeroCuotaActual());
-                $em->persist($arPagoCredito);
-                $em->persist($arCredito);
-            }
+            $em->persist($consecutivo);
             $em->flush();
         } else {
             Mensajes::error('El documento debe estar autorizado y no puede estar previamente aprobado');
