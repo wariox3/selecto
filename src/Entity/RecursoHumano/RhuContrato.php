@@ -34,6 +34,11 @@ class RhuContrato
     private $codigoClasificacionRiesgoFk;
 
     /**
+     * @ORM\Column(name="codigo_contrato_motivo_fk", type="string", length=10, nullable=true)
+     */
+    private $codigoContratoMotivoFk;
+
+    /**
      * @ORM\Column(name="factor_horas_dia", options={"default" : 0 }, type="integer", nullable=true)
      */
     private $factorHorasDia = 0;
@@ -354,6 +359,12 @@ class RhuContrato
      * @ORM\JoinColumn(name="codigo_tipo_cotizante_fk",referencedColumnName="codigo_tipo_cotizante_pk")
      */
     protected $tipoCotizanteRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="RhuContratoMotivo", inversedBy="contratosContratoMotivoRel")
+     * @ORM\JoinColumn(name="codigo_contrato_motivo_fk",referencedColumnName="codigo_contrato_motivo_pk")
+     */
+    protected $contratoMotivoRel;
 
     /**
      * @return mixed
@@ -1394,6 +1405,39 @@ class RhuContrato
     {
         $this->tipoCotizanteRel = $tipoCotizanteRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoContratoMotivoFk()
+    {
+        return $this->codigoContratoMotivoFk;
+    }
+
+    /**
+     * @param mixed $codigoContratoMotivoFk
+     */
+    public function setCodigoContratoMotivoFk($codigoContratoMotivoFk): void
+    {
+        $this->codigoContratoMotivoFk = $codigoContratoMotivoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratoMotivoRel()
+    {
+        return $this->contratoMotivoRel;
+    }
+
+    /**
+     * @param mixed $contratoMotivoRel
+     */
+    public function setContratoMotivoRel($contratoMotivoRel): void
+    {
+        $this->contratoMotivoRel = $contratoMotivoRel;
+    }
+
 
 
 }

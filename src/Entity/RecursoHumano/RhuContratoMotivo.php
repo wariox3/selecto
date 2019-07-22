@@ -22,8 +22,11 @@ class RhuContratoMotivo
      * @ORM\Column(name="motivo", type="string", length=80, nullable=true)
      */    
     private $motivo;
-    
 
+    /**
+     * @ORM\OneToMany(targetEntity="RhuContrato", mappedBy="contratoMotivoRel")
+     */
+    protected $contratosContratoMotivoRel;
 
     /**
      * @return mixed
@@ -72,4 +75,6 @@ class RhuContratoMotivo
     {
         $this->contratosContratoMotivoRel = $contratosContratoMotivoRel;
     }
+
+
 }

@@ -6,6 +6,11 @@
             <a class="btn btn-default btn-sm" href="{{ path('recursoHumano_contrato_lista') }}">Volver</a>
         </div>
     </div>
+    {% if arContrato.estadoTerminado == false %}
+        <div class="btn-group">
+            <a class="btn btn-sm btn-default abrir-modal" href="javascript:abrirVentana3('{{ path('recursohumano_administracion_contrato_terminar',{'id' : arContrato.codigoContratoPk }) }}','terminar',600,900)">Terminar</a>
+        </div>
+    {% endif %}
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>

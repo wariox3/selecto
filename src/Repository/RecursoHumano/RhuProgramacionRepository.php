@@ -208,7 +208,6 @@ class RhuProgramacionRepository extends ServiceEntityRepository
                 $em->persist($arPago);
                 $em->flush();
             }
-            $em->persist($consecutivo);
             $em->flush();
         } else {
             Mensajes::error('El documento debe estar autorizado y no puede estar previamente aprobado');
