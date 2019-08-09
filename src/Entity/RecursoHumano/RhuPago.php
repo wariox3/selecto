@@ -24,7 +24,7 @@ class RhuPago
     private $codigoPagoTipoFk;
 
     /**
-     * @ORM\Column(name="codigo_documento_fk", type="string", length=10, nullable=true)
+     * @ORM\Column(name="codigo_documento_fk", type="string", length=5, nullable=true)
      */
     private $codigoDocumentoFk;
 
