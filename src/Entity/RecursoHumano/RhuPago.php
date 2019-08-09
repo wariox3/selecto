@@ -144,11 +144,11 @@ class RhuPago
      */
     private $usuario;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenDocumento", inversedBy="pagosDocumentoRel")
-     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
-     */
-    protected $documentoRel;
+    //**
+     //* @ORM\ManyToOne(targetEntity="App\Entity\General\GenDocumento", inversedBy="pagosDocumentoRel")
+     //* @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
+     ///*/
+    //protected $documentoRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="RhuEmpleado", inversedBy="pagosEmpleadoRel")
