@@ -62,7 +62,7 @@ class Factura extends \FPDF
         $this->SetXY(140, 26);
         $this->Cell(35, 4, 'FACTURA DE VENTA', 0, 0, 'L', 0);
         $this->SetFont('Arial', '', 12);
-        $this->Cell(25, 4, $arMovimiento->getNumero(), 0, 0, 'R', 0);
+        $this->Cell(25, 4, $arEmpresa->getPrefijoFacturacion() .$arMovimiento->getNumero(), 0, 0, 'R', 0);
         //
         $this->SetFont('Arial', 'B', 8);
         $this->SetXY(140, 30);
@@ -267,8 +267,8 @@ class Factura extends \FPDF
         $this->Text(80, 228, utf8_decode('FECHA:________________________________'));
         $this->Text(140, 228, utf8_decode('FECHA:________________________________'));
         //Bloque resolucion facturacion
-        $this->Text(48, 236, utf8_decode($arEmpresa['numeroResolucionDianFactura']) . 'Desde'.  $arEmpresa->getNumeracionDesde() . ' hasta el ' . $arEmpresa->getNumeracionHasta() . 'Fecha de vigencia desde' . $arEmpresa->getFechaDesdeVigencia()->format('Y-m-d') . 'hasta el' . $arEmpresa->getFechaHastaVigencia());
-        $this->Text(32, 240, utf8_decode($arEmpresa->getInformacionCuentaPago()));
+        $this->Text(20, 236, utf8_decode($arEmpresa['numeroResolucionDianFactura']) . ' Desde '. $arEmpresa['prefijoFacturacion']. $arEmpresa['numeracionDesde'] . ' hasta el ' . $arEmpresa['prefijoFacturacion']. $arEmpresa['numeracionHasta'] . ' Fecha de vigencia desde ' . $arEmpresa['fechaDesdeVigencia']->format('Y-m-d') . ' hasta el ' . $arEmpresa['fechaHastaVigencia']->format('Y-m-d'));
+        $this->Text(5, 240, utf8_decode($arEmpresa['informacionCuentaPago']));
         //Informacion final
         $this->SetXY(160, 244);
         $this->Cell(10, 4, utf8_decode('Impreso por computador'), 0, 0, 'C');

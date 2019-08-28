@@ -42,6 +42,7 @@ class EmpresaRepository extends ServiceEntityRepository
             ->addSelect('e.fechaDesdeVigencia')
             ->addSelect('e.fechaHastaVigencia')
             ->addSelect('e.prefijoFacturacion')
+            ->addSelect('e.informacionCuentaPago')
             ->where('e.codigoEmpresaPk = '. $empresa);
         return $queryBuilder->getQuery()->getSingleResult();
     }
