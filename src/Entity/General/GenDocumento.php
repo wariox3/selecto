@@ -78,10 +78,10 @@ class GenDocumento
      */
     protected $egresosDocumentoRel;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Recursohumano\RhuPago", mappedBy="documentoRel")
-//     */
-//    protected $pagosDocumentoRel;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Recursohumano\RhuPago", mappedBy="documentoRel")
+     */
+    protected $pagosDocumentoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\General\GenDocumentoEmpresa", mappedBy="documentoRel")
