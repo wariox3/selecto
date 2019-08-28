@@ -93,6 +93,11 @@ class Empresa
     private $informacionCuentaPago;
 
     /**
+     * @ORM\Column(name="prefijo_facturacion", type="string", length=10, nullable=true)
+     */
+    private $prefijoFacturacion;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()
@@ -347,6 +352,23 @@ class Empresa
     {
         $this->extension = $extension;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPrefijoFacturacion()
+    {
+        return $this->prefijoFacturacion;
+    }
+
+    /**
+     * @param mixed $prefijoFacturacion
+     */
+    public function setPrefijoFacturacion($prefijoFacturacion): void
+    {
+        $this->prefijoFacturacion = $prefijoFacturacion;
+    }
+
 
 
 }

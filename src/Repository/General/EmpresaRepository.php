@@ -32,4 +32,18 @@ class EmpresaRepository extends ServiceEntityRepository
 
     }
 
+    public function informacionFacturacion($empresa){
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Empresa::class, 'e')
+            ->select('e.codigoEmpresaPk')
+            ->addSelect('e.numeracionDesde')
+            ->addSelect('e.numeracionHasta')
+            ->addSelect('e.numeroResolucionDianFactura')
+            ->addSelect('e.fechaDesdeVigencia')
+            ->addSelect('e.fechaHastaVigencia')
+            ->addSelect('e.prefijoFacturacion')
+            ->where('e.codigoEmpresaPk = '. $empresa);
+        return $queryBuilder->getQuery()->getSingleResult();
+    }
+
 }

@@ -247,7 +247,8 @@ class Factura extends \FPDF
          * @var $arMovimientoDetalles InvMovimientoDetalle
          */
         $arMovimiento = self::$em->getRepository('App:Inventario\InvMovimiento')->find(self::$codigoMovimiento);
-        $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(self::$codigoEmpresa);
+        $arEmpresa = self::$em->getRepository(Empresa::class)->informacionFacturacion(self::$codigoEmpresa);
+
         $this->Ln();
         $this->SetFont('Arial', 'B', 7.5);
         //Bloque informacion de conformidad
@@ -266,7 +267,7 @@ class Factura extends \FPDF
         $this->Text(80, 228, utf8_decode('FECHA:________________________________'));
         $this->Text(140, 228, utf8_decode('FECHA:________________________________'));
         //Bloque resolucion facturacion
-        $this->Text(48, 236, utf8_decode($arEmpresa->getNumeroResolucionDianFactura()) . ' Intervalo ' . $arEmpresa->getNumeracionDesde() . ' al ' . $arEmpresa->getNumeracionHasta());
+        $this->Text(48, 236, utf8_decode($arEmpresa['numeroResolucionDianFactura']) . 'Desde'.  $arEmpresa->getNumeracionDesde() . ' hasta el ' . $arEmpresa->getNumeracionHasta() . 'Fecha de vigencia desde' . $arEmpresa->getFechaDesdeVigencia()->format('Y-m-d') . 'hasta el' . $arEmpresa->getFechaHastaVigencia());
         $this->Text(32, 240, utf8_decode($arEmpresa->getInformacionCuentaPago()));
         //Informacion final
         $this->SetXY(160, 244);
