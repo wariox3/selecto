@@ -5,10 +5,6 @@ namespace App\Controller\Inventario\Administracion;
 use App\Entity\Empresa;
 use App\Entity\General\GenConfiguracion;
 use App\Entity\Inventario\InvItem;
-use App\Entity\Transporte\TteCiudad;
-use App\Entity\Transporte\TtePrecio;
-use App\Entity\Transporte\TtePrecioDetalle;
-use App\Entity\Transporte\TteProducto;
 use App\Form\Type\Inventario\ItemType;
 use App\General\General;
 use App\Utilidades\Mensajes;
@@ -52,7 +48,7 @@ class ItemController extends Controller
                 return $this->redirect($this->generateUrl('item_lista'));
             }
             if ($form->get('btnExcel')->isClicked()) {
-                General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->lista())->execute(), "Items");
+                General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->lista($empresa))->execute(), "Items");
             }
         }
         $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista($empresa), $request->query->getInt('page', 1), 30);
