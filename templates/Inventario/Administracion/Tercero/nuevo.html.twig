@@ -16,15 +16,20 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="row">
-                            <label class="col-sm-2 control-label">Tipo Documento:</label>
+                            <label class="col-sm-1 control-label">Nit:</label>
+                            <div class="col-sm-2">
+                                {{ form_widget(form.numeroIdentificacion) }}
+                            </div>
+                            <label class="col-sm-1 control-label">Digito ver:</label>
+                            <div class="col-sm-1">
+                                {{ form_widget(form.digitoVerificacion) }}
+                            </div>
+                            <label class="col-sm-1 control-label col-sm-offset-1">Tipo Documento:</label>
                             <div class="col-sm-3">
                                 {{ form_widget(form.codigoIdentificacionFk) }}
                             </div>
-                            <label class="col-sm-2 control-label">Identificacion:</label>
-                            <div class="col-sm-3">
-                                {{ form_widget(form.numeroIdentificacion) }}
-                            </div>
                         </div>
+
                         <br>
                         <div class="row">
                             <label class="col-sm-2 control-label">Primer Nombre:</label>
@@ -69,7 +74,17 @@
                             <div class="col-sm-3">
                                 {{ form_widget(form.direccion) }}
                             </div>
-
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">Barrio:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.barrio) }}
+                            </div>
+                            <label class="col-sm-2 control-label">Código postal:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.codigoPostal) }}
+                            </div>
                         </div>
                         <br>
                         <div class="row">
@@ -91,6 +106,34 @@
                             <label class="col-sm-2 control-label">Plazo:</label>
                             <div class="col-sm-3">
                                 {{ form_widget(form.plazoPago) }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">Cupo compra:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.cupoCompra) }}
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-3">
+                                {{ form_widget(form.bloqueoCartera) }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">CIUU:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.codigoCIUU) }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">Regimen:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.regimenRel) }}
+                            </div>
+                            <label class="col-sm-2 control-label">Tipo persona:</label>
+                            <div class="col-sm-3">
+                                {{ form_widget(form.tipoPersonaRel) }}
                             </div>
                         </div>
                         <br>

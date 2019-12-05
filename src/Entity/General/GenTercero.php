@@ -237,22 +237,6 @@ class GenTercero
     /**
      * @return mixed
      */
-    public function getNumeroIdentificacion()
-    {
-        return $this->numeroIdentificacion;
-    }
-
-    /**
-     * @param mixed $numeroIdentificacion
-     */
-    public function setNumeroIdentificacion($numeroIdentificacion): void
-    {
-        $this->numeroIdentificacion = $numeroIdentificacion;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoIdentificacionFk()
     {
         return $this->codigoIdentificacionFk;
@@ -264,6 +248,22 @@ class GenTercero
     public function setCodigoIdentificacionFk($codigoIdentificacionFk): void
     {
         $this->codigoIdentificacionFk = $codigoIdentificacionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeroIdentificacion()
+    {
+        return $this->numeroIdentificacion;
+    }
+
+    /**
+     * @param mixed $numeroIdentificacion
+     */
+    public function setNumeroIdentificacion($numeroIdentificacion): void
+    {
+        $this->numeroIdentificacion = $numeroIdentificacion;
     }
 
     /**
@@ -296,6 +296,166 @@ class GenTercero
     public function setCodigoFormaPagoFk($codigoFormaPagoFk): void
     {
         $this->codigoFormaPagoFk = $codigoFormaPagoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBarrio()
+    {
+        return $this->barrio;
+    }
+
+    /**
+     * @param mixed $barrio
+     */
+    public function setBarrio($barrio): void
+    {
+        $this->barrio = $barrio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoPostal()
+    {
+        return $this->codigoPostal;
+    }
+
+    /**
+     * @param mixed $codigoPostal
+     */
+    public function setCodigoPostal($codigoPostal): void
+    {
+        $this->codigoPostal = $codigoPostal;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAutoretenedor(): bool
+    {
+        return $this->autoretenedor;
+    }
+
+    /**
+     * @param bool $autoretenedor
+     */
+    public function setAutoretenedor(bool $autoretenedor): void
+    {
+        $this->autoretenedor = $autoretenedor;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBloqueoCartera(): bool
+    {
+        return $this->bloqueoCartera;
+    }
+
+    /**
+     * @param bool $bloqueoCartera
+     */
+    public function setBloqueoCartera(bool $bloqueoCartera): void
+    {
+        $this->bloqueoCartera = $bloqueoCartera;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoPrecioVentaFk()
+    {
+        return $this->codigoPrecioVentaFk;
+    }
+
+    /**
+     * @param mixed $codigoPrecioVentaFk
+     */
+    public function setCodigoPrecioVentaFk($codigoPrecioVentaFk): void
+    {
+        $this->codigoPrecioVentaFk = $codigoPrecioVentaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoPrecioCompraFk()
+    {
+        return $this->codigoPrecioCompraFk;
+    }
+
+    /**
+     * @param mixed $codigoPrecioCompraFk
+     */
+    public function setCodigoPrecioCompraFk($codigoPrecioCompraFk): void
+    {
+        $this->codigoPrecioCompraFk = $codigoPrecioCompraFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCupoCompra(): int
+    {
+        return $this->cupoCompra;
+    }
+
+    /**
+     * @param int $cupoCompra
+     */
+    public function setCupoCompra(int $cupoCompra): void
+    {
+        $this->cupoCompra = $cupoCompra;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTipoPersonaFk()
+    {
+        return $this->codigoTipoPersonaFk;
+    }
+
+    /**
+     * @param mixed $codigoTipoPersonaFk
+     */
+    public function setCodigoTipoPersonaFk($codigoTipoPersonaFk): void
+    {
+        $this->codigoTipoPersonaFk = $codigoTipoPersonaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoRegimenFk()
+    {
+        return $this->codigoRegimenFk;
+    }
+
+    /**
+     * @param mixed $codigoRegimenFk
+     */
+    public function setCodigoRegimenFk($codigoRegimenFk): void
+    {
+        $this->codigoRegimenFk = $codigoRegimenFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCIUU()
+    {
+        return $this->codigoCIUU;
+    }
+
+    /**
+     * @param mixed $codigoCIUU
+     */
+    public function setCodigoCIUU($codigoCIUU): void
+    {
+        $this->codigoCIUU = $codigoCIUU;
     }
 
     /**
@@ -477,7 +637,7 @@ class GenTercero
     /**
      * @return bool
      */
-    public function isCliente(): bool
+    public function getCliente(): bool
     {
         return $this->cliente;
     }
@@ -493,7 +653,7 @@ class GenTercero
     /**
      * @return bool
      */
-    public function isProveedor(): bool
+    public function getProveedor(): bool
     {
         return $this->proveedor;
     }
@@ -568,6 +728,54 @@ class GenTercero
     public function setRetencionFuenteSinBase(bool $retencionFuenteSinBase): void
     {
         $this->retencionFuenteSinBase = $retencionFuenteSinBase;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdentificacionRel()
+    {
+        return $this->identificacionRel;
+    }
+
+    /**
+     * @param mixed $identificacionRel
+     */
+    public function setIdentificacionRel($identificacionRel): void
+    {
+        $this->identificacionRel = $identificacionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipoPersonaRel()
+    {
+        return $this->tipoPersonaRel;
+    }
+
+    /**
+     * @param mixed $tipoPersonaRel
+     */
+    public function setTipoPersonaRel($tipoPersonaRel): void
+    {
+        $this->tipoPersonaRel = $tipoPersonaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegimenRel()
+    {
+        return $this->regimenRel;
+    }
+
+    /**
+     * @param mixed $regimenRel
+     */
+    public function setRegimenRel($regimenRel): void
+    {
+        $this->regimenRel = $regimenRel;
     }
 
     /**
