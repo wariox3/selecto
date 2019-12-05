@@ -105,6 +105,22 @@ class RhuEgreso
     protected $egresosDetallesEgresoRel;
 
     /**
+     * @return array
+     */
+    public function getInfoLog(): array
+    {
+        return $this->infoLog;
+    }
+
+    /**
+     * @param array $infoLog
+     */
+    public function setInfoLog(array $infoLog): void
+    {
+        $this->infoLog = $infoLog;
+    }
+
+    /**
      * @return mixed
      */
     public function getCodigoEgresoPk()
@@ -201,17 +217,17 @@ class RhuEgreso
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumero()
+    public function getNumero(): int
     {
         return $this->numero;
     }
 
     /**
-     * @param mixed $numero
+     * @param int $numero
      */
-    public function setNumero($numero): void
+    public function setNumero(int $numero): void
     {
         $this->numero = $numero;
     }
@@ -233,81 +249,81 @@ class RhuEgreso
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrTotal()
+    public function getVrTotal(): int
     {
         return $this->vrTotal;
     }
 
     /**
-     * @param mixed $vrTotal
+     * @param int $vrTotal
      */
-    public function setVrTotal($vrTotal): void
+    public function setVrTotal(int $vrTotal): void
     {
         $this->vrTotal = $vrTotal;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumeroRegistros()
+    public function getNumeroRegistros(): int
     {
         return $this->numeroRegistros;
     }
 
     /**
-     * @param mixed $numeroRegistros
+     * @param int $numeroRegistros
      */
-    public function setNumeroRegistros($numeroRegistros): void
+    public function setNumeroRegistros(int $numeroRegistros): void
     {
         $this->numeroRegistros = $numeroRegistros;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function getEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function getEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }
@@ -375,4 +391,5 @@ class RhuEgreso
     {
         $this->egresosDetallesEgresoRel = $egresosDetallesEgresoRel;
     }
+
 }

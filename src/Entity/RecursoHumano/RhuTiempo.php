@@ -80,33 +80,33 @@ class RhuTiempo
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFactor()
+    public function getFactor(): int
     {
         return $this->factor;
     }
 
     /**
-     * @param mixed $factor
+     * @param int $factor
      */
-    public function setFactor($factor): void
+    public function setFactor(int $factor): void
     {
         $this->factor = $factor;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFactorHorasDia()
+    public function getFactorHorasDia(): int
     {
         return $this->factorHorasDia;
     }
 
     /**
-     * @param mixed $factorHorasDia
+     * @param int $factorHorasDia
      */
-    public function setFactorHorasDia($factorHorasDia): void
+    public function setFactorHorasDia(int $factorHorasDia): void
     {
         $this->factorHorasDia = $factorHorasDia;
     }
@@ -158,6 +158,5 @@ class RhuTiempo
     {
         $this->contratosTiempoRel = $contratosTiempoRel;
     }
-
 
 }

@@ -411,17 +411,17 @@ class RhuVacacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumero()
+    public function getNumero(): int
     {
         return $this->numero;
     }
 
     /**
-     * @param mixed $numero
+     * @param int $numero
      */
-    public function setNumero($numero): void
+    public function setNumero(int $numero): void
     {
         $this->numero = $numero;
     }
@@ -507,273 +507,273 @@ class RhuVacacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalud()
+    public function getVrSalud(): int
     {
         return $this->vrSalud;
     }
 
     /**
-     * @param mixed $vrSalud
+     * @param int $vrSalud
      */
-    public function setVrSalud($vrSalud): void
+    public function setVrSalud(int $vrSalud): void
     {
         $this->vrSalud = $vrSalud;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPension()
+    public function getVrPension(): int
     {
         return $this->vrPension;
     }
 
     /**
-     * @param mixed $vrPension
+     * @param int $vrPension
      */
-    public function setVrPension($vrPension): void
+    public function setVrPension(int $vrPension): void
     {
         $this->vrPension = $vrPension;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrFondoSolidaridad()
+    public function getVrFondoSolidaridad(): int
     {
         return $this->vrFondoSolidaridad;
     }
 
     /**
-     * @param mixed $vrFondoSolidaridad
+     * @param int $vrFondoSolidaridad
      */
-    public function setVrFondoSolidaridad($vrFondoSolidaridad): void
+    public function setVrFondoSolidaridad(int $vrFondoSolidaridad): void
     {
         $this->vrFondoSolidaridad = $vrFondoSolidaridad;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIbc()
+    public function getVrIbc(): int
     {
         return $this->vrIbc;
     }
 
     /**
-     * @param mixed $vrIbc
+     * @param int $vrIbc
      */
-    public function setVrIbc($vrIbc): void
+    public function setVrIbc(int $vrIbc): void
     {
         $this->vrIbc = $vrIbc;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDeduccion()
+    public function getVrDeduccion(): int
     {
         return $this->vrDeduccion;
     }
 
     /**
-     * @param mixed $vrDeduccion
+     * @param int $vrDeduccion
      */
-    public function setVrDeduccion($vrDeduccion): void
+    public function setVrDeduccion(int $vrDeduccion): void
     {
         $this->vrDeduccion = $vrDeduccion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrBonificacion()
+    public function getVrBonificacion(): int
     {
         return $this->vrBonificacion;
     }
 
     /**
-     * @param mixed $vrBonificacion
+     * @param int $vrBonificacion
      */
-    public function setVrBonificacion($vrBonificacion): void
+    public function setVrBonificacion(int $vrBonificacion): void
     {
         $this->vrBonificacion = $vrBonificacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrValor()
+    public function getVrValor(): int
     {
         return $this->vrValor;
     }
 
     /**
-     * @param mixed $vrValor
+     * @param int $vrValor
      */
-    public function setVrValor($vrValor): void
+    public function setVrValor(int $vrValor): void
     {
         $this->vrValor = $vrValor;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDisfrute()
+    public function getVrDisfrute(): int
     {
         return $this->vrDisfrute;
     }
 
     /**
-     * @param mixed $vrDisfrute
+     * @param int $vrDisfrute
      */
-    public function setVrDisfrute($vrDisfrute): void
+    public function setVrDisfrute(int $vrDisfrute): void
     {
         $this->vrDisfrute = $vrDisfrute;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDinero()
+    public function getVrDinero(): int
     {
         return $this->vrDinero;
     }
 
     /**
-     * @param mixed $vrDinero
+     * @param int $vrDinero
      */
-    public function setVrDinero($vrDinero): void
+    public function setVrDinero(int $vrDinero): void
     {
         $this->vrDinero = $vrDinero;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrTotal()
+    public function getVrTotal(): int
     {
         return $this->vrTotal;
     }
 
     /**
-     * @param mixed $vrTotal
+     * @param int $vrTotal
      */
-    public function setVrTotal($vrTotal): void
+    public function setVrTotal(int $vrTotal): void
     {
         $this->vrTotal = $vrTotal;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDias()
+    public function getDias(): int
     {
         return $this->dias;
     }
 
     /**
-     * @param mixed $dias
+     * @param int $dias
      */
-    public function setDias($dias): void
+    public function setDias(int $dias): void
     {
         $this->dias = $dias;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasDisfrutados()
+    public function getDiasDisfrutados(): int
     {
         return $this->diasDisfrutados;
     }
 
     /**
-     * @param mixed $diasDisfrutados
+     * @param int $diasDisfrutados
      */
-    public function setDiasDisfrutados($diasDisfrutados): void
+    public function setDiasDisfrutados(int $diasDisfrutados): void
     {
         $this->diasDisfrutados = $diasDisfrutados;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasAusentismo()
+    public function getDiasAusentismo(): int
     {
         return $this->diasAusentismo;
     }
 
     /**
-     * @param mixed $diasAusentismo
+     * @param int $diasAusentismo
      */
-    public function setDiasAusentismo($diasAusentismo): void
+    public function setDiasAusentismo(int $diasAusentismo): void
     {
         $this->diasAusentismo = $diasAusentismo;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasPagados()
+    public function getDiasPagados(): int
     {
         return $this->diasPagados;
     }
 
     /**
-     * @param mixed $diasPagados
+     * @param int $diasPagados
      */
-    public function setDiasPagados($diasPagados): void
+    public function setDiasPagados(int $diasPagados): void
     {
         $this->diasPagados = $diasPagados;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasDisfrutadosReales()
+    public function getDiasDisfrutadosReales(): int
     {
         return $this->diasDisfrutadosReales;
     }
 
     /**
-     * @param mixed $diasDisfrutadosReales
+     * @param int $diasDisfrutadosReales
      */
-    public function setDiasDisfrutadosReales($diasDisfrutadosReales): void
+    public function setDiasDisfrutadosReales(int $diasDisfrutadosReales): void
     {
         $this->diasDisfrutadosReales = $diasDisfrutadosReales;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasPeriodo()
+    public function getDiasPeriodo(): int
     {
         return $this->diasPeriodo;
     }
 
     /**
-     * @param mixed $diasPeriodo
+     * @param int $diasPeriodo
      */
-    public function setDiasPeriodo($diasPeriodo): void
+    public function setDiasPeriodo(int $diasPeriodo): void
     {
         $this->diasPeriodo = $diasPeriodo;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getMesesPeriodo()
+    public function getMesesPeriodo(): int
     {
         return $this->mesesPeriodo;
     }
 
     /**
-     * @param mixed $mesesPeriodo
+     * @param int $mesesPeriodo
      */
-    public function setMesesPeriodo($mesesPeriodo): void
+    public function setMesesPeriodo(int $mesesPeriodo): void
     {
         $this->mesesPeriodo = $mesesPeriodo;
     }
@@ -795,273 +795,273 @@ class RhuVacacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalarioActual()
+    public function getVrSalarioActual(): int
     {
         return $this->vrSalarioActual;
     }
 
     /**
-     * @param mixed $vrSalarioActual
+     * @param int $vrSalarioActual
      */
-    public function setVrSalarioActual($vrSalarioActual): void
+    public function setVrSalarioActual(int $vrSalarioActual): void
     {
         $this->vrSalarioActual = $vrSalarioActual;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalarioPromedio()
+    public function getVrSalarioPromedio(): int
     {
         return $this->vrSalarioPromedio;
     }
 
     /**
-     * @param mixed $vrSalarioPromedio
+     * @param int $vrSalarioPromedio
      */
-    public function setVrSalarioPromedio($vrSalarioPromedio): void
+    public function setVrSalarioPromedio(int $vrSalarioPromedio): void
     {
         $this->vrSalarioPromedio = $vrSalarioPromedio;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalarioPromedioPropuesto()
+    public function getVrSalarioPromedioPropuesto(): int
     {
         return $this->vrSalarioPromedioPropuesto;
     }
 
     /**
-     * @param mixed $vrSalarioPromedioPropuesto
+     * @param int $vrSalarioPromedioPropuesto
      */
-    public function setVrSalarioPromedioPropuesto($vrSalarioPromedioPropuesto): void
+    public function setVrSalarioPromedioPropuesto(int $vrSalarioPromedioPropuesto): void
     {
         $this->vrSalarioPromedioPropuesto = $vrSalarioPromedioPropuesto;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDisfrutePropuesto()
+    public function getVrDisfrutePropuesto(): int
     {
         return $this->vrDisfrutePropuesto;
     }
 
     /**
-     * @param mixed $vrDisfrutePropuesto
+     * @param int $vrDisfrutePropuesto
      */
-    public function setVrDisfrutePropuesto($vrDisfrutePropuesto): void
+    public function setVrDisfrutePropuesto(int $vrDisfrutePropuesto): void
     {
         $this->vrDisfrutePropuesto = $vrDisfrutePropuesto;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalarioPromedioPropuestoPagado()
+    public function getVrSalarioPromedioPropuestoPagado(): int
     {
         return $this->vrSalarioPromedioPropuestoPagado;
     }
 
     /**
-     * @param mixed $vrSalarioPromedioPropuestoPagado
+     * @param int $vrSalarioPromedioPropuestoPagado
      */
-    public function setVrSalarioPromedioPropuestoPagado($vrSalarioPromedioPropuestoPagado): void
+    public function setVrSalarioPromedioPropuestoPagado(int $vrSalarioPromedioPropuestoPagado): void
     {
         $this->vrSalarioPromedioPropuestoPagado = $vrSalarioPromedioPropuestoPagado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSaludPropuesto()
+    public function getVrSaludPropuesto(): int
     {
         return $this->vrSaludPropuesto;
     }
 
     /**
-     * @param mixed $vrSaludPropuesto
+     * @param int $vrSaludPropuesto
      */
-    public function setVrSaludPropuesto($vrSaludPropuesto): void
+    public function setVrSaludPropuesto(int $vrSaludPropuesto): void
     {
         $this->vrSaludPropuesto = $vrSaludPropuesto;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPensionPropuesto()
+    public function getVrPensionPropuesto(): int
     {
         return $this->vrPensionPropuesto;
     }
 
     /**
-     * @param mixed $vrPensionPropuesto
+     * @param int $vrPensionPropuesto
      */
-    public function setVrPensionPropuesto($vrPensionPropuesto): void
+    public function setVrPensionPropuesto(int $vrPensionPropuesto): void
     {
         $this->vrPensionPropuesto = $vrPensionPropuesto;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasAusentismoPropuesto()
+    public function getDiasAusentismoPropuesto(): int
     {
         return $this->diasAusentismoPropuesto;
     }
 
     /**
-     * @param mixed $diasAusentismoPropuesto
+     * @param int $diasAusentismoPropuesto
      */
-    public function setDiasAusentismoPropuesto($diasAusentismoPropuesto): void
+    public function setDiasAusentismoPropuesto(int $diasAusentismoPropuesto): void
     {
         $this->diasAusentismoPropuesto = $diasAusentismoPropuesto;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrBruto()
+    public function getVrBruto(): int
     {
         return $this->vrBruto;
     }
 
     /**
-     * @param mixed $vrBruto
+     * @param int $vrBruto
      */
-    public function setVrBruto($vrBruto): void
+    public function setVrBruto(int $vrBruto): void
     {
         $this->vrBruto = $vrBruto;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoPagoGenerado()
+    public function isEstadoPagoGenerado(): bool
     {
         return $this->estadoPagoGenerado;
     }
 
     /**
-     * @param mixed $estadoPagoGenerado
+     * @param bool $estadoPagoGenerado
      */
-    public function setEstadoPagoGenerado($estadoPagoGenerado): void
+    public function setEstadoPagoGenerado(bool $estadoPagoGenerado): void
     {
         $this->estadoPagoGenerado = $estadoPagoGenerado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoPagoBanco()
+    public function isEstadoPagoBanco(): bool
     {
         return $this->estadoPagoBanco;
     }
 
     /**
-     * @param mixed $estadoPagoBanco
+     * @param bool $estadoPagoBanco
      */
-    public function setEstadoPagoBanco($estadoPagoBanco): void
+    public function setEstadoPagoBanco(bool $estadoPagoBanco): void
     {
         $this->estadoPagoBanco = $estadoPagoBanco;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoContabilizado()
+    public function isEstadoContabilizado(): bool
     {
         return $this->estadoContabilizado;
     }
 
     /**
-     * @param mixed $estadoContabilizado
+     * @param bool $estadoContabilizado
      */
-    public function setEstadoContabilizado($estadoContabilizado): void
+    public function setEstadoContabilizado(bool $estadoContabilizado): void
     {
         $this->estadoContabilizado = $estadoContabilizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function isEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function isEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function isEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoPagado()
+    public function isEstadoPagado(): bool
     {
         return $this->estadoPagado;
     }
 
     /**
-     * @param mixed $estadoPagado
+     * @param bool $estadoPagado
      */
-    public function setEstadoPagado($estadoPagado): void
+    public function setEstadoPagado(bool $estadoPagado): void
     {
         $this->estadoPagado = $estadoPagado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoLiquidado()
+    public function isEstadoLiquidado(): bool
     {
         return $this->estadoLiquidado;
     }
 
     /**
-     * @param mixed $estadoLiquidado
+     * @param bool $estadoLiquidado
      */
-    public function setEstadoLiquidado($estadoLiquidado): void
+    public function setEstadoLiquidado(bool $estadoLiquidado): void
     {
         $this->estadoLiquidado = $estadoLiquidado;
     }
@@ -1083,65 +1083,65 @@ class RhuVacacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrRecargoNocturnoInicial()
+    public function getVrRecargoNocturnoInicial(): int
     {
         return $this->vrRecargoNocturnoInicial;
     }
 
     /**
-     * @param mixed $vrRecargoNocturnoInicial
+     * @param int $vrRecargoNocturnoInicial
      */
-    public function setVrRecargoNocturnoInicial($vrRecargoNocturnoInicial): void
+    public function setVrRecargoNocturnoInicial(int $vrRecargoNocturnoInicial): void
     {
         $this->vrRecargoNocturnoInicial = $vrRecargoNocturnoInicial;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrRecargoNocturno()
+    public function getVrRecargoNocturno(): int
     {
         return $this->vrRecargoNocturno;
     }
 
     /**
-     * @param mixed $vrRecargoNocturno
+     * @param int $vrRecargoNocturno
      */
-    public function setVrRecargoNocturno($vrRecargoNocturno): void
+    public function setVrRecargoNocturno(int $vrRecargoNocturno): void
     {
         $this->vrRecargoNocturno = $vrRecargoNocturno;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPromedioRecargoNocturno()
+    public function getVrPromedioRecargoNocturno(): int
     {
         return $this->vrPromedioRecargoNocturno;
     }
 
     /**
-     * @param mixed $vrPromedioRecargoNocturno
+     * @param int $vrPromedioRecargoNocturno
      */
-    public function setVrPromedioRecargoNocturno($vrPromedioRecargoNocturno): void
+    public function setVrPromedioRecargoNocturno(int $vrPromedioRecargoNocturno): void
     {
         $this->vrPromedioRecargoNocturno = $vrPromedioRecargoNocturno;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIbcPromedio()
+    public function getVrIbcPromedio(): int
     {
         return $this->vrIbcPromedio;
     }
 
     /**
-     * @param mixed $vrIbcPromedio
+     * @param int $vrIbcPromedio
      */
-    public function setVrIbcPromedio($vrIbcPromedio): void
+    public function setVrIbcPromedio(int $vrIbcPromedio): void
     {
         $this->vrIbcPromedio = $vrIbcPromedio;
     }
@@ -1193,7 +1193,5 @@ class RhuVacacion
     {
         $this->grupoRel = $grupoRel;
     }
-
-
 
 }

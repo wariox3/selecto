@@ -63,17 +63,17 @@ class RhuClasificacionRiesgo
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentaje()
+    public function getPorcentaje(): int
     {
         return $this->porcentaje;
     }
 
     /**
-     * @param mixed $porcentaje
+     * @param int $porcentaje
      */
-    public function setPorcentaje($porcentaje): void
+    public function setPorcentaje(int $porcentaje): void
     {
         $this->porcentaje = $porcentaje;
     }

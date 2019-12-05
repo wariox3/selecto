@@ -433,15 +433,31 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getFactorHorasDia()
+    public function getCodigoContratoMotivoFk()
+    {
+        return $this->codigoContratoMotivoFk;
+    }
+
+    /**
+     * @param mixed $codigoContratoMotivoFk
+     */
+    public function setCodigoContratoMotivoFk($codigoContratoMotivoFk): void
+    {
+        $this->codigoContratoMotivoFk = $codigoContratoMotivoFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFactorHorasDia(): int
     {
         return $this->factorHorasDia;
     }
 
     /**
-     * @param mixed $factorHorasDia
+     * @param int $factorHorasDia
      */
-    public function setFactorHorasDia($factorHorasDia): void
+    public function setFactorHorasDia(int $factorHorasDia): void
     {
         $this->factorHorasDia = $factorHorasDia;
     }
@@ -607,65 +623,65 @@ class RhuContrato
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalario()
+    public function getVrSalario(): int
     {
         return $this->vrSalario;
     }
 
     /**
-     * @param mixed $vrSalario
+     * @param int $vrSalario
      */
-    public function setVrSalario($vrSalario): void
+    public function setVrSalario(int $vrSalario): void
     {
         $this->vrSalario = $vrSalario;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrAdicional()
+    public function getVrAdicional(): int
     {
         return $this->vrAdicional;
     }
 
     /**
-     * @param mixed $vrAdicional
+     * @param int $vrAdicional
      */
-    public function setVrAdicional($vrAdicional): void
+    public function setVrAdicional(int $vrAdicional): void
     {
         $this->vrAdicional = $vrAdicional;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrAdicionalPrestacional()
+    public function getVrAdicionalPrestacional(): int
     {
         return $this->vrAdicionalPrestacional;
     }
 
     /**
-     * @param mixed $vrAdicionalPrestacional
+     * @param int $vrAdicionalPrestacional
      */
-    public function setVrAdicionalPrestacional($vrAdicionalPrestacional): void
+    public function setVrAdicionalPrestacional(int $vrAdicionalPrestacional): void
     {
         $this->vrAdicionalPrestacional = $vrAdicionalPrestacional;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoTerminado()
+    public function getEstadoTerminado(): bool
     {
         return $this->estadoTerminado;
     }
 
     /**
-     * @param mixed $estadoTerminado
+     * @param bool $estadoTerminado
      */
-    public function setEstadoTerminado($estadoTerminado): void
+    public function setEstadoTerminado(bool $estadoTerminado): void
     {
         $this->estadoTerminado = $estadoTerminado;
     }
@@ -783,17 +799,17 @@ class RhuContrato
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getSalarioIntegral()
+    public function isSalarioIntegral(): bool
     {
         return $this->salarioIntegral;
     }
 
     /**
-     * @param mixed $salarioIntegral
+     * @param bool $salarioIntegral
      */
-    public function setSalarioIntegral($salarioIntegral): void
+    public function setSalarioIntegral(bool $salarioIntegral): void
     {
         $this->salarioIntegral = $salarioIntegral;
     }
@@ -895,17 +911,17 @@ class RhuContrato
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAuxilioTransporte()
+    public function isAuxilioTransporte(): bool
     {
         return $this->auxilioTransporte;
     }
 
     /**
-     * @param mixed $auxilioTransporte
+     * @param bool $auxilioTransporte
      */
-    public function setAuxilioTransporte($auxilioTransporte): void
+    public function setAuxilioTransporte(bool $auxilioTransporte): void
     {
         $this->auxilioTransporte = $auxilioTransporte;
     }
@@ -959,19 +975,83 @@ class RhuContrato
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getIndefinido()
+    public function isIndefinido(): bool
     {
         return $this->indefinido;
     }
 
     /**
-     * @param mixed $indefinido
+     * @param bool $indefinido
      */
-    public function setIndefinido($indefinido): void
+    public function setIndefinido(bool $indefinido): void
     {
         $this->indefinido = $indefinido;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbpCesantiasInicial()
+    {
+        return $this->ibpCesantiasInicial;
+    }
+
+    /**
+     * @param mixed $ibpCesantiasInicial
+     */
+    public function setIbpCesantiasInicial($ibpCesantiasInicial): void
+    {
+        $this->ibpCesantiasInicial = $ibpCesantiasInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbpPrimasInicial()
+    {
+        return $this->ibpPrimasInicial;
+    }
+
+    /**
+     * @param mixed $ibpPrimasInicial
+     */
+    public function setIbpPrimasInicial($ibpPrimasInicial): void
+    {
+        $this->ibpPrimasInicial = $ibpPrimasInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIbpRecargoNoctornoInicial()
+    {
+        return $this->ibpRecargoNoctornoInicial;
+    }
+
+    /**
+     * @param mixed $ibpRecargoNoctornoInicial
+     */
+    public function setIbpRecargoNoctornoInicial($ibpRecargoNoctornoInicial): void
+    {
+        $this->ibpRecargoNoctornoInicial = $ibpRecargoNoctornoInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTipoCotizanteFk()
+    {
+        return $this->codigoTipoCotizanteFk;
+    }
+
+    /**
+     * @param mixed $codigoTipoCotizanteFk
+     */
+    public function setCodigoTipoCotizanteFk($codigoTipoCotizanteFk): void
+    {
+        $this->codigoTipoCotizanteFk = $codigoTipoCotizanteFk;
     }
 
     /**
@@ -1329,70 +1409,6 @@ class RhuContrato
     /**
      * @return mixed
      */
-    public function getIbpCesantiasInicial()
-    {
-        return $this->ibpCesantiasInicial;
-    }
-
-    /**
-     * @param mixed $ibpCesantiasInicial
-     */
-    public function setIbpCesantiasInicial($ibpCesantiasInicial): void
-    {
-        $this->ibpCesantiasInicial = $ibpCesantiasInicial;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIbpPrimasInicial()
-    {
-        return $this->ibpPrimasInicial;
-    }
-
-    /**
-     * @param mixed $ibpPrimasInicial
-     */
-    public function setIbpPrimasInicial($ibpPrimasInicial): void
-    {
-        $this->ibpPrimasInicial = $ibpPrimasInicial;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIbpRecargoNoctornoInicial()
-    {
-        return $this->ibpRecargoNoctornoInicial;
-    }
-
-    /**
-     * @param mixed $ibpRecargoNoctornoInicial
-     */
-    public function setIbpRecargoNoctornoInicial($ibpRecargoNoctornoInicial): void
-    {
-        $this->ibpRecargoNoctornoInicial = $ibpRecargoNoctornoInicial;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoTipoCotizanteFk()
-    {
-        return $this->codigoTipoCotizanteFk;
-    }
-
-    /**
-     * @param mixed $codigoTipoCotizanteFk
-     */
-    public function setCodigoTipoCotizanteFk($codigoTipoCotizanteFk): void
-    {
-        $this->codigoTipoCotizanteFk = $codigoTipoCotizanteFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getTipoCotizanteRel()
     {
         return $this->tipoCotizanteRel;
@@ -1404,22 +1420,6 @@ class RhuContrato
     public function setTipoCotizanteRel($tipoCotizanteRel): void
     {
         $this->tipoCotizanteRel = $tipoCotizanteRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoContratoMotivoFk()
-    {
-        return $this->codigoContratoMotivoFk;
-    }
-
-    /**
-     * @param mixed $codigoContratoMotivoFk
-     */
-    public function setCodigoContratoMotivoFk($codigoContratoMotivoFk): void
-    {
-        $this->codigoContratoMotivoFk = $codigoContratoMotivoFk;
     }
 
     /**
@@ -1437,7 +1437,6 @@ class RhuContrato
     {
         $this->contratoMotivoRel = $contratoMotivoRel;
     }
-
 
 
 }

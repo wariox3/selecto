@@ -71,17 +71,17 @@ class RhuContratoClase
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getIndefinido()
+    public function isIndefinido(): bool
     {
         return $this->indefinido;
     }
 
     /**
-     * @param mixed $indefinido
+     * @param bool $indefinido
      */
-    public function setIndefinido($indefinido): void
+    public function setIndefinido(bool $indefinido): void
     {
         $this->indefinido = $indefinido;
     }
@@ -117,7 +117,5 @@ class RhuContratoClase
     {
         $this->contratosContratoClaseRel = $contratosContratoClaseRel;
     }
-
-
 
 }

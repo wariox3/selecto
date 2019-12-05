@@ -228,65 +228,49 @@ class RhuProgramacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getEstadoPagado()
-    {
-        return $this->estadoPagado;
-    }
-
-    /**
-     * @param mixed $estadoPagado
-     */
-    public function setEstadoPagado($estadoPagado): void
-    {
-        $this->estadoPagado = $estadoPagado;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDias()
+    public function getDias(): int
     {
         return $this->dias;
     }
 
     /**
-     * @param mixed $dias
+     * @param int $dias
      */
-    public function setDias($dias): void
+    public function setDias(int $dias): void
     {
         $this->dias = $dias;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getCantidad()
+    public function getCantidad(): int
     {
         return $this->cantidad;
     }
 
     /**
-     * @param mixed $cantidad
+     * @param int $cantidad
      */
-    public function setCantidad($cantidad): void
+    public function setCantidad(int $cantidad): void
     {
         $this->cantidad = $cantidad;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrNeto()
+    public function getVrNeto(): int
     {
         return $this->vrNeto;
     }
 
     /**
-     * @param mixed $vrNeto
+     * @param int $vrNeto
      */
-    public function setVrNeto($vrNeto): void
+    public function setVrNeto(int $vrNeto): void
     {
         $this->vrNeto = $vrNeto;
     }
@@ -324,65 +308,81 @@ class RhuProgramacion
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEmpleadosGenerados()
+    public function isEmpleadosGenerados(): bool
     {
         return $this->empleadosGenerados;
     }
 
     /**
-     * @param mixed $empleadosGenerados
+     * @param bool $empleadosGenerados
      */
-    public function setEmpleadosGenerados($empleadosGenerados): void
+    public function setEmpleadosGenerados(bool $empleadosGenerados): void
     {
         $this->empleadosGenerados = $empleadosGenerados;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function getEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function getEstadoPagado(): bool
+    {
+        return $this->estadoPagado;
+    }
+
+    /**
+     * @param bool $estadoPagado
+     */
+    public function setEstadoPagado(bool $estadoPagado): void
+    {
+        $this->estadoPagado = $estadoPagado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }
@@ -417,6 +417,22 @@ class RhuProgramacion
     public function setUsuario($usuario): void
     {
         $this->usuario = $usuario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
     /**
@@ -481,22 +497,6 @@ class RhuProgramacion
     public function setPagosProgramacionRel($pagosProgramacionRel): void
     {
         $this->pagosProgramacionRel = $pagosProgramacionRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoEmpresaFk()
-    {
-        return $this->codigoEmpresaFk;
-    }
-
-    /**
-     * @param mixed $codigoEmpresaFk
-     */
-    public function setCodigoEmpresaFk($codigoEmpresaFk): void
-    {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
 

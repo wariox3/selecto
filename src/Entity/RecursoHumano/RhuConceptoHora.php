@@ -97,4 +97,5 @@ class RhuConceptoHora
     {
         $this->conceptoRel = $conceptoRel;
     }
+
 }

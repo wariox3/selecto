@@ -36,6 +36,22 @@ class RhuCreditoPagoTipo {
     protected $creditosPagosCreditoPagoTipoRel;
 
     /**
+     * @return array
+     */
+    public function getInfoLog(): array
+    {
+        return $this->infoLog;
+    }
+
+    /**
+     * @param array $infoLog
+     */
+    public function setInfoLog(array $infoLog): void
+    {
+        $this->infoLog = $infoLog;
+    }
+
+    /**
      * @return mixed
      */
     public function getCodigoCreditoPagoTipoPk()
@@ -46,7 +62,7 @@ class RhuCreditoPagoTipo {
     /**
      * @param mixed $codigoCreditoPagoTipoPk
      */
-    public function setCodigoCreditoPagoTipoPk( $codigoCreditoPagoTipoPk ): void
+    public function setCodigoCreditoPagoTipoPk($codigoCreditoPagoTipoPk): void
     {
         $this->codigoCreditoPagoTipoPk = $codigoCreditoPagoTipoPk;
     }
@@ -62,7 +78,7 @@ class RhuCreditoPagoTipo {
     /**
      * @param mixed $nombre
      */
-    public function setNombre( $nombre ): void
+    public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
     }
@@ -78,7 +94,7 @@ class RhuCreditoPagoTipo {
     /**
      * @param mixed $creditosCreditoPagoTipoRel
      */
-    public function setCreditosCreditoPagoTipoRel( $creditosCreditoPagoTipoRel ): void
+    public function setCreditosCreditoPagoTipoRel($creditosCreditoPagoTipoRel): void
     {
         $this->creditosCreditoPagoTipoRel = $creditosCreditoPagoTipoRel;
     }
@@ -94,11 +110,10 @@ class RhuCreditoPagoTipo {
     /**
      * @param mixed $creditosPagosCreditoPagoTipoRel
      */
-    public function setCreditosPagosCreditoPagoTipoRel( $creditosPagosCreditoPagoTipoRel ): void
+    public function setCreditosPagosCreditoPagoTipoRel($creditosPagosCreditoPagoTipoRel): void
     {
         $this->creditosPagosCreditoPagoTipoRel = $creditosPagosCreditoPagoTipoRel;
     }
-
 
 
 }

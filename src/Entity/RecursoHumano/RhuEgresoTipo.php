@@ -96,4 +96,5 @@ class RhuEgresoTipo
     {
         $this->egresosEgresoTipoRel = $egresosEgresoTipoRel;
     }
+
 }

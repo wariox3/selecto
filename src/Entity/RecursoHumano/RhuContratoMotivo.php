@@ -76,5 +76,4 @@ class RhuContratoMotivo
         $this->contratosContratoMotivoRel = $contratosContratoMotivoRel;
     }
 
-
 }

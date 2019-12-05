@@ -73,35 +73,19 @@ class RhuSucursal {
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getEstadoActivo()
+    public function getEstadoActivo(): int
     {
         return $this->estadoActivo;
     }
 
     /**
-     * @param mixed $estadoActivo
+     * @param int $estadoActivo
      */
-    public function setEstadoActivo($estadoActivo): void
+    public function setEstadoActivo(int $estadoActivo): void
     {
         $this->estadoActivo = $estadoActivo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContratosSucursalRel()
-    {
-        return $this->contratosSucursalRel;
-    }
-
-    /**
-     * @param mixed $contratosSucursalRel
-     */
-    public function setContratosSucursalRel($contratosSucursalRel): void
-    {
-        $this->contratosSucursalRel = $contratosSucursalRel;
     }
 
     /**
@@ -120,6 +104,21 @@ class RhuSucursal {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getContratosSucursalRel()
+    {
+        return $this->contratosSucursalRel;
+    }
 
+    /**
+     * @param mixed $contratosSucursalRel
+     */
+    public function setContratosSucursalRel($contratosSucursalRel): void
+    {
+        $this->contratosSucursalRel = $contratosSucursalRel;
+    }
+    
 }
 

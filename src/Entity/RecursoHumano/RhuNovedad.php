@@ -267,6 +267,22 @@ class RhuNovedad
     /**
      * @return mixed
      */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getFecha()
     {
         return $this->fecha;
@@ -313,17 +329,17 @@ class RhuNovedad
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDias()
+    public function getDias(): int
     {
         return $this->dias;
     }
 
     /**
-     * @param mixed $dias
+     * @param int $dias
      */
-    public function setDias($dias): void
+    public function setDias(int $dias): void
     {
         $this->dias = $dias;
     }
@@ -361,193 +377,193 @@ class RhuNovedad
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function getEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function getEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getProrroga()
+    public function isProrroga(): bool
     {
         return $this->prorroga;
     }
 
     /**
-     * @param mixed $prorroga
+     * @param bool $prorroga
      */
-    public function setProrroga($prorroga): void
+    public function setProrroga(bool $prorroga): void
     {
         $this->prorroga = $prorroga;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getTranscripcion()
+    public function isTranscripcion(): bool
     {
         return $this->transcripcion;
     }
 
     /**
-     * @param mixed $transcripcion
+     * @param bool $transcripcion
      */
-    public function setTranscripcion($transcripcion): void
+    public function setTranscripcion(bool $transcripcion): void
     {
         $this->transcripcion = $transcripcion;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getLegalizado()
+    public function isLegalizado(): bool
     {
         return $this->legalizado;
     }
 
     /**
-     * @param mixed $legalizado
+     * @param bool $legalizado
      */
-    public function setLegalizado($legalizado): void
+    public function setLegalizado(bool $legalizado): void
     {
         $this->legalizado = $legalizado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentaje()
+    public function getPorcentaje(): int
     {
         return $this->porcentaje;
     }
 
     /**
-     * @param mixed $porcentaje
+     * @param int $porcentaje
      */
-    public function setPorcentaje($porcentaje): void
+    public function setPorcentaje(int $porcentaje): void
     {
         $this->porcentaje = $porcentaje;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrValor()
+    public function getVrValor(): int
     {
         return $this->vrValor;
     }
 
     /**
-     * @param mixed $vrValor
+     * @param int $vrValor
      */
-    public function setVrValor($vrValor): void
+    public function setVrValor(int $vrValor): void
     {
         $this->vrValor = $vrValor;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIbc()
+    public function getVrIbc(): int
     {
         return $this->vrIbc;
     }
 
     /**
-     * @param mixed $vrIbc
+     * @param int $vrIbc
      */
-    public function setVrIbc($vrIbc): void
+    public function setVrIbc(int $vrIbc): void
     {
         $this->vrIbc = $vrIbc;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasIbc()
+    public function getDiasIbc(): int
     {
         return $this->diasIbc;
     }
 
     /**
-     * @param mixed $diasIbc
+     * @param int $diasIbc
      */
-    public function setDiasIbc($diasIbc): void
+    public function setDiasIbc(int $diasIbc): void
     {
         $this->diasIbc = $diasIbc;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIbcPropuesto()
+    public function getVrIbcPropuesto(): int
     {
         return $this->vrIbcPropuesto;
     }
 
     /**
-     * @param mixed $vrIbcPropuesto
+     * @param int $vrIbcPropuesto
      */
-    public function setVrIbcPropuesto($vrIbcPropuesto): void
+    public function setVrIbcPropuesto(int $vrIbcPropuesto): void
     {
         $this->vrIbcPropuesto = $vrIbcPropuesto;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPropuesto()
+    public function getVrPropuesto(): int
     {
         return $this->vrPropuesto;
     }
 
     /**
-     * @param mixed $vrPropuesto
+     * @param int $vrPropuesto
      */
-    public function setVrPropuesto($vrPropuesto): void
+    public function setVrPropuesto(int $vrPropuesto): void
     {
         $this->vrPropuesto = $vrPropuesto;
     }
@@ -631,22 +647,5 @@ class RhuNovedad
     {
         $this->grupoRel = $grupoRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoEmpresaFk()
-    {
-        return $this->codigoEmpresaFk;
-    }
-
-    /**
-     * @param mixed $codigoEmpresaFk
-     */
-    public function setCodigoEmpresaFk($codigoEmpresaFk): void
-    {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
-    }
-
 
 }

@@ -96,6 +96,4 @@ class RhuCargo
         $this->contratosCargoRel = $contratosCargoRel;
     }
 
-
-
 }

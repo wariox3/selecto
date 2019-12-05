@@ -158,35 +158,19 @@ class RhuEgresoDetalle
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPago()
+    public function getVrPago(): int
     {
         return $this->vrPago;
     }
 
     /**
-     * @param mixed $vrPago
+     * @param int $vrPago
      */
-    public function setVrPago($vrPago): void
+    public function setVrPago(int $vrPago): void
     {
         $this->vrPago = $vrPago;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstadoContabilizado()
-    {
-        return $this->estadoContabilizado;
-    }
-
-    /**
-     * @param mixed $estadoContabilizado
-     */
-    public function setEstadoContabilizado($estadoContabilizado): void
-    {
-        $this->estadoContabilizado = $estadoContabilizado;
     }
 
     /**
@@ -203,6 +187,22 @@ class RhuEgresoDetalle
     public function setCuenta($cuenta): void
     {
         $this->cuenta = $cuenta;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEstadoContabilizado(): bool
+    {
+        return $this->estadoContabilizado;
+    }
+
+    /**
+     * @param bool $estadoContabilizado
+     */
+    public function setEstadoContabilizado(bool $estadoContabilizado): void
+    {
+        $this->estadoContabilizado = $estadoContabilizado;
     }
 
     /**

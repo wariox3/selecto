@@ -43,6 +43,22 @@ class RhuPagoTipo
     protected $pagosPagoTipoRel;
 
     /**
+     * @return array
+     */
+    public function getInfoLog(): array
+    {
+        return $this->infoLog;
+    }
+
+    /**
+     * @param array $infoLog
+     */
+    public function setInfoLog(array $infoLog): void
+    {
+        $this->infoLog = $infoLog;
+    }
+
+    /**
      * @return mixed
      */
     public function getCodigoPagoTipoPk()
@@ -121,4 +137,5 @@ class RhuPagoTipo
     {
         $this->pagosPagoTipoRel = $pagosPagoTipoRel;
     }
+
 }

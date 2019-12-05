@@ -54,11 +54,6 @@ class RhuBanco
      */
     private $telefono;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="RhuEmpleado", mappedBy="bancoRel")
-//     */
-//    protected $empleadosBancoRel;
-
     /**
      * @return mixed
      */
@@ -92,17 +87,17 @@ class RhuBanco
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getConvenioNomina()
+    public function getConvenioNomina(): int
     {
         return $this->convenioNomina;
     }
 
     /**
-     * @param mixed $convenioNomina
+     * @param int $convenioNomina
      */
-    public function setConvenioNomina($convenioNomina): void
+    public function setConvenioNomina(int $convenioNomina): void
     {
         $this->convenioNomina = $convenioNomina;
     }
@@ -202,23 +197,5 @@ class RhuBanco
     {
         $this->telefono = $telefono;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getEmpleadosBancoRel()
-    {
-        return $this->empleadosBancoRel;
-    }
-
-    /**
-     * @param mixed $empleadosBancoRel
-     */
-    public function setEmpleadosBancoRel($empleadosBancoRel): void
-    {
-        $this->empleadosBancoRel = $empleadosBancoRel;
-    }
-
-
 
 }

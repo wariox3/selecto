@@ -183,17 +183,17 @@ class RhuLiquidacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumero()
+    public function getNumero(): int
     {
         return $this->numero;
     }
 
     /**
-     * @param mixed $numero
+     * @param int $numero
      */
-    public function setNumero($numero): void
+    public function setNumero(int $numero): void
     {
         $this->numero = $numero;
     }
@@ -295,177 +295,177 @@ class RhuLiquidacion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrCesantias()
+    public function getVrCesantias(): int
     {
         return $this->vrCesantias;
     }
 
     /**
-     * @param mixed $vrCesantias
+     * @param int $vrCesantias
      */
-    public function setVrCesantias($vrCesantias): void
+    public function setVrCesantias(int $vrCesantias): void
     {
         $this->vrCesantias = $vrCesantias;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrInteresesCesantias()
+    public function getVrInteresesCesantias(): int
     {
         return $this->vrInteresesCesantias;
     }
 
     /**
-     * @param mixed $vrInteresesCesantias
+     * @param int $vrInteresesCesantias
      */
-    public function setVrInteresesCesantias($vrInteresesCesantias): void
+    public function setVrInteresesCesantias(int $vrInteresesCesantias): void
     {
         $this->vrInteresesCesantias = $vrInteresesCesantias;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPrima()
+    public function getVrPrima(): int
     {
         return $this->vrPrima;
     }
 
     /**
-     * @param mixed $vrPrima
+     * @param int $vrPrima
      */
-    public function setVrPrima($vrPrima): void
+    public function setVrPrima(int $vrPrima): void
     {
         $this->vrPrima = $vrPrima;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrVacacion()
+    public function getVrVacacion(): int
     {
         return $this->vrVacacion;
     }
 
     /**
-     * @param mixed $vrVacacion
+     * @param int $vrVacacion
      */
-    public function setVrVacacion($vrVacacion): void
+    public function setVrVacacion(int $vrVacacion): void
     {
         $this->vrVacacion = $vrVacacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIndemnizacion()
+    public function getVrIndemnizacion(): int
     {
         return $this->vrIndemnizacion;
     }
 
     /**
-     * @param mixed $vrIndemnizacion
+     * @param int $vrIndemnizacion
      */
-    public function setVrIndemnizacion($vrIndemnizacion): void
+    public function setVrIndemnizacion(int $vrIndemnizacion): void
     {
         $this->vrIndemnizacion = $vrIndemnizacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasCesantias()
+    public function getDiasCesantias(): int
     {
         return $this->diasCesantias;
     }
 
     /**
-     * @param mixed $diasCesantias
+     * @param int $diasCesantias
      */
-    public function setDiasCesantias($diasCesantias): void
+    public function setDiasCesantias(int $diasCesantias): void
     {
         $this->diasCesantias = $diasCesantias;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasCesantiasAusentismo()
+    public function getDiasCesantiasAusentismo(): int
     {
         return $this->diasCesantiasAusentismo;
     }
 
     /**
-     * @param mixed $diasCesantiasAusentismo
+     * @param int $diasCesantiasAusentismo
      */
-    public function setDiasCesantiasAusentismo($diasCesantiasAusentismo): void
+    public function setDiasCesantiasAusentismo(int $diasCesantiasAusentismo): void
     {
         $this->diasCesantiasAusentismo = $diasCesantiasAusentismo;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasVacacion()
+    public function getDiasVacacion(): int
     {
         return $this->diasVacacion;
     }
 
     /**
-     * @param mixed $diasVacacion
+     * @param int $diasVacacion
      */
-    public function setDiasVacacion($diasVacacion): void
+    public function setDiasVacacion(int $diasVacacion): void
     {
         $this->diasVacacion = $diasVacacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasVacacionAusentismo()
+    public function getDiasVacacionAusentismo(): int
     {
         return $this->diasVacacionAusentismo;
     }
 
     /**
-     * @param mixed $diasVacacionAusentismo
+     * @param int $diasVacacionAusentismo
      */
-    public function setDiasVacacionAusentismo($diasVacacionAusentismo): void
+    public function setDiasVacacionAusentismo(int $diasVacacionAusentismo): void
     {
         $this->diasVacacionAusentismo = $diasVacacionAusentismo;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasPrima()
+    public function getDiasPrima(): int
     {
         return $this->diasPrima;
     }
 
     /**
-     * @param mixed $diasPrima
+     * @param int $diasPrima
      */
-    public function setDiasPrima($diasPrima): void
+    public function setDiasPrima(int $diasPrima): void
     {
         $this->diasPrima = $diasPrima;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasPrimaAusentismo()
+    public function getDiasPrimaAusentismo(): int
     {
         return $this->diasPrimaAusentismo;
     }
 
     /**
-     * @param mixed $diasPrimaAusentismo
+     * @param int $diasPrimaAusentismo
      */
-    public function setDiasPrimaAusentismo($diasPrimaAusentismo): void
+    public function setDiasPrimaAusentismo(int $diasPrimaAusentismo): void
     {
         $this->diasPrimaAusentismo = $diasPrimaAusentismo;
     }
@@ -519,49 +519,49 @@ class RhuLiquidacion
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function getEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function getEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }

@@ -144,12 +144,6 @@ class RhuPago
      */
     private $usuario;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenDocumento", inversedBy="pagosDocumentoRel")
-//     * @ORM\JoinColumn(name="codigo_documento_fk", referencedColumnName="codigo_documento_pk")
-//     */
-//    protected $documentoRel;
-
     /**
      * @ORM\ManyToOne(targetEntity="RhuEmpleado", inversedBy="pagosEmpleadoRel")
      * @ORM\JoinColumn(name="codigo_empleado_fk",referencedColumnName="codigo_empleado_pk")
@@ -237,6 +231,22 @@ class RhuPago
     /**
      * @return mixed
      */
+    public function getCodigoDocumentoFk()
+    {
+        return $this->codigoDocumentoFk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoFk
+     */
+    public function setCodigoDocumentoFk($codigoDocumentoFk): void
+    {
+        $this->codigoDocumentoFk = $codigoDocumentoFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCodigoEntidadSaludFk()
     {
         return $this->codigoEntidadSaludFk;
@@ -285,31 +295,31 @@ class RhuPago
     /**
      * @return mixed
      */
-    public function getEstadoEgreso()
+    public function getCodigoEmpresaFk()
     {
-        return $this->estadoEgreso;
+        return $this->codigoEmpresaFk;
     }
 
     /**
-     * @param mixed $estadoEgreso
+     * @param mixed $codigoEmpresaFk
      */
-    public function setEstadoEgreso($estadoEgreso): void
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
-        $this->estadoEgreso = $estadoEgreso;
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumero()
+    public function getNumero(): int
     {
         return $this->numero;
     }
 
     /**
-     * @param mixed $numero
+     * @param int $numero
      */
-    public function setNumero($numero): void
+    public function setNumero(int $numero): void
     {
         $this->numero = $numero;
     }
@@ -443,115 +453,131 @@ class RhuPago
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalarioContrato()
+    public function getVrSalarioContrato(): int
     {
         return $this->vrSalarioContrato;
     }
 
     /**
-     * @param mixed $vrSalarioContrato
+     * @param int $vrSalarioContrato
      */
-    public function setVrSalarioContrato($vrSalarioContrato): void
+    public function setVrSalarioContrato(int $vrSalarioContrato): void
     {
         $this->vrSalarioContrato = $vrSalarioContrato;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDevengado()
+    public function getVrDevengado(): int
     {
         return $this->vrDevengado;
     }
 
     /**
-     * @param mixed $vrDevengado
+     * @param int $vrDevengado
      */
-    public function setVrDevengado($vrDevengado): void
+    public function setVrDevengado(int $vrDevengado): void
     {
         $this->vrDevengado = $vrDevengado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDeduccion()
+    public function getVrDeduccion(): int
     {
         return $this->vrDeduccion;
     }
 
     /**
-     * @param mixed $vrDeduccion
+     * @param int $vrDeduccion
      */
-    public function setVrDeduccion($vrDeduccion): void
+    public function setVrDeduccion(int $vrDeduccion): void
     {
         $this->vrDeduccion = $vrDeduccion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrNeto()
+    public function getVrNeto(): int
     {
         return $this->vrNeto;
     }
 
     /**
-     * @param mixed $vrNeto
+     * @param int $vrNeto
      */
-    public function setVrNeto($vrNeto): void
+    public function setVrNeto(int $vrNeto): void
     {
         $this->vrNeto = $vrNeto;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function getEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function getEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEstadoEgreso(): bool
+    {
+        return $this->estadoEgreso;
+    }
+
+    /**
+     * @param bool $estadoEgreso
+     */
+    public function setEstadoEgreso(bool $estadoEgreso): void
+    {
+        $this->estadoEgreso = $estadoEgreso;
     }
 
     /**
@@ -730,51 +756,4 @@ class RhuPago
         $this->egresosDetallesPagoRel = $egresosDetallesPagoRel;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCodigoEmpresaFk()
-    {
-        return $this->codigoEmpresaFk;
-    }
-
-    /**
-     * @param mixed $codigoEmpresaFk
-     */
-    public function setCodigoEmpresaFk($codigoEmpresaFk): void
-    {
-        $this->codigoEmpresaFk = $codigoEmpresaFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoDocumentoFk()
-    {
-        return $this->codigoDocumentoFk;
-    }
-
-    /**
-     * @param mixed $codigoDocumentoFk
-     */
-    public function setCodigoDocumentoFk($codigoDocumentoFk): void
-    {
-        $this->codigoDocumentoFk = $codigoDocumentoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDocumentoRel()
-    {
-        return $this->documentoRel;
-    }
-
-    /**
-     * @param mixed $documentoRel
-     */
-    public function setDocumentoRel($documentoRel): void
-    {
-        $this->documentoRel = $documentoRel;
-    }
 }

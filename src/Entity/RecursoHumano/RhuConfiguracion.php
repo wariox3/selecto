@@ -58,17 +58,17 @@ class RhuConfiguracion
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalarioMinimo()
+    public function getVrSalarioMinimo(): int
     {
         return $this->vrSalarioMinimo;
     }
 
     /**
-     * @param mixed $vrSalarioMinimo
+     * @param int $vrSalarioMinimo
      */
-    public function setVrSalarioMinimo($vrSalarioMinimo): void
+    public function setVrSalarioMinimo(int $vrSalarioMinimo): void
     {
         $this->vrSalarioMinimo = $vrSalarioMinimo;
     }
@@ -136,6 +136,5 @@ class RhuConfiguracion
     {
         $this->codigoConceptoVacacionFk = $codigoConceptoVacacionFk;
     }
-
 
 }

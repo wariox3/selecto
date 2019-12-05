@@ -140,5 +140,4 @@ class RhuContratoTipo
         $this->contratoClaseRel = $contratoClaseRel;
     }
 
-
 }

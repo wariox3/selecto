@@ -86,49 +86,49 @@ class RhuSalud
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentajeEmpleado()
+    public function getPorcentajeEmpleado(): int
     {
         return $this->porcentajeEmpleado;
     }
 
     /**
-     * @param mixed $porcentajeEmpleado
+     * @param int $porcentajeEmpleado
      */
-    public function setPorcentajeEmpleado($porcentajeEmpleado): void
+    public function setPorcentajeEmpleado(int $porcentajeEmpleado): void
     {
         $this->porcentajeEmpleado = $porcentajeEmpleado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getOrden()
+    public function getOrden(): int
     {
         return $this->orden;
     }
 
     /**
-     * @param mixed $orden
+     * @param int $orden
      */
-    public function setOrden($orden): void
+    public function setOrden(int $orden): void
     {
         $this->orden = $orden;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentajeEmpleador()
+    public function getPorcentajeEmpleador(): int
     {
         return $this->porcentajeEmpleador;
     }
 
     /**
-     * @param mixed $porcentajeEmpleador
+     * @param int $porcentajeEmpleador
      */
-    public function setPorcentajeEmpleador($porcentajeEmpleador): void
+    public function setPorcentajeEmpleador(int $porcentajeEmpleador): void
     {
         $this->porcentajeEmpleador = $porcentajeEmpleador;
     }
@@ -180,7 +180,5 @@ class RhuSalud
     {
         $this->contratosSaludRel = $contratosSaludRel;
     }
-
-
 
 }

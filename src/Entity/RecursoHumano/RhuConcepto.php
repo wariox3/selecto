@@ -172,81 +172,81 @@ class RhuConcepto
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentaje()
+    public function getPorcentaje(): int
     {
         return $this->porcentaje;
     }
 
     /**
-     * @param mixed $porcentaje
+     * @param int $porcentaje
      */
-    public function setPorcentaje($porcentaje): void
+    public function setPorcentaje(int $porcentaje): void
     {
         $this->porcentaje = $porcentaje;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getGeneraIngresoBasePrestacion()
+    public function isGeneraIngresoBasePrestacion(): bool
     {
         return $this->generaIngresoBasePrestacion;
     }
 
     /**
-     * @param mixed $generaIngresoBasePrestacion
+     * @param bool $generaIngresoBasePrestacion
      */
-    public function setGeneraIngresoBasePrestacion($generaIngresoBasePrestacion): void
+    public function setGeneraIngresoBasePrestacion(bool $generaIngresoBasePrestacion): void
     {
         $this->generaIngresoBasePrestacion = $generaIngresoBasePrestacion;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getGeneraIngresoBaseCotizacion()
+    public function isGeneraIngresoBaseCotizacion(): bool
     {
         return $this->generaIngresoBaseCotizacion;
     }
 
     /**
-     * @param mixed $generaIngresoBaseCotizacion
+     * @param bool $generaIngresoBaseCotizacion
      */
-    public function setGeneraIngresoBaseCotizacion($generaIngresoBaseCotizacion): void
+    public function setGeneraIngresoBaseCotizacion(bool $generaIngresoBaseCotizacion): void
     {
         $this->generaIngresoBaseCotizacion = $generaIngresoBaseCotizacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getOperacion()
+    public function getOperacion(): int
     {
         return $this->operacion;
     }
 
     /**
-     * @param mixed $operacion
+     * @param int $operacion
      */
-    public function setOperacion($operacion): void
+    public function setOperacion(int $operacion): void
     {
         $this->operacion = $operacion;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAdicional()
+    public function isAdicional(): bool
     {
         return $this->adicional;
     }
 
     /**
-     * @param mixed $adicional
+     * @param bool $adicional
      */
-    public function setAdicional($adicional): void
+    public function setAdicional(bool $adicional): void
     {
         $this->adicional = $adicional;
     }
@@ -268,129 +268,129 @@ class RhuConcepto
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAuxilioTransporte()
+    public function isAuxilioTransporte(): bool
     {
         return $this->auxilioTransporte;
     }
 
     /**
-     * @param mixed $auxilioTransporte
+     * @param bool $auxilioTransporte
      */
-    public function setAuxilioTransporte($auxilioTransporte): void
+    public function setAuxilioTransporte(bool $auxilioTransporte): void
     {
         $this->auxilioTransporte = $auxilioTransporte;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getIncapacidad()
+    public function isIncapacidad(): bool
     {
         return $this->incapacidad;
     }
 
     /**
-     * @param mixed $incapacidad
+     * @param bool $incapacidad
      */
-    public function setIncapacidad($incapacidad): void
+    public function setIncapacidad(bool $incapacidad): void
     {
         $this->incapacidad = $incapacidad;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getIncapacidadEntidad()
+    public function isIncapacidadEntidad(): bool
     {
         return $this->incapacidadEntidad;
     }
 
     /**
-     * @param mixed $incapacidadEntidad
+     * @param bool $incapacidadEntidad
      */
-    public function setIncapacidadEntidad($incapacidadEntidad): void
+    public function setIncapacidadEntidad(bool $incapacidadEntidad): void
     {
         $this->incapacidadEntidad = $incapacidadEntidad;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getPension()
+    public function isPension(): bool
     {
         return $this->pension;
     }
 
     /**
-     * @param mixed $pension
+     * @param bool $pension
      */
-    public function setPension($pension): void
+    public function setPension(bool $pension): void
     {
         $this->pension = $pension;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getSalud()
+    public function isSalud(): bool
     {
         return $this->salud;
     }
 
     /**
-     * @param mixed $salud
+     * @param bool $salud
      */
-    public function setSalud($salud): void
+    public function setSalud(bool $salud): void
     {
         $this->salud = $salud;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getVacacion()
+    public function isVacacion(): bool
     {
         return $this->vacacion;
     }
 
     /**
-     * @param mixed $vacacion
+     * @param bool $vacacion
      */
-    public function setVacacion($vacacion): void
+    public function setVacacion(bool $vacacion): void
     {
         $this->vacacion = $vacacion;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getComision()
+    public function isComision(): bool
     {
         return $this->comision;
     }
 
     /**
-     * @param mixed $comision
+     * @param bool $comision
      */
-    public function setComision($comision): void
+    public function setComision(bool $comision): void
     {
         $this->comision = $comision;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getCesantia()
+    public function isCesantia(): bool
     {
         return $this->cesantia;
     }
 
     /**
-     * @param mixed $cesantia
+     * @param bool $cesantia
      */
-    public function setCesantia($cesantia): void
+    public function setCesantia(bool $cesantia): void
     {
         $this->cesantia = $cesantia;
     }
@@ -412,33 +412,33 @@ class RhuConcepto
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getRecargoNocturno()
+    public function isRecargoNocturno(): bool
     {
         return $this->recargoNocturno;
     }
 
     /**
-     * @param mixed $recargoNocturno
+     * @param bool $recargoNocturno
      */
-    public function setRecargoNocturno($recargoNocturno): void
+    public function setRecargoNocturno(bool $recargoNocturno): void
     {
         $this->recargoNocturno = $recargoNocturno;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getFondoSolidaridadPensional()
+    public function isFondoSolidaridadPensional(): bool
     {
         return $this->fondoSolidaridadPensional;
     }
 
     /**
-     * @param mixed $fondoSolidaridadPensional
+     * @param bool $fondoSolidaridadPensional
      */
-    public function setFondoSolidaridadPensional($fondoSolidaridadPensional): void
+    public function setFondoSolidaridadPensional(bool $fondoSolidaridadPensional): void
     {
         $this->fondoSolidaridadPensional = $fondoSolidaridadPensional;
     }

@@ -13,7 +13,7 @@ class RhuCreditoTipo
 {
     public $infoLog = [
         "primaryKey" => "codigoCreditoTipoPk",
-        "todos"     => true,
+        "todos" => true,
     ];
     /**
      * @ORM\Id
@@ -46,6 +46,22 @@ class RhuCreditoTipo
      * @ORM\OneToMany(targetEntity="RhuCredito", mappedBy="creditoTipoRel")
      */
     protected $creditosCreditoTipoRel;
+
+    /**
+     * @return array
+     */
+    public function getInfoLog(): array
+    {
+        return $this->infoLog;
+    }
+
+    /**
+     * @param array $infoLog
+     */
+    public function setInfoLog(array $infoLog): void
+    {
+        $this->infoLog = $infoLog;
+    }
 
     /**
      * @return mixed

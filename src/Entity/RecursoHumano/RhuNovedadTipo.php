@@ -97,35 +97,35 @@ class RhuNovedadTipo
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAbreviatura()
+    public function isIncapacidad(): bool
     {
-        return $this->abreviatura;
+        return $this->incapacidad;
     }
 
     /**
-     * @param mixed $abreviatura
+     * @param bool $incapacidad
      */
-    public function setAbreviatura($abreviatura): void
+    public function setIncapacidad(bool $incapacidad): void
     {
-        $this->abreviatura = $abreviatura;
+        $this->incapacidad = $incapacidad;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getSubTipo()
+    public function isLicencia(): bool
     {
-        return $this->subTipo;
+        return $this->licencia;
     }
 
     /**
-     * @param mixed $subTipo
+     * @param bool $licencia
      */
-    public function setSubTipo($subTipo): void
+    public function setLicencia(bool $licencia): void
     {
-        $this->subTipo = $subTipo;
+        $this->licencia = $licencia;
     }
 
     /**
@@ -159,38 +159,5 @@ class RhuNovedadTipo
     {
         $this->conceptoRel = $conceptoRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getIncapacidad()
-    {
-        return $this->incapacidad;
-    }
-
-    /**
-     * @param mixed $incapacidad
-     */
-    public function setIncapacidad($incapacidad): void
-    {
-        $this->incapacidad = $incapacidad;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLicencia()
-    {
-        return $this->licencia;
-    }
-
-    /**
-     * @param mixed $licencia
-     */
-    public function setLicencia($licencia): void
-    {
-        $this->licencia = $licencia;
-    }
-
 
 }

@@ -407,17 +407,17 @@ class RhuEmpleado
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoContrato()
+    public function getEstadoContrato(): bool
     {
         return $this->estadoContrato;
     }
 
     /**
-     * @param mixed $estadoContrato
+     * @param bool $estadoContrato
      */
-    public function setEstadoContrato($estadoContrato): void
+    public function setEstadoContrato(bool $estadoContrato): void
     {
         $this->estadoContrato = $estadoContrato;
     }
@@ -1013,7 +1013,5 @@ class RhuEmpleado
     {
         $this->creditosEmpleadoRel = $creditosEmpleadoRel;
     }
-
-
 
 }

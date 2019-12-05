@@ -23,8 +23,6 @@ class RhuCierreSeleccionMotivo
      */
     private $nombre;
 
-
-
     /**
      * @return mixed
      */
@@ -56,24 +54,5 @@ class RhuCierreSeleccionMotivo
     {
         $this->nombre = $nombre;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getRhuSeleccionMotivoCierreRel()
-    {
-        return $this->rhuSeleccionMotivoCierreRel;
-    }
-
-    /**
-     * @param mixed $rhuSeleccionMotivoCierreRel
-     */
-    public function setRhuSeleccionMotivoCierreRel($rhuSeleccionMotivoCierreRel): void
-    {
-        $this->rhuSeleccionMotivoCierreRel = $rhuSeleccionMotivoCierreRel;
-    }
-
-
-    
 
 }

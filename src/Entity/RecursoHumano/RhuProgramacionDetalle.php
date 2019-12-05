@@ -267,65 +267,65 @@ class RhuProgramacionDetalle
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDias()
+    public function getDias(): int
     {
         return $this->dias;
     }
 
     /**
-     * @param mixed $dias
+     * @param int $dias
      */
-    public function setDias($dias): void
+    public function setDias(int $dias): void
     {
         $this->dias = $dias;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasTransporte()
+    public function getDiasTransporte(): int
     {
         return $this->diasTransporte;
     }
 
     /**
-     * @param mixed $diasTransporte
+     * @param int $diasTransporte
      */
-    public function setDiasTransporte($diasTransporte): void
+    public function setDiasTransporte(int $diasTransporte): void
     {
         $this->diasTransporte = $diasTransporte;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSalario()
+    public function getVrSalario(): int
     {
         return $this->vrSalario;
     }
 
     /**
-     * @param mixed $vrSalario
+     * @param int $vrSalario
      */
-    public function setVrSalario($vrSalario): void
+    public function setVrSalario(int $vrSalario): void
     {
         $this->vrSalario = $vrSalario;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrNeto()
+    public function getVrNeto(): int
     {
         return $this->vrNeto;
     }
 
     /**
-     * @param mixed $vrNeto
+     * @param int $vrNeto
      */
-    public function setVrNeto($vrNeto): void
+    public function setVrNeto(int $vrNeto): void
     {
         $this->vrNeto = $vrNeto;
     }
@@ -395,321 +395,337 @@ class RhuProgramacionDetalle
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasDiurnas()
+    public function getHorasDiurnas(): int
     {
         return $this->horasDiurnas;
     }
 
     /**
-     * @param mixed $horasDiurnas
+     * @param int $horasDiurnas
      */
-    public function setHorasDiurnas($horasDiurnas): void
+    public function setHorasDiurnas(int $horasDiurnas): void
     {
         $this->horasDiurnas = $horasDiurnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasNocturnas()
+    public function getHorasNocturnas(): int
     {
         return $this->horasNocturnas;
     }
 
     /**
-     * @param mixed $horasNocturnas
+     * @param int $horasNocturnas
      */
-    public function setHorasNocturnas($horasNocturnas): void
+    public function setHorasNocturnas(int $horasNocturnas): void
     {
         $this->horasNocturnas = $horasNocturnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasFestivasDiurnas()
+    public function getHorasFestivasDiurnas(): int
     {
         return $this->horasFestivasDiurnas;
     }
 
     /**
-     * @param mixed $horasFestivasDiurnas
+     * @param int $horasFestivasDiurnas
      */
-    public function setHorasFestivasDiurnas($horasFestivasDiurnas): void
+    public function setHorasFestivasDiurnas(int $horasFestivasDiurnas): void
     {
         $this->horasFestivasDiurnas = $horasFestivasDiurnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasFestivasNocturnas()
+    public function getHorasFestivasNocturnas(): int
     {
         return $this->horasFestivasNocturnas;
     }
 
     /**
-     * @param mixed $horasFestivasNocturnas
+     * @param int $horasFestivasNocturnas
      */
-    public function setHorasFestivasNocturnas($horasFestivasNocturnas): void
+    public function setHorasFestivasNocturnas(int $horasFestivasNocturnas): void
     {
         $this->horasFestivasNocturnas = $horasFestivasNocturnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasExtrasOrdinariasDiurnas()
+    public function getHorasExtrasOrdinariasDiurnas(): int
     {
         return $this->horasExtrasOrdinariasDiurnas;
     }
 
     /**
-     * @param mixed $horasExtrasOrdinariasDiurnas
+     * @param int $horasExtrasOrdinariasDiurnas
      */
-    public function setHorasExtrasOrdinariasDiurnas($horasExtrasOrdinariasDiurnas): void
+    public function setHorasExtrasOrdinariasDiurnas(int $horasExtrasOrdinariasDiurnas): void
     {
         $this->horasExtrasOrdinariasDiurnas = $horasExtrasOrdinariasDiurnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasExtrasOrdinariasNocturnas()
+    public function getHorasExtrasOrdinariasNocturnas(): int
     {
         return $this->horasExtrasOrdinariasNocturnas;
     }
 
     /**
-     * @param mixed $horasExtrasOrdinariasNocturnas
+     * @param int $horasExtrasOrdinariasNocturnas
      */
-    public function setHorasExtrasOrdinariasNocturnas($horasExtrasOrdinariasNocturnas): void
+    public function setHorasExtrasOrdinariasNocturnas(int $horasExtrasOrdinariasNocturnas): void
     {
         $this->horasExtrasOrdinariasNocturnas = $horasExtrasOrdinariasNocturnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasExtrasFestivasDiurnas()
+    public function getHorasExtrasFestivasDiurnas(): int
     {
         return $this->horasExtrasFestivasDiurnas;
     }
 
     /**
-     * @param mixed $horasExtrasFestivasDiurnas
+     * @param int $horasExtrasFestivasDiurnas
      */
-    public function setHorasExtrasFestivasDiurnas($horasExtrasFestivasDiurnas): void
+    public function setHorasExtrasFestivasDiurnas(int $horasExtrasFestivasDiurnas): void
     {
         $this->horasExtrasFestivasDiurnas = $horasExtrasFestivasDiurnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasExtrasFestivasNocturnas()
+    public function getHorasExtrasFestivasNocturnas(): int
     {
         return $this->horasExtrasFestivasNocturnas;
     }
 
     /**
-     * @param mixed $horasExtrasFestivasNocturnas
+     * @param int $horasExtrasFestivasNocturnas
      */
-    public function setHorasExtrasFestivasNocturnas($horasExtrasFestivasNocturnas): void
+    public function setHorasExtrasFestivasNocturnas(int $horasExtrasFestivasNocturnas): void
     {
         $this->horasExtrasFestivasNocturnas = $horasExtrasFestivasNocturnas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasRecargoNocturno()
+    public function getHorasRecargoNocturno(): int
     {
         return $this->horasRecargoNocturno;
     }
 
     /**
-     * @param mixed $horasRecargoNocturno
+     * @param int $horasRecargoNocturno
      */
-    public function setHorasRecargoNocturno($horasRecargoNocturno): void
+    public function setHorasRecargoNocturno(int $horasRecargoNocturno): void
     {
         $this->horasRecargoNocturno = $horasRecargoNocturno;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasRecargoFestivoDiurno()
+    public function getHorasRecargoFestivoDiurno(): int
     {
         return $this->horasRecargoFestivoDiurno;
     }
 
     /**
-     * @param mixed $horasRecargoFestivoDiurno
+     * @param int $horasRecargoFestivoDiurno
      */
-    public function setHorasRecargoFestivoDiurno($horasRecargoFestivoDiurno): void
+    public function setHorasRecargoFestivoDiurno(int $horasRecargoFestivoDiurno): void
     {
         $this->horasRecargoFestivoDiurno = $horasRecargoFestivoDiurno;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHorasRecargoFestivoNocturno()
+    public function getHorasRecargoFestivoNocturno(): int
     {
         return $this->horasRecargoFestivoNocturno;
     }
 
     /**
-     * @param mixed $horasRecargoFestivoNocturno
+     * @param int $horasRecargoFestivoNocturno
      */
-    public function setHorasRecargoFestivoNocturno($horasRecargoFestivoNocturno): void
+    public function setHorasRecargoFestivoNocturno(int $horasRecargoFestivoNocturno): void
     {
         $this->horasRecargoFestivoNocturno = $horasRecargoFestivoNocturno;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasLicencia()
+    public function getDiasLicencia(): int
     {
         return $this->diasLicencia;
     }
 
     /**
-     * @param mixed $diasLicencia
+     * @param int $diasLicencia
      */
-    public function setDiasLicencia($diasLicencia): void
+    public function setDiasLicencia(int $diasLicencia): void
     {
         $this->diasLicencia = $diasLicencia;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasIncapacidad()
+    public function getFactorDia(): int
+    {
+        return $this->factorDia;
+    }
+
+    /**
+     * @param int $factorDia
+     */
+    public function setFactorDia(int $factorDia): void
+    {
+        $this->factorDia = $factorDia;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDiasIncapacidad(): int
     {
         return $this->diasIncapacidad;
     }
 
     /**
-     * @param mixed $diasIncapacidad
+     * @param int $diasIncapacidad
      */
-    public function setDiasIncapacidad($diasIncapacidad): void
+    public function setDiasIncapacidad(int $diasIncapacidad): void
     {
         $this->diasIncapacidad = $diasIncapacidad;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDiasVacacion()
+    public function getDiasVacacion(): int
     {
         return $this->diasVacacion;
     }
 
     /**
-     * @param mixed $diasVacacion
+     * @param int $diasVacacion
      */
-    public function setDiasVacacion($diasVacacion): void
+    public function setDiasVacacion(int $diasVacacion): void
     {
         $this->diasVacacion = $diasVacacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getIbcVacacion()
+    public function getIbcVacacion(): int
     {
         return $this->ibcVacacion;
     }
 
     /**
-     * @param mixed $ibcVacacion
+     * @param int $ibcVacacion
      */
-    public function setIbcVacacion($ibcVacacion): void
+    public function setIbcVacacion(int $ibcVacacion): void
     {
         $this->ibcVacacion = $ibcVacacion;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getDescuentoSalud()
+    public function isDescuentoSalud(): bool
     {
         return $this->descuentoSalud;
     }
 
     /**
-     * @param mixed $descuentoSalud
+     * @param bool $descuentoSalud
      */
-    public function setDescuentoSalud($descuentoSalud): void
+    public function setDescuentoSalud(bool $descuentoSalud): void
     {
         $this->descuentoSalud = $descuentoSalud;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getDescuentoPension()
+    public function isDescuentoPension(): bool
     {
         return $this->descuentoPension;
     }
 
     /**
-     * @param mixed $descuentoPension
+     * @param bool $descuentoPension
      */
-    public function setDescuentoPension($descuentoPension): void
+    public function setDescuentoPension(bool $descuentoPension): void
     {
         $this->descuentoPension = $descuentoPension;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getPagoAuxilioTransporte()
+    public function isPagoAuxilioTransporte(): bool
     {
         return $this->pagoAuxilioTransporte;
     }
 
     /**
-     * @param mixed $pagoAuxilioTransporte
+     * @param bool $pagoAuxilioTransporte
      */
-    public function setPagoAuxilioTransporte($pagoAuxilioTransporte): void
+    public function setPagoAuxilioTransporte(bool $pagoAuxilioTransporte): void
     {
         $this->pagoAuxilioTransporte = $pagoAuxilioTransporte;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIbcAcumulado()
+    public function getVrIbcAcumulado(): int
     {
         return $this->vrIbcAcumulado;
     }
 
     /**
-     * @param mixed $vrIbcAcumulado
+     * @param int $vrIbcAcumulado
      */
-    public function setVrIbcAcumulado($vrIbcAcumulado): void
+    public function setVrIbcAcumulado(int $vrIbcAcumulado): void
     {
         $this->vrIbcAcumulado = $vrIbcAcumulado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrDeduccionFondoPensionAnterior()
+    public function getVrDeduccionFondoPensionAnterior(): int
     {
         return $this->vrDeduccionFondoPensionAnterior;
     }
 
     /**
-     * @param mixed $vrDeduccionFondoPensionAnterior
+     * @param int $vrDeduccionFondoPensionAnterior
      */
-    public function setVrDeduccionFondoPensionAnterior($vrDeduccionFondoPensionAnterior): void
+    public function setVrDeduccionFondoPensionAnterior(int $vrDeduccionFondoPensionAnterior): void
     {
         $this->vrDeduccionFondoPensionAnterior = $vrDeduccionFondoPensionAnterior;
     }
@@ -777,23 +793,6 @@ class RhuProgramacionDetalle
     {
         $this->pagosProgramacionDetalleRel = $pagosProgramacionDetalleRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getFactorDia()
-    {
-        return $this->factorDia;
-    }
-
-    /**
-     * @param mixed $factorDia
-     */
-    public function setFactorDia($factorDia): void
-    {
-        $this->factorDia = $factorDia;
-    }
-
 
 
 }

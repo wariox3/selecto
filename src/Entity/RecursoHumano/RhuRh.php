@@ -76,5 +76,4 @@ class RhuRh
         $this->empleadosRhRel = $empleadosRhRel;
     }
 
-
 }

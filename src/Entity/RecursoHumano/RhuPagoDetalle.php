@@ -121,6 +121,22 @@ class RhuPagoDetalle
     protected $creditosPagosPagoDetalleRel;
 
     /**
+     * @return array
+     */
+    public function getInfoLog(): array
+    {
+        return $this->infoLog;
+    }
+
+    /**
+     * @param array $infoLog
+     */
+    public function setInfoLog(array $infoLog): void
+    {
+        $this->infoLog = $infoLog;
+    }
+
+    /**
      * @return mixed
      */
     public function getCodigoPagoDetallePk()
@@ -171,145 +187,129 @@ class RhuPagoDetalle
     /**
      * @return mixed
      */
-    public function getVrPago()
+    public function getCodigoCreditoFk()
+    {
+        return $this->codigoCreditoFk;
+    }
+
+    /**
+     * @param mixed $codigoCreditoFk
+     */
+    public function setCodigoCreditoFk($codigoCreditoFk): void
+    {
+        $this->codigoCreditoFk = $codigoCreditoFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrPago(): int
     {
         return $this->vrPago;
     }
 
     /**
-     * @param mixed $vrPago
+     * @param int $vrPago
      */
-    public function setVrPago($vrPago): void
+    public function setVrPago(int $vrPago): void
     {
         $this->vrPago = $vrPago;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getOperacion()
+    public function getOperacion(): int
     {
         return $this->operacion;
     }
 
     /**
-     * @param mixed $operacion
+     * @param int $operacion
      */
-    public function setOperacion($operacion): void
+    public function setOperacion(int $operacion): void
     {
         $this->operacion = $operacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrPagoOperado()
+    public function getVrPagoOperado(): int
     {
         return $this->vrPagoOperado;
     }
 
     /**
-     * @param mixed $vrPagoOperado
+     * @param int $vrPagoOperado
      */
-    public function setVrPagoOperado($vrPagoOperado): void
+    public function setVrPagoOperado(int $vrPagoOperado): void
     {
         $this->vrPagoOperado = $vrPagoOperado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHoras()
+    public function getHoras(): int
     {
         return $this->horas;
     }
 
     /**
-     * @param mixed $horas
+     * @param int $horas
      */
-    public function setHoras($horas): void
+    public function setHoras(int $horas): void
     {
         $this->horas = $horas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrHora()
+    public function getVrHora(): int
     {
         return $this->vrHora;
     }
 
     /**
-     * @param mixed $vrHora
+     * @param int $vrHora
      */
-    public function setVrHora($vrHora): void
+    public function setVrHora(int $vrHora): void
     {
         $this->vrHora = $vrHora;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentaje()
+    public function getPorcentaje(): int
     {
         return $this->porcentaje;
     }
 
     /**
-     * @param mixed $porcentaje
+     * @param int $porcentaje
      */
-    public function setPorcentaje($porcentaje): void
+    public function setPorcentaje(int $porcentaje): void
     {
         $this->porcentaje = $porcentaje;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getDias()
+    public function getDias(): int
     {
         return $this->dias;
     }
 
     /**
-     * @param mixed $dias
+     * @param int $dias
      */
-    public function setDias($dias): void
+    public function setDias(int $dias): void
     {
         $this->dias = $dias;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVrDeduccion()
-    {
-        return $this->vrDeduccion;
-    }
-
-    /**
-     * @param mixed $vrDeduccion
-     */
-    public function setVrDeduccion($vrDeduccion): void
-    {
-        $this->vrDeduccion = $vrDeduccion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVrDevengado()
-    {
-        return $this->vrDevengado;
-    }
-
-    /**
-     * @param mixed $vrDevengado
-     */
-    public function setVrDevengado($vrDevengado): void
-    {
-        $this->vrDevengado = $vrDevengado;
     }
 
     /**
@@ -329,33 +329,65 @@ class RhuPagoDetalle
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIngresoBaseCotizacion()
+    public function getVrDeduccion(): int
+    {
+        return $this->vrDeduccion;
+    }
+
+    /**
+     * @param int $vrDeduccion
+     */
+    public function setVrDeduccion(int $vrDeduccion): void
+    {
+        $this->vrDeduccion = $vrDeduccion;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrDevengado(): int
+    {
+        return $this->vrDevengado;
+    }
+
+    /**
+     * @param int $vrDevengado
+     */
+    public function setVrDevengado(int $vrDevengado): void
+    {
+        $this->vrDevengado = $vrDevengado;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrIngresoBaseCotizacion(): int
     {
         return $this->vrIngresoBaseCotizacion;
     }
 
     /**
-     * @param mixed $vrIngresoBaseCotizacion
+     * @param int $vrIngresoBaseCotizacion
      */
-    public function setVrIngresoBaseCotizacion($vrIngresoBaseCotizacion): void
+    public function setVrIngresoBaseCotizacion(int $vrIngresoBaseCotizacion): void
     {
         $this->vrIngresoBaseCotizacion = $vrIngresoBaseCotizacion;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrIngresoBasePrestacion()
+    public function getVrIngresoBasePrestacion(): int
     {
         return $this->vrIngresoBasePrestacion;
     }
 
     /**
-     * @param mixed $vrIngresoBasePrestacion
+     * @param int $vrIngresoBasePrestacion
      */
-    public function setVrIngresoBasePrestacion($vrIngresoBasePrestacion): void
+    public function setVrIngresoBasePrestacion(int $vrIngresoBasePrestacion): void
     {
         $this->vrIngresoBasePrestacion = $vrIngresoBasePrestacion;
     }
@@ -395,22 +427,6 @@ class RhuPagoDetalle
     /**
      * @return mixed
      */
-    public function getCodigoCreditoFk()
-    {
-        return $this->codigoCreditoFk;
-    }
-
-    /**
-     * @param mixed $codigoCreditoFk
-     */
-    public function setCodigoCreditoFk( $codigoCreditoFk ): void
-    {
-        $this->codigoCreditoFk = $codigoCreditoFk;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCreditoRel()
     {
         return $this->creditoRel;
@@ -419,7 +435,7 @@ class RhuPagoDetalle
     /**
      * @param mixed $creditoRel
      */
-    public function setCreditoRel( $creditoRel ): void
+    public function setCreditoRel($creditoRel): void
     {
         $this->creditoRel = $creditoRel;
     }
@@ -435,11 +451,9 @@ class RhuPagoDetalle
     /**
      * @param mixed $creditosPagosPagoDetalleRel
      */
-    public function setCreditosPagosPagoDetalleRel( $creditosPagosPagoDetalleRel ): void
+    public function setCreditosPagosPagoDetalleRel($creditosPagosPagoDetalleRel): void
     {
         $this->creditosPagosPagoDetalleRel = $creditosPagosPagoDetalleRel;
     }
-
-
 
 }

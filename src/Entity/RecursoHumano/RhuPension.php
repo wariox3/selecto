@@ -88,33 +88,49 @@ class RhuPension
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentajeEmpleado()
+    public function getPorcentajeEmpleado(): int
     {
         return $this->porcentajeEmpleado;
     }
 
     /**
-     * @param mixed $porcentajeEmpleado
+     * @param int $porcentajeEmpleado
      */
-    public function setPorcentajeEmpleado($porcentajeEmpleado): void
+    public function setPorcentajeEmpleado(int $porcentajeEmpleado): void
     {
         $this->porcentajeEmpleado = $porcentajeEmpleado;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPorcentajeEmpleador()
+    public function getOrden(): int
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param int $orden
+     */
+    public function setOrden(int $orden): void
+    {
+        $this->orden = $orden;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPorcentajeEmpleador(): int
     {
         return $this->porcentajeEmpleador;
     }
 
     /**
-     * @param mixed $porcentajeEmpleador
+     * @param int $porcentajeEmpleador
      */
-    public function setPorcentajeEmpleador($porcentajeEmpleador): void
+    public function setPorcentajeEmpleador(int $porcentajeEmpleador): void
     {
         $this->porcentajeEmpleador = $porcentajeEmpleador;
     }
@@ -122,17 +138,33 @@ class RhuPension
     /**
      * @return mixed
      */
-    public function getOrden()
+    public function getCodigoConceptoFk()
     {
-        return $this->orden;
+        return $this->codigoConceptoFk;
     }
 
     /**
-     * @param mixed $orden
+     * @param mixed $codigoConceptoFk
      */
-    public function setOrden($orden): void
+    public function setCodigoConceptoFk($codigoConceptoFk): void
     {
-        $this->orden = $orden;
+        $this->codigoConceptoFk = $codigoConceptoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConceptoRel()
+    {
+        return $this->conceptoRel;
+    }
+
+    /**
+     * @param mixed $conceptoRel
+     */
+    public function setConceptoRel($conceptoRel): void
+    {
+        $this->conceptoRel = $conceptoRel;
     }
 
     /**
@@ -150,39 +182,6 @@ class RhuPension
     {
         $this->contratosPensionRel = $contratosPensionRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoConceptoFk()
-    {
-        return $this->codigoConceptoFk;
-    }
-
-    /**
-     * @param mixed $codigoConceptoFk
-     */
-    public function setCodigoConceptoFk( $codigoConceptoFk ): void
-    {
-        $this->codigoConceptoFk = $codigoConceptoFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConceptoRel()
-    {
-        return $this->conceptoRel;
-    }
-
-    /**
-     * @param mixed $conceptoRel
-     */
-    public function setConceptoRel( $conceptoRel ): void
-    {
-        $this->conceptoRel = $conceptoRel;
-    }
-
 
 
 }

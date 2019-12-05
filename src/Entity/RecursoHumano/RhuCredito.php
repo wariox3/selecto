@@ -204,7 +204,7 @@ class RhuCredito
     /**
      * @param mixed $codigoCreditoPk
      */
-    public function setCodigoCreditoPk( $codigoCreditoPk ): void
+    public function setCodigoCreditoPk($codigoCreditoPk): void
     {
         $this->codigoCreditoPk = $codigoCreditoPk;
     }
@@ -220,7 +220,7 @@ class RhuCredito
     /**
      * @param mixed $codigoCreditoTipoFk
      */
-    public function setCodigoCreditoTipoFk( $codigoCreditoTipoFk ): void
+    public function setCodigoCreditoTipoFk($codigoCreditoTipoFk): void
     {
         $this->codigoCreditoTipoFk = $codigoCreditoTipoFk;
     }
@@ -236,7 +236,7 @@ class RhuCredito
     /**
      * @param mixed $codigoCreditoPagoTipoFk
      */
-    public function setCodigoCreditoPagoTipoFk( $codigoCreditoPagoTipoFk ): void
+    public function setCodigoCreditoPagoTipoFk($codigoCreditoPagoTipoFk): void
     {
         $this->codigoCreditoPagoTipoFk = $codigoCreditoPagoTipoFk;
     }
@@ -252,7 +252,7 @@ class RhuCredito
     /**
      * @param mixed $codigoEmpleadoFk
      */
-    public function setCodigoEmpleadoFk( $codigoEmpleadoFk ): void
+    public function setCodigoEmpleadoFk($codigoEmpleadoFk): void
     {
         $this->codigoEmpleadoFk = $codigoEmpleadoFk;
     }
@@ -268,7 +268,7 @@ class RhuCredito
     /**
      * @param mixed $codigoContratoFk
      */
-    public function setCodigoContratoFk( $codigoContratoFk ): void
+    public function setCodigoContratoFk($codigoContratoFk): void
     {
         $this->codigoContratoFk = $codigoContratoFk;
     }
@@ -284,7 +284,7 @@ class RhuCredito
     /**
      * @param mixed $codigoGrupoFk
      */
-    public function setCodigoGrupoFk( $codigoGrupoFk ): void
+    public function setCodigoGrupoFk($codigoGrupoFk): void
     {
         $this->codigoGrupoFk = $codigoGrupoFk;
     }
@@ -300,7 +300,7 @@ class RhuCredito
     /**
      * @param mixed $fecha
      */
-    public function setFecha( $fecha ): void
+    public function setFecha($fecha): void
     {
         $this->fecha = $fecha;
     }
@@ -316,7 +316,7 @@ class RhuCredito
     /**
      * @param mixed $fechaInicio
      */
-    public function setFechaInicio( $fechaInicio ): void
+    public function setFechaInicio($fechaInicio): void
     {
         $this->fechaInicio = $fechaInicio;
     }
@@ -332,7 +332,7 @@ class RhuCredito
     /**
      * @param mixed $fechaFinalizacion
      */
-    public function setFechaFinalizacion( $fechaFinalizacion ): void
+    public function setFechaFinalizacion($fechaFinalizacion): void
     {
         $this->fechaFinalizacion = $fechaFinalizacion;
     }
@@ -348,103 +348,103 @@ class RhuCredito
     /**
      * @param mixed $fechaCredito
      */
-    public function setFechaCredito( $fechaCredito ): void
+    public function setFechaCredito($fechaCredito): void
     {
         $this->fechaCredito = $fechaCredito;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrCredito()
+    public function getVrCredito(): int
     {
         return $this->vrCredito;
     }
 
     /**
-     * @param mixed $vrCredito
+     * @param int $vrCredito
      */
-    public function setVrCredito( $vrCredito ): void
+    public function setVrCredito(int $vrCredito): void
     {
         $this->vrCredito = $vrCredito;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrCuota()
+    public function getVrCuota(): int
     {
         return $this->vrCuota;
     }
 
     /**
-     * @param mixed $vrCuota
+     * @param int $vrCuota
      */
-    public function setVrCuota( $vrCuota ): void
+    public function setVrCuota(int $vrCuota): void
     {
         $this->vrCuota = $vrCuota;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrAbonos()
+    public function getVrAbonos(): int
     {
         return $this->vrAbonos;
     }
 
     /**
-     * @param mixed $vrAbonos
+     * @param int $vrAbonos
      */
-    public function setVrAbonos( $vrAbonos ): void
+    public function setVrAbonos(int $vrAbonos): void
     {
         $this->vrAbonos = $vrAbonos;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrSaldo()
+    public function getVrSaldo(): int
     {
         return $this->vrSaldo;
     }
 
     /**
-     * @param mixed $vrSaldo
+     * @param int $vrSaldo
      */
-    public function setVrSaldo( $vrSaldo ): void
+    public function setVrSaldo(int $vrSaldo): void
     {
         $this->vrSaldo = $vrSaldo;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumeroCuotas()
+    public function getNumeroCuotas(): int
     {
         return $this->numeroCuotas;
     }
 
     /**
-     * @param mixed $numeroCuotas
+     * @param int $numeroCuotas
      */
-    public function setNumeroCuotas( $numeroCuotas ): void
+    public function setNumeroCuotas(int $numeroCuotas): void
     {
         $this->numeroCuotas = $numeroCuotas;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getNumeroCuotaActual()
+    public function getNumeroCuotaActual(): int
     {
         return $this->numeroCuotaActual;
     }
 
     /**
-     * @param mixed $numeroCuotaActual
+     * @param int $numeroCuotaActual
      */
-    public function setNumeroCuotaActual( $numeroCuotaActual ): void
+    public function setNumeroCuotaActual(int $numeroCuotaActual): void
     {
         $this->numeroCuotaActual = $numeroCuotaActual;
     }
@@ -460,7 +460,7 @@ class RhuCredito
     /**
      * @param mixed $numeroLibranza
      */
-    public function setNumeroLibranza( $numeroLibranza ): void
+    public function setNumeroLibranza($numeroLibranza): void
     {
         $this->numeroLibranza = $numeroLibranza;
     }
@@ -476,103 +476,103 @@ class RhuCredito
     /**
      * @param mixed $comentario
      */
-    public function setComentario( $comentario ): void
+    public function setComentario($comentario): void
     {
         $this->comentario = $comentario;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoSuspendido()
+    public function getEstadoSuspendido(): bool
     {
         return $this->estadoSuspendido;
     }
 
     /**
-     * @param mixed $estadoSuspendido
+     * @param bool $estadoSuspendido
      */
-    public function setEstadoSuspendido( $estadoSuspendido ): void
+    public function setEstadoSuspendido(bool $estadoSuspendido): void
     {
         $this->estadoSuspendido = $estadoSuspendido;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getInactivoPeriodo()
+    public function isInactivoPeriodo(): bool
     {
         return $this->inactivoPeriodo;
     }
 
     /**
-     * @param mixed $inactivoPeriodo
+     * @param bool $inactivoPeriodo
      */
-    public function setInactivoPeriodo( $inactivoPeriodo ): void
+    public function setInactivoPeriodo(bool $inactivoPeriodo): void
     {
         $this->inactivoPeriodo = $inactivoPeriodo;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoPagado()
+    public function getEstadoPagado(): bool
     {
         return $this->estadoPagado;
     }
 
     /**
-     * @param mixed $estadoPagado
+     * @param bool $estadoPagado
      */
-    public function setEstadoPagado( $estadoPagado ): void
+    public function setEstadoPagado(bool $estadoPagado): void
     {
         $this->estadoPagado = $estadoPagado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado( $estadoAutorizado ): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function getEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado( $estadoAprobado ): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function getEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado( $estadoAnulado ): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }
@@ -588,55 +588,55 @@ class RhuCredito
     /**
      * @param mixed $usuario
      */
-    public function setUsuario( $usuario ): void
+    public function setUsuario($usuario): void
     {
         $this->usuario = $usuario;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getValidarCuotas()
+    public function isValidarCuotas(): bool
     {
         return $this->validarCuotas;
     }
 
     /**
-     * @param mixed $validarCuotas
+     * @param bool $validarCuotas
      */
-    public function setValidarCuotas( $validarCuotas ): void
+    public function setValidarCuotas(bool $validarCuotas): void
     {
         $this->validarCuotas = $validarCuotas;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAplicarCuotaPrima()
+    public function isAplicarCuotaPrima(): bool
     {
         return $this->aplicarCuotaPrima;
     }
 
     /**
-     * @param mixed $aplicarCuotaPrima
+     * @param bool $aplicarCuotaPrima
      */
-    public function setAplicarCuotaPrima( $aplicarCuotaPrima ): void
+    public function setAplicarCuotaPrima(bool $aplicarCuotaPrima): void
     {
         $this->aplicarCuotaPrima = $aplicarCuotaPrima;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAplicarCuotaCesantia()
+    public function isAplicarCuotaCesantia(): bool
     {
         return $this->aplicarCuotaCesantia;
     }
 
     /**
-     * @param mixed $aplicarCuotaCesantia
+     * @param bool $aplicarCuotaCesantia
      */
-    public function setAplicarCuotaCesantia( $aplicarCuotaCesantia ): void
+    public function setAplicarCuotaCesantia(bool $aplicarCuotaCesantia): void
     {
         $this->aplicarCuotaCesantia = $aplicarCuotaCesantia;
     }
@@ -652,7 +652,7 @@ class RhuCredito
     /**
      * @param mixed $creditoTipoRel
      */
-    public function setCreditoTipoRel( $creditoTipoRel ): void
+    public function setCreditoTipoRel($creditoTipoRel): void
     {
         $this->creditoTipoRel = $creditoTipoRel;
     }
@@ -668,7 +668,7 @@ class RhuCredito
     /**
      * @param mixed $empleadoRel
      */
-    public function setEmpleadoRel( $empleadoRel ): void
+    public function setEmpleadoRel($empleadoRel): void
     {
         $this->empleadoRel = $empleadoRel;
     }
@@ -684,7 +684,7 @@ class RhuCredito
     /**
      * @param mixed $contratoRel
      */
-    public function setContratoRel( $contratoRel ): void
+    public function setContratoRel($contratoRel): void
     {
         $this->contratoRel = $contratoRel;
     }
@@ -700,7 +700,7 @@ class RhuCredito
     /**
      * @param mixed $grupoRel
      */
-    public function setGrupoRel( $grupoRel ): void
+    public function setGrupoRel($grupoRel): void
     {
         $this->grupoRel = $grupoRel;
     }
@@ -716,25 +716,9 @@ class RhuCredito
     /**
      * @param mixed $creditoPagoTipoRel
      */
-    public function setCreditoPagoTipoRel( $creditoPagoTipoRel ): void
+    public function setCreditoPagoTipoRel($creditoPagoTipoRel): void
     {
         $this->creditoPagoTipoRel = $creditoPagoTipoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPagosDetallesCreditoRel()
-    {
-        return $this->pagosDetallesCreditoRel;
-    }
-
-    /**
-     * @param mixed $pagosDetallesCreditoRel
-     */
-    public function setPagosDetallesCreditoRel( $pagosDetallesCreditoRel ): void
-    {
-        $this->pagosDetallesCreditoRel = $pagosDetallesCreditoRel;
     }
 
     /**
@@ -748,11 +732,25 @@ class RhuCredito
     /**
      * @param mixed $creditosPagosCreditoRel
      */
-    public function setCreditosPagosCreditoRel( $creditosPagosCreditoRel ): void
+    public function setCreditosPagosCreditoRel($creditosPagosCreditoRel): void
     {
         $this->creditosPagosCreditoRel = $creditosPagosCreditoRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPagosDetallesCreditoRel()
+    {
+        return $this->pagosDetallesCreditoRel;
+    }
 
+    /**
+     * @param mixed $pagosDetallesCreditoRel
+     */
+    public function setPagosDetallesCreditoRel($pagosDetallesCreditoRel): void
+    {
+        $this->pagosDetallesCreditoRel = $pagosDetallesCreditoRel;
+    }
 
 }

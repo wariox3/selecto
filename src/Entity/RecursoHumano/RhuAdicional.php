@@ -219,97 +219,97 @@ class RhuAdicional
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getVrValor()
+    public function getVrValor(): int
     {
         return $this->vrValor;
     }
 
     /**
-     * @param mixed $vrValor
+     * @param int $vrValor
      */
-    public function setVrValor($vrValor): void
+    public function setVrValor(int $vrValor): void
     {
         $this->vrValor = $vrValor;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getPermanente()
+    public function isPermanente(): bool
     {
         return $this->permanente;
     }
 
     /**
-     * @param mixed $permanente
+     * @param bool $permanente
      */
-    public function setPermanente($permanente): void
+    public function setPermanente(bool $permanente): void
     {
         $this->permanente = $permanente;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAplicaDiaLaborado()
+    public function isAplicaDiaLaborado(): bool
     {
         return $this->aplicaDiaLaborado;
     }
 
     /**
-     * @param mixed $aplicaDiaLaborado
+     * @param bool $aplicaDiaLaborado
      */
-    public function setAplicaDiaLaborado($aplicaDiaLaborado): void
+    public function setAplicaDiaLaborado(bool $aplicaDiaLaborado): void
     {
         $this->aplicaDiaLaborado = $aplicaDiaLaborado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAplicaNomina()
+    public function isAplicaNomina(): bool
     {
         return $this->aplicaNomina;
     }
 
     /**
-     * @param mixed $aplicaNomina
+     * @param bool $aplicaNomina
      */
-    public function setAplicaNomina($aplicaNomina): void
+    public function setAplicaNomina(bool $aplicaNomina): void
     {
         $this->aplicaNomina = $aplicaNomina;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAplicaPrima()
+    public function isAplicaPrima(): bool
     {
         return $this->aplicaPrima;
     }
 
     /**
-     * @param mixed $aplicaPrima
+     * @param bool $aplicaPrima
      */
-    public function setAplicaPrima($aplicaPrima): void
+    public function setAplicaPrima(bool $aplicaPrima): void
     {
         $this->aplicaPrima = $aplicaPrima;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getAplicaCesantia()
+    public function isAplicaCesantia(): bool
     {
         return $this->aplicaCesantia;
     }
 
     /**
-     * @param mixed $aplicaCesantia
+     * @param bool $aplicaCesantia
      */
-    public function setAplicaCesantia($aplicaCesantia): void
+    public function setAplicaCesantia(bool $aplicaCesantia): void
     {
         $this->aplicaCesantia = $aplicaCesantia;
     }
@@ -331,81 +331,81 @@ class RhuAdicional
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoInactivo()
+    public function isEstadoInactivo(): bool
     {
         return $this->estadoInactivo;
     }
 
     /**
-     * @param mixed $estadoInactivo
+     * @param bool $estadoInactivo
      */
-    public function setEstadoInactivo($estadoInactivo): void
+    public function setEstadoInactivo(bool $estadoInactivo): void
     {
         $this->estadoInactivo = $estadoInactivo;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoInactivoPeriodo()
+    public function isEstadoInactivoPeriodo(): bool
     {
         return $this->estadoInactivoPeriodo;
     }
 
     /**
-     * @param mixed $estadoInactivoPeriodo
+     * @param bool $estadoInactivoPeriodo
      */
-    public function setEstadoInactivoPeriodo($estadoInactivoPeriodo): void
+    public function setEstadoInactivoPeriodo(bool $estadoInactivoPeriodo): void
     {
         $this->estadoInactivoPeriodo = $estadoInactivoPeriodo;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAutorizado()
+    public function isEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
+    public function isEstadoAprobado(): bool
     {
         return $this->estadoAprobado;
     }
 
     /**
-     * @param mixed $estadoAprobado
+     * @param bool $estadoAprobado
      */
-    public function setEstadoAprobado($estadoAprobado): void
+    public function setEstadoAprobado(bool $estadoAprobado): void
     {
         $this->estadoAprobado = $estadoAprobado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAnulado()
+    public function isEstadoAnulado(): bool
     {
         return $this->estadoAnulado;
     }
 
     /**
-     * @param mixed $estadoAnulado
+     * @param bool $estadoAnulado
      */
-    public function setEstadoAnulado($estadoAnulado): void
+    public function setEstadoAnulado(bool $estadoAnulado): void
     {
         $this->estadoAnulado = $estadoAnulado;
     }
@@ -457,7 +457,5 @@ class RhuAdicional
     {
         $this->contratoRel = $contratoRel;
     }
-
-
 
 }

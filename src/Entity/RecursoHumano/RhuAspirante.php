@@ -644,17 +644,17 @@ class RhuAspirante
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getReintegro()
+    public function getReintegro(): bool
     {
         return $this->reintegro;
     }
 
     /**
-     * @param mixed $reintegro
+     * @param bool $reintegro
      */
-    public function setReintegro($reintegro): void
+    public function setReintegro(bool $reintegro): void
     {
         $this->reintegro = $reintegro;
     }
@@ -676,65 +676,65 @@ class RhuAspirante
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoAprobado()
-    {
-        return $this->estadoAprobado;
-    }
-
-    /**
-     * @param mixed $estadoAprobado
-     */
-    public function setEstadoAprobado($estadoAprobado): void
-    {
-        $this->estadoAprobado = $estadoAprobado;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstadoCerrado()
-    {
-        return $this->estadoCerrado;
-    }
-
-    /**
-     * @param mixed $estadoCerrado
-     */
-    public function setEstadoCerrado($estadoCerrado): void
-    {
-        $this->estadoCerrado = $estadoCerrado;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstadoAutorizado()
+    public function getEstadoAutorizado(): bool
     {
         return $this->estadoAutorizado;
     }
 
     /**
-     * @param mixed $estadoAutorizado
+     * @param bool $estadoAutorizado
      */
-    public function setEstadoAutorizado($estadoAutorizado): void
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
     {
         $this->estadoAutorizado = $estadoAutorizado;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getEstadoBloqueado()
+    public function getEstadoAprobado(): bool
+    {
+        return $this->estadoAprobado;
+    }
+
+    /**
+     * @param bool $estadoAprobado
+     */
+    public function setEstadoAprobado(bool $estadoAprobado): void
+    {
+        $this->estadoAprobado = $estadoAprobado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEstadoCerrado(): bool
+    {
+        return $this->estadoCerrado;
+    }
+
+    /**
+     * @param bool $estadoCerrado
+     */
+    public function setEstadoCerrado(bool $estadoCerrado): void
+    {
+        $this->estadoCerrado = $estadoCerrado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEstadoBloqueado(): bool
     {
         return $this->estadoBloqueado;
     }
 
     /**
-     * @param mixed $estadoBloqueado
+     * @param bool $estadoBloqueado
      */
-    public function setEstadoBloqueado($estadoBloqueado): void
+    public function setEstadoBloqueado(bool $estadoBloqueado): void
     {
         $this->estadoBloqueado = $estadoBloqueado;
     }
@@ -866,4 +866,6 @@ class RhuAspirante
     {
         $this->cargoRel = $cargoRel;
     }
+
+
 }

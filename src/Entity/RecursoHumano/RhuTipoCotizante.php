@@ -72,4 +72,5 @@ class RhuTipoCotizante
     {
         $this->contratosTipoCotizanteRel = $contratosTipoCotizanteRel;
     }
+
 }

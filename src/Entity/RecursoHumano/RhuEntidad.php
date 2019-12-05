@@ -143,113 +143,81 @@ class RhuEntidad
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getDireccion()
-    {
-        return $this->direccion;
-    }
-
-    /**
-     * @param mixed $direccion
-     */
-    public function setDireccion($direccion): void
-    {
-        $this->direccion = $direccion;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
-
-    /**
-     * @param mixed $telefono
-     */
-    public function setTelefono($telefono): void
-    {
-        $this->telefono = $telefono;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEps()
+    public function isEps(): bool
     {
         return $this->eps;
     }
 
     /**
-     * @param mixed $eps
+     * @param bool $eps
      */
-    public function setEps($eps): void
+    public function setEps(bool $eps): void
     {
         $this->eps = $eps;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getArl()
+    public function isArl(): bool
     {
         return $this->arl;
     }
 
     /**
-     * @param mixed $arl
+     * @param bool $arl
      */
-    public function setArl($arl): void
+    public function setArl(bool $arl): void
     {
         $this->arl = $arl;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getCcf()
+    public function isCcf(): bool
     {
         return $this->ccf;
     }
 
     /**
-     * @param mixed $ccf
+     * @param bool $ccf
      */
-    public function setCcf($ccf): void
+    public function setCcf(bool $ccf): void
     {
         $this->ccf = $ccf;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getCes()
+    public function isCes(): bool
     {
         return $this->ces;
     }
 
     /**
-     * @param mixed $ces
+     * @param bool $ces
      */
-    public function setCes($ces): void
+    public function setCes(bool $ces): void
     {
         $this->ces = $ces;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getPen()
+    public function isPen(): bool
     {
         return $this->pen;
     }
 
     /**
-     * @param mixed $pen
+     * @param bool $pen
      */
-    public function setPen($pen): void
+    public function setPen(bool $pen): void
     {
         $this->pen = $pen;
     }
@@ -381,4 +349,5 @@ class RhuEntidad
     {
         $this->pagosEntidadPensionRel = $pagosEntidadPensionRel;
     }
+
 }
