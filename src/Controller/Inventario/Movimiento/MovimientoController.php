@@ -18,6 +18,7 @@ use App\Formatos\Factura;
 use App\Formatos\Factura1;
 use App\Formatos\Factura2;
 use App\Formatos\Salida;
+use App\Repository\General\EmpresaRepository;
 use App\Utilidades\Mensajes;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -179,7 +180,7 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_detalle', ['id' => $id]));
             }
             if ($form->get('btnImprimir')->isClicked()) {
-                $arrConfiguracionImpresion = $em->getRepository(GenConfiguracion::class)->formato($this->getUser()->getCodigoEmpresaFk());
+                $arrConfiguracionImpresion = $em->getRepository(Empresa::class)->formato($this->getUser()->getCodigoEmpresaFk());
                 if ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'SAL') {
                     $objFormato = new Salida();
                     $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
@@ -248,7 +249,7 @@ class MovimientoController extends Controller
                 foreach ($arrItems as $codigoItem => $cantidad) {
                     $arItem = $em->getRepository(InvItem::class)->find($codigoItem);
                     if ($cantidad != '' && $cantidad != 0) {
-                        if ($arItem->getAfectaInventario() == true) {
+                        if ($arItem->isAfectaInventario() == true) {
                             if (($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "ENT") || ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == "COM") || ($cantidad <= $arItem->getCantidadExistencia())) {
                             } else {
                                 $respuesta = "La cantidad seleccionada para el item: " . $arItem->getDescripcion() . " no puede ser mayor a las existencias del mismo.";

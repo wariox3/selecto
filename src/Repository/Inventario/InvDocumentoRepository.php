@@ -3,6 +3,7 @@
 namespace App\Repository\Inventario;
 
 use App\Entity\Inventario\InvDocumento;
+use App\Entity\Inventario\InvDocumentoEmpresa;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -23,14 +24,14 @@ class InvDocumentoRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         $consecutivo = 1;
-        $arDocumentoEmpresa = $em->getRepository(GenDocumentoEmpresa::class)->findOneBy(['codigoDocumentoFk' => $codigoDocumento, 'codigoEmpresaFk' => $codigoEmpresa]);
+        $arDocumentoEmpresa = $em->getRepository(InvDocumentoEmpresa::class)->findOneBy(['codigoDocumentoFk' => $codigoDocumento, 'codigoEmpresaFk' => $codigoEmpresa]);
         if($arDocumentoEmpresa) {
             $consecutivo = $arDocumentoEmpresa->getConsecutivo();
             $arDocumentoEmpresa->setConsecutivo($arDocumentoEmpresa->getConsecutivo() + 1);
             $em->persist($arDocumentoEmpresa);
         } else {
-            $arDocumento = $em->getRepository(GenDocumento::class)->find($codigoDocumento);
-            $arDocumentoEmpresa = new GenDocumentoEmpresa();
+            $arDocumento = $em->getRepository(InvDocumento::class)->find($codigoDocumento);
+            $arDocumentoEmpresa = new InvDocumentoEmpresa();
             $arDocumentoEmpresa->setDocumentoRel($arDocumento);
             $arDocumentoEmpresa->setCodigoEmpresaFk($codigoEmpresa);
             $arDocumentoEmpresa->setConsecutivo(2);
