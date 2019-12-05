@@ -4,6 +4,7 @@ namespace App\Repository\RecursoHumano;
 
 use App\Entity\Empresa;
 use App\Entity\General\GenDocumento;
+use App\Entity\Inventario\InvDocumento;
 use App\Entity\RecursoHumano\RhuConcepto;
 use App\Entity\RecursoHumano\RhuConceptoHora;
 use App\Entity\RecursoHumano\RhuConfiguracion;
@@ -201,7 +202,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
             $em->persist($arProgramacion);
             $arPagos = $em->getRepository(RhuPago::class)->findBy(array('codigoProgramacionFk' => $arProgramacion->getCodigoProgramacionPk()));
             foreach ($arPagos as $arPago) {
-                $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arPago->getCodigoDocumentoFk(), $arPago->getCodigoEmpresaFk());
+                $consecutivo = $em->getRepository(InvDocumento::class)->generarConsecutivo($arPago->getCodigoDocumentoFk(), $arPago->getCodigoEmpresaFk());
                 $arPago->setNumero($consecutivo);
                 $arPago->setEstadoAutorizado(1);
                 $arPago->setEstadoAprobado(1);

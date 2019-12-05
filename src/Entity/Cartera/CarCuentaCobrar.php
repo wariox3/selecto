@@ -129,6 +129,374 @@ class CarCuentaCobrar
      */
     protected $terceroRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaCobrarPk()
+    {
+        return $this->codigoCuentaCobrarPk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaCobrarPk
+     */
+    public function setCodigoCuentaCobrarPk($codigoCuentaCobrarPk): void
+    {
+        $this->codigoCuentaCobrarPk = $codigoCuentaCobrarPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaCobrarTipoFk()
+    {
+        return $this->codigoCuentaCobrarTipoFk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaCobrarTipoFk
+     */
+    public function setCodigoCuentaCobrarTipoFk($codigoCuentaCobrarTipoFk): void
+    {
+        $this->codigoCuentaCobrarTipoFk = $codigoCuentaCobrarTipoFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumeroDocumento(): int
+    {
+        return $this->numeroDocumento;
+    }
+
+    /**
+     * @param int $numeroDocumento
+     */
+    public function setNumeroDocumento(int $numeroDocumento): void
+    {
+        $this->numeroDocumento = $numeroDocumento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaVence()
+    {
+        return $this->fechaVence;
+    }
+
+    /**
+     * @param mixed $fechaVence
+     */
+    public function setFechaVence($fechaVence): void
+    {
+        $this->fechaVence = $fechaVence;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOperacion(): int
+    {
+        return $this->operacion;
+    }
+
+    /**
+     * @param int $operacion
+     */
+    public function setOperacion(int $operacion): void
+    {
+        $this->operacion = $operacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTerceroFk()
+    {
+        return $this->codigoTerceroFk;
+    }
+
+    /**
+     * @param mixed $codigoTerceroFk
+     */
+    public function setCodigoTerceroFk($codigoTerceroFk): void
+    {
+        $this->codigoTerceroFk = $codigoTerceroFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlazo(): int
+    {
+        return $this->plazo;
+    }
+
+    /**
+     * @param int $plazo
+     */
+    public function setPlazo(int $plazo): void
+    {
+        $this->plazo = $plazo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSubtotal()
+    {
+        return $this->vrSubtotal;
+    }
+
+    /**
+     * @param mixed $vrSubtotal
+     */
+    public function setVrSubtotal($vrSubtotal): void
+    {
+        $this->vrSubtotal = $vrSubtotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotalBruto()
+    {
+        return $this->vrTotalBruto;
+    }
+
+    /**
+     * @param mixed $vrTotalBruto
+     */
+    public function setVrTotalBruto($vrTotalBruto): void
+    {
+        $this->vrTotalBruto = $vrTotalBruto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrAbono()
+    {
+        return $this->vrAbono;
+    }
+
+    /**
+     * @param mixed $vrAbono
+     */
+    public function setVrAbono($vrAbono): void
+    {
+        $this->vrAbono = $vrAbono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSaldoOriginal()
+    {
+        return $this->vrSaldoOriginal;
+    }
+
+    /**
+     * @param mixed $vrSaldoOriginal
+     */
+    public function setVrSaldoOriginal($vrSaldoOriginal): void
+    {
+        $this->vrSaldoOriginal = $vrSaldoOriginal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSaldo()
+    {
+        return $this->vrSaldo;
+    }
+
+    /**
+     * @param mixed $vrSaldo
+     */
+    public function setVrSaldo($vrSaldo): void
+    {
+        $this->vrSaldo = $vrSaldo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
+    }
+
+    /**
+     * @param mixed $vrIva
+     */
+    public function setVrIva($vrIva): void
+    {
+        $this->vrIva = $vrIva;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrRetencionFuente(): int
+    {
+        return $this->vrRetencionFuente;
+    }
+
+    /**
+     * @param int $vrRetencionFuente
+     */
+    public function setVrRetencionFuente(int $vrRetencionFuente): void
+    {
+        $this->vrRetencionFuente = $vrRetencionFuente;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrRetencionIva(): int
+    {
+        return $this->vrRetencionIva;
+    }
+
+    /**
+     * @param int $vrRetencionIva
+     */
+    public function setVrRetencionIva(int $vrRetencionIva): void
+    {
+        $this->vrRetencionIva = $vrRetencionIva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrSaldoOperado(): int
+    {
+        return $this->vrSaldoOperado;
+    }
+
+    /**
+     * @param int $vrSaldoOperado
+     */
+    public function setVrSaldoOperado(int $vrSaldoOperado): void
+    {
+        $this->vrSaldoOperado = $vrSaldoOperado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAutorizado(): bool
+    {
+        return $this->estadoAutorizado;
+    }
+
+    /**
+     * @param bool $estadoAutorizado
+     */
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
+    {
+        $this->estadoAutorizado = $estadoAutorizado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAprobado(): bool
+    {
+        return $this->estadoAprobado;
+    }
+
+    /**
+     * @param bool $estadoAprobado
+     */
+    public function setEstadoAprobado(bool $estadoAprobado): void
+    {
+        $this->estadoAprobado = $estadoAprobado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAnulado(): bool
+    {
+        return $this->estadoAnulado;
+    }
+
+    /**
+     * @param bool $estadoAnulado
+     */
+    public function setEstadoAnulado(bool $estadoAnulado): void
+    {
+        $this->estadoAnulado = $estadoAnulado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobrarTipoRel()
+    {
+        return $this->cuentaCobrarTipoRel;
+    }
+
+    /**
+     * @param mixed $cuentaCobrarTipoRel
+     */
+    public function setCuentaCobrarTipoRel($cuentaCobrarTipoRel): void
+    {
+        $this->cuentaCobrarTipoRel = $cuentaCobrarTipoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTerceroRel()
+    {
+        return $this->terceroRel;
+    }
+
+    /**
+     * @param mixed $terceroRel
+     */
+    public function setTerceroRel($terceroRel): void
+    {
+        $this->terceroRel = $terceroRel;
+    }
+
 
 
 }

@@ -30,5 +30,70 @@ class GenFormaPago
      */
     private $movimientosFormaPagoRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoFormaPagoPk()
+    {
+        return $this->codigoFormaPagoPk;
+    }
+
+    /**
+     * @param mixed $codigoFormaPagoPk
+     */
+    public function setCodigoFormaPagoPk($codigoFormaPagoPk): void
+    {
+        $this->codigoFormaPagoPk = $codigoFormaPagoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTercerosFormaPagoRel()
+    {
+        return $this->tercerosFormaPagoRel;
+    }
+
+    /**
+     * @param mixed $tercerosFormaPagoRel
+     */
+    public function setTercerosFormaPagoRel($tercerosFormaPagoRel): void
+    {
+        $this->tercerosFormaPagoRel = $tercerosFormaPagoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosFormaPagoRel()
+    {
+        return $this->movimientosFormaPagoRel;
+    }
+
+    /**
+     * @param mixed $movimientosFormaPagoRel
+     */
+    public function setMovimientosFormaPagoRel($movimientosFormaPagoRel): void
+    {
+        $this->movimientosFormaPagoRel = $movimientosFormaPagoRel;
+    }
+
+
 
 }

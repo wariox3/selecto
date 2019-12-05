@@ -46,5 +46,139 @@ class InvDocumento
      */
     protected $movimientosDocumentoRel;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvDocumentoEmpresa", mappedBy="documentoRel")
+     */
+    protected $documentosEmpresasDocumentoRel;
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDocumentoPk()
+    {
+        return $this->codigoDocumentoPk;
+    }
+
+    /**
+     * @param mixed $codigoDocumentoPk
+     */
+    public function setCodigoDocumentoPk($codigoDocumentoPk): void
+    {
+        $this->codigoDocumentoPk = $codigoDocumentoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAbreviatura()
+    {
+        return $this->abreviatura;
+    }
+
+    /**
+     * @param mixed $abreviatura
+     */
+    public function setAbreviatura($abreviatura): void
+    {
+        $this->abreviatura = $abreviatura;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGeneraCartera(): bool
+    {
+        return $this->generaCartera;
+    }
+
+    /**
+     * @param bool $generaCartera
+     */
+    public function setGeneraCartera(bool $generaCartera): void
+    {
+        $this->generaCartera = $generaCartera;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGeneraTesoreria(): bool
+    {
+        return $this->generaTesoreria;
+    }
+
+    /**
+     * @param bool $generaTesoreria
+     */
+    public function setGeneraTesoreria(bool $generaTesoreria): void
+    {
+        $this->generaTesoreria = $generaTesoreria;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOperacionInventario(): int
+    {
+        return $this->operacionInventario;
+    }
+
+    /**
+     * @param int $operacionInventario
+     */
+    public function setOperacionInventario(int $operacionInventario): void
+    {
+        $this->operacionInventario = $operacionInventario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDocumentoRel()
+    {
+        return $this->movimientosDocumentoRel;
+    }
+
+    /**
+     * @param mixed $movimientosDocumentoRel
+     */
+    public function setMovimientosDocumentoRel($movimientosDocumentoRel): void
+    {
+        $this->movimientosDocumentoRel = $movimientosDocumentoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDocumentosEmpresasDocumentoRel()
+    {
+        return $this->documentosEmpresasDocumentoRel;
+    }
+
+    /**
+     * @param mixed $documentosEmpresasDocumentoRel
+     */
+    public function setDocumentosEmpresasDocumentoRel($documentosEmpresasDocumentoRel): void
+    {
+        $this->documentosEmpresasDocumentoRel = $documentosEmpresasDocumentoRel;
+    }
+
+
 
 }

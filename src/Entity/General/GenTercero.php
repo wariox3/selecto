@@ -148,5 +148,438 @@ class GenTercero
      */
     private $cuentaCobroRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoTerceroPk()
+    {
+        return $this->codigoTerceroPk;
+    }
+
+    /**
+     * @param mixed $codigoTerceroPk
+     */
+    public function setCodigoTerceroPk($codigoTerceroPk): void
+    {
+        $this->codigoTerceroPk = $codigoTerceroPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumeroIdentificacion()
+    {
+        return $this->numeroIdentificacion;
+    }
+
+    /**
+     * @param mixed $numeroIdentificacion
+     */
+    public function setNumeroIdentificacion($numeroIdentificacion): void
+    {
+        $this->numeroIdentificacion = $numeroIdentificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoIdentificacionFk()
+    {
+        return $this->codigoIdentificacionFk;
+    }
+
+    /**
+     * @param mixed $codigoIdentificacionFk
+     */
+    public function setCodigoIdentificacionFk($codigoIdentificacionFk): void
+    {
+        $this->codigoIdentificacionFk = $codigoIdentificacionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCiudadFk()
+    {
+        return $this->codigoCiudadFk;
+    }
+
+    /**
+     * @param mixed $codigoCiudadFk
+     */
+    public function setCodigoCiudadFk($codigoCiudadFk): void
+    {
+        $this->codigoCiudadFk = $codigoCiudadFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoFormaPagoFk()
+    {
+        return $this->codigoFormaPagoFk;
+    }
+
+    /**
+     * @param mixed $codigoFormaPagoFk
+     */
+    public function setCodigoFormaPagoFk($codigoFormaPagoFk): void
+    {
+        $this->codigoFormaPagoFk = $codigoFormaPagoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreCorto()
+    {
+        return $this->nombreCorto;
+    }
+
+    /**
+     * @param mixed $nombreCorto
+     */
+    public function setNombreCorto($nombreCorto): void
+    {
+        $this->nombreCorto = $nombreCorto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrimerNombre()
+    {
+        return $this->primerNombre;
+    }
+
+    /**
+     * @param mixed $primerNombre
+     */
+    public function setPrimerNombre($primerNombre): void
+    {
+        $this->primerNombre = $primerNombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSegundoNombre()
+    {
+        return $this->segundoNombre;
+    }
+
+    /**
+     * @param mixed $segundoNombre
+     */
+    public function setSegundoNombre($segundoNombre): void
+    {
+        $this->segundoNombre = $segundoNombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrimerApellido()
+    {
+        return $this->primerApellido;
+    }
+
+    /**
+     * @param mixed $primerApellido
+     */
+    public function setPrimerApellido($primerApellido): void
+    {
+        $this->primerApellido = $primerApellido;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSegundoApellido()
+    {
+        return $this->segundoApellido;
+    }
+
+    /**
+     * @param mixed $segundoApellido
+     */
+    public function setSegundoApellido($segundoApellido): void
+    {
+        $this->segundoApellido = $segundoApellido;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * @param mixed $direccion
+     */
+    public function setDireccion($direccion): void
+    {
+        $this->direccion = $direccion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * @param mixed $telefono
+     */
+    public function setTelefono($telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCelular()
+    {
+        return $this->celular;
+    }
+
+    /**
+     * @param mixed $celular
+     */
+    public function setCelular($celular): void
+    {
+        $this->celular = $celular;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDigitoVerificacion()
+    {
+        return $this->digitoVerificacion;
+    }
+
+    /**
+     * @param mixed $digitoVerificacion
+     */
+    public function setDigitoVerificacion($digitoVerificacion): void
+    {
+        $this->digitoVerificacion = $digitoVerificacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlazoPago(): int
+    {
+        return $this->plazoPago;
+    }
+
+    /**
+     * @param int $plazoPago
+     */
+    public function setPlazoPago(int $plazoPago): void
+    {
+        $this->plazoPago = $plazoPago;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCliente(): bool
+    {
+        return $this->cliente;
+    }
+
+    /**
+     * @param bool $cliente
+     */
+    public function setCliente(bool $cliente): void
+    {
+        $this->cliente = $cliente;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProveedor(): bool
+    {
+        return $this->proveedor;
+    }
+
+    /**
+     * @param bool $proveedor
+     */
+    public function setProveedor(bool $proveedor): void
+    {
+        $this->proveedor = $proveedor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRetencionIva(): bool
+    {
+        return $this->retencionIva;
+    }
+
+    /**
+     * @param bool $retencionIva
+     */
+    public function setRetencionIva(bool $retencionIva): void
+    {
+        $this->retencionIva = $retencionIva;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRetencionFuente(): bool
+    {
+        return $this->retencionFuente;
+    }
+
+    /**
+     * @param bool $retencionFuente
+     */
+    public function setRetencionFuente(bool $retencionFuente): void
+    {
+        $this->retencionFuente = $retencionFuente;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRetencionFuenteSinBase(): bool
+    {
+        return $this->retencionFuenteSinBase;
+    }
+
+    /**
+     * @param bool $retencionFuenteSinBase
+     */
+    public function setRetencionFuenteSinBase(bool $retencionFuenteSinBase): void
+    {
+        $this->retencionFuenteSinBase = $retencionFuenteSinBase;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadRel()
+    {
+        return $this->ciudadRel;
+    }
+
+    /**
+     * @param mixed $ciudadRel
+     */
+    public function setCiudadRel($ciudadRel): void
+    {
+        $this->ciudadRel = $ciudadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormaPagoRel()
+    {
+        return $this->formaPagoRel;
+    }
+
+    /**
+     * @param mixed $formaPagoRel
+     */
+    public function setFormaPagoRel($formaPagoRel): void
+    {
+        $this->formaPagoRel = $formaPagoRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosTerceroRel()
+    {
+        return $this->movimientosTerceroRel;
+    }
+
+    /**
+     * @param mixed $movimientosTerceroRel
+     */
+    public function setMovimientosTerceroRel($movimientosTerceroRel): void
+    {
+        $this->movimientosTerceroRel = $movimientosTerceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosTerceroRel()
+    {
+        return $this->contratosTerceroRel;
+    }
+
+    /**
+     * @param mixed $contratosTerceroRel
+     */
+    public function setContratosTerceroRel($contratosTerceroRel): void
+    {
+        $this->contratosTerceroRel = $contratosTerceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobroRel()
+    {
+        return $this->cuentaCobroRel;
+    }
+
+    /**
+     * @param mixed $cuentaCobroRel
+     */
+    public function setCuentaCobroRel($cuentaCobroRel): void
+    {
+        $this->cuentaCobroRel = $cuentaCobroRel;
+    }
+
+
 
 }

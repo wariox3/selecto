@@ -41,6 +41,102 @@ class CarCuentaCobrarTipo
      */
     protected $cuentaCobrarRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaCobrarTipoPk()
+    {
+        return $this->codigoCuentaCobrarTipoPk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaCobrarTipoPk
+     */
+    public function setCodigoCuentaCobrarTipoPk($codigoCuentaCobrarTipoPk): void
+    {
+        $this->codigoCuentaCobrarTipoPk = $codigoCuentaCobrarTipoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOperacion(): int
+    {
+        return $this->operacion;
+    }
+
+    /**
+     * @param int $operacion
+     */
+    public function setOperacion(int $operacion): void
+    {
+        $this->operacion = $operacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSaldoInicial()
+    {
+        return $this->saldoInicial;
+    }
+
+    /**
+     * @param mixed $saldoInicial
+     */
+    public function setSaldoInicial($saldoInicial): void
+    {
+        $this->saldoInicial = $saldoInicial;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrefijo()
+    {
+        return $this->prefijo;
+    }
+
+    /**
+     * @param mixed $prefijo
+     */
+    public function setPrefijo($prefijo): void
+    {
+        $this->prefijo = $prefijo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuentaCobrarRel()
+    {
+        return $this->cuentaCobrarRel;
+    }
+
+    /**
+     * @param mixed $cuentaCobrarRel
+     */
+    public function setCuentaCobrarRel($cuentaCobrarRel): void
+    {
+        $this->cuentaCobrarRel = $cuentaCobrarRel;
+    }
+
 
 
 

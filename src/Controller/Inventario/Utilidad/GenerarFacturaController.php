@@ -3,7 +3,6 @@
 namespace App\Controller\Inventario\Utilidad;
 
 use App\Entity\Inventario\InvContrato;
-use App\Entity\General\GenDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;

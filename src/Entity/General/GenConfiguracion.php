@@ -35,5 +35,86 @@ class GenConfiguracion
      */
     private $generaInteresMora = false;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoConfiguracionPk()
+    {
+        return $this->codigoConfiguracionPk;
+    }
+
+    /**
+     * @param mixed $codigoConfiguracionPk
+     */
+    public function setCodigoConfiguracionPk($codigoConfiguracionPk): void
+    {
+        $this->codigoConfiguracionPk = $codigoConfiguracionPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormatoFactura()
+    {
+        return $this->formatoFactura;
+    }
+
+    /**
+     * @param mixed $formatoFactura
+     */
+    public function setFormatoFactura($formatoFactura): void
+    {
+        $this->formatoFactura = $formatoFactura;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPorcentajeInteresMora(): int
+    {
+        return $this->porcentajeInteresMora;
+    }
+
+    /**
+     * @param int $porcentajeInteresMora
+     */
+    public function setPorcentajeInteresMora(int $porcentajeInteresMora): void
+    {
+        $this->porcentajeInteresMora = $porcentajeInteresMora;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoItemInteresMora()
+    {
+        return $this->codigoItemInteresMora;
+    }
+
+    /**
+     * @param mixed $codigoItemInteresMora
+     */
+    public function setCodigoItemInteresMora($codigoItemInteresMora): void
+    {
+        $this->codigoItemInteresMora = $codigoItemInteresMora;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGeneraInteresMora(): bool
+    {
+        return $this->generaInteresMora;
+    }
+
+    /**
+     * @param bool $generaInteresMora
+     */
+    public function setGeneraInteresMora(bool $generaInteresMora): void
+    {
+        $this->generaInteresMora = $generaInteresMora;
+    }
+
+
 
 }

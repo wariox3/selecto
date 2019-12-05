@@ -26,5 +26,54 @@ class GenIdentificacion
      */
     protected $EmpleadosIdentificacionRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoIdentificacionPk()
+    {
+        return $this->codigoIdentificacionPk;
+    }
+
+    /**
+     * @param mixed $codigoIdentificacionPk
+     */
+    public function setCodigoIdentificacionPk($codigoIdentificacionPk): void
+    {
+        $this->codigoIdentificacionPk = $codigoIdentificacionPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpleadosIdentificacionRel()
+    {
+        return $this->EmpleadosIdentificacionRel;
+    }
+
+    /**
+     * @param mixed $EmpleadosIdentificacionRel
+     */
+    public function setEmpleadosIdentificacionRel($EmpleadosIdentificacionRel): void
+    {
+        $this->EmpleadosIdentificacionRel = $EmpleadosIdentificacionRel;
+    }
+
+
 
 }

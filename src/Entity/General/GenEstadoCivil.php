@@ -26,5 +26,54 @@ class GenEstadoCivil
      */
     protected $EmpleadosEstadoCivilRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoEstadoCivilPk()
+    {
+        return $this->codigoEstadoCivilPk;
+    }
+
+    /**
+     * @param mixed $codigoEstadoCivilPk
+     */
+    public function setCodigoEstadoCivilPk($codigoEstadoCivilPk): void
+    {
+        $this->codigoEstadoCivilPk = $codigoEstadoCivilPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpleadosEstadoCivilRel()
+    {
+        return $this->EmpleadosEstadoCivilRel;
+    }
+
+    /**
+     * @param mixed $EmpleadosEstadoCivilRel
+     */
+    public function setEmpleadosEstadoCivilRel($EmpleadosEstadoCivilRel): void
+    {
+        $this->EmpleadosEstadoCivilRel = $EmpleadosEstadoCivilRel;
+    }
+
+
 
 }

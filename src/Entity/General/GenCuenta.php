@@ -46,5 +46,118 @@ class GenCuenta
      */
     protected $bancoRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoCuentaPk()
+    {
+        return $this->codigoCuentaPk;
+    }
+
+    /**
+     * @param mixed $codigoCuentaPk
+     */
+    public function setCodigoCuentaPk($codigoCuentaPk): void
+    {
+        $this->codigoCuentaPk = $codigoCuentaPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoBancoFk()
+    {
+        return $this->codigoBancoFk;
+    }
+
+    /**
+     * @param mixed $codigoBancoFk
+     */
+    public function setCodigoBancoFk($codigoBancoFk): void
+    {
+        $this->codigoBancoFk = $codigoBancoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCuenta()
+    {
+        return $this->cuenta;
+    }
+
+    /**
+     * @param mixed $cuenta
+     */
+    public function setCuenta($cuenta): void
+    {
+        $this->cuenta = $cuenta;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param mixed $tipo
+     */
+    public function setTipo($tipo): void
+    {
+        $this->tipo = $tipo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBancoRel()
+    {
+        return $this->bancoRel;
+    }
+
+    /**
+     * @param mixed $bancoRel
+     */
+    public function setBancoRel($bancoRel): void
+    {
+        $this->bancoRel = $bancoRel;
+    }
+
+
 
 }

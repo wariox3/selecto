@@ -94,4 +94,262 @@ class InvContrato
      */
     protected $contratosDetallesContratoRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoContratoPk()
+    {
+        return $this->codigoContratoPk;
+    }
+
+    /**
+     * @param mixed $codigoContratoPk
+     */
+    public function setCodigoContratoPk($codigoContratoPk): void
+    {
+        $this->codigoContratoPk = $codigoContratoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumero(): int
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param int $numero
+     */
+    public function setNumero(int $numero): void
+    {
+        $this->numero = $numero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReferencia()
+    {
+        return $this->referencia;
+    }
+
+    /**
+     * @param mixed $referencia
+     */
+    public function setReferencia($referencia): void
+    {
+        $this->referencia = $referencia;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTerceroFk()
+    {
+        return $this->codigoTerceroFk;
+    }
+
+    /**
+     * @param mixed $codigoTerceroFk
+     */
+    public function setCodigoTerceroFk($codigoTerceroFk): void
+    {
+        $this->codigoTerceroFk = $codigoTerceroFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrSubtotal()
+    {
+        return $this->vrSubtotal;
+    }
+
+    /**
+     * @param mixed $vrSubtotal
+     */
+    public function setVrSubtotal($vrSubtotal): void
+    {
+        $this->vrSubtotal = $vrSubtotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotalBruto()
+    {
+        return $this->vrTotalBruto;
+    }
+
+    /**
+     * @param mixed $vrTotalBruto
+     */
+    public function setVrTotalBruto($vrTotalBruto): void
+    {
+        $this->vrTotalBruto = $vrTotalBruto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrTotalNeto()
+    {
+        return $this->vrTotalNeto;
+    }
+
+    /**
+     * @param mixed $vrTotalNeto
+     */
+    public function setVrTotalNeto($vrTotalNeto): void
+    {
+        $this->vrTotalNeto = $vrTotalNeto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrIva()
+    {
+        return $this->vrIva;
+    }
+
+    /**
+     * @param mixed $vrIva
+     */
+    public function setVrIva($vrIva): void
+    {
+        $this->vrIva = $vrIva;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAutorizado(): bool
+    {
+        return $this->estadoAutorizado;
+    }
+
+    /**
+     * @param bool $estadoAutorizado
+     */
+    public function setEstadoAutorizado(bool $estadoAutorizado): void
+    {
+        $this->estadoAutorizado = $estadoAutorizado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAprobado(): bool
+    {
+        return $this->estadoAprobado;
+    }
+
+    /**
+     * @param bool $estadoAprobado
+     */
+    public function setEstadoAprobado(bool $estadoAprobado): void
+    {
+        $this->estadoAprobado = $estadoAprobado;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoAnulado(): bool
+    {
+        return $this->estadoAnulado;
+    }
+
+    /**
+     * @param bool $estadoAnulado
+     */
+    public function setEstadoAnulado(bool $estadoAnulado): void
+    {
+        $this->estadoAnulado = $estadoAnulado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComentario()
+    {
+        return $this->comentario;
+    }
+
+    /**
+     * @param mixed $comentario
+     */
+    public function setComentario($comentario): void
+    {
+        $this->comentario = $comentario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTerceroRel()
+    {
+        return $this->terceroRel;
+    }
+
+    /**
+     * @param mixed $terceroRel
+     */
+    public function setTerceroRel($terceroRel): void
+    {
+        $this->terceroRel = $terceroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContratosDetallesContratoRel()
+    {
+        return $this->contratosDetallesContratoRel;
+    }
+
+    /**
+     * @param mixed $contratosDetallesContratoRel
+     */
+    public function setContratosDetallesContratoRel($contratosDetallesContratoRel): void
+    {
+        $this->contratosDetallesContratoRel = $contratosDetallesContratoRel;
+    }
+
+
+
 }

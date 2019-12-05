@@ -83,5 +83,230 @@ class InvConfiguracion
      */
     private $impuestoRecaudo = false;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoConfiguracionPk()
+    {
+        return $this->codigoConfiguracionPk;
+    }
+
+    /**
+     * @param mixed $codigoConfiguracionPk
+     */
+    public function setCodigoConfiguracionPk($codigoConfiguracionPk): void
+    {
+        $this->codigoConfiguracionPk = $codigoConfiguracionPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionLegalMovimiento()
+    {
+        return $this->informacionLegalMovimiento;
+    }
+
+    /**
+     * @param mixed $informacionLegalMovimiento
+     */
+    public function setInformacionLegalMovimiento($informacionLegalMovimiento): void
+    {
+        $this->informacionLegalMovimiento = $informacionLegalMovimiento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionPagoMovimiento()
+    {
+        return $this->informacionPagoMovimiento;
+    }
+
+    /**
+     * @param mixed $informacionPagoMovimiento
+     */
+    public function setInformacionPagoMovimiento($informacionPagoMovimiento): void
+    {
+        $this->informacionPagoMovimiento = $informacionPagoMovimiento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionContactoMovimiento()
+    {
+        return $this->informacionContactoMovimiento;
+    }
+
+    /**
+     * @param mixed $informacionContactoMovimiento
+     */
+    public function setInformacionContactoMovimiento($informacionContactoMovimiento): void
+    {
+        $this->informacionContactoMovimiento = $informacionContactoMovimiento;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionResolucionDianMovimiento()
+    {
+        return $this->informacionResolucionDianMovimiento;
+    }
+
+    /**
+     * @param mixed $informacionResolucionDianMovimiento
+     */
+    public function setInformacionResolucionDianMovimiento($informacionResolucionDianMovimiento): void
+    {
+        $this->informacionResolucionDianMovimiento = $informacionResolucionDianMovimiento;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCodigoFormatoMovimiento(): int
+    {
+        return $this->codigoFormatoMovimiento;
+    }
+
+    /**
+     * @param int $codigoFormatoMovimiento
+     */
+    public function setCodigoFormatoMovimiento(int $codigoFormatoMovimiento): void
+    {
+        $this->codigoFormatoMovimiento = $codigoFormatoMovimiento;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCodigoFormatoRemision(): int
+    {
+        return $this->codigoFormatoRemision;
+    }
+
+    /**
+     * @param int $codigoFormatoRemision
+     */
+    public function setCodigoFormatoRemision(int $codigoFormatoRemision): void
+    {
+        $this->codigoFormatoRemision = $codigoFormatoRemision;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCodigoFormatoCotizacion(): int
+    {
+        return $this->codigoFormatoCotizacion;
+    }
+
+    /**
+     * @param int $codigoFormatoCotizacion
+     */
+    public function setCodigoFormatoCotizacion(int $codigoFormatoCotizacion): void
+    {
+        $this->codigoFormatoCotizacion = $codigoFormatoCotizacion;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCodigoDocumentoMovimientosSalidaBodega(): int
+    {
+        return $this->codigoDocumentoMovimientosSalidaBodega;
+    }
+
+    /**
+     * @param int $codigoDocumentoMovimientosSalidaBodega
+     */
+    public function setCodigoDocumentoMovimientosSalidaBodega(int $codigoDocumentoMovimientosSalidaBodega): void
+    {
+        $this->codigoDocumentoMovimientosSalidaBodega = $codigoDocumentoMovimientosSalidaBodega;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCodigoDocumentoMovimientosEntradaBodega(): int
+    {
+        return $this->codigoDocumentoMovimientosEntradaBodega;
+    }
+
+    /**
+     * @param int $codigoDocumentoMovimientosEntradaBodega
+     */
+    public function setCodigoDocumentoMovimientosEntradaBodega(int $codigoDocumentoMovimientosEntradaBodega): void
+    {
+        $this->codigoDocumentoMovimientosEntradaBodega = $codigoDocumentoMovimientosEntradaBodega;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVrBaseRetencionIvaVenta(): int
+    {
+        return $this->vrBaseRetencionIvaVenta;
+    }
+
+    /**
+     * @param int $vrBaseRetencionIvaVenta
+     */
+    public function setVrBaseRetencionIvaVenta(int $vrBaseRetencionIvaVenta): void
+    {
+        $this->vrBaseRetencionIvaVenta = $vrBaseRetencionIvaVenta;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPorcentajeRetencionIva(): int
+    {
+        return $this->porcentajeRetencionIva;
+    }
+
+    /**
+     * @param int $porcentajeRetencionIva
+     */
+    public function setPorcentajeRetencionIva(int $porcentajeRetencionIva): void
+    {
+        $this->porcentajeRetencionIva = $porcentajeRetencionIva;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidarBodegaUsuario(): bool
+    {
+        return $this->validarBodegaUsuario;
+    }
+
+    /**
+     * @param bool $validarBodegaUsuario
+     */
+    public function setValidarBodegaUsuario(bool $validarBodegaUsuario): void
+    {
+        $this->validarBodegaUsuario = $validarBodegaUsuario;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isImpuestoRecaudo(): bool
+    {
+        return $this->impuestoRecaudo;
+    }
+
+    /**
+     * @param bool $impuestoRecaudo
+     */
+    public function setImpuestoRecaudo(bool $impuestoRecaudo): void
+    {
+        $this->impuestoRecaudo = $impuestoRecaudo;
+    }
+
+
 
 }

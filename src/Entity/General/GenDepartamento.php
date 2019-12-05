@@ -42,4 +42,102 @@ class GenDepartamento
      */
     protected $paisRel;
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoDepartamentoPk()
+    {
+        return $this->codigoDepartamentoPk;
+    }
+
+    /**
+     * @param mixed $codigoDepartamentoPk
+     */
+    public function setCodigoDepartamentoPk($codigoDepartamentoPk): void
+    {
+        $this->codigoDepartamentoPk = $codigoDepartamentoPk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoPaisFk()
+    {
+        return $this->codigoPaisFk;
+    }
+
+    /**
+     * @param mixed $codigoPaisFk
+     */
+    public function setCodigoPaisFk($codigoPaisFk): void
+    {
+        $this->codigoPaisFk = $codigoPaisFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDane()
+    {
+        return $this->codigoDane;
+    }
+
+    /**
+     * @param mixed $codigoDane
+     */
+    public function setCodigoDane($codigoDane): void
+    {
+        $this->codigoDane = $codigoDane;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadesRel()
+    {
+        return $this->ciudadesRel;
+    }
+
+    /**
+     * @param mixed $ciudadesRel
+     */
+    public function setCiudadesRel($ciudadesRel): void
+    {
+        $this->ciudadesRel = $ciudadesRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaisRel()
+    {
+        return $this->paisRel;
+    }
+
+    /**
+     * @param mixed $paisRel
+     */
+    public function setPaisRel($paisRel): void
+    {
+        $this->paisRel = $paisRel;
+    }
+
+
+
 }

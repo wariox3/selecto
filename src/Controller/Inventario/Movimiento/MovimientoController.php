@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Inventario\Movimiento\Inventario;
+namespace App\Controller\Inventario\Movimiento;
 
 use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
 use App\Entity\General\GenConfiguracion;
-use App\Entity\General\GenDocumento;
 use App\Entity\General\GenImpuesto;
+use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -78,11 +78,10 @@ class MovimientoController extends Controller
      */
     public function nuevo(Request $request, $id, $documento)
     {
-
         $em = $this->getDoctrine()->getManager();
         $arMovimiento = new InvMovimiento();
         $objFunciones = new FuncionesController();
-        $arDocumento = $em->getRepository(GenDocumento::class)->find($documento);
+        $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
         if ($id == 0) {
             $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
         } else {
@@ -224,9 +223,8 @@ class MovimientoController extends Controller
      */
     public function detalleNuevo(Request $request, $id)
     {
-        $session = new Session();
-        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $em = $this->getDoctrine()->getManager();
+        $session = new Session();
         $paginator = $this->get('knp_paginator');
         $empresa = $this->getUser()->getCodigoEmpresaFk();
         $respuesta = '';
