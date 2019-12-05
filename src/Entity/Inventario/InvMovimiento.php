@@ -108,6 +108,11 @@ class InvMovimiento
     private $estadoAnulado = false;
 
     /**
+     * @ORM\Column(name="estado_electronico", type="boolean", options={"default":false})
+     */
+    private $estadoElectronico = false;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
@@ -496,6 +501,22 @@ class InvMovimiento
     public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoElectronico(): bool
+    {
+        return $this->estadoElectronico;
+    }
+
+    /**
+     * @param bool $estadoElectronico
+     */
+    public function setEstadoElectronico(bool $estadoElectronico): void
+    {
+        $this->estadoElectronico = $estadoElectronico;
     }
 
 

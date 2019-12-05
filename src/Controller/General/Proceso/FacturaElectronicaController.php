@@ -27,11 +27,6 @@ class FacturaElectronicaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
-            ->add('codigoTercero', TextType::class, ['required' => false, 'data' => $session->get('filtroTerceroCodigo')])
-            ->add('nombreCorto', TextType::class, ['required' => false, 'data' => $session->get('filtroTerceroNombreCorto')])
-            ->add('cliente', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroTerceroCliente'), 'required' => false])
-            ->add('proveedor', ChoiceType::class, ['choices' => ['TODOS' => '', 'SI' => '1', 'NO' => '0'], 'data' => $session->get('filtroTerceroProveedor'), 'required' => false])
-            ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -48,10 +43,9 @@ class FacturaElectronicaController extends Controller
                 return $this->redirect($this->generateUrl('tercero_lista'));
             }
         }
-        $arTerceros = $paginator->paginate($em->getRepository(GenTercero::class)->lista($empresa), $request->query->getInt('page', 1), 30);
-        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->lista($documento, $empresa), $request->query->getInt('page', 1), 30);
-        return $this->render('Inventario/Administracion/Tercero/lista.html.twig', [
-            'arTerceros' => $arTerceros,
+        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente('FAC', $empresa), $request->query->getInt('page', 1), 30);
+        return $this->render('General/Proceso/FacturaElectronica/lista.html.twig', [
+            'arMovimientos' => $arMovimientos,
             'form' => $form->createView()
         ]);
     }

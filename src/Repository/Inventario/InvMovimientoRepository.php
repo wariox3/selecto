@@ -59,6 +59,29 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function facturaElectronicaPendiente($documento, $empresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.numero')
+            ->addSelect('m.fecha')
+            ->addSelect('m.referencia')
+            ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrIva')
+            ->addSelect('m.vrTotalNeto')
+            ->addSelect('m.estadoAutorizado')
+            ->addSelect('m.estadoAprobado')
+            ->addSelect('m.estadoAnulado')
+            ->addSelect('t.nombreCorto AS tercero')
+            ->leftJoin('m.terceroRel', 't')
+            ->where("m.codigoDocumentoFk = '" . $documento . "'")
+            ->andWhere('m.codigoEmpresaFk = ' . $empresa)
+            ->andWhere('m.estadoElectronico = 0');
+        $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
+        return $queryBuilder;
+    }
+
     /**
      * @param $arMovimiento InvMovimiento
      * @param $arMovimientoDetalles InvMovimientoDetalle

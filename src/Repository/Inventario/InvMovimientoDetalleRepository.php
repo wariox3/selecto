@@ -20,7 +20,6 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
 
     public function lista($id)
     {
-//        $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
             ->addSelect('i.codigoItemPk as item')
