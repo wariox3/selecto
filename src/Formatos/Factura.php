@@ -35,9 +35,9 @@ class Factura extends \FPDF
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 40);
         $pdf->SetTextColor(255, 220, 220);
-        if ($arMovimiento->getEstadoAnulado()) {
+        if ($arMovimiento->isEstadoAnulado()) {
             $pdf->RotatedText(70, 160, 'ANULADO', 45);
-        } elseif (!$arMovimiento->getEstadoAprobado()) {
+        } elseif (!$arMovimiento->isEstadoAprobado()) {
             $pdf->RotatedText(70, 160, 'SIN APROBAR', 45);
         }
         $pdf->SetTextColor(0, 0, 0);

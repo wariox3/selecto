@@ -33,9 +33,9 @@ class ResumenConceptos extends \FPDF
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 40);
         $pdf->SetTextColor(255, 220, 220);
-        if ($arProgramacion->getEstadoAnulado()) {
+        if ($arProgramacion->isEstadoAnulado()) {
             $pdf->RotatedText(90, 150, 'ANULADO', 45);
-        } elseif (!$arProgramacion->getEstadoAprobado()) {
+        } elseif (!$arProgramacion->isEstadoAprobado()) {
             $pdf->RotatedText(90, 150, 'SIN APROBAR', 45);
         }
         $pdf->SetTextColor(0, 0, 0);

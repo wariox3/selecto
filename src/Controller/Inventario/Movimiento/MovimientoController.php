@@ -132,14 +132,14 @@ class MovimientoController extends Controller
         $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
-        if ($arMovimiento->getEstadoAutorizado()) {
+        if ($arMovimiento->isEstadoAutorizado()) {
             $arrBtnAutorizar['disabled'] = true;
             $arrBtnEliminar['disabled'] = true;
             $arrBtnAprobado['disabled'] = false;
             $arrBtnActualizar['disabled'] = true;
             $arrBtnDesautorizar['disabled'] = false;
         }
-        if ($arMovimiento->getEstadoAprobado()) {
+        if ($arMovimiento->isEstadoAprobado()) {
             $arrBtnDesautorizar['disabled'] = true;
             $arrBtnAprobado['disabled'] = true;
         }

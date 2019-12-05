@@ -33,9 +33,9 @@ class Pago extends \FPDF
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 40);
         $pdf->SetTextColor(255, 220, 220);
-        if ($arPago->getEstadoAnulado()) {
+        if ($arPago->isEstadoAnulado()) {
             $pdf->RotatedText(90, 150, 'ANULADO', 45);
-        } elseif (!$arPago->getEstadoAprobado()) {
+        } elseif (!$arPago->isEstadoAprobado()) {
             $pdf->RotatedText(90, 150, 'SIN APROBAR', 45);
         }
         $pdf->SetTextColor(0, 0, 0);

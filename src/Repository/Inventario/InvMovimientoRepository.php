@@ -200,7 +200,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
     public function aprobar($arMovimiento)
     {
         $em = $this->getEntityManager();
-        if ($arMovimiento->getEstadoAnulado() == 0) {
+        if ($arMovimiento->isEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
             $consecutivo = $em->getRepository(GenDocumento::class)->generarConsecutivo($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk(), $arMovimiento->getCodigoEmpresaFk());
@@ -299,7 +299,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
      */
     public function desautorizar($arMovimiento)
     {
-        if ($arMovimiento->getEstadoAprobado() == 0) {
+        if ($arMovimiento->isEstadoAprobado() == 0) {
             $arMovimiento->setEstadoAutorizado(0);
             $this->getEntityManager()->persist($arMovimiento);
             $this->getEntityManager()->flush();

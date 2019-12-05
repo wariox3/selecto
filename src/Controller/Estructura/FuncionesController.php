@@ -139,7 +139,7 @@ final class FuncionesController
 //            $em = BaseDatos::getEm();
 //            $arNotificacionTipo = $em->getRepository(GenNotificacionTipo::class)->find($id);
 //            if($arNotificacionTipo) {
-//                if ($arNotificacionTipo->getEstadoActivo()) {
+//                if ($arNotificacionTipo->isEstadoActivo()) {
 //                    $usuarios = json_decode($arNotificacionTipo->getUsuarios(), true);
 //                    if($arrUsuarios) {
 //                        if($usuarios) {

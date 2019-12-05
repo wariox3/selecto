@@ -25,9 +25,9 @@ class Recibo extends \FPDF {
         $pdf->SetFont('Arial', '', 40);
         $arRecibo = $em->getRepository(CarRecibo::class)->find($codigoRecibo);
         $pdf->SetTextColor(255, 220, 220);
-        if ($arRecibo->getEstadoAnulado()) {
+        if ($arRecibo->isEstadoAnulado()) {
             $pdf->RotatedText(90, 150, 'ANULADO', 45);
-        } elseif (!$arRecibo->getEstadoAprobado()) {
+        } elseif (!$arRecibo->isEstadoAprobado()) {
             $pdf->RotatedText(90, 150, 'SIN APROBAR', 45);
         }
         $pdf->SetTextColor(0, 0, 0);

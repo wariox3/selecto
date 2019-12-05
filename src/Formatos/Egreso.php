@@ -34,9 +34,9 @@ class Egreso extends \FPDF
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 40);
         $pdf->SetTextColor(255, 220, 220);
-        if ($arEgreso->getEstadoAnulado()) {
+        if ($arEgreso->isEstadoAnulado()) {
             $pdf->RotatedText(90, 150, 'ANULADO', 45);
-        } elseif (!$arEgreso->getEstadoAprobado()) {
+        } elseif (!$arEgreso->isEstadoAprobado()) {
             $pdf->RotatedText(90, 150, 'SIN APROBAR', 45);
         }
         $pdf->SetTextColor(0, 0, 0);

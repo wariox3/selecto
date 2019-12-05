@@ -132,7 +132,7 @@ class ProgramacionController extends Controller
         $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnCargarContratos = ['label' => 'Cargar Contratos', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnEliminarTodos = ['attr' => ['class' => 'btn btn-sm btn-danger'], 'label' => 'Eliminar todos'];
-        if ($arProgramacion->getEstadoAutorizado()) {
+        if ($arProgramacion->isEstadoAutorizado()) {
             $arrBtnCargarContratos['disabled'] = true;
             $arrBtnAutorizar['disabled'] = true;
             $arrBtnEliminar['disabled'] = true;
@@ -141,7 +141,7 @@ class ProgramacionController extends Controller
             $arrBtnDesautorizar['disabled'] = false;
             $arrBtnEliminarTodos['attr']['class'] .= ' hidden';
         }
-        if ($arProgramacion->getEstadoAprobado()) {
+        if ($arProgramacion->isEstadoAprobado()) {
             $arrBtnDesautorizar['disabled'] = true;
             $arrBtnAprobado['disabled'] = true;
         }
@@ -183,7 +183,7 @@ class ProgramacionController extends Controller
                 return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
             }
             if ($form->get('btnEliminarTodos')->isClicked()) {
-                if (!$arProgramacion->getEstadoAutorizado()) {
+                if (!$arProgramacion->isEstadoAutorizado()) {
                     $em->getRepository(RhuProgramacionDetalle::class)->eliminarTodoDetalles($arProgramacion);
                     return $this->redirect($this->generateUrl('recursoHumano_programacion_detalle', ['id' => $id]));
                 }
@@ -225,7 +225,7 @@ class ProgramacionController extends Controller
                 $em->getRepository(RhuProgramacionDetalle::class)->actualizar($arProgramacionDetalle, $this->getUser()->getUsername(), $this->getUser()->getCodigoEmpresaFk());
             }
         }
-        if (!$arProgramacionDetalle->getProgramacionRel()->getEstadoAutorizado()) {
+        if (!$arProgramacionDetalle->getProgramacionRel()->isEstadoAutorizado()) {
             Mensajes::error('El empleado aun no tiene pagos generados');
             echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
         }

@@ -183,7 +183,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
      */
     public function autorizar($arProgramacion, $usuario, $empresa)
     {
-        if (!$arProgramacion->getEstadoAutorizado()) {
+        if (!$arProgramacion->isEstadoAutorizado()) {
             $this->generar($arProgramacion, null, $usuario, $empresa);
         }
     }
@@ -197,7 +197,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
     public function aprobar($arProgramacion)
     {
         $em = $this->getEntityManager();
-        if($arProgramacion->getEstadoAutorizado() == 1 && $arProgramacion->getEstadoAprobado() == 0) {
+        if($arProgramacion->isEstadoAutorizado() == 1 && $arProgramacion->isEstadoAprobado() == 0) {
             $arProgramacion->setEstadoAprobado(1);
             $em->persist($arProgramacion);
             $arPagos = $em->getRepository(RhuPago::class)->findBy(array('codigoProgramacionFk' => $arProgramacion->getCodigoProgramacionPk()));
@@ -223,7 +223,7 @@ class RhuProgramacionRepository extends ServiceEntityRepository
     public function desautorizar($arProgramacion)
     {
         $em = $this->getEntityManager();
-        if ($arProgramacion->getEstadoAutorizado()) {
+        if ($arProgramacion->isEstadoAutorizado()) {
             $em->getRepository(RhuPago::class)->eliminarPagos($arProgramacion->getCodigoProgramacionPk());
             $arProgramacion->setEstadoAutorizado(0);
             $arProgramacion->setVrNeto(0);

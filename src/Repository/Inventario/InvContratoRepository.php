@@ -238,7 +238,7 @@ class InvContratoRepository extends ServiceEntityRepository
      */
     public function desautorizar($arContrato)
     {
-        if ($arContrato->getEstadoAprobado() == 0) {
+        if ($arContrato->isEstadoAprobado() == 0) {
             $arContrato->setEstadoAutorizado(0);
             $this->getEntityManager()->persist($arContrato);
             $this->getEntityManager()->flush();

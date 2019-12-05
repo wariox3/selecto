@@ -111,14 +111,14 @@ class ContratoController extends Controller
         $arrBtnAutorizar = ['label' => 'Autorizar', 'disabled' => false, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnAprobado = ['label' => 'Aprobar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
         $arrBtnDesautorizar = ['label' => 'Desautorizar', 'disabled' => true, 'attr' => ['class' => 'btn btn-sm btn-default']];
-        if ($arContrato->getEstadoAutorizado()) {
+        if ($arContrato->isEstadoAutorizado()) {
             $arrBtnAutorizar['disabled'] = true;
             $arrBtnEliminar['disabled'] = true;
             $arrBtnAprobado['disabled'] = false;
             $arrBtnActualizar['disabled'] = true;
             $arrBtnDesautorizar['disabled'] = false;
         }
-        if ($arContrato->getEstadoAprobado()) {
+        if ($arContrato->isEstadoAprobado()) {
             $arrBtnDesautorizar['disabled'] = true;
             $arrBtnAprobado['disabled'] = true;
         }
