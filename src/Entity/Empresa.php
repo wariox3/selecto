@@ -43,6 +43,11 @@ class Empresa
     private $telefono;
 
     /**
+     * @ORM\Column(name="correo", type="string", length=200, nullable=true)
+     */
+    private $correo;
+
+    /**
      * @ORM\Column(name="ruta_temporal", type="string", length=100, nullable=true)
      */
     private $rutaTemporal;
@@ -75,6 +80,16 @@ class Empresa
      * @ORM\Column(name="genera_interes_mora", type="boolean", nullable=true, options={"default" : false})
      */
     private $generaInteresMora = false;
+
+    /**
+     * @ORM\Column(name="codigo_tipo_persona_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoTipoPersonaFk;
+
+    /**
+     * @ORM\Column(name="codigo_regimen_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoRegimenFk;
 
     /**
      * @ORM\OneToMany(targetEntity="Usuario", mappedBy="empresaRel")
@@ -115,6 +130,34 @@ class Empresa
      * @ORM\Column(name="prefijo_facturacion", type="string", length=10, nullable=true)
      */
     private $prefijoFacturacion;
+
+    /**
+     * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
+     */
+    private $codigoCiudadFk;
+
+    /**
+     * @ORM\Column(name="matricula_mercantil", type="string", length=100, nullable=true)
+     */
+    private $matriculaMercantil;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="empresasCiudadRel")
+     * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
+     */
+    protected $ciudadRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTipoPersona", inversedBy="empresasTipoPersonaRel")
+     * @ORM\JoinColumn(name="codigo_tipo_persona_fk", referencedColumnName="codigo_tipo_persona_pk")
+     */
+    private $tipoPersonaRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenRegimen", inversedBy="empresasRegimenRel")
+     * @ORM\JoinColumn(name="codigo_regimen_fk", referencedColumnName="codigo_regimen_pk")
+     */
+    private $regimenRel;
 
     /**
      * @return mixed
@@ -450,6 +493,134 @@ class Empresa
     public function setGeneraInteresMora(bool $generaInteresMora): void
     {
         $this->generaInteresMora = $generaInteresMora;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCiudadFk()
+    {
+        return $this->codigoCiudadFk;
+    }
+
+    /**
+     * @param mixed $codigoCiudadFk
+     */
+    public function setCodigoCiudadFk($codigoCiudadFk): void
+    {
+        $this->codigoCiudadFk = $codigoCiudadFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadRel()
+    {
+        return $this->ciudadRel;
+    }
+
+    /**
+     * @param mixed $ciudadRel
+     */
+    public function setCiudadRel($ciudadRel): void
+    {
+        $this->ciudadRel = $ciudadRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCorreo()
+    {
+        return $this->correo;
+    }
+
+    /**
+     * @param mixed $correo
+     */
+    public function setCorreo($correo): void
+    {
+        $this->correo = $correo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoTipoPersonaFk()
+    {
+        return $this->codigoTipoPersonaFk;
+    }
+
+    /**
+     * @param mixed $codigoTipoPersonaFk
+     */
+    public function setCodigoTipoPersonaFk($codigoTipoPersonaFk): void
+    {
+        $this->codigoTipoPersonaFk = $codigoTipoPersonaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoRegimenFk()
+    {
+        return $this->codigoRegimenFk;
+    }
+
+    /**
+     * @param mixed $codigoRegimenFk
+     */
+    public function setCodigoRegimenFk($codigoRegimenFk): void
+    {
+        $this->codigoRegimenFk = $codigoRegimenFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTipoPersonaRel()
+    {
+        return $this->tipoPersonaRel;
+    }
+
+    /**
+     * @param mixed $tipoPersonaRel
+     */
+    public function setTipoPersonaRel($tipoPersonaRel): void
+    {
+        $this->tipoPersonaRel = $tipoPersonaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegimenRel()
+    {
+        return $this->regimenRel;
+    }
+
+    /**
+     * @param mixed $regimenRel
+     */
+    public function setRegimenRel($regimenRel): void
+    {
+        $this->regimenRel = $regimenRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMatriculaMercantil()
+    {
+        return $this->matriculaMercantil;
+    }
+
+    /**
+     * @param mixed $matriculaMercantil
+     */
+    public function setMatriculaMercantil($matriculaMercantil): void
+    {
+        $this->matriculaMercantil = $matriculaMercantil;
     }
 
 

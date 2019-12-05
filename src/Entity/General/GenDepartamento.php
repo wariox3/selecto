@@ -32,15 +32,20 @@ class GenDepartamento
     private $codigoDane;
 
     /**
-     * @ORM\OneToMany(targetEntity="GenCiudad", mappedBy="departamentoRel")
+     * @ORM\Column(name="codigo_dane_mascara", type="string", length=5)
      */
-    protected $ciudadesRel;
+    private $codigoDaneMascara;
 
     /**
      * @ORM\ManyToOne(targetEntity="GenPais", inversedBy="departamentosPaisRel")
      * @ORM\JoinColumn(name="codigo_pais_fk", referencedColumnName="codigo_pais_pk")
      */
     protected $paisRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="GenCiudad", mappedBy="departamentoRel")
+     */
+    protected $ciudadesRel;
 
     /**
      * @return mixed

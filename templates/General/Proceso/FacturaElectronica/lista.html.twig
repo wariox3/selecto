@@ -63,7 +63,6 @@
                                  <th title="Aprobado">Apr</th>
                                  <th title="Anulado">Anu</th>
                                  <th></th>
-                                 <th></th>
                                  <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
                                             OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                              </tr>
@@ -90,9 +89,6 @@
                                      {% else %}
                                          <td></td>
                                      {% endif %}
-                                     <td align="center"><a
-                                                 href="{{ path('movimiento_detalle', {'id': movimiento.codigoMovimientoPk }) }}"
-                                                 title="mostrar información"><i class="fa fa-eye fa-lg"></i></a></td>
                                      <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                value="{{ movimiento.codigoMovimientoPk }}"/></td>
                                  </tr>
@@ -108,8 +104,8 @@
                  <div class="panel-footer">
                      <div class="row">
                          <div class="col-sm-9 col-sm-offset-3">
-                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
-                                  aria-label="...">
+                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group" aria-label="...">
+                                 {{ form_widget(form.btnEnviar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
                              </div>
                          </div>
                      </div>

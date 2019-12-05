@@ -70,4 +70,24 @@ class EmpresaRepository extends ServiceEntityRepository
         return $arConfiguracion[0];
     }
 
+    public function facturaElectronica($codigoEmpresa)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(Empresa::class, 'e')
+            ->select('e.nit')
+            ->addSelect('e.digitoVerificacion')
+            ->addSelect('e.nombreCorto as nombre')
+            ->addSelect('e.correo')
+            ->addSelect('e.direccion')
+            ->addSelect('e.codigoTipoPersonaFk')
+            ->addSelect('e.matriculaMercantil')
+            ->addSelect('ciu.nombre as ciudadNombre')
+            ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
+            ->addSelect('dep.nombre as departamentoNombre')
+            ->addSelect('dep.codigoDaneMascara as departamentoCodigoDaneMascara')
+            ->leftJoin('e.ciudadRel', 'ciu')
+            ->leftJoin('ciu.departamentoRel', 'dep')
+            ->where("e.codigoEmpresaPk = {$codigoEmpresa}");
+        return $queryBuilder->getQuery()->getSingleResult();
+    }
+
 }

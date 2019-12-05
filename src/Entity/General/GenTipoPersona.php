@@ -34,6 +34,11 @@ class GenTipoPersona
     protected $invTercerosTipoPersonaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Empresa", mappedBy="tipoPersonaRel")
+     */
+    protected $empresasTipoPersonaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoTipoPersonaPk()
@@ -96,5 +101,23 @@ class GenTipoPersona
     {
         $this->invTercerosTipoPersonaRel = $invTercerosTipoPersonaRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpresasTipoPersonaRel()
+    {
+        return $this->empresasTipoPersonaRel;
+    }
+
+    /**
+     * @param mixed $empresasTipoPersonaRel
+     */
+    public function setEmpresasTipoPersonaRel($empresasTipoPersonaRel): void
+    {
+        $this->empresasTipoPersonaRel = $empresasTipoPersonaRel;
+    }
+
+
 
 }

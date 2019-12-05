@@ -33,6 +33,11 @@ class GenRegimen
     protected $invTercerosRegimenRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Empresa", mappedBy="regimenRel")
+     */
+    protected $empresasRegimenRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoRegimenPk()
@@ -95,5 +100,23 @@ class GenRegimen
     {
         $this->invTercerosRegimenRel = $invTercerosRegimenRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpresasRegimenRel()
+    {
+        return $this->empresasRegimenRel;
+    }
+
+    /**
+     * @param mixed $empresasRegimenRel
+     */
+    public function setEmpresasRegimenRel($empresasRegimenRel): void
+    {
+        $this->empresasRegimenRel = $empresasRegimenRel;
+    }
+
+
 
 }

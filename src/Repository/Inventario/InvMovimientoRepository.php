@@ -7,6 +7,7 @@ use App\Entity\Cartera\CarCuentaCobrar;
 use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComCuentaPagarTipo;
+use App\Entity\Empresa;
 use App\Entity\General\GenDocumento;
 use App\Entity\General\GenDocumentoEmpresa;
 use App\Entity\General\GenImpuesto;
@@ -375,6 +376,127 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $array['data'] = $this->getEntityManager()->getReference(InvMovimiento::class, $session->get('filtroMovimiento'));
         }
         return $array;
+    }
+
+    public function facturaElectronica($arr, $codigoEmpresa): bool
+    {
+        $em = $this->getEntityManager();
+        if ($arr) {
+            $arrConfiguracion = $em->getRepository(Empresa::class)->facturaElectronica($codigoEmpresa);
+            foreach ($arr AS $codigo) {
+                /*$arFactura = $em->getRepository(InvMovimiento::class)->movimientoFacturaElectronica($codigo);
+                if($arFactura['estadoAprobado'] && !$arFactura['estadoFacturaElectronica']) {
+                    $baseIvaTotal = 0;
+                    $arrFactura = [
+                        'dat_nitFacturador' => $arrConfiguracion['nit'],
+                        'dat_claveTecnica' => $arrConfiguracion['feToken'],
+                        'dat_claveTecnicaCadena' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
+                        'dat_tipoAmbiente' => '2',
+                        'res_numero' => $arFactura['resolucionNumero'],
+                        'res_prefijo' => $arFactura['resolucionPrefijo'],
+                        'res_fechaDesde' => $arFactura['resolucionFechaDesde']->format('Y-m-d'),
+                        'res_fechaHasta' => $arFactura['resolucionFechaHasta']->format('Y-m-d'),
+                        'res_desde' => $arFactura['resolucionNumeroDesde'],
+                        'res_hasta' => $arFactura['resolucionNumeroHasta'],
+                        'doc_codigo' => $arFactura['codigoMovimientoPk'],
+                        'doc_numero' => $arFactura['numero'],
+                        'doc_fecha' => $arFactura['fecha']->format('Y-m-d'),
+                        'doc_fecha_vence' => $arFactura['fechaVence']->format('Y-m-d'),
+                        'doc_hora' => '12:00:00-05:00',
+                        'doc_subtotal' => number_format($arFactura['vrSubtotal'], 2, '.', ''),
+                        'doc_iva' => number_format($arFactura['vrIva'], 2, '.', ''),
+                        'doc_inc' => number_format(0, 2, '.', ''),
+                        'doc_ica' => number_format(0, 2, '.', ''),
+                        'doc_total' => number_format($arFactura['vrTotal'], 2, '.', ''),
+                        'em_tipoPersona' => $arrConfiguracion['codigoTipoPersonaFk'],
+                        'em_numeroIdentificacion' => $arrConfiguracion['nit'],
+                        'em_digitoVerificacion' => $arrConfiguracion['digitoVerificacion'],
+                        'em_nombreCompleto' => $arrConfiguracion['nombre'],
+                        'em_matriculaMercantil' => $arrConfiguracion['matriculaMercantil'],
+                        'em_codigoCiudad' => $arrConfiguracion['ciudadCodigoDaneCompleto'],
+                        'em_nombreCiudad' => $arrConfiguracion['ciudadNombre'],
+                        'em_codigoPostal' => '055460',
+                        'em_codigoDepartamento' => $arrConfiguracion['departamentoCodigoDaneMascara'],
+                        'em_nombreDepartamento' => $arrConfiguracion['departamentoNombre'],
+                        'em_correo' => $arrConfiguracion['correo'],
+                        'em_direccion' => $arrConfiguracion['direccion'],
+                        'ad_tipoIdentificacion' => $arFactura['tipoIdentificacion'],
+                        'ad_numeroIdentificacion' => $arFactura['numeroIdentificacion'],
+                        'ad_digitoVerificacion' => $arFactura['digitoVerificacion'],
+                        'ad_nombreCompleto' => $arFactura['nombreCorto'],
+                        'ad_tipoPersona' => $arFactura['tipoPersona'],
+                        'ad_regimen' => $arFactura['regimen'],
+                        'ad_responsabilidadFiscal' => '',
+                        'ad_direccion' => $arFactura['direccion'],
+                        'ad_barrio' => $arFactura['barrio'],
+                        'ad_codigoPostal' => $arFactura['codigoPostal'],
+                        'ad_telefono' => $arFactura['telefono'],
+                        'ad_correo' => $arFactura['email'],
+                        'ad_codigoCIUU' => $arFactura['codigoCIUU'],
+                        'ad_codigoCiudad' => $arrConfiguracion['ciudadCodigoDaneCompleto'],
+                        'ad_nombreCiudad' => $arrConfiguracion['ciudadNombre'],
+                        'ad_codigoDepartamento' => $arrConfiguracion['departamentoCodigoDaneMascara'],
+                        'ad_nombreDepartamento' => $arrConfiguracion['departamentoNombre'],
+                    ];
+                    $arrItem = [];
+                    $cantidadItemes = 0;
+                    $arFacturaDetalles = $em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arFactura['codigoMovimientoPk']]);
+                    foreach ($arFacturaDetalles as $arFacturaDetalle) {
+                        $cantidadItemes++;
+                        $baseIva = 0;
+                        if($arFacturaDetalle->getVrIva() > 0) {
+                            $baseIva = $arFacturaDetalle->getVrSubtotal();
+                        }
+                        $arrItem[] = [
+                            "item_id" => $cantidadItemes,
+                            "item_codigo" => $arFacturaDetalle->getCodigoItemFk(),
+                            "item_nombre" => $arFacturaDetalle->getItemRel()->getNombre(),
+                            "item_cantidad" => number_format($arFacturaDetalle->getCantidad(), 2, '.', ''),
+                            "item_precio" => number_format($arFacturaDetalle->getVrPrecio(), 2, '.', ''),
+                            "item_subtotal" => number_format($arFacturaDetalle->getVrSubtotal(), 2, '.', ''),
+                            "item_base_iva" => number_format($baseIva, 2, '.', ''),
+                            "item_iva" => number_format($arFacturaDetalle->getVrIva(), 2, '.', ''),
+                            "item_porcentaje_iva" => number_format($arFacturaDetalle->getPorcentajeIva(), 2, '.', '')
+                        ];
+                        $baseIvaTotal += $baseIva;
+                    }
+                    $arrFactura['doc_itemes'] = $arrItem;
+                    $arrFactura['doc_cantidad_item'] = $cantidadItemes;
+                    $arrFactura['doc_base_iva'] = $baseIvaTotal;
+                    //$arrFactura['doc_numero'] = 13;
+                    $facturaElectronica = new FacturaElectronica($em);
+                    $respuesta = $facturaElectronica->validarDatos($arrFactura);
+                    if($respuesta['estado'] == 'ok') {
+                        //$procesoFacturaElectronica = $facturaElectronica->enviarDispapeles($arrFactura);
+                        $procesoFacturaElectronica = $facturaElectronica->enviarCadena($arrFactura);
+                        if($procesoFacturaElectronica['estado'] == 'CN') {
+                            break;
+                        }
+                        if($procesoFacturaElectronica['estado'] == 'ER') {
+                            $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
+                            $arFactura->setProcesoFacturaElectronica('ER');
+                            $em->persist($arFactura);
+                            $em->flush();
+                        }
+                        if($procesoFacturaElectronica['estado'] == 'EX') {
+                            $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
+                            $arFactura->setEstadoFacturaElectronica(1);
+                            $arFactura->setProcesoFacturaElectronica(null);
+                            $em->persist($arFactura);
+                            $em->flush();
+                        }
+                    } else {
+                        Mensajes::error($respuesta['mensaje']);
+                        break;
+                    }
+                } else {
+                    Mensajes::error("El documento debe estar aprobado y sin enviar a facturacion electronica");
+                    break;
+                }
+                */
+            }
+        }
+        return true;
     }
 
 }

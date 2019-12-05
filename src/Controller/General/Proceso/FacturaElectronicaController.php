@@ -27,6 +27,7 @@ class FacturaElectronicaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
+            ->add('btnEnviar', SubmitType::class, ['label' => 'Enviar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -37,10 +38,9 @@ class FacturaElectronicaController extends Controller
                 $session->set('filtroTerceroCliente', $form->get('cliente')->getData());
                 $session->set('filtroTerceroProveedor', $form->get('proveedor')->getData());
             }
-            if ($form->get('btnEliminar')->isClicked()) {
-                $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(GenTercero::class, $arItems);
-                return $this->redirect($this->generateUrl('tercero_lista'));
+            if ($form->get('btnEnviar')->isClicked()) {
+                $arr = $request->request->get('ChkSeleccionar');
+                $this->getDoctrine()->getRepository(InvMovimiento::class)->facturaElectronica($arr, $empresa);
             }
         }
         $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente('FAC', $empresa), $request->query->getInt('page', 1), 30);
