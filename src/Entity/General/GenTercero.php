@@ -17,14 +17,14 @@ class GenTercero
     private $codigoTerceroPk;
 
     /**
-     * @ORM\Column(name="numero_identificacion", type="string", length=80)
-     */
-    private $numeroIdentificacion;
-
-    /**
      * @ORM\Column(name="codigo_identificacion_fk", type="string", length=3, nullable=true)
      */
     private $codigoIdentificacionFk;
+
+    /**
+     * @ORM\Column(name="numero_identificacion", type="string", length=80)
+     */
+    private $numeroIdentificacion;
 
     /**
      * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
@@ -35,6 +35,57 @@ class GenTercero
      * @ORM\Column(name="codigo_forma_pago_fk", type="string", length=3, nullable=true)
      */
     private $codigoFormaPagoFk;
+
+    /**
+     * @ORM\Column(name="barrio", type="string", length=80,nullable=true)
+     */
+    private $barrio;
+
+    /**
+     * @ORM\Column(name="codigo_postal", type="string", length=20, nullable=true)
+     */
+    private $codigoPostal;
+
+    /**
+     * @ORM\Column(name="autoretenedor", type="boolean", nullable=true, options={"default":false})
+     */
+    private $autoretenedor = false;
+
+
+    /**
+     * @ORM\Column(name="bloqueo_cartera", type="boolean", nullable=true, options={"default" : false})
+     */
+    private $bloqueoCartera = false;
+
+    /**
+     * @ORM\Column(name="codigo_precio_venta_fk", type="integer", nullable=true)
+     */
+    private $codigoPrecioVentaFk;
+
+    /**
+     * @ORM\Column(name="codigo_precio_compra_fk", type="integer", nullable=true)
+     */
+    private $codigoPrecioCompraFk;
+
+    /**
+     * @ORM\Column(name="cupo_compra", type="float", nullable=true, options={"default" : 0})
+     */
+    private $cupoCompra = 0;
+
+    /**
+     * @ORM\Column(name="codigo_tipo_persona_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoTipoPersonaFk;
+
+    /**
+     * @ORM\Column(name="codigo_regimen_fk", type="string", length=3, nullable=true)
+     */
+    private $codigoRegimenFk;
+
+    /**
+     * @ORM\Column(name="codigo_ciuu", type="string", length=20, nullable=true)
+     */
+    private $codigoCIUU;
 
     /**
      * @ORM\Column(name="nombre_corto", type="string", length=150, nullable=true)
@@ -120,6 +171,25 @@ class GenTercero
      * @ORM\Column(name="retencion_fuente_sin_base", type="boolean", options={"default":false})
      */
     private $retencionFuenteSinBase = false;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenIdentificacion", inversedBy="invTercerosIdentificacionRel")
+     * @ORM\JoinColumn(name="codigo_identificacion_fk", referencedColumnName="codigo_identificacion_pk")
+     */
+    private $identificacionRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTipoPersona", inversedBy="invTercerosTipoPersonaRel")
+     * @ORM\JoinColumn(name="codigo_tipo_persona_fk", referencedColumnName="codigo_tipo_persona_pk")
+     */
+    private $tipoPersonaRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenRegimen", inversedBy="invTercerosRegimenRel")
+     * @ORM\JoinColumn(name="codigo_regimen_fk", referencedColumnName="codigo_regimen_pk")
+     */
+    private $regimenRel;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="ciudadTerceroRel")
