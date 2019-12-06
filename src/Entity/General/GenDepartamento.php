@@ -143,6 +143,22 @@ class GenDepartamento
         $this->paisRel = $paisRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCodigoDaneMascara()
+    {
+        return $this->codigoDaneMascara;
+    }
+
+    /**
+     * @param mixed $codigoDaneMascara
+     */
+    public function setCodigoDaneMascara($codigoDaneMascara): void
+    {
+        $this->codigoDaneMascara = $codigoDaneMascara;
+    }
+
 
 
 }
