@@ -22,6 +22,11 @@ class GenIdentificacion
     private $nombre;
 
     /**
+     * @ORM\Column(name="codigo_entidad", type="string", length=10, nullable=true)
+     */
+    private $codigoEntidad;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="identificacionRel")
      */
     protected $EmpleadosIdentificacionRel;
@@ -72,6 +77,22 @@ class GenIdentificacion
     public function setEmpleadosIdentificacionRel($EmpleadosIdentificacionRel): void
     {
         $this->EmpleadosIdentificacionRel = $EmpleadosIdentificacionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEntidad()
+    {
+        return $this->codigoEntidad;
+    }
+
+    /**
+     * @param mixed $codigoEntidad
+     */
+    public function setCodigoEntidad($codigoEntidad): void
+    {
+        $this->codigoEntidad = $codigoEntidad;
     }
 
 

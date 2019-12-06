@@ -113,6 +113,11 @@ class InvMovimiento
     private $estadoElectronico = false;
 
     /**
+     * @ORM\Column(name="codigo_resolucion_fk", type="integer", nullable=true)
+     */
+    private $codigoResolucionFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
@@ -129,6 +134,12 @@ class InvMovimiento
      * @ORM\JoinColumn(name="codigo_forma_pago_fk", referencedColumnName="codigo_forma_pago_pk")
      */
     protected $formaPagoRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenResolucion", inversedBy="movimientosResolucionRel")
+     * @ORM\JoinColumn(name="codigo_resolucion_fk", referencedColumnName="codigo_resolucion_pk")
+     */
+    protected $resolucionRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="movimientoRel")
@@ -517,6 +528,38 @@ class InvMovimiento
     public function setEstadoElectronico(bool $estadoElectronico): void
     {
         $this->estadoElectronico = $estadoElectronico;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoResolucionFk()
+    {
+        return $this->codigoResolucionFk;
+    }
+
+    /**
+     * @param mixed $codigoResolucionFk
+     */
+    public function setCodigoResolucionFk($codigoResolucionFk): void
+    {
+        $this->codigoResolucionFk = $codigoResolucionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResolucionRel()
+    {
+        return $this->resolucionRel;
+    }
+
+    /**
+     * @param mixed $resolucionRel
+     */
+    public function setResolucionRel($resolucionRel): void
+    {
+        $this->resolucionRel = $resolucionRel;
     }
 
 
