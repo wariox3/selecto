@@ -31,10 +31,9 @@
                             {{ form_widget(form.ciudadRel,{ 'attr' : {'class' : 'form-control'}}) }}
                             <div style="color:red;">{{ form_errors(form.ciudadRel) }}</div>
                         </div>
-                        <label class="col-sm-2 control-label">Tipo persona:</label>
+                        <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
-                            {{ form_widget(form.tipoPersonaRel,{ 'attr' : {'class' : 'form-control'}}) }}
-                            <div style="color:red;">{{ form_errors(form.tipoPersonaRel) }}</div>
+
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
@@ -74,8 +73,10 @@
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
-                        <label class="col-sm-2 control-label"></label>
+                        <label class="col-sm-2 control-label">Tipo persona:</label>
                         <div class="col-sm-4">
+                            {{ form_widget(form.tipoPersonaRel,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.tipoPersonaRel) }}</div>
                         </div>
                         <label class="col-sm-2 control-label">Información cuenta pago:</label>
                         <div class="col-sm-4">
@@ -84,14 +85,15 @@
                         </div>
                     </div>
                     <div class="form-group form-group-sm">
-                        <label class="col-sm-2 control-label"></label>
-                        <div class="col-sm-4">
-
-                        </div>
                         <label class="col-sm-2 control-label">Matricula mercantil:</label>
                         <div class="col-sm-4">
-                            {{ form_widget(form.matriculaMercantil,{ 'attr' : {'class' : 'form-control'}}) }}
+                            {{ form_widget(form.matriculaMercantil) }}
                             <div style="color:red;">{{ form_errors(form.matriculaMercantil) }}</div>
+                        </div>
+                        <label class="col-sm-2 control-label">Resolucion (Fac):</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.resolucionRel) }}
+                            <div style="color:red;">{{ form_errors(form.resolucionRel) }}</div>
                         </div>
                     </div>
                     <hr>
@@ -112,8 +114,26 @@
                 </ul>
                 <div class="tab-content">
                     <div id="empresas" class="tab-pane active">
-                        <p>Popular</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+                        <table class="table table-bordered mb-none tabla-datos">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Empresa</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arUsuarioEmpresa in arUsuarioEmpresas %}
+                                <tr>
+                                    <td>{{ arUsuarioEmpresa.codigoUsuarioEmpresaPk }}</td>
+                                    <td>{{ arUsuarioEmpresa.empresaRel.nombreCorto}}</td>
+                                    <td>
+                                        <button class="btn btn-default btn-xs" type="submit" name="OpCambiar" value="{{ arUsuarioEmpresa.codigoUsuarioEmpresaPk }}">Cambiar</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

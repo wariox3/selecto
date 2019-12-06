@@ -54,9 +54,10 @@ class EmpresaType extends AbstractType
                 , 'required' => true])
             ->add('resolucionRel', EntityType::class, [
                 'class' => GenResolucion::class,
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('r')
-                        ->orderBy('r.numero', 'DESC');
+                        ->orderBy('r.numero', 'DESC')
+                        ->where("r.codigoEmpresaFk = ". $options['data']->getCodigoEmpresaPk());
                 },
                 'choice_label' => 'numero',
                 'label' => 'Resolucion:'

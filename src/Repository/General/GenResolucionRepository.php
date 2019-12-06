@@ -15,7 +15,7 @@ class GenResolucionRepository extends ServiceEntityRepository
         parent::__construct($registry, GenResolucion::class);
     }
 
-    public function lista()
+    public function lista($empresa)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(GenResolucion::class, 'r')
             ->select('r.codigoResolucionPk')
@@ -26,7 +26,8 @@ class GenResolucionRepository extends ServiceEntityRepository
             ->addSelect('r.prefijo')
             ->addSelect('r.numeroDesde')
             ->addSelect('r.numeroHasta')
-            ->addSelect('r.llaveTecnica');
+            ->addSelect('r.llaveTecnica')
+            ->where('r.codigoEmpresaFk = ' . $empresa );
 
         $queryBuilder->addOrderBy('r.codigoResolucionPk', 'DESC');
         return $queryBuilder->getQuery()->getResult();

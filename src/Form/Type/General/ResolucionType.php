@@ -21,6 +21,7 @@ class ResolucionType extends AbstractType
             ->add('numeroDesde', TextType::class, array('required' => true))
             ->add('numeroHasta', TextType::class, array('required' => true))
             ->add('llaveTecnica', TextType::class, array('required' => true))
+            ->add('fecha', DateType::class, ['label' => 'Fecha: ',  'required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ',  'required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ',  'required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

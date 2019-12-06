@@ -20,7 +20,7 @@ class ResolucionController extends  AbstractController
     public function lista(Request $request, PaginatorInterface $paginator )
     {
         $em = $this->getDoctrine()->getManager();
-
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
         $form = $this->createFormBuilder()
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->setMethod('GET')
@@ -33,7 +33,7 @@ class ResolucionController extends  AbstractController
                 return $this->redirect($this->generateUrl('resolucion_lista'));
             }
         }
-        $arResoluciones = $paginator->paginate($em->getRepository(GenResolucion::class)->lista(), $request->query->getInt('page', 1), 30);
+        $arResoluciones = $paginator->paginate($em->getRepository(GenResolucion::class)->lista($empresa), $request->query->getInt('page', 1), 30);
 
         return $this->render('General/Administracion/Resolucion/lista.html.twig', [
             'arResoluciones' => $arResoluciones,
@@ -50,13 +50,17 @@ class ResolucionController extends  AbstractController
         $arResolucion = new GenResolucion();
         if ($id != 0) {
             $arResolucion = $em->getRepository(GenResolucion::class)->find($id);
+        } else {
+            $arResolucion->setFecha(new \DateTime('now'));
+            $arResolucion->setFechaDesde(new \DateTime('now'));
+            $arResolucion->setFechaHasta(new \DateTime('now'));
         }
         $form = $this->createForm(ResolucionType::class, $arResolucion);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arResolucion = $form->getData();
-                $arResolucion->setFecha(new \DateTime('now'));
+                $arResolucion->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                 $em->persist($arResolucion);
                 $em->flush();
                 return $this->redirect($this->generateUrl('resolucion_detalle', array('id' => $arResolucion->getCodigoResolucionPk())));

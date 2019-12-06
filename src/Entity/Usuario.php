@@ -14,7 +14,7 @@ class Usuario implements UserInterface, \Serializable
 {
 
     /**
-     * @ORM\Column(name="codigo_usuario_pk",type="string")
+     * @ORM\Column(name="codigo_usuario_pk", type="string", length=100)
      * @ORM\Id
      */
     private $codigoUsuarioPk;
