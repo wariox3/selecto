@@ -1,104 +1,123 @@
 {% extends "base.html.twig" %}
 {% block content %}
     {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
-    <div class="col-sm-12">
-        <section class="panel panel-featured panel-featured-primary">
-            <header class="panel-heading">
-                <h2 class="panel-title">Información empresa</h2>
-            </header>
-            <div class="panel-body">
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Nombre:</label>
-                    <div class="col-sm-2">
-                        {{ form_widget(form.nit) }}
-                        <div style="color:red;">{{ form_errors(form.nit) }}</div>
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel panel-featured panel-featured-primary">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Información empresa</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">Nombre:</label>
+                        <div class="col-sm-2">
+                            {{ form_widget(form.nit) }}
+                            <div style="color:red;">{{ form_errors(form.nit) }}</div>
+                        </div>
+                        <label class="col-sm-1 control-label">Digito:</label>
+                        <div class="col-sm-1">
+                            {{ form_widget(form.digitoVerificacion) }}
+                            <div style="color:red;">{{ form_errors(form.digitoVerificacion) }}</div>
+                        </div>
+                        <label class="col-sm-2 control-label">Nombre:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.nombreCorto,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.nombreCorto) }}</div>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label">Digito:</label>
-                    <div class="col-sm-1">
-                        {{ form_widget(form.digitoVerificacion) }}
-                        <div style="color:red;">{{ form_errors(form.digitoVerificacion) }}</div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">Ciudad:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.ciudadRel,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.ciudadRel) }}</div>
+                        </div>
+                        <label class="col-sm-2 control-label">Tipo persona:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.tipoPersonaRel,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.tipoPersonaRel) }}</div>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Nombre:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.nombreCorto,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.nombreCorto) }}</div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">Dirección:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.direccion,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.direccion) }}</div>
+                        </div>
+                        <label class="col-sm-2 control-label">Correo:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.correo,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.correo) }}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Ciudad:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.ciudadRel,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.ciudadRel) }}</div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">Teléfono:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.telefono,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.telefono) }}</div>
+                        </div>
+                        <label class="col-sm-2 control-label">Extension:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.extension,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.extension) }}</div>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Tipo persona:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.tipoPersonaRel,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.tipoPersonaRel) }}</div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label">Regimen:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.RegimenRel,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.RegimenRel) }}</div>
+                        </div>
+                        <label class="col-sm-2 control-label">Formato factura:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.formatoFactura,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.formatoFactura) }}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Dirección:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.direccion,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.direccion) }}</div>
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
+                        </div>
+                        <label class="col-sm-2 control-label">Información cuenta pago:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.informacionCuentaPago,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.informacionCuentaPago) }}</div>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Correo:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.correo,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.correo) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Teléfono:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.telefono,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.telefono) }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">Extension:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.extension,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.extension) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Regimen:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.RegimenRel,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.RegimenRel) }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">Formato factura:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.formatoFactura,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.formatoFactura) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-4">
-                    </div>
-                    <label class="col-sm-2 control-label">Información cuenta pago:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.informacionCuentaPago,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.informacionCuentaPago) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-4">
+                    <div class="form-group form-group-sm">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-4">
 
+                        </div>
+                        <label class="col-sm-2 control-label">Matricula mercantil:</label>
+                        <div class="col-sm-4">
+                            {{ form_widget(form.matriculaMercantil,{ 'attr' : {'class' : 'form-control'}}) }}
+                            <div style="color:red;">{{ form_errors(form.matriculaMercantil) }}</div>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label">Matricula mercantil:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.matriculaMercantil,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.matriculaMercantil) }}</div>
+                    <hr>
+                    <div class="btn-group" style="float: right; margin-right: 5px !important;">
+                        {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
                     </div>
                 </div>
-                <hr>
-                <div class="btn-group" style="float: right; margin-right: 5px !important;">
-                    {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabs tabs-primary">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#empresas" data-toggle="tab">Empresa</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="empresas" class="tab-pane active">
+                        <p>Popular</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     {{ form_end(form) }}
 {% endblock %}

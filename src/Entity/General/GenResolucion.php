@@ -57,14 +57,19 @@ class GenResolucion
     private $llaveTecnica;
 
     /**
+     * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
+     */
+    private $codigoEmpresaFk;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="resolucionRel")
      */
-    protected $movimientosResolucionRel;
+    private $movimientosResolucionRel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Empresa", mappedBy="resolucionRel")
      */
-    protected $empresasResolucionRel;
+    private $empresasResolucionRel;
 
     /**
      * @return mixed
@@ -213,6 +218,22 @@ class GenResolucion
     /**
      * @return mixed
      */
+    public function getCodigoEmpresaFk()
+    {
+        return $this->codigoEmpresaFk;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaFk
+     */
+    public function setCodigoEmpresaFk($codigoEmpresaFk): void
+    {
+        $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMovimientosResolucionRel()
     {
         return $this->movimientosResolucionRel;
@@ -241,7 +262,6 @@ class GenResolucion
     {
         $this->empresasResolucionRel = $empresasResolucionRel;
     }
-
 
 
 }
