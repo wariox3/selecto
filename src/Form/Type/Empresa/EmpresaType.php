@@ -6,6 +6,7 @@ namespace App\Form\Type\Empresa;
 
 use App\Entity\General\GenCiudad;
 use App\Entity\General\GenRegimen;
+use App\Entity\General\GenResolucion;
 use App\Entity\General\GenTipoPersona;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -51,6 +52,15 @@ class EmpresaType extends AbstractType
                 'choice_label' => 'nombre',
                 'label' => 'Regimen:'
                 , 'required' => true])
+            ->add('resolucionRel', EntityType::class, [
+                'class' => GenResolucion::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('r')
+                        ->orderBy('r.numero', 'DESC');
+                },
+                'choice_label' => 'numero',
+                'label' => 'Resolucion:'
+                , 'required' => true])
             ->add('nombreCorto', TextType::class, array('required' => true))
             ->add('nit', TextType::class, array('required' => true))
             ->add('digitoVerificacion', NumberType::class, array('required' => true))
@@ -58,16 +68,8 @@ class EmpresaType extends AbstractType
             ->add('correo', TextType::class, array('required' => true))
             ->add('telefono', TextType::class, array('required' => true))
             ->add('extension', TextType::class, array('required' => true))
-            ->add('porcentajeInteresMora', NumberType::class, array('required' => true))
-            ->add('generaInteresMora', TextType::class, array('required' => true))
             ->add('formatoFactura', TextType::class, array('required' => true))
-            ->add('fechaDesdeVigencia', DateType::class, ['label' => 'Fecha desde: ',  'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
-            ->add('fechaHastaVigencia', DateType::class, ['label' => 'Fecha desde: ',  'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
-            ->add('numeracionDesde', TextType::class, array('required' => true))
-            ->add('numeracionHasta', TextType::class, array('required' => true))
-            ->add('numeroResolucionDianFactura', TextType::class, array('required' => true))
             ->add('informacionCuentaPago', TextType::class, array('required' => true))
-            ->add('prefijoFacturacion', TextType::class, array('required' => true))
             ->add('matriculaMercantil', TextType::class, array('required' => true))
 
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

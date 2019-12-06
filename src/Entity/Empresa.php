@@ -66,20 +66,6 @@ class Empresa
      * @ORM\Column(name="formato_factura", type="string", length=1, nullable=true)
      */
     private $formatoFactura;
-    /**
-     * @ORM\Column(name="porcentaje_interes_mora", type="float", options={"default":0} , nullable=true)
-     */
-    private $porcentajeInteresMora = 0;
-
-    /**
-     * @ORM\Column(name="codigo_item_interes_mora", type="integer", nullable=true)
-     */
-    private $codigoItemInteresMora;
-
-    /**
-     * @ORM\Column(name="genera_interes_mora", type="boolean", nullable=true, options={"default" : false})
-     */
-    private $generaInteresMora = false;
 
     /**
      * @ORM\Column(name="codigo_tipo_persona_fk", type="string", length=3, nullable=true)
@@ -92,44 +78,9 @@ class Empresa
     private $codigoRegimenFk;
 
     /**
-     * @ORM\OneToMany(targetEntity="Usuario", mappedBy="empresaRel")
-     */
-    protected $usuariosEmpresaRel;
-
-    /**
-     * @ORM\Column(name="fecha_desde_vigencia", type="date", nullable=true)
-     */
-    private $fechaDesdeVigencia;
-
-    /**
-     * @ORM\Column(name="fecha_hasta_vigencia", type="date", nullable=true)
-     */
-    private $fechaHastaVigencia;
-
-    /**
-     * @ORM\Column(name="numeracion_desde", type="string", length=20, nullable=true)
-     */
-    private $numeracionDesde;
-
-    /**
-     * @ORM\Column(name="numeracion_hasta", type="string", length=20, nullable=true)
-     */
-    private $numeracionHasta;
-
-    /**
-     * @ORM\Column(name="numero_resolucion_dian_factura", type="string", length=1000, nullable=true)
-     */
-    private $numeroResolucionDianFactura;
-
-    /**
      * @ORM\Column(name="informacion_cuenta_pago", type="string", length=1000, nullable=true)
      */
     private $informacionCuentaPago;
-
-    /**
-     * @ORM\Column(name="prefijo_facturacion", type="string", length=10, nullable=true)
-     */
-    private $prefijoFacturacion;
 
     /**
      * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
@@ -140,6 +91,11 @@ class Empresa
      * @ORM\Column(name="matricula_mercantil", type="string", length=100, nullable=true)
      */
     private $matriculaMercantil;
+
+    /**
+     * @ORM\Column(name="codigo_resolucion_fk", type="integer", nullable=true)
+     */
+    private $codigoResolucionFk;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="empresasCiudadRel")
@@ -158,6 +114,17 @@ class Empresa
      * @ORM\JoinColumn(name="codigo_regimen_fk", referencedColumnName="codigo_regimen_pk")
      */
     private $regimenRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenResolucion", inversedBy="empresasResolucionRel")
+     * @ORM\JoinColumn(name="codigo_resolucion_fk", referencedColumnName="codigo_resolucion_pk")
+     */
+    private $resolucionRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Usuario", mappedBy="empresaRel")
+     */
+    protected $usuariosEmpresaRel;
 
     /**
      * @return mixed
@@ -258,17 +225,17 @@ class Empresa
     /**
      * @return mixed
      */
-    public function getUsuariosEmpresaRel()
+    public function getCorreo()
     {
-        return $this->usuariosEmpresaRel;
+        return $this->correo;
     }
 
     /**
-     * @param mixed $usuariosEmpresaRel
+     * @param mixed $correo
      */
-    public function setUsuariosEmpresaRel($usuariosEmpresaRel): void
+    public function setCorreo($correo): void
     {
-        $this->usuariosEmpresaRel = $usuariosEmpresaRel;
+        $this->correo = $correo;
     }
 
     /**
@@ -285,102 +252,6 @@ class Empresa
     public function setRutaTemporal($rutaTemporal): void
     {
         $this->rutaTemporal = $rutaTemporal;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFechaDesdeVigencia()
-    {
-        return $this->fechaDesdeVigencia;
-    }
-
-    /**
-     * @param mixed $fechaDesdeVigencia
-     */
-    public function setFechaDesdeVigencia($fechaDesdeVigencia): void
-    {
-        $this->fechaDesdeVigencia = $fechaDesdeVigencia;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFechaHastaVigencia()
-    {
-        return $this->fechaHastaVigencia;
-    }
-
-    /**
-     * @param mixed $fechaHastaVigencia
-     */
-    public function setFechaHastaVigencia($fechaHastaVigencia): void
-    {
-        $this->fechaHastaVigencia = $fechaHastaVigencia;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumeracionDesde()
-    {
-        return $this->numeracionDesde;
-    }
-
-    /**
-     * @param mixed $numeracionDesde
-     */
-    public function setNumeracionDesde($numeracionDesde): void
-    {
-        $this->numeracionDesde = $numeracionDesde;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumeracionHasta()
-    {
-        return $this->numeracionHasta;
-    }
-
-    /**
-     * @param mixed $numeracionHasta
-     */
-    public function setNumeracionHasta($numeracionHasta): void
-    {
-        $this->numeracionHasta = $numeracionHasta;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumeroResolucionDianFactura()
-    {
-        return $this->numeroResolucionDianFactura;
-    }
-
-    /**
-     * @param mixed $numeroResolucionDianFactura
-     */
-    public function setNumeroResolucionDianFactura($numeroResolucionDianFactura): void
-    {
-        $this->numeroResolucionDianFactura = $numeroResolucionDianFactura;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getInformacionCuentaPago()
-    {
-        return $this->informacionCuentaPago;
-    }
-
-    /**
-     * @param mixed $informacionCuentaPago
-     */
-    public function setInformacionCuentaPago($informacionCuentaPago): void
-    {
-        $this->informacionCuentaPago = $informacionCuentaPago;
     }
 
     /**
@@ -418,22 +289,6 @@ class Empresa
     /**
      * @return mixed
      */
-    public function getPrefijoFacturacion()
-    {
-        return $this->prefijoFacturacion;
-    }
-
-    /**
-     * @param mixed $prefijoFacturacion
-     */
-    public function setPrefijoFacturacion($prefijoFacturacion): void
-    {
-        $this->prefijoFacturacion = $prefijoFacturacion;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getFormatoFactura()
     {
         return $this->formatoFactura;
@@ -445,102 +300,6 @@ class Empresa
     public function setFormatoFactura($formatoFactura): void
     {
         $this->formatoFactura = $formatoFactura;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPorcentajeInteresMora(): int
-    {
-        return $this->porcentajeInteresMora;
-    }
-
-    /**
-     * @param int $porcentajeInteresMora
-     */
-    public function setPorcentajeInteresMora(int $porcentajeInteresMora): void
-    {
-        $this->porcentajeInteresMora = $porcentajeInteresMora;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoItemInteresMora()
-    {
-        return $this->codigoItemInteresMora;
-    }
-
-    /**
-     * @param mixed $codigoItemInteresMora
-     */
-    public function setCodigoItemInteresMora($codigoItemInteresMora): void
-    {
-        $this->codigoItemInteresMora = $codigoItemInteresMora;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isGeneraInteresMora(): bool
-    {
-        return $this->generaInteresMora;
-    }
-
-    /**
-     * @param bool $generaInteresMora
-     */
-    public function setGeneraInteresMora(bool $generaInteresMora): void
-    {
-        $this->generaInteresMora = $generaInteresMora;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoCiudadFk()
-    {
-        return $this->codigoCiudadFk;
-    }
-
-    /**
-     * @param mixed $codigoCiudadFk
-     */
-    public function setCodigoCiudadFk($codigoCiudadFk): void
-    {
-        $this->codigoCiudadFk = $codigoCiudadFk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCiudadRel()
-    {
-        return $this->ciudadRel;
-    }
-
-    /**
-     * @param mixed $ciudadRel
-     */
-    public function setCiudadRel($ciudadRel): void
-    {
-        $this->ciudadRel = $ciudadRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCorreo()
-    {
-        return $this->correo;
-    }
-
-    /**
-     * @param mixed $correo
-     */
-    public function setCorreo($correo): void
-    {
-        $this->correo = $correo;
     }
 
     /**
@@ -578,6 +337,86 @@ class Empresa
     /**
      * @return mixed
      */
+    public function getInformacionCuentaPago()
+    {
+        return $this->informacionCuentaPago;
+    }
+
+    /**
+     * @param mixed $informacionCuentaPago
+     */
+    public function setInformacionCuentaPago($informacionCuentaPago): void
+    {
+        $this->informacionCuentaPago = $informacionCuentaPago;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCiudadFk()
+    {
+        return $this->codigoCiudadFk;
+    }
+
+    /**
+     * @param mixed $codigoCiudadFk
+     */
+    public function setCodigoCiudadFk($codigoCiudadFk): void
+    {
+        $this->codigoCiudadFk = $codigoCiudadFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMatriculaMercantil()
+    {
+        return $this->matriculaMercantil;
+    }
+
+    /**
+     * @param mixed $matriculaMercantil
+     */
+    public function setMatriculaMercantil($matriculaMercantil): void
+    {
+        $this->matriculaMercantil = $matriculaMercantil;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoResolucionFk()
+    {
+        return $this->codigoResolucionFk;
+    }
+
+    /**
+     * @param mixed $codigoResolucionFk
+     */
+    public function setCodigoResolucionFk($codigoResolucionFk): void
+    {
+        $this->codigoResolucionFk = $codigoResolucionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCiudadRel()
+    {
+        return $this->ciudadRel;
+    }
+
+    /**
+     * @param mixed $ciudadRel
+     */
+    public function setCiudadRel($ciudadRel): void
+    {
+        $this->ciudadRel = $ciudadRel;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTipoPersonaRel()
     {
         return $this->tipoPersonaRel;
@@ -610,17 +449,33 @@ class Empresa
     /**
      * @return mixed
      */
-    public function getMatriculaMercantil()
+    public function getResolucionRel()
     {
-        return $this->matriculaMercantil;
+        return $this->resolucionRel;
     }
 
     /**
-     * @param mixed $matriculaMercantil
+     * @param mixed $resolucionRel
      */
-    public function setMatriculaMercantil($matriculaMercantil): void
+    public function setResolucionRel($resolucionRel): void
     {
-        $this->matriculaMercantil = $matriculaMercantil;
+        $this->resolucionRel = $resolucionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsuariosEmpresaRel()
+    {
+        return $this->usuariosEmpresaRel;
+    }
+
+    /**
+     * @param mixed $usuariosEmpresaRel
+     */
+    public function setUsuariosEmpresaRel($usuariosEmpresaRel): void
+    {
+        $this->usuariosEmpresaRel = $usuariosEmpresaRel;
     }
 
 

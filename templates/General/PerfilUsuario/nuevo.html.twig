@@ -4,28 +4,28 @@
     <div class="col-sm-12">
         <section class="panel panel-featured panel-featured-primary">
             <header class="panel-heading">
-                <h2 class="panel-title">Información</h2>
+                <h2 class="panel-title">Información empresa</h2>
             </header>
             <div class="panel-body">
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Nombre</label>
+                    <label class="col-sm-2 control-label">Nombre:</label>
                     <div class="col-sm-2">
+                        {{ form_widget(form.nit) }}
+                        <div style="color:red;">{{ form_errors(form.nit) }}</div>
+                    </div>
+                    <label class="col-sm-1 control-label">Digito:</label>
+                    <div class="col-sm-1">
+                        {{ form_widget(form.digitoVerificacion) }}
+                        <div style="color:red;">{{ form_errors(form.digitoVerificacion) }}</div>
+                    </div>
+                    <label class="col-sm-2 control-label">Nombre:</label>
+                    <div class="col-sm-4">
                         {{ form_widget(form.nombreCorto,{ 'attr' : {'class' : 'form-control'}}) }}
                         <div style="color:red;">{{ form_errors(form.nombreCorto) }}</div>
                     </div>
-                    <label class="col-sm-2 control-label">Nit:</label>
-                    <div class="col-sm-2">
-                        {{ form_widget(form.nit,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.nit) }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">Dig verificación:</label>
-                    <div class="col-sm-1">
-                        {{ form_widget(form.digitoVerificacion,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.digitoVerificacion) }}</div>
-                    </div>
                 </div>
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Nombre Corto</label>
+                    <label class="col-sm-2 control-label">Ciudad:</label>
                     <div class="col-sm-4">
                         {{ form_widget(form.ciudadRel,{ 'attr' : {'class' : 'form-control'}}) }}
                         <div style="color:red;">{{ form_errors(form.ciudadRel) }}</div>
@@ -61,18 +61,6 @@
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Porcentaje interes mora:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.porcentajeInteresMora,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.porcentajeInteresMora) }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">Generar interes mora:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.generaInteresMora,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.generaInteresMora) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
                     <label class="col-sm-2 control-label">Regimen:</label>
                     <div class="col-sm-4">
                         {{ form_widget(form.RegimenRel,{ 'attr' : {'class' : 'form-control'}}) }}
@@ -85,34 +73,8 @@
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Vigencia desde:</label>
+                    <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-4">
-                        {{ form_widget(form.fechaDesdeVigencia,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.fechaDesdeVigencia) }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">Vigencia hasta:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.fechaHastaVigencia,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.fechaHastaVigencia) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Numeración desde:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.numeracionDesde,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.numeracionDesde) }}</div>
-                    </div>
-                    <label class="col-sm-2 control-label">Numeración hasta:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.numeracionHasta,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.numeracionHasta) }}</div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Resolución Dian factura:</label>
-                    <div class="col-sm-4">
-                        {{ form_widget(form.numeroResolucionDianFactura,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.numeroResolucionDianFactura) }}</div>
                     </div>
                     <label class="col-sm-2 control-label">Información cuenta pago:</label>
                     <div class="col-sm-4">
@@ -121,10 +83,9 @@
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
-                    <label class="col-sm-2 control-label">Prefijo facturación:</label>
+                    <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-4">
-                        {{ form_widget(form.prefijoFacturacion,{ 'attr' : {'class' : 'form-control'}}) }}
-                        <div style="color:red;">{{ form_errors(form.prefijoFacturacion) }}</div>
+
                     </div>
                     <label class="col-sm-2 control-label">Matricula mercantil:</label>
                     <div class="col-sm-4">

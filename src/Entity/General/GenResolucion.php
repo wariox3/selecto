@@ -62,6 +62,11 @@ class GenResolucion
     protected $movimientosResolucionRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Empresa", mappedBy="resolucionRel")
+     */
+    protected $empresasResolucionRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoResolucionPk()
@@ -219,6 +224,22 @@ class GenResolucion
     public function setMovimientosResolucionRel($movimientosResolucionRel): void
     {
         $this->movimientosResolucionRel = $movimientosResolucionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmpresasResolucionRel()
+    {
+        return $this->empresasResolucionRel;
+    }
+
+    /**
+     * @param mixed $empresasResolucionRel
+     */
+    public function setEmpresasResolucionRel($empresasResolucionRel): void
+    {
+        $this->empresasResolucionRel = $empresasResolucionRel;
     }
 
 
