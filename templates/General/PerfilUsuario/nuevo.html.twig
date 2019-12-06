@@ -9,7 +9,7 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group form-group-sm">
-                        <label class="col-sm-2 control-label">Nombre:</label>
+                        <label class="col-sm-2 control-label">Nit:</label>
                         <div class="col-sm-2">
                             {{ form_widget(form.nit) }}
                             <div style="color:red;">{{ form_errors(form.nit) }}</div>
@@ -54,10 +54,9 @@
                             {{ form_widget(form.telefono,{ 'attr' : {'class' : 'form-control'}}) }}
                             <div style="color:red;">{{ form_errors(form.telefono) }}</div>
                         </div>
-                        <label class="col-sm-2 control-label">Extension:</label>
+                        <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-4">
-                            {{ form_widget(form.extension,{ 'attr' : {'class' : 'form-control'}}) }}
-                            <div style="color:red;">{{ form_errors(form.extension) }}</div>
+
                         </div>
                     </div>
                     <div class="form-group form-group-sm">

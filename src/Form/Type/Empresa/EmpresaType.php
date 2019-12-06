@@ -68,7 +68,6 @@ class EmpresaType extends AbstractType
             ->add('direccion', TextType::class, array('required' => true))
             ->add('correo', TextType::class, array('required' => true))
             ->add('telefono', TextType::class, array('required' => true))
-            ->add('extension', TextType::class, array('required' => true))
             ->add('formatoFactura', TextType::class, array('required' => true))
             ->add('informacionCuentaPago', TextType::class, array('required' => true))
             ->add('matriculaMercantil', TextType::class, array('required' => true))
