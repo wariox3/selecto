@@ -11,7 +11,6 @@
                               <tr>
                                   <th>Id</th>
                                   <th>Número</th>
-                                  <th>Identificacion</th>
                                   <th>Fecha</th>
                                   <th>Fecha desde</th>
                                   <th>Fecha hasta</th>
@@ -30,18 +29,18 @@
                                   <tr>
                                       <td>{{ resolucion.codigoResolucionPk }}</td>
                                       <td>{{ resolucion.numero }}</td>
-                                      <td>{{ resolucion.fecha | date('Y/m/d') }}</td>
-                                      <td>{{ resolucion.fechaDesde | date('Y/m/d') }}</td>
-                                      <td>{{ resolucion.fechaHasta | date('Y/m/d') }}</td>
+                                      <td>{{ resolucion.fecha | date('Y-m-d') }}</td>
+                                      <td>{{ resolucion.fechaDesde | date('Y-m-d') }}</td>
+                                      <td>{{ resolucion.fechaHasta | date('Y-m-d') }}</td>
                                       <td>{{ resolucion.prefijo }}</td>
                                       <td class="number">{{ resolucion.numeroDesde | number_format(0, '.', ',')}}</td>
                                       <td class="number">{{ resolucion.numeroHasta | number_format(0, '.', ',') }}</td>
                                       <td>{{ resolucion.llaveTecnica }}</td>
                                       <td align="center"><a
-                                                  href="{{ path('tercero_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
+                                                  href="{{ path('resolucion_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
                                                   title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
                                       <td align="center"><a
-                                                  href="{{ path('tercero_detalle', { 'id': resolucion.codigoResolucionPk }) }}"
+                                                  href="{{ path('resolucion_detalle', { 'id': resolucion.codigoResolucionPk }) }}"
                                                   title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                       <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                 value="{{ resolucion.codigoResolucionPk }}"/></td>

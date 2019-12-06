@@ -1,3 +1,36 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="{{ path('resolucion_lista') }}">Volver</a>
+        </div>
+    </div>
+    <br><br>
+    <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
+        <tr>
+            <td class="titulo">ID</td>
+            <td class="td-in-well">{{ arResolucion.codigoResolucionPk }}</td>
+            <td class="titulo">NÚMERO</td>
+            <td class="td-in-well">{{ arResolucion.numero }}</td>
+            <td class="titulo">LLAVE TECNICA</td>
+            <td class="td-in-well">{{ arResolucion.llaveTecnica }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">FECHA</td>
+            <td class="td-in-well">{{ arResolucion.fecha | date('Y-m-d') }}</td>
+            <td class="titulo">FECHA DESDE</td>
+            <td class="td-in-well">{{ arResolucion.fechaDesde | date('Y-m-d') }}</td>
+            <td class="titulo">FECHA HASTA</td>
+            <td class="td-in-well">{{ arResolucion.fechaHasta | date('Y-m-d') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">PREFIJO</td>
+            <td class="td-in-well">{{ arResolucion.prefijo }}</td>
+            <td class="titulo">NÚMERO DESDE</td>
+            <td class="td-in-well">{{ arResolucion.numeroDesde | number_format(0, '.', ',') }}</td>
+            <td class="titulo">NÚMERO HASTA</td>
+            <td class="td-in-well">{{ arResolucion.numeroHasta | number_format(0, '.', ',') }}</td>
+        </tr>
+    </table>
+    <br><br>
 {% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     {{ notificar()|raw }}
+     <br>
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Información</h2>
+                 </div>
+                 <div class="panel-body">
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Prefijo</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.prefijo, { 'attr': {'class' : 'form-control'} }) }}
+                             <div style="color:red;">{{ form_errors(form.prefijo) }}</div>
+                         </div>
+                         <label class="col-sm-1 control-label">Llave tecnica</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.llaveTecnica, { 'attr': {'class' : 'form-control'} }) }}
+                             <div style="color:red;">{{ form_errors(form.llaveTecnica) }}</div>
+                         </div>
+                     </div>
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Numero</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.numero ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.numero) }}</div>
+                         </div>
+                         <label class="col-sm-1 control-label">Numero desde</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.numeroDesde ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.numeroDesde) }}</div>
+                         </div>
+                         <label class="col-sm-1 control-label">Numero hasta</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.numeroHasta ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.numeroHasta) }}</div>
+                         </div>
+                     </div>
+                     <div class="form-group form-group-sm">
+                         <label class="col-sm-1 control-label">Fecha desde</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.fechaDesde ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.fechaDesde) }}</div>
+                         </div>
+                         <label class="col-sm-1 control-label">Fecha hasta</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.fechaHasta ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.fechaHasta) }}</div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-6">
+                             <a class="btn btn-default btn-sm" style="float:left"
+                                href="{{ path('resolucion_lista') }}">Cancelar</a>
+                         </div>
+                         <div class="col-sm-6">
+                             {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}

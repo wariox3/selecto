@@ -5,6 +5,7 @@ namespace App\Controller\General\Administracion;
 
 
 use App\Entity\General\GenResolucion;
+use App\Form\Type\General\ResolucionType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,15 +26,11 @@ class ResolucionController extends  AbstractController
             ->setMethod('GET')
             ->getForm();
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($form->get('btnFiltrar')->isClicked()) {
-                $raw['filtros'] = $this->getFiltros($form);
-            }
+        if ($form->isSubmitted()){
             if ($form->get('btnEliminar')->isClicked()) {
-                //$arrSeleccionados = $request->request->get('ChkSeleccionar');
                 $arrSeleccionados = $request->query->get('ChkSeleccionar');
                 $em->getRepository(GenResolucion::class)->eliminar($arrSeleccionados);
-                return $this->redirect($this->generateUrl(''));
+                return $this->redirect($this->generateUrl('resolucion_lista'));
             }
         }
         $arResoluciones = $paginator->paginate($em->getRepository(GenResolucion::class)->lista(), $request->query->getInt('page', 1), 30);
@@ -53,22 +50,20 @@ class ResolucionController extends  AbstractController
         $arResolucion = new GenResolucion();
         if ($id != 0) {
             $arResolucion = $em->getRepository(GenResolucion::class)->find($id);
-            if (!$arResolucion) {
-                return $this->redirect($this->generateUrl('recursohumano_administracion_nomina_embargojuzgado_lista'));
-            }
         }
         $form = $this->createForm(ResolucionType::class, $arResolucion);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arResolucion = $form->getData();
+                $arResolucion->setFecha(new \DateTime('now'));
                 $em->persist($arResolucion);
                 $em->flush();
-                return $this->redirect($this->generateUrl('recursohumano_administracion_nomina_embargojuzgado_detalle', array('id' => $arResolucion->getCodigoEmbargoJusgadoPK())));
+                return $this->redirect($this->generateUrl('resolucion_detalle', array('id' => $arResolucion->getCodigoResolucionPk())));
             }
         }
-        return $this->render('recursohumano/administracion/nomina/juzgado/nuevo.html.twig', [
-            'arEmbargoJusgado' => $arResolucion,
+        return $this->render('General/Administracion/Resolucion/nuevo.html.twig', [
+            'arResolucion' => $arResolucion,
             'form' => $form->createView()
         ]);
     }
