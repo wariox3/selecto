@@ -45,17 +45,69 @@
             <td class="td-in-well">{{ arTercero.direccion }}</td>
         </tr>
         <tr>
+            <td class="titulo">CODIGO POSTAL</td>
+            <td class="td-in-well">{{ arTercero.codigoPostal }}</td>
+            <td class="titulo">BARRIO</td>
+            <td class="td-in-well">{{ arTercero.barrio }}</td>
+        </tr>
+        <tr>
             <td class="titulo">CLIENTE:</td>
             <td class="td-in-well">{{ arTercero.cliente ? 'SI':'NO' }}</td>
-            <td></td>
-            <td></td>
+            <td class="titulo">PLAZO PAGO:</td>
+            <td class="td-in-well">{{ arTercero.plazoPago ? 'SI':'NO' }}</td>
         </tr>
         <tr>
             <td class="titulo">PROVEEDOR:</td>
             <td class="td-in-well">{{ arTercero.proveedor ? 'SI':'NO' }}</td>
-            <td></td>
-            <td></td>
+            <td class="titulo">CIUU:</td>
+            <td class="td-in-well">{{ arTercero.codigoCIUU  }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">BLOQUE CARTERA:</td>
+            <td class="td-in-well">{{ arTercero.bloqueoCartera ? 'SI':'NO' }}</td>
+            <td class="titulo">CUPO COMPRA:</td>
+            <td class="td-in-well">{{ arTercero.cupoCompra  }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">FORMA DE PAGO:</td>
+            <td class="td-in-well">{{ arTercero.formaPagoRel.nombre }}</td>
+            <td class="titulo">REGIMEN:</td>
+            <td class="td-in-well">{{ arTercero.regimenRel.nombre | default('') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">IDENTIFICADOR:</td>
+            <td class="td-in-well">{{ arTercero.identificacionRel.nombre | default('') }}</td>
+            <td class="titulo">TIPO:</td>
+            <td class="td-in-well">{{ arTercero.tipoPersonaRel.nombre | default('') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">RETENCIÓN FUENTE SIN BASE:</td>
+            <td class="td-in-well">{{ arTercero.retencionFuenteSinBase ? 'SI':'NO' }}</td>
+            <td class="titulo">RETENCIÓN FUENTE:</td>
+            <td class="td-in-well">{{ arTercero.retencionFuente ? 'SI':'NO' }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">RETENCIÓN IVA:</td>
+            <td class="td-in-well">{{ arTercero.retencionIva ? 'SI':'NO' }}</td>
+            <td class="titulo">AUTO RETENEDOR:</td>
+            <td class="td-in-well">{{ arTercero.autoretenedor ? 'SI':'NO' }}</td>
         </tr>
     </table>
+    <br>
+    <div class="col-md-12">
+        <div class="tabs tabs-primary">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#sucursales" data-toggle="tab">Sucursales</a>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+                <div id="sucursales" class="tab-pane active">
+                </div>
+
+            </div>
+        </div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
