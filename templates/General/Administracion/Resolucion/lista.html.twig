@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     <div class="row">
+          <div class="col-md-12">
+              <section class="panel">
+                  <div class="panel-body">
+                      <div class="table-responsive">
+                          <table class="table table-bordered mb-none tabla-datos">
+                              <thead>
+                              <tr>
+                                  <th>Id</th>
+                                  <th>Número</th>
+                                  <th>Identificacion</th>
+                                  <th>Fecha</th>
+                                  <th>Fecha desde</th>
+                                  <th>Fecha hasta</th>
+                                  <th>Prefijo</th>
+                                  <th>Número desde</th>
+                                  <th>Número hasta</th>
+                                  <th>Llave tecnica</th>
+                                  <th></th>
+                                  <th></th>
+                                  <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                             OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              {% for resolucion in arResoluciones %}
+                                  <tr>
+                                      <td>{{ resolucion.codigoResolucionPk }}</td>
+                                      <td>{{ resolucion.numero }}</td>
+                                      <td>{{ resolucion.fecha | date('Y/m/d') }}</td>
+                                      <td>{{ resolucion.fechaDesde | date('Y/m/d') }}</td>
+                                      <td>{{ resolucion.fechaHasta | date('Y/m/d') }}</td>
+                                      <td>{{ resolucion.prefijo }}</td>
+                                      <td class="number">{{ resolucion.numeroDesde | number_format(0, '.', ',')}}</td>
+                                      <td class="number">{{ resolucion.numeroHasta | number_format(0, '.', ',') }}</td>
+                                      <td>{{ resolucion.llaveTecnica }}</td>
+                                      <td align="center"><a
+                                                  href="{{ path('tercero_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
+                                                  title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
+                                      <td align="center"><a
+                                                  href="{{ path('tercero_detalle', { 'id': resolucion.codigoResolucionPk }) }}"
+                                                  title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
+                                      <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
+                                                                value="{{ resolucion.codigoResolucionPk }}"/></td>
+                                  </tr>
+                              {% endfor %}
+                              </tbody>
+                          </table>
+                          <div style="display: flex; flex-direction: row;">
+                              <span style="margin-right: 4px">registros: {{ arResoluciones.getTotalItemCount }}</span>
+                              {{ knp_pagination_render(arResoluciones) }}
+                          </div>
+                      </div>
+                  </div>
+                  <div class="panel-footer">
+                      <div class="row">
+                          <div class="col-sm-9 col-sm-offset-3">
+                              <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                                   aria-label="...">
+                                  <a class="btn btn-sm btn-default"
+                                     href="{{ path('resolucion_nuevo',{'id':0}) }}">Nuevo</a>
+                                  {{ form_widget(form.btnEliminar) }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+          </div>
+      </div>
+     {{ form_end(form) }}
+ {% endblock %}

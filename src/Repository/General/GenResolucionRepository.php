@@ -15,4 +15,20 @@ class GenResolucionRepository extends ServiceEntityRepository
         parent::__construct($registry, GenResolucion::class);
     }
 
+    public function lista()
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(GenResolucion::class, 'r')
+            ->select('r.codigoResolucionPk')
+            ->addSelect('r.numero')
+            ->addSelect('r.fecha')
+            ->addSelect('r.fechaDesde')
+            ->addSelect('r.fechaHasta')
+            ->addSelect('r.prefijo')
+            ->addSelect('r.numeroDesde')
+            ->addSelect('r.numeroHasta')
+            ->addSelect('r.llaveTecnica');
+
+        $queryBuilder->addOrderBy('r.codigoResolucionPk', 'DESC');
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
