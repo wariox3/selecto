@@ -52,6 +52,7 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Documento</th>
                                  <th>Numero</th>
                                  <th>Fecha</th>
                                  <th>Referencia</th>
@@ -63,34 +64,39 @@
                                  <th title="Aprobado">Apr</th>
                                  <th title="Anulado">Anu</th>
                                  <th></th>
+                                 <th></th>
                                  <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
                                             OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
                              </tr>
                              </thead>
                              <tbody>
-                             {% for movimiento in arMovimientos %}
+                             {% for arMovimiento in arMovimientos %}
                                  <tr>
-                                     <td>{{ movimiento.codigoMovimientoPk }}</td>
-                                     <td>{{ movimiento.numero }}</td>
-                                     <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
-                                     <td>{{ movimiento.referencia }}</td>
-                                     <td>{{ movimiento.tercero }}</td>
-                                     <td class="numero">{{ movimiento.vrSubtotal | number_format }}</td>
-                                     <td class="numero">{{ movimiento.vrIva | number_format }}</td>
-                                     <td class="numero">{{ movimiento.vrTotalNeto | number_format }}</td>
-                                     <td>{{ movimiento.estadoAutorizado ? 'SI':'NO' }}</td>
-                                     <td>{{ movimiento.estadoAprobado ? 'SI':'NO' }}</td>
-                                     <td>{{ movimiento.estadoAnulado ? 'SI':'NO' }}</td>
-                                     {% if movimiento.estadoAutorizado == false %}
+                                     <td>{{ arMovimiento.codigoMovimientoPk }}</td>
+                                     <td>{{ arMovimiento.documentoNombre }}</td>
+                                     <td>{{ arMovimiento.numero }}</td>
+                                     <td>{{ arMovimiento.fecha|date('Y-m-d') }}</td>
+                                     <td>{{ arMovimiento.referencia }}</td>
+                                     <td>{{ arMovimiento.tercero }}</td>
+                                     <td class="numero">{{ arMovimiento.vrSubtotal | number_format }}</td>
+                                     <td class="numero">{{ arMovimiento.vrIva | number_format }}</td>
+                                     <td class="numero">{{ arMovimiento.vrTotalNeto | number_format }}</td>
+                                     <td>{{ arMovimiento.estadoAutorizado ? 'SI':'NO' }}</td>
+                                     <td>{{ arMovimiento.estadoAprobado ? 'SI':'NO' }}</td>
+                                     <td>{{ arMovimiento.estadoAnulado ? 'SI':'NO' }}</td>
+                                     {% if arMovimiento.estadoAutorizado == false %}
                                          <td align="center"><a
-                                                     href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
+                                                     href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': arMovimiento.codigoMovimientoPk }) }}"
                                                      title="editar descripcion"><i
                                                          class="fa fa-edit fa-lg"></i></a></td>
                                      {% else %}
                                          <td></td>
                                      {% endif %}
-                                     <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
-                                                               value="{{ movimiento.codigoMovimientoPk }}"/></td>
+                                     <td>
+                                         <a href="javascript:abrirVentana3('{{ path('general_proceso_facturaelectronica_respuesta_ver',{'entidad': 'InvMovimiento', 'codigo': arMovimiento.codigoMovimientoPk }) }}','Respuesta',800,1200)">Ver</a>
+                                     </td>
+                                     <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arMovimiento.codigoMovimientoPk }}"/></td>
+
                                  </tr>
                              {% endfor %}
                              </tbody>

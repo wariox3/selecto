@@ -45,8 +45,12 @@
                          </div>
                          <label class="col-sm-1 control-label">Numero hasta</label>
                          <div class="col-sm-2">
-                             {{ form_widget(form.numeroHasta ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             {{ form_widget(form.numeroHasta)}}
                              <div style="color:red;">{{ form_errors(form.numeroHasta) }}</div>
+                         </div>
+                         <label class="col-sm-1 control-label"></label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.prueba)}}
                          </div>
                      </div>
                      <div class="form-group form-group-sm">

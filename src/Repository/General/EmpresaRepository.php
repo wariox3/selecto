@@ -84,8 +84,10 @@ class EmpresaRepository extends ServiceEntityRepository
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
             ->addSelect('dep.codigoDaneMascara as departamentoCodigoDaneMascara')
+            ->addSelect('tp.codigoInterface as tipoPersona')
             ->leftJoin('e.ciudadRel', 'ciu')
             ->leftJoin('ciu.departamentoRel', 'dep')
+            ->leftJoin('e.tipoPersonaRel', 'tp')
             ->where("e.codigoEmpresaPk = {$codigoEmpresa}");
         return $queryBuilder->getQuery()->getSingleResult();
     }

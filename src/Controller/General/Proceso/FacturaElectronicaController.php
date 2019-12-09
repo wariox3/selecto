@@ -2,6 +2,7 @@
 
 namespace App\Controller\General\Proceso;
 
+use App\Entity\General\GenRespuestaFacturaElectronica;
 use App\Entity\General\GenTercero;
 use App\Entity\Inventario\InvMovimiento;
 use App\Form\Type\Inventario\TerceroType;
@@ -46,6 +47,26 @@ class FacturaElectronicaController extends Controller
         $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente('FAC', $empresa), $request->query->getInt('page', 1), 30);
         return $this->render('General/Proceso/FacturaElectronica/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/general/proceso/facturaelectronica/respuesta/ver/{entidad}/{codigo}", name="general_proceso_facturaelectronica_respuesta_ver")
+     */
+    public function ver(Request $request, $entidad, $codigo)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $paginator = $this->get('knp_paginator');
+        $form = $this->createFormBuilder()
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
+        $arRespuestas = $paginator->paginate($em->getRepository(GenRespuestaFacturaElectronica::class)->lista($entidad, $codigo), $request->query->getInt('page', 1), 1000);
+        return $this->render('General/Proceso/FacturaElectronica/verError.html.twig', [
+            'arRespuestas'      =>  $arRespuestas,
             'form' => $form->createView()
         ]);
     }

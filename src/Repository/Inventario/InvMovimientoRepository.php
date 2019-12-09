@@ -76,7 +76,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.estadoAprobado')
             ->addSelect('m.estadoAnulado')
             ->addSelect('t.nombreCorto AS tercero')
+            ->addSelect('d.nombre AS documentoNombre')
             ->leftJoin('m.terceroRel', 't')
+            ->leftJoin('m.documentoRel', 'd')
             ->where("m.codigoDocumentoFk = '" . $documento . "'")
             ->andWhere('m.codigoEmpresaFk = ' . $empresa)
             ->andWhere('m.estadoElectronico = 0');
@@ -409,6 +411,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('rf.fechaHasta as resolucionFechaHasta')
             ->addSelect('rf.numeroDesde as resolucionNumeroDesde')
             ->addSelect('rf.numeroHasta as resolucionNumeroHasta')
+            ->addSelect('rf.prueba as resolucionPrueba')
             ->addSelect('ciu.nombre as ciudadNombre')
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
@@ -438,9 +441,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 if($arFactura['estadoAprobado'] && !$arFactura['estadoElectronico']) {
                     $baseIvaTotal = 0;
                     $arrFactura = [
-                        'dat_nitFacturador' => '',
-                        'dat_claveTecnica' => '',
-                        'dat_claveTecnicaCadena' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
+                        'dat_nitFacturador' => $arrConfiguracion['nit'],
+                        'dat_claveTecnica' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
                         'dat_tipoAmbiente' => '2',
                         'res_numero' => $arFactura['resolucionNumero'],
                         'res_prefijo' => $arFactura['resolucionPrefijo'],
@@ -448,6 +450,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'res_fechaHasta' => $arFactura['resolucionFechaHasta']?$arFactura['resolucionFechaHasta']->format('Y-m-d'):null,
                         'res_desde' => $arFactura['resolucionNumeroDesde'],
                         'res_hasta' => $arFactura['resolucionNumeroHasta'],
+                        'res_prueba' => $arFactura['resolucionPrueba'],
                         'doc_codigo' => $arFactura['codigoMovimientoPk'],
                         'doc_numero' => $arFactura['numero'],
                         'doc_fecha' => $arFactura['fecha']->format('Y-m-d'),
@@ -458,7 +461,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'doc_inc' => number_format(0, 2, '.', ''),
                         'doc_ica' => number_format(0, 2, '.', ''),
                         'doc_total' => number_format($arFactura['vrTotalBruto'], 2, '.', ''),
-                        'em_tipoPersona' => $arrConfiguracion['codigoTipoPersonaFk'],
+                        'em_tipoPersona' => $arrConfiguracion['tipoPersona'],
                         'em_numeroIdentificacion' => $arrConfiguracion['nit'],
                         'em_digitoVerificacion' => $arrConfiguracion['digitoVerificacion'],
                         'em_nombreCompleto' => $arrConfiguracion['nombre'],
@@ -523,15 +526,19 @@ class InvMovimientoRepository extends ServiceEntityRepository
                             break;
                         }
                         if($procesoFacturaElectronica['estado'] == 'ER') {
-                            $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
+                            /*$arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
                             $arFactura->setProcesoFacturaElectronica('ER');
                             $em->persist($arFactura);
                             $em->flush();
+                            */
                         }
                         if($procesoFacturaElectronica['estado'] == 'EX') {
                             $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
-                            $arFactura->setEstadoFacturaElectronica(1);
-                            $arFactura->setProcesoFacturaElectronica(null);
+                            $arFactura->setEstadoElectronico(1);
+                            if($arrFactura['res_prueba']) {
+                                $arFactura->setNumero($arFactura->getNumero() + 1);
+                                $arFactura->setEstadoElectronico(0);
+                            }
                             $em->persist($arFactura);
                             $em->flush();
                         }

@@ -5,6 +5,7 @@ namespace App\Form\Type\General;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,6 +25,7 @@ class ResolucionType extends AbstractType
             ->add('fecha', DateType::class, ['label' => 'Fecha: ',  'required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
             ->add('fechaDesde', DateType::class, ['label' => 'Fecha desde: ',  'required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ',  'required' => true, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd'])
+            ->add('prueba', CheckboxType::class, array('required' => false))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
 
 

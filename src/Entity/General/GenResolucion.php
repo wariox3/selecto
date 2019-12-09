@@ -62,6 +62,11 @@ class GenResolucion
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="prueba", type="boolean", options={"default":false})
+     */
+    private $prueba = false;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="resolucionRel")
      */
     private $movimientosResolucionRel;
@@ -261,6 +266,22 @@ class GenResolucion
     public function setEmpresasResolucionRel($empresasResolucionRel): void
     {
         $this->empresasResolucionRel = $empresasResolucionRel;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrueba(): bool
+    {
+        return $this->prueba;
+    }
+
+    /**
+     * @param bool $prueba
+     */
+    public function setPrueba(bool $prueba): void
+    {
+        $this->prueba = $prueba;
     }
 
 

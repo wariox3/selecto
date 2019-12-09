@@ -290,7 +290,6 @@ class FacturaElectronica
                 }
             }
             if(isset($resp['statusCode'])) {
-                $procesoFacturaElectronica['estado'] = 'ER';
                 $arRespuesta = new GenRespuestaFacturaElectronica();
                 $arRespuesta->setFecha(new \DateTime('now'));
                 $arRespuesta->setCodigoModeloFk('InvMovimiento');
@@ -308,6 +307,11 @@ class FacturaElectronica
                 }
                 $em->persist($arRespuesta);
                 $em->flush();
+                if($resp['statusCode'] == "200") {
+                    $procesoFacturaElectronica['estado'] = 'EX';
+                } else {
+                    $procesoFacturaElectronica['estado'] = 'ER';
+                }
             }
         }
         curl_close($ch);
@@ -317,7 +321,7 @@ class FacturaElectronica
     private function generarXmlCadena($arrFactura) {
         $em = $this->em;
         $numero = $arrFactura['res_prefijo'] . $arrFactura['doc_numero'];
-        $cufe = $numero.$arrFactura['doc_fecha'].$arrFactura['doc_hora'].$arrFactura['doc_subtotal'].'01'.$arrFactura['doc_iva'].'04'.$arrFactura['doc_inc'].'03'.$arrFactura['doc_ica'].$arrFactura['doc_total'].$arrFactura['dat_nitFacturador'].$arrFactura['ad_numeroIdentificacion'].$arrFactura['dat_claveTecnicaCadena'].$arrFactura['dat_tipoAmbiente'];
+        $cufe = $numero.$arrFactura['doc_fecha'].$arrFactura['doc_hora'].$arrFactura['doc_subtotal'].'01'.$arrFactura['doc_iva'].'04'.$arrFactura['doc_inc'].'03'.$arrFactura['doc_ica'].$arrFactura['doc_total'].$arrFactura['dat_nitFacturador'].$arrFactura['ad_numeroIdentificacion'].$arrFactura['dat_claveTecnica'].$arrFactura['dat_tipoAmbiente'];
         $cufeHash = hash('sha384', $cufe);
         $xml = new \XMLWriter();
         $xml->openMemory();
@@ -639,14 +643,26 @@ class FacturaElectronica
 
     public function validarDatos($arrFactura) {
         $arrRespuesta = ['estado' => 'error', 'mensaje' => null];
-        if($arrFactura['ad_digitoVerificacion']) {
-            if($arrFactura['ad_tipoPersona']) {
-                $arrRespuesta = ['estado' => 'ok', 'mensaje' => null];
+        if($arrFactura['dat_nitFacturador']) {
+            if($arrFactura['dat_claveTecnica']) {
+                if($arrFactura['ad_digitoVerificacion']) {
+                    if($arrFactura['ad_tipoPersona']) {
+                        if($arrFactura['res_numero'] && $arrFactura['res_prefijo'] && $arrFactura['res_fechaDesde'] && $arrFactura['res_fechaHasta'] && $arrFactura['res_desde'] && $arrFactura['res_hasta']) {
+                            $arrRespuesta = ['estado' => 'ok', 'mensaje' => null];
+                        } else {
+                            $arrRespuesta = ['estado' => 'error', 'mensaje' => 'Faltan datos de la resolucion o el documento no tiene resolucion asignada'];
+                        }
+                    } else {
+                        $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El adquiriente no tiene tipo de persona'];
+                    }
+                } else {
+                    $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El adquiriente no tiene digito de verificacion'];
+                }
             } else {
-                $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El adquiriente no tiene tipo de persona'];
+                $arrRespuesta = ['estado' => 'error', 'mensaje' => 'Falta la clave tecnica'];
             }
         } else {
-            $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El adquiriente no tiene digito de verificacion'];
+            $arrRespuesta = ['estado' => 'error', 'mensaje' => 'Debe seleccionar en configuracion el nit del facturador'];
         }
         return $arrRespuesta;
     }

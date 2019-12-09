@@ -18,6 +18,7 @@
                                   <th>Número desde</th>
                                   <th>Número hasta</th>
                                   <th>Llave tecnica</th>
+                                  <th title="Prueba">PRU</th>
                                   <th></th>
                                   <th></th>
                                   <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
@@ -36,6 +37,7 @@
                                       <td class="number">{{ resolucion.numeroDesde | number_format(0, '.', ',')}}</td>
                                       <td class="number">{{ resolucion.numeroHasta | number_format(0, '.', ',') }}</td>
                                       <td>{{ resolucion.llaveTecnica }}</td>
+                                      <td>{{ resolucion.prueba?'SI':'NO' }}</td>
                                       <td align="center"><a
                                                   href="{{ path('resolucion_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
                                                   title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
