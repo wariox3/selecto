@@ -3,6 +3,7 @@
 namespace App\Formatos;
 
 use App\Entity\Empresa;
+use App\Entity\General\GenResolucion;
 use App\Entity\Inventario\InvFacturaTipo;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
@@ -52,6 +53,7 @@ class Factura extends \FPDF
         $em = self::$em;
         /** @var  $arMovimiento InvMovimiento */
         $arMovimiento = $em->getRepository('App:Inventario\InvMovimiento')->find(self::$codigoMovimiento);
+        $arResolucion = BaseDatos::getEm()->getRepository(GenResolucion::class)->find($arMovimiento->getCodigoResolucionFk());
         $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(self::$codigoEmpresa);
 
         $this->SetFont('Arial', '', 5);
@@ -62,7 +64,7 @@ class Factura extends \FPDF
         $this->SetXY(140, 26);
         $this->Cell(35, 4, 'FACTURA DE VENTA', 0, 0, 'L', 0);
         $this->SetFont('Arial', '', 12);
-        $this->Cell(25, 4, $arEmpresa->getPrefijoFacturacion() .$arMovimiento->getNumero(), 0, 0, 'R', 0);
+        $this->Cell(25, 4, $arResolucion->getPrefijo() .$arMovimiento->getNumero(), 0, 0, 'R', 0);
         //
         $this->SetFont('Arial', 'B', 8);
         $this->SetXY(140, 30);
@@ -248,7 +250,7 @@ class Factura extends \FPDF
          */
         $arMovimiento = self::$em->getRepository('App:Inventario\InvMovimiento')->find(self::$codigoMovimiento);
         $arEmpresa = self::$em->getRepository(Empresa::class)->informacionFacturacion(self::$codigoEmpresa);
-
+        $arResolucion = BaseDatos::getEm()->getRepository(GenResolucion::class)->find($arMovimiento->getCodigoResolucionFk());
         $this->Ln();
         $this->SetFont('Arial', 'B', 7.5);
         //Bloque informacion de conformidad
@@ -267,7 +269,7 @@ class Factura extends \FPDF
         $this->Text(80, 228, utf8_decode('FECHA:________________________________'));
         $this->Text(140, 228, utf8_decode('FECHA:________________________________'));
         //Bloque resolucion facturacion
-        $this->Text(20, 236, utf8_decode($arEmpresa['numeroResolucionDianFactura']) . ' Desde '. $arEmpresa['prefijoFacturacion']. $arEmpresa['numeracionDesde'] . ' hasta el ' . $arEmpresa['prefijoFacturacion']. $arEmpresa['numeracionHasta'] . ' Fecha de vigencia desde ' . $arEmpresa['fechaDesdeVigencia']->format('Y-m-d') . ' hasta el ' . $arEmpresa['fechaHastaVigencia']->format('Y-m-d'));
+        $this->Text(20, 236, utf8_decode($arResolucion->getNumero()) . ' Desde '. $arResolucion->getPrefijo(). $arResolucion->getNumeroDesde() . ' hasta el ' . $arResolucion->getPrefijo(). $arResolucion->getNumeroHasta() . ' Fecha de vigencia desde ' . $arResolucion->getFechaDesde()->format('Y-m-d') . ' hasta el ' . $arResolucion->getFechaHasta()->format('Y-m-d'));
         $this->Text(5, 240, utf8_decode($arEmpresa['informacionCuentaPago']));
         //Informacion final
         $this->SetXY(160, 244);
