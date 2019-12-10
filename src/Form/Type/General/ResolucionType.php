@@ -18,7 +18,7 @@ class ResolucionType extends AbstractType
     {
         $builder
             ->add('numero', TextType::class, array('required' => true))
-            ->add('prefijo', TextType::class, array('required' => true))
+            ->add('prefijo', TextType::class, array('required' => false))
             ->add('numeroDesde', TextType::class, array('required' => true))
             ->add('numeroHasta', TextType::class, array('required' => true))
             ->add('llaveTecnica', TextType::class, array('required' => true))
