@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     {{ notificar()|raw }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnGenerar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

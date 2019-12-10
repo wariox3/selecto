@@ -132,6 +132,11 @@ class Empresa
     protected $usuariosEmpresasEmpresaRel;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="empresaRel")
+     */
+    protected $movimientosEmpresaRel;
+
+    /**
      * @return mixed
      */
     public function getCodigoEmpresaPk()
@@ -497,6 +502,22 @@ class Empresa
     public function setUsuariosEmpresasEmpresaRel($usuariosEmpresasEmpresaRel): void
     {
         $this->usuariosEmpresasEmpresaRel = $usuariosEmpresasEmpresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosEmpresaRel()
+    {
+        return $this->movimientosEmpresaRel;
+    }
+
+    /**
+     * @param mixed $movimientosEmpresaRel
+     */
+    public function setMovimientosEmpresaRel($movimientosEmpresaRel): void
+    {
+        $this->movimientosEmpresaRel = $movimientosEmpresaRel;
     }
 
 

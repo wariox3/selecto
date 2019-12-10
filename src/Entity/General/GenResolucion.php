@@ -57,6 +57,16 @@ class GenResolucion
     private $llaveTecnica;
 
     /**
+     * @ORM\Column(name="pin", type="string",length=20, nullable=true)
+     */
+    private $pin;
+
+    /**
+     * @ORM\Column(name="ambiente", type="string",length=10, nullable=true)
+     */
+    private $ambiente;
+
+    /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
      */
     private $codigoEmpresaFk;
@@ -282,6 +292,38 @@ class GenResolucion
     public function setPrueba(bool $prueba): void
     {
         $this->prueba = $prueba;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPin()
+    {
+        return $this->pin;
+    }
+
+    /**
+     * @param mixed $pin
+     */
+    public function setPin($pin): void
+    {
+        $this->pin = $pin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmbiente()
+    {
+        return $this->ambiente;
+    }
+
+    /**
+     * @param mixed $ambiente
+     */
+    public function setAmbiente($ambiente): void
+    {
+        $this->ambiente = $ambiente;
     }
 
 

@@ -28,6 +28,8 @@ class GenResolucionRepository extends ServiceEntityRepository
             ->addSelect('r.numeroHasta')
             ->addSelect('r.llaveTecnica')
             ->addSelect('r.prueba')
+            ->addSelect('r.pin')
+            ->addSelect('r.ambiente')
             ->where('r.codigoEmpresaFk = ' . $empresa );
 
         $queryBuilder->addOrderBy('r.codigoResolucionPk', 'DESC');

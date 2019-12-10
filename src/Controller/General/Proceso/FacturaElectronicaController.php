@@ -44,7 +44,7 @@ class FacturaElectronicaController extends Controller
                 $this->getDoctrine()->getRepository(InvMovimiento::class)->facturaElectronica($arr, $empresa);
             }
         }
-        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente('FAC', $empresa), $request->query->getInt('page', 1), 30);
+        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('General/Proceso/FacturaElectronica/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
             'form' => $form->createView()

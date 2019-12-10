@@ -61,7 +61,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
-    public function facturaElectronicaPendiente($documento, $empresa)
+    public function facturaElectronicaPendiente($empresa)
     {
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
@@ -79,7 +79,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('d.nombre AS documentoNombre')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('m.documentoRel', 'd')
-            ->where("m.codigoDocumentoFk = '" . $documento . "'")
+            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC'")
             ->andWhere('m.codigoEmpresaFk = ' . $empresa)
             ->andWhere('m.estadoElectronico = 0');
         $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
@@ -393,6 +393,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.vrTotalBruto')
             ->addSelect('m.estadoAprobado')
             ->addSelect('m.estadoElectronico')
+            ->addSelect('m.codigoDocumentoFk')
             ->addSelect('i.codigoEntidad as tipoIdentificacion')
             ->addSelect('t.numeroIdentificacion as numeroIdentificacion')
             ->addSelect('t.digitoVerificacion as digitoVerificacion')
@@ -416,6 +417,12 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
             ->addSelect('dep.codigoDaneMascara as departamentoCodigoDaneMascara')
+            ->addSelect('mr.numero as referenciaPrefijo')
+            ->addSelect('mr.numero as referenciaNumero')
+            ->addSelect('mr.fecha as referenciaFecha')
+            ->addSelect('mr.vrSubtotal as referenciaVrSubTotal')
+            ->addSelect('mr.vrIva as referenciaVrIva')
+            ->addSelect('mr.vrTotalBruto as referenciaVrTotalBruto')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('t.identificacionRel', 'i')
             ->leftJoin('t.tipoPersonaRel', 'tp')
@@ -423,6 +430,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->leftJoin('m.resolucionRel', 'rf')
             ->leftJoin('t.ciudadRel', 'ciu')
             ->leftJoin('ciu.departamentoRel', 'dep')
+            ->leftJoin('mf.movimientoRel', 'mr')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
         if($arrMovimiento) {
@@ -443,6 +451,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                     $arrFactura = [
                         'dat_nitFacturador' => $arrConfiguracion['nit'],
                         'dat_claveTecnica' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
+                        'dat_pin' => '75315',
                         'dat_tipoAmbiente' => '2',
                         'res_numero' => $arFactura['resolucionNumero'],
                         'res_prefijo' => $arFactura['resolucionPrefijo'],
@@ -452,6 +461,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'res_hasta' => $arFactura['resolucionNumeroHasta'],
                         'res_prueba' => $arFactura['resolucionPrueba'],
                         'doc_codigo' => $arFactura['codigoMovimientoPk'],
+                        'doc_codigoDocumento' => $arFactura['codigoDocumentoFk'],
+                        'doc_prefijo' => $arFactura['prefijo'],
                         'doc_numero' => $arFactura['numero'],
                         'doc_fecha' => $arFactura['fecha']->format('Y-m-d'),
                         'doc_fecha_vence' => $arFactura['fechaVence']->format('Y-m-d'),
@@ -461,6 +472,15 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'doc_inc' => number_format(0, 2, '.', ''),
                         'doc_ica' => number_format(0, 2, '.', ''),
                         'doc_total' => number_format($arFactura['vrTotalBruto'], 2, '.', ''),
+                        'ref_prefijo' => $arFactura['referenciaPrefijo'],
+                        'ref_numero' => $arFactura['referenciaNumero'],
+                        'ref_fecha' => $arFactura['referenciaFecha']->format('Y-m-d'),
+                        'ref_hora' => '12:00:00-05:00',
+                        'ref_subtotal' => number_format($arFactura['referenciaVrSubTotal'], 2, '.', ''),
+                        'ref_iva' => number_format($arFactura['referenciaVrIva'], 2, '.', ''),
+                        'ref_inc' => number_format(0, 2, '.', ''),
+                        'ref_ica' => number_format(0, 2, '.', ''),
+                        'ref_total' => number_format($arFactura['referenciaVrTotalBruto'], 2, '.', ''),
                         'em_tipoPersona' => $arrConfiguracion['tipoPersona'],
                         'em_numeroIdentificacion' => $arrConfiguracion['nit'],
                         'em_digitoVerificacion' => $arrConfiguracion['digitoVerificacion'],
@@ -554,6 +574,59 @@ class InvMovimientoRepository extends ServiceEntityRepository
             }
         }
         return true;
+    }
+
+    public function corregirCue() {
+        $em = $this->getEntityManager();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.codigoDocumentoFk')
+            ->addSelect('m.numero')
+            ->addSelect('m.prefijo')
+            ->addSelect('m.fecha')
+            ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrIva')
+            ->addSelect('m.vrTotalBruto')
+            ->addSelect('m.vrTotalNeto')
+            ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
+            ->addSelect('e.nit as empresaNumeroIdentificacion')
+            ->addSelect('r.llaveTecnica as resolucionllaveTecnica')
+            ->addSelect('r.pin as resolucionPin')
+            ->addSelect('r.ambiente as resolucionAmbiente')
+            ->leftJoin('m.terceroRel', 't')
+            ->leftJoin('m.empresaRel', 'e')
+            ->leftJoin('m.resolucionRel', 'r')
+            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC'")
+            ->andWhere('m.estadoElectronico = 0');
+        $arMovimientos = $queryBuilder->getQuery()->getResult();
+        foreach ($arMovimientos as $arMovimiento) {
+            $arMovimientoAct = $em->getRepository(InvMovimiento::class)->find($arMovimiento['codigoMovimientoPk']);
+            $prefijo = $arMovimiento['prefijo'];
+            $numero = $arMovimiento['numero'];
+            $fecha = $arMovimiento['fecha']->format('Y-m-d');
+            $hora = '12:00:00-05:00';
+            $subtotal = number_format($arMovimiento['vrSubtotal'], 2, '.', '');
+            $iva = number_format($arMovimiento['vrIva'], 2, '.', '');
+            $inc = number_format(0, 2, '.', '');
+            $ica = number_format(0, 2, '.', '');
+            $total = number_format($arMovimiento['vrTotalBruto'], 2, '.', '');
+            $identificacionEmisor = $arMovimiento['empresaNumeroIdentificacion'];
+            $identificacionAdquiriente = $arMovimiento['terceroNumeroIdentificacion'];
+            $llaveTecnica = $arMovimiento['resolucionllaveTecnica'];
+            $pin = $arMovimiento['resolucionPin'];
+            $ambiente = $arMovimiento['resolucionAmbiente'];
+            $cue = "";
+            if($arMovimiento['codigoDocumentoFk'] == 'FAC') {
+                $cue = $prefijo.$numero.$fecha.$hora.$subtotal.'01'.$iva.'04'.$inc.'03'.$ica.$total.$identificacionEmisor.$identificacionAdquiriente.$llaveTecnica.$ambiente;
+            }
+            if($arMovimiento['codigoDocumentoFk'] == 'NC') {
+                $cue = $prefijo.$numero.$fecha.$hora.$subtotal.'01'.$iva.'04'.$inc.'03'.$ica.$total.$identificacionEmisor.$identificacionAdquiriente.$pin.$ambiente;
+            }
+
+            $arMovimientoAct->setCue($cue);
+            $em->persist($arMovimientoAct);
+        }
+        $em->flush();
     }
 
 }

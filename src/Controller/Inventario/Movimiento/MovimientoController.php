@@ -80,8 +80,15 @@ class MovimientoController extends Controller
     public function nuevo(Request $request, $id, $documento)
     {
         $em = $this->getDoctrine()->getManager();
-        $arMovimiento = new InvMovimiento();
         $objFunciones = new FuncionesController();
+        $arEmpresa = $em->getRepository(Empresa::class)->find($this->getUser()->getCodigoEmpresaFk());
+        if($documento == 'FAC' || $documento == 'NC') {
+            if(!$arEmpresa->getCodigoResolucionFk()) {
+                Mensajes::error("Para crear una documento factura debe tener una resolucion asignada");
+                return $this->redirect($this->generateUrl('movimiento_lista', array('documento' => $documento)));
+            }
+        }
+        $arMovimiento = new InvMovimiento();
         $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
         if ($id == 0) {
             $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
@@ -105,6 +112,7 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_detalle', array('id' => $arMovimiento->getCodigoMovimientoPk())));
             }
         }
+
         return $this->render('Inventario/Movimiento/nuevo.html.twig', [
             'arMovimiento' => $arMovimiento,
             'documento' => $documento,
