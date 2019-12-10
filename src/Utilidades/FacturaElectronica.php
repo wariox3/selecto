@@ -272,7 +272,7 @@ class FacturaElectronica
             $xml = $this->generarXmlCadenaFactura($arrFactura);
         }
         if($arrFactura['doc_codigoDocumento'] == 'NC') {
-            $arrFactura['res_prefijo'] = 'NC';
+            //$arrFactura['res_prefijo'] = 'NC';
             $xml = $this->generarXmlCadenaNotaCredito($arrFactura);
         }
         $url = "https://api.efacturacadena.com/staging/vp-hab/documentos/proceso/alianzas";
@@ -648,9 +648,13 @@ class FacturaElectronica
     }
 
     private function generarXmlCadenaNotaCredito($arrFactura) {
-        $numero = $arrFactura['res_prefijo'] . $arrFactura['doc_numero'];
-        $cude = $numero.$arrFactura['doc_fecha'].$arrFactura['doc_hora'].$arrFactura['doc_subtotal'].'01'.$arrFactura['doc_iva'].'04'.$arrFactura['doc_inc'].'03'.$arrFactura['doc_ica'].$arrFactura['doc_total'].$arrFactura['dat_nitFacturador'].$arrFactura['ad_numeroIdentificacion'].$arrFactura['dat_pin'].$arrFactura['dat_tipoAmbiente'];
-        $cufeHash = hash('sha384', $cude);
+        $numero = $arrFactura['doc_prefijo'] . $arrFactura['doc_numero'];
+        //$cude = $numero.$arrFactura['doc_fecha'].$arrFactura['doc_hora'].$arrFactura['doc_subtotal'].'01'.$arrFactura['doc_iva'].'04'.$arrFactura['doc_inc'].'03'.$arrFactura['doc_ica'].$arrFactura['doc_total'].$arrFactura['dat_nitFacturador'].$arrFactura['ad_numeroIdentificacion'].$arrFactura['dat_pin'].$arrFactura['dat_tipoAmbiente'];
+        $cude = $arrFactura['doc_cue'];
+        $cudeHash = hash('sha384', $cude);
+        $numeroReferencia = $arrFactura['ref_prefijo'] . $arrFactura['ref_numero'];
+        $cufe = $arrFactura['ref_cue'];
+        $cufeHash = hash('sha384', $cufe);
         $xml = new \XMLWriter();
         $xml->openMemory();
         $xml->setIndent(true);
@@ -673,7 +677,7 @@ class FacturaElectronica
             $xml->startElement('cbc:UUID');
                 $xml->writeAttribute('schemeID', '2');
                 $xml->writeAttribute('schemeName', 'CUDE-SHA384');
-                $xml->text($cufeHash);
+                $xml->text($cudeHash);
             $xml->endElement();
             $xml->writeElement('cbc:IssueDate', $arrFactura['doc_fecha']);
             $xml->writeElement('cbc:IssueTime', $arrFactura['doc_hora']);
@@ -689,12 +693,12 @@ class FacturaElectronica
             $xml->endElement();
             $xml->startElement('cac:BillingReference');
                 $xml->startElement('cac:InvoiceDocumentReference');
-                    $xml->writeElement('cbc:ID', "SETP990000350");
+                    $xml->writeElement('cbc:ID', $numeroReferencia);
                     $xml->startElement('cbc:UUID');
                         $xml->writeAttribute('schemeName', 'CUFE-SHA384');
-                        $xml->text("b5c3b4f4aa53d3a14c3be6fdbde52c9b284723880c93fd4ed10d540a5e32a3f8b1c34cbadbe0ee253d1e50e0f6f8fa44");
+                        $xml->text($cufeHash);
                     $xml->endElement();
-                    $xml->writeElement('cbc:IssueDate', "2019-06-04");
+                    $xml->writeElement('cbc:IssueDate', $arrFactura['ref_fecha']);
                 $xml->endElement();
             $xml->endElement();
             $xml->startElement('cac:AccountingSupplierParty');

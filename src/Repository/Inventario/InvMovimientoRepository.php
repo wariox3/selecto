@@ -237,7 +237,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arMovimiento->setFecha(new \DateTime('now'));
             }
 
-            if ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC') {
+            if ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC' || $arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'NC') {
                 $objFunciones = new FuncionesController();
                 $fecha = new \DateTime('now');
                 $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
@@ -425,6 +425,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('dep.nombre as departamentoNombre')
             ->addSelect('dep.codigoDaneMascara as departamentoCodigoDaneMascara')
             ->addSelect('mr.cue as referenciaCue')
+            ->addSelect('mr.numero as referenciaNumero')
+            ->addSelect('mr.prefijo as referenciaPrefijo')
+            ->addSelect('mr.fecha as referenciaFecha')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('t.identificacionRel', 'i')
             ->leftJoin('t.tipoPersonaRel', 'tp')
@@ -476,6 +479,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'doc_ica' => number_format(0, 2, '.', ''),
                         'doc_total' => number_format($arFactura['vrTotalBruto'], 2, '.', ''),
                         'ref_cue' => $arFactura['referenciaCue'],
+                        'ref_numero' => $arFactura['referenciaNumero'],
+                        'ref_prefijo' => $arFactura['referenciaPrefijo'],
+                        'ref_fecha' => $arFactura['referenciaFecha']->format('Y-m-d'),
                         'em_tipoPersona' => $arrConfiguracion['tipoPersona'],
                         'em_numeroIdentificacion' => $arrConfiguracion['nit'],
                         'em_digitoVerificacion' => $arrConfiguracion['digitoVerificacion'],
@@ -550,10 +556,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         if($procesoFacturaElectronica['estado'] == 'EX') {
                             $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
                             $arFactura->setEstadoElectronico(1);
-                            if($arrFactura['res_prueba']) {
-                                $arFactura->setNumero($arFactura->getNumero() + 1);
-                                $arFactura->setEstadoElectronico(0);
-                            }
                             $em->persist($arFactura);
                             $em->flush();
                         }
@@ -590,7 +592,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
     /**
      * @param $arMovimiento InvMovimiento
      */
-    private function generarCue($arMovimiento) {
+    public function generarCue($arMovimiento) {
         $prefijo = $arMovimiento->getPrefijo();
         $numero = $arMovimiento->getNumero();
         $fecha = $arMovimiento->getFecha()->format('Y-m-d');

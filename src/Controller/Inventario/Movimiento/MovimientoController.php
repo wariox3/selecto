@@ -91,7 +91,9 @@ class MovimientoController extends Controller
         $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
         if ($id == 0) {
             $arMovimiento->setEmpresaRel($arEmpresa);
-            $arMovimiento->setResolucionRel($arEmpresa->getResolucionRel());
+            if($documento == 'FAC' || $documento == 'NC') {
+                $arMovimiento->setResolucionRel($arEmpresa->getResolucionRel());
+            }
             $arMovimiento->setFecha(new \DateTime('now'));
             $arMovimiento->setFechaVence(new \DateTime('now'));
         } else {
