@@ -80,7 +80,6 @@ class MovimientoController extends Controller
     public function nuevo(Request $request, $id, $documento)
     {
         $em = $this->getDoctrine()->getManager();
-        $objFunciones = new FuncionesController();
         $arEmpresa = $em->getRepository(Empresa::class)->find($this->getUser()->getCodigoEmpresaFk());
         if($documento == 'FAC' || $documento == 'NC') {
             if(!$arEmpresa->getCodigoResolucionFk()) {
@@ -91,7 +90,10 @@ class MovimientoController extends Controller
         $arMovimiento = new InvMovimiento();
         $arDocumento = $em->getRepository(InvDocumento::class)->find($documento);
         if ($id == 0) {
-            $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+            $arMovimiento->setEmpresaRel($arEmpresa);
+            $arMovimiento->setResolucionRel($arEmpresa->getResolucionRel());
+            $arMovimiento->setFecha(new \DateTime('now'));
+            $arMovimiento->setFechaVence(new \DateTime('now'));
         } else {
             $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         }
@@ -100,13 +102,10 @@ class MovimientoController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
-                if ($id == 0) {
-                    $arMovimiento->setFecha(new \DateTime('now'));
-                }
-                $fecha = new \DateTime('now');
                 $arMovimiento = $form->getData();
-                $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
-                $arMovimiento->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
+                if($documento == 'FAC') {
+                    $arMovimiento->setPrefijo($arMovimiento->getResolucionRel()->getPrefijo());
+                }
                 $em->persist($arMovimiento);
                 $em->flush();
                 return $this->redirect($this->generateUrl('movimiento_detalle', array('id' => $arMovimiento->getCodigoMovimientoPk())));

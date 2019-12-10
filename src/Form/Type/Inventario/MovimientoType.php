@@ -25,7 +25,7 @@ class MovimientoType extends AbstractType
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('t')
                         ->orderBy('t.nombreCorto', 'ASC')
-                        ->where("t.codigoEmpresaFk = '". $options['data']->getCodigoEmpresaFk() ."'");
+                        ->where("t.codigoEmpresaFk = '". $options['data']->getEmpresaRel()->getCodigoEmpresaPk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
                 'attr' => ['class' => 'form-control to-select-2']
