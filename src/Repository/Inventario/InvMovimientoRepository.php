@@ -421,7 +421,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('rf.numeroHasta as resolucionNumeroHasta')
             ->addSelect('rf.prueba as resolucionPrueba')
             ->addSelect('rf.pin as resolucionPin')
-            ->addSelect('rf.llaveTecnica as resolucionClaveTecnica')
+            ->addSelect('rf.claveTecnica as resolucionClaveTecnica')
             ->addSelect('rf.ambiente as resolucionAmbiente')
             ->addSelect('rf.setPruebas as resolucionSetPruebas')
             ->addSelect('ciu.nombre as ciudadNombre')
