@@ -637,9 +637,9 @@ class FacturaElectronica
             $xml->startElement('DATA');
                 $xml->writeElement('UBL21', 'true');
                 $xml->startElement('Partnership');
-                    $xml->writeElement('ID', '901192048');
-                    $xml->writeElement('TechKey', 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c');
-                    $xml->writeElement('SetTestID', '82e4944b-1134-4e25-9e9e-4fdd115e70ef');
+                    $xml->writeElement('ID', $arrFactura['dat_nitFacturador']);
+                    $xml->writeElement('TechKey', $arrFactura['dat_claveTecnica']);
+                    $xml->writeElement('SetTestID', $arrFactura['resolucionSetPruebas']);
                 $xml->endElement();
             $xml->endElement();
         $xml->endElement();
@@ -963,8 +963,8 @@ class FacturaElectronica
 //                    $xml->writeElement('TechKey', 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c');
 //                    $xml->writeElement('SetTestID', '82e4944b-1134-4e25-9e9e-4fdd115e70ef');
                     $xml->writeElement('ID', $arrFactura['dat_nitFacturador']);
-                    $xml->writeElement('TechKey', ['dat_claveTecnica']);
-                    $xml->writeElement('SetTestID', ['resolucionSetPruebas']);
+                    $xml->writeElement('TechKey', $arrFactura['dat_claveTecnica']);
+                    $xml->writeElement('SetTestID', $arrFactura['resolucionSetPruebas']);
                 $xml->endElement();
             $xml->endElement();
         $xml->endElement();
