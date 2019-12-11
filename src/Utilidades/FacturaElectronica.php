@@ -639,7 +639,7 @@ class FacturaElectronica
                 $xml->startElement('Partnership');
                     $xml->writeElement('ID', $arrFactura['dat_nitFacturador']);
                     $xml->writeElement('TechKey', $arrFactura['dat_claveTecnica']);
-                    $xml->writeElement('SetTestID', $arrFactura['resolucionSetPruebas']);
+                    $xml->writeElement('SetTestID', $arrFactura['dat_setPruebas']);
                 $xml->endElement();
             $xml->endElement();
         $xml->endElement();
@@ -964,7 +964,7 @@ class FacturaElectronica
 //                    $xml->writeElement('SetTestID', '82e4944b-1134-4e25-9e9e-4fdd115e70ef');
                     $xml->writeElement('ID', $arrFactura['dat_nitFacturador']);
                     $xml->writeElement('TechKey', $arrFactura['dat_claveTecnica']);
-                    $xml->writeElement('SetTestID', $arrFactura['resolucionSetPruebas']);
+                    $xml->writeElement('SetTestID', $arrFactura['dat_setPruebas']);
                 $xml->endElement();
             $xml->endElement();
         $xml->endElement();
