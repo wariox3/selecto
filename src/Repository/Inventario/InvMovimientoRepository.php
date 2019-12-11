@@ -481,7 +481,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'ref_cue' => $arFactura['referenciaCue'],
                         'ref_numero' => $arFactura['referenciaNumero'],
                         'ref_prefijo' => $arFactura['referenciaPrefijo'],
-                        'ref_fecha' => $arFactura['referenciaFecha']->format('Y-m-d'),
+                        'ref_fecha' => $arFactura['referenciaFecha']?$arFactura['referenciaFecha']->format('Y-m-d'):null,
                         'em_tipoPersona' => $arrConfiguracion['tipoPersona'],
                         'em_numeroIdentificacion' => $arrConfiguracion['nit'],
                         'em_digitoVerificacion' => $arrConfiguracion['digitoVerificacion'],
