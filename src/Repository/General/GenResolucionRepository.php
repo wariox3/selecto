@@ -26,9 +26,10 @@ class GenResolucionRepository extends ServiceEntityRepository
             ->addSelect('r.prefijo')
             ->addSelect('r.numeroDesde')
             ->addSelect('r.numeroHasta')
-            ->addSelect('r.llaveTecnica')
+            ->addSelect('r.claveTecnica')
             ->addSelect('r.prueba')
             ->addSelect('r.pin')
+            ->addSelect('r.setPruebas')
             ->addSelect('r.ambiente')
             ->where('r.codigoEmpresaFk = ' . $empresa );
 

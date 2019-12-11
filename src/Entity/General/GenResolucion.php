@@ -52,9 +52,9 @@ class GenResolucion
     private $numeroHasta;
 
     /**
-     * @ORM\Column(name="llave_tecnica", type="string",length=500, nullable=true)
+     * @ORM\Column(name="clave_tecnica", type="string",length=500, nullable=true)
      */
-    private $llaveTecnica;
+    private $claveTecnica;
 
     /**
      * @ORM\Column(name="pin", type="string",length=20, nullable=true)
@@ -65,6 +65,11 @@ class GenResolucion
      * @ORM\Column(name="ambiente", type="string",length=10, nullable=true)
      */
     private $ambiente;
+
+    /**
+     * @ORM\Column(name="set_pruebas", type="string",length=500, nullable=true)
+     */
+    private $setPruebas;
 
     /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
@@ -217,17 +222,65 @@ class GenResolucion
     /**
      * @return mixed
      */
-    public function getLlaveTecnica()
+    public function getClaveTecnica()
     {
-        return $this->llaveTecnica;
+        return $this->claveTecnica;
     }
 
     /**
-     * @param mixed $llaveTecnica
+     * @param mixed $claveTecnica
      */
-    public function setLlaveTecnica($llaveTecnica): void
+    public function setClaveTecnica($claveTecnica): void
     {
-        $this->llaveTecnica = $llaveTecnica;
+        $this->claveTecnica = $claveTecnica;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPin()
+    {
+        return $this->pin;
+    }
+
+    /**
+     * @param mixed $pin
+     */
+    public function setPin($pin): void
+    {
+        $this->pin = $pin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmbiente()
+    {
+        return $this->ambiente;
+    }
+
+    /**
+     * @param mixed $ambiente
+     */
+    public function setAmbiente($ambiente): void
+    {
+        $this->ambiente = $ambiente;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSetPruebas()
+    {
+        return $this->setPruebas;
+    }
+
+    /**
+     * @param mixed $setPruebas
+     */
+    public function setSetPruebas($setPruebas): void
+    {
+        $this->setPruebas = $setPruebas;
     }
 
     /**
@@ -244,6 +297,22 @@ class GenResolucion
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrueba(): bool
+    {
+        return $this->prueba;
+    }
+
+    /**
+     * @param bool $prueba
+     */
+    public function setPrueba(bool $prueba): void
+    {
+        $this->prueba = $prueba;
     }
 
     /**
@@ -278,53 +347,7 @@ class GenResolucion
         $this->empresasResolucionRel = $empresasResolucionRel;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPrueba(): bool
-    {
-        return $this->prueba;
-    }
 
-    /**
-     * @param bool $prueba
-     */
-    public function setPrueba(bool $prueba): void
-    {
-        $this->prueba = $prueba;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPin()
-    {
-        return $this->pin;
-    }
-
-    /**
-     * @param mixed $pin
-     */
-    public function setPin($pin): void
-    {
-        $this->pin = $pin;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAmbiente()
-    {
-        return $this->ambiente;
-    }
-
-    /**
-     * @param mixed $ambiente
-     */
-    public function setAmbiente($ambiente): void
-    {
-        $this->ambiente = $ambiente;
-    }
 
 
 }

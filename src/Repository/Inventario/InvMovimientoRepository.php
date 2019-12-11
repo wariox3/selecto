@@ -420,6 +420,10 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('rf.numeroDesde as resolucionNumeroDesde')
             ->addSelect('rf.numeroHasta as resolucionNumeroHasta')
             ->addSelect('rf.prueba as resolucionPrueba')
+            ->addSelect('rf.pin as resolucionPin')
+            ->addSelect('rf.llaveTecnica as resolucionClaveTecnica')
+            ->addSelect('rf.ambiente as resolucionAmbiente')
+            ->addSelect('rf.setPruebas as resolucionSetPruebas')
             ->addSelect('ciu.nombre as ciudadNombre')
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
@@ -455,9 +459,13 @@ class InvMovimientoRepository extends ServiceEntityRepository
                     $baseIvaTotal = 0;
                     $arrFactura = [
                         'dat_nitFacturador' => $arrConfiguracion['nit'],
-                        'dat_claveTecnica' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
-                        'dat_pin' => '75315',
-                        'dat_tipoAmbiente' => '2',
+                        //'dat_claveTecnica' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
+                        //'dat_pin' => '75315',
+                        //'dat_tipoAmbiente' => '2',
+                        'dat_claveTecnica' => $arFactura['resolucionClaveTecnica'],
+                        'dat_setPruebas' => $arFactura['resolucionSetPruebas'],
+                        'dat_pin' => $arFactura['resolucionPin'],
+                        'dat_tipoAmbiente' => $arFactura['resolucionAmbiente'],
                         'res_numero' => $arFactura['resolucionNumero'],
                         'res_prefijo' => $arFactura['resolucionPrefijo'],
                         'res_fechaDesde' => $arFactura['resolucionFechaDesde']?$arFactura['resolucionFechaDesde']->format('Y-m-d'):null,

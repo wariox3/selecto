@@ -17,9 +17,10 @@
                                   <th>Prefijo</th>
                                   <th>Número desde</th>
                                   <th>Número hasta</th>
-                                  <th>Llave tecnica</th>
+                                  <th>Clave tecnica</th>
                                   <th>Pin</th>
                                   <th>Ambiente</th>
+                                  <th>Set pruebas</th>
                                   <th title="Prueba">PRU</th>
                                   <th></th>
                                   <th></th>
@@ -38,9 +39,10 @@
                                       <td>{{ resolucion.prefijo }}</td>
                                       <td class="number">{{ resolucion.numeroDesde | number_format(0, '.', ',')}}</td>
                                       <td class="number">{{ resolucion.numeroHasta | number_format(0, '.', ',') }}</td>
-                                      <td>{{ resolucion.llaveTecnica }}</td>
+                                      <td>{{ resolucion.claveTecnica }}</td>
                                       <td>{{ resolucion.pin }}</td>
                                       <td>{{ resolucion.ambiente }}</td>
+                                      <td>{{ resolucion.setPruebas }}</td>
                                       <td>{{ resolucion.prueba?'SI':'NO' }}</td>
                                       <td align="center"><a
                                                   href="{{ path('resolucion_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
