@@ -562,10 +562,12 @@ class InvMovimientoRepository extends ServiceEntityRepository
                             */
                         }
                         if($procesoFacturaElectronica['estado'] == 'EX') {
-                            $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
-                            $arFactura->setEstadoElectronico(1);
-                            $em->persist($arFactura);
-                            $em->flush();
+                            if(!$arrFactura['res_prueba']) {
+                                $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
+                                $arFactura->setEstadoElectronico(1);
+                                $em->persist($arFactura);
+                                $em->flush();
+                            }
                         }
                     } else {
                         Mensajes::error($respuesta['mensaje']);
