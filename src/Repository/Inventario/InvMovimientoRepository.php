@@ -79,7 +79,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('d.nombre AS documentoNombre')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('m.documentoRel', 'd')
-            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC'")
+            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC' OR m.codigoDocumentoFk = 'ND'")
             ->andWhere('m.codigoEmpresaFk = ' . $empresa)
             ->andWhere('m.estadoElectronico = 0');
         $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
@@ -237,7 +237,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $arMovimiento->setFecha(new \DateTime('now'));
             }
 
-            if ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC' || $arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'NC') {
+            if ($arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'FAC' || $arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'NC' || $arMovimiento->getDocumentoRel()->getCodigoDocumentoPk() == 'ND') {
                 $objFunciones = new FuncionesController();
                 $fecha = new \DateTime('now');
                 $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
@@ -587,7 +587,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
-            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC'")
+            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC' OR m.codigoDocumentoFk = 'ND'")
             ->andWhere('m.estadoElectronico = 0');
         $arMovimientos = $queryBuilder->getQuery()->getResult();
         foreach ($arMovimientos as $arMovimiento) {
@@ -628,14 +628,15 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $pin = $arMovimiento->getResolucionRel()->getPin();
             $ambiente = $arMovimiento->getResolucionRel()->getAmbiente();
         }
-        $cue = "";
+        $cue = null;
         if($arMovimiento->getCodigoDocumentoFk() == 'FAC') {
             $cue = $prefijo.$numero.$fecha.$hora.$subtotal.'01'.$iva.'04'.$inc.'03'.$ica.$total.$identificacionEmisor.$identificacionAdquiriente.$llaveTecnica.$ambiente;
         }
 
-        if($arMovimiento->getCodigoDocumentoFk() == 'NC') {
+        if($arMovimiento->getCodigoDocumentoFk() == 'NC' || $arMovimiento->getCodigoDocumentoFk() == 'ND') {
             $cue = $prefijo.$numero.$fecha.$hora.$subtotal.'01'.$iva.'04'.$inc.'03'.$ica.$total.$identificacionEmisor.$identificacionAdquiriente.$pin.$ambiente;
         }
+
         return $cue;
     }
 
