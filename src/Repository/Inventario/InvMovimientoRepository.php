@@ -624,7 +624,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $pin = null;
         $ambiente = null;
         if($arMovimiento->getCodigoResolucionFk()) {
-            $llaveTecnica = $arMovimiento->getResolucionRel()->getLlaveTecnica();
+            $llaveTecnica = $arMovimiento->getResolucionRel()->getClaveTecnica();
             $pin = $arMovimiento->getResolucionRel()->getPin();
             $ambiente = $arMovimiento->getResolucionRel()->getAmbiente();
         }
