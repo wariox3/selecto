@@ -34,7 +34,9 @@
             <td class="td-in-well">
                 {% if arMovimiento.codigoDocumentoFk == 'NC' or arMovimiento.codigoDocumentoFk == 'ND' %}
                     COD: {{ arMovimiento.codigoMovimientoFk  | default("") }} NUM: {{ arMovimiento.movimientoRel.numero   | default("") }}
+                    {% if arMovimiento.estadoAutorizado == 0 %}
                         <a class="btn btn-default btn-xs" href="javascript:abrirVentana3('{{ path('movimiento_referencia', {'id': arMovimiento.codigoMovimientoPk }) }}', 'AdicionarFactura', 600, 900)">Agregar</a>
+                    {% endif %}
                 {% endif %}
             </td>
             <td class="titulo">DOCUMENTO:</td>
