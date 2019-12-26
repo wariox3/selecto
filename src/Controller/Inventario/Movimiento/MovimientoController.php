@@ -11,6 +11,7 @@ use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
 use App\Entity\General\GenTercero;
+use App\Form\Type\Inventario\MovimientoNotaType;
 use App\Form\Type\Inventario\MovimientoType;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
@@ -81,7 +82,7 @@ class MovimientoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $arEmpresa = $em->getRepository(Empresa::class)->find($this->getUser()->getCodigoEmpresaFk());
-        if($documento == 'FAC' || $documento == 'NC') {
+        if($documento == 'FAC' || $documento == 'NC' || $documento == 'ND' ) {
             if(!$arEmpresa->getCodigoResolucionFk()) {
                 Mensajes::error("Para crear una documento factura debe tener una resolucion asignada");
                 return $this->redirect($this->generateUrl('movimiento_lista', array('documento' => $documento)));
@@ -113,12 +114,12 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_detalle', array('id' => $arMovimiento->getCodigoMovimientoPk())));
             }
         }
-
         return $this->render('Inventario/Movimiento/nuevo.html.twig', [
             'arMovimiento' => $arMovimiento,
             'documento' => $documento,
             'form' => $form->createView()
         ]);
+
     }
 
     /**
@@ -289,6 +290,45 @@ class MovimientoController extends Controller
         return $this->render('Inventario/Movimiento/detalleNuevo.html.twig', [
             'form' => $form->createView(),
             'arItems' => $arItems
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/movimiento/referencia/{id}", name="movimiento_referencia")
+     */
+    public function referencia(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+        $paginator = $this->get('knp_paginator');
+        $empresa = $this->getUser()->getCodigoEmpresaFk();
+        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
+        $form = $this->createFormBuilder()
+            ->add('txtNumero', IntegerType::class, ['label' => 'Numero: ', 'required' => false])
+            ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnFiltrar')->isClicked()) {
+                $session->set('filtroItemCodigo', $form->get('txtCodigoItem')->getData());
+                $session->set('filtroItemDescripcion', $form->get('txtDescripcion')->getData());
+            }
+            if ($request->request->get('OpSeleccionar')) {
+                $codigo = $request->request->get('OpSeleccionar');
+                $arMovimientoReferencia = $em->getRepository(InvMovimiento::class)->find($codigo);
+                $arMovimiento->setMovimientoRel($arMovimientoReferencia);
+                $em->persist($arMovimiento);
+                $em->flush();
+                echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
+            }
+        }
+        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->listaReferencia($arMovimiento->getCodigoTerceroFk(), $empresa), $request->query->getInt('page', 1), 50);
+        return $this->render('Inventario/Movimiento/referencia.html.twig', [
+            'form' => $form->createView(),
+            'arMovimientos' => $arMovimientos
         ]);
     }
 }

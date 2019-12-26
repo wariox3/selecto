@@ -22,20 +22,31 @@
     <br><br>
     <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
         <tr>
+            <td class="titulo">NUMERO:</td>
+            <td class="td-in-well">{{ arMovimiento.numero }}</td>
             <td class="titulo">ID:</td>
             <td class="td-in-well">{{ arMovimiento.codigoMovimientoPk }}</td>
             <td class="titulo">SUBTOTAL:</td>
             <td class="numero"> {{ arMovimiento.vrSubtotal | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">NUMERO:</td>
-            <td class="td-in-well">{{ arMovimiento.numero }}</td>
+            <td class="titulo">REFERENCIA:</td>
+            <td class="td-in-well">
+                {% if arMovimiento.codigoDocumentoFk == 'NC' or arMovimiento.codigoDocumentoFk == 'ND' %}
+                    COD: {{ arMovimiento.codigoMovimientoFk  | default("") }} NUM: {{ arMovimiento.movimientoRel.numero   | default("") }}
+                        <a class="btn btn-default btn-xs" href="javascript:abrirVentana3('{{ path('movimiento_referencia', {'id': arMovimiento.codigoMovimientoPk }) }}', 'AdicionarFactura', 600, 900)">Agregar</a>
+                {% endif %}
+            </td>
+            <td class="titulo">DOCUMENTO:</td>
+            <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
             <td class="titulo">(+)IVA:</td>
             <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrIva | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">TERCERO:</td>
             <td class="td-in-well">{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
             <td class="titulo">BRUTO:</td>
             <td class="td-in-well"
                 style="text-align: right;">{{ arMovimiento.vrTotalBruto | number_format(0, '.', ',') }}</td>
@@ -43,36 +54,30 @@
         <tr>
             <td class="titulo">FECHA:</td>
             <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
+            <td class="titulo">FECHA VENCE:</td>
+            <td class="td-in-well">{{ arMovimiento.fechaVence | date('Y-m-d') }}</td>
             <td class="titulo">(-)RTE FUENTE:</td>
             <td class="td-in-well"
                 style="text-align: right;">{{ arMovimiento.vrRetencionFuente | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
-            <td class="titulo">FECHA VENCE:</td>
-            <td class="td-in-well">{{ arMovimiento.fechaVence | date('Y-m-d') }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
             <td class="titulo">(-)RTE IVA:</td>
-            <td class="td-in-well"
-                style="text-align: right;">{{ arMovimiento.vrRetencionIva | number_format(0, '.', ',') }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">DOCUMENTO:</td>
-            <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
-            <td class="titulo">NETO:</td>
-            <td class="td-in-well"
-                style="text-align: right;">{{ arMovimiento.vrTotalNeto | number_format(0, '.', ',') }}</td>
+            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrRetencionIva | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">FORMA PAGO:</td>
             <td class="td-in-well">{{ arMovimiento.formaPagoRel.nombre | default('') }}</td>
-            <td class="titulo"></td>
-            <td></td>
-        </tr>
-        <tr>
             <td class="titulo">PLAZO PAGO:</td>
             <td class="td-in-well">{{ arMovimiento.plazoPago }}</td>
-            <td class="titulo"></td>
-            <td></td>
+            <td class="titulo">NETO:</td>
+            <td class="td-in-well"
+                style="text-align: right;">{{ arMovimiento.vrTotalNeto | number_format(0, '.', ',') }}</td>
         </tr>
+
     </table>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#detalles" data-toggle="tab">Detalles</a></li>

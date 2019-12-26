@@ -61,6 +61,30 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return $queryBuilder;
     }
 
+    public function listaReferencia($codigoTercero, $empresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.numero')
+            ->addSelect('m.fecha')
+            ->addSelect('m.referencia')
+            ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrIva')
+            ->addSelect('m.vrTotalNeto')
+            ->addSelect('m.estadoAutorizado')
+            ->addSelect('m.estadoAprobado')
+            ->addSelect('m.estadoAnulado')
+            ->addSelect('t.nombreCorto AS tercero')
+            ->leftJoin('m.terceroRel', 't')
+            ->where("m.codigoTerceroFk = '" . $codigoTercero . "'")
+            ->andWhere('m.codigoEmpresaFk = ' . $empresa)
+            ->andWhere("m.codigoDocumentoFk = 'FAC'")
+            ->andWhere('m.estadoAprobado = 1');
+        $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
+        return $queryBuilder;
+    }
+
     public function facturaElectronicaPendiente($empresa)
     {
         $session = new Session();

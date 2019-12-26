@@ -1,0 +1,119 @@
+{% extends 'base_sin_menu.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <br>
+    <div class="col-md-12">
+        {{ notificar()|raw }}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4> Filtros de búsqueda</h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label">Numero:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.txtNumero) }}
+                    </div>
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-4">
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                {{ form_widget(form.btnFiltrar,{'attr':{'style':'float: right;'}}) }}
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-12">
+            <section class="panel">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-none tabla-datos">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Numero</th>
+                                <th>Fecha</th>
+                                <th>Referencia</th>
+                                <th>Tercero</th>
+                                <th>Subtotal</th>
+                                <th>Iva</th>
+                                <th>Neto</th>
+                                <th title="Autorizado">Aut</th>
+                                <th title="Aprobado">Apr</th>
+                                <th title="Anulado">Anu</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for arMovimiento in arMovimientos %}
+                                <tr>
+                                    <td>{{ arMovimiento.codigoMovimientoPk }}</td>
+                                    <td>{{ arMovimiento.numero }}</td>
+                                    <td>{{ arMovimiento.fecha|date('Y-m-d') }}</td>
+                                    <td>{{ arMovimiento.referencia }}</td>
+                                    <td>{{ arMovimiento.tercero }}</td>
+                                    <td class="numero">{{ arMovimiento.vrSubtotal | number_format }}</td>
+                                    <td class="numero">{{ arMovimiento.vrIva | number_format }}</td>
+                                    <td class="numero">{{ arMovimiento.vrTotalNeto | number_format }}</td>
+                                    <td>{{ arMovimiento.estadoAutorizado ? 'SI':'NO' }}</td>
+                                    <td>{{ arMovimiento.estadoAprobado ? 'SI':'NO' }}</td>
+                                    <td>{{ arMovimiento.estadoAnulado ? 'SI':'NO' }}</td>
+                                    <td>
+                                        <button class="btn btn-default btn-xs" type="submit" name="OpSeleccionar" value="{{ arMovimiento.codigoMovimientoPk }}">Seleccionar</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; flex-direction: row;">
+                        <span style="margin-right: 4px">registros: {{ arMovimientos.getTotalItemCount }}</span>
+                        {{ knp_pagination_render(arMovimientos) }}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
