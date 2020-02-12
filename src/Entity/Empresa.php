@@ -98,6 +98,11 @@ class Empresa
     private $codigoResolucionFk;
 
     /**
+     * @ORM\Column(name="suscriptor", type="string", length=300, nullable=true)
+     */
+    private $suscriptor;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="empresasCiudadRel")
      * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
      */
@@ -518,6 +523,22 @@ class Empresa
     public function setMovimientosEmpresaRel($movimientosEmpresaRel): void
     {
         $this->movimientosEmpresaRel = $movimientosEmpresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuscriptor()
+    {
+        return $this->suscriptor;
+    }
+
+    /**
+     * @param mixed $suscriptor
+     */
+    public function setSuscriptor($suscriptor): void
+    {
+        $this->suscriptor = $suscriptor;
     }
 
 

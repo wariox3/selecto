@@ -63,6 +63,11 @@ class InvMovimientoDetalle
     private $codigoImpuestoIvaFk;
 
     /**
+     * @ORM\Column(name="vr_base_iva", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrBaseIva = 0;
+
+    /**
      * @ORM\Column(name="vr_iva", type="float", nullable=true, options={"default" : 0})
      */
     private $vrIva = 0;
@@ -327,6 +332,22 @@ class InvMovimientoDetalle
     public function setItemRel($itemRel): void
     {
         $this->itemRel = $itemRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrBaseIva()
+    {
+        return $this->vrBaseIva;
+    }
+
+    /**
+     * @param mixed $vrBaseIva
+     */
+    public function setVrBaseIva($vrBaseIva): void
+    {
+        $this->vrBaseIva = $vrBaseIva;
     }
 
 

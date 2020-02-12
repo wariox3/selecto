@@ -78,6 +78,11 @@ class InvMovimiento
     private $vrTotalNeto = 0;
 
     /**
+     * @ORM\Column(name="vr_base_iva", type="float", nullable=true, options={"default" : 0})
+     */
+    private $vrBaseIva = 0;
+
+    /**
      * @ORM\Column(name="vr_iva", type="float", nullable=true, options={"default" : 0})
      */
     private $vrIva = 0;
@@ -131,6 +136,11 @@ class InvMovimiento
      * @ORM\Column(name="cue", type="string", length=200, nullable=true)
      */
     private $cue;
+
+    /**
+     * @ORM\Column(name="codigo_externo", type="string", length=200, nullable=true)
+     */
+    private $codigoExterno;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="movimientosTerceroRel")
@@ -667,6 +677,38 @@ class InvMovimiento
     public function setEmpresaRel($empresaRel): void
     {
         $this->empresaRel = $empresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoExterno()
+    {
+        return $this->codigoExterno;
+    }
+
+    /**
+     * @param mixed $codigoExterno
+     */
+    public function setCodigoExterno($codigoExterno): void
+    {
+        $this->codigoExterno = $codigoExterno;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVrBaseIva()
+    {
+        return $this->vrBaseIva;
+    }
+
+    /**
+     * @param mixed $vrBaseIva
+     */
+    public function setVrBaseIva($vrBaseIva): void
+    {
+        $this->vrBaseIva = $vrBaseIva;
     }
 
 

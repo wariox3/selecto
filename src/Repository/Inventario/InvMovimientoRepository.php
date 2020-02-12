@@ -94,6 +94,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.fecha')
             ->addSelect('m.referencia')
             ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrBaseIva')
             ->addSelect('m.vrIva')
             ->addSelect('m.vrTotalNeto')
             ->addSelect('m.estadoAutorizado')
@@ -419,6 +420,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.fecha')
             ->addSelect('m.fechaVence')
             ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrBaseIva')
             ->addSelect('m.vrIva')
             ->addSelect('m.vrTotalBruto')
             ->addSelect('m.estadoAprobado')
@@ -480,12 +482,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
             foreach ($arr AS $codigo) {
                 $arFactura = $em->getRepository(InvMovimiento::class)->movimientoFacturaElectronica($codigo);
                 if($arFactura['estadoAprobado'] && !$arFactura['estadoElectronico']) {
-                    $baseIvaTotal = 0;
                     $arrFactura = [
+                        'dat_suscriptor' => $arrConfiguracion['suscriptor'],
                         'dat_nitFacturador' => $arrConfiguracion['nit'],
-                        //'dat_claveTecnica' => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',
-                        //'dat_pin' => '75315',
-                        //'dat_tipoAmbiente' => '2',
                         'dat_claveTecnica' => $arFactura['resolucionClaveTecnica'],
                         'dat_setPruebas' => $arFactura['resolucionSetPruebas'],
                         'dat_pin' => $arFactura['resolucionPin'],
@@ -498,6 +497,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'res_hasta' => $arFactura['resolucionNumeroHasta'],
                         'res_prueba' => $arFactura['resolucionPrueba'],
                         'doc_codigo' => $arFactura['codigoMovimientoPk'],
+                        'doc_tipo' => $arFactura['codigoDocumentoFk'],
                         'doc_codigoDocumento' => $arFactura['codigoDocumentoFk'],
                         'doc_cue' => $arFactura['cue'],
                         'doc_prefijo' => $arFactura['prefijo'],
@@ -505,7 +505,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'doc_fecha' => $arFactura['fecha']->format('Y-m-d'),
                         'doc_fecha_vence' => $arFactura['fechaVence']->format('Y-m-d'),
                         'doc_hora' => '12:00:00-05:00',
+                        'doc_hora2' => '12:00:00',
                         'doc_subtotal' => number_format($arFactura['vrSubtotal'], 2, '.', ''),
+                        'doc_baseIva' => number_format($arFactura['vrBaseIva'], 2, '.', ''),
                         'doc_iva' => number_format($arFactura['vrIva'], 2, '.', ''),
                         'doc_inc' => number_format(0, 2, '.', ''),
                         'doc_ica' => number_format(0, 2, '.', ''),
@@ -549,10 +551,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
                     $arFacturaDetalles = $em->getRepository(InvMovimientoDetalle::class)->facturaElectronica($arFactura['codigoMovimientoPk']);
                     foreach ($arFacturaDetalles as $arFacturaDetalle) {
                         $cantidadItemes++;
-                        $baseIva = 0;
-                        if($arFacturaDetalle['vrIva'] > 0) {
-                            $baseIva = $arFacturaDetalle['vrSubtotal'];
-                        }
                         $arrItem[] = [
                             "item_id" => $cantidadItemes,
                             "item_codigo" => $arFacturaDetalle['codigoItemFk'],
@@ -560,21 +558,19 @@ class InvMovimientoRepository extends ServiceEntityRepository
                             "item_cantidad" => number_format($arFacturaDetalle['cantidad'], 2, '.', ''),
                             "item_precio" => number_format($arFacturaDetalle['vrPrecio'], 2, '.', ''),
                             "item_subtotal" => number_format($arFacturaDetalle['vrSubtotal'], 2, '.', ''),
-                            "item_base_iva" => number_format($baseIva, 2, '.', ''),
+                            "item_baseIva" => number_format($arFacturaDetalle['vrBaseIva'], 2, '.', ''),
                             "item_iva" => number_format($arFacturaDetalle['vrIva'], 2, '.', ''),
                             "item_porcentaje_iva" => number_format($arFacturaDetalle['porcentajeIva'], 2, '.', '')
                         ];
-                        $baseIvaTotal += $baseIva;
                     }
                     $arrFactura['doc_itemes'] = $arrItem;
                     $arrFactura['doc_cantidad_item'] = $cantidadItemes;
-                    $arrFactura['doc_base_iva'] = $baseIvaTotal;
-                    //$arrFactura['doc_numero'] = 13;
                     $facturaElectronica = new FacturaElectronica($em);
                     $respuesta = $facturaElectronica->validarDatos($arrFactura);
                     if($respuesta['estado'] == 'ok') {
                         //$procesoFacturaElectronica = $facturaElectronica->enviarDispapeles($arrFactura);
-                        $procesoFacturaElectronica = $facturaElectronica->enviarCadena($arrFactura);
+                        //$procesoFacturaElectronica = $facturaElectronica->enviarCadena($arrFactura);
+                        $procesoFacturaElectronica = $facturaElectronica->enviarSoftwareEstrategico($arrFactura);
                         if($procesoFacturaElectronica['estado'] == 'CN') {
                             break;
                         }

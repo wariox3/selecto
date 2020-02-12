@@ -58,6 +58,7 @@
                                  <th>Referencia</th>
                                  <th>Tercero</th>
                                  <th>Subtotal</th>
+                                 <th>B_Iva</th>
                                  <th>Iva</th>
                                  <th>Neto</th>
                                  <th title="Autorizado">Aut</th>
@@ -79,6 +80,7 @@
                                      <td>{{ arMovimiento.referencia }}</td>
                                      <td>{{ arMovimiento.tercero }}</td>
                                      <td class="numero">{{ arMovimiento.vrSubtotal | number_format }}</td>
+                                     <td class="numero">{{ arMovimiento.vrBaseIva | number_format }}</td>
                                      <td class="numero">{{ arMovimiento.vrIva | number_format }}</td>
                                      <td class="numero">{{ arMovimiento.vrTotalNeto | number_format }}</td>
                                      <td>{{ arMovimiento.estadoAutorizado ? 'SI':'NO' }}</td>

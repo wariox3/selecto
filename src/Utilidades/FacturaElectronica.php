@@ -1316,4 +1316,227 @@ class FacturaElectronica
         }
         return $arrRespuesta;
     }
+
+    public function enviarSoftwareEstrategico($arrFactura){
+        $em = $this->em;
+        $procesoFacturaElectronica = [
+            'estado' => 'NO',
+            'codigoExterno' => ''];
+        if($arrFactura['dat_tipoAmbiente'] == 1) {
+            $url = "https://tufactura.co/habilitacion/api/ConValidacionPrevia/EmitirDocumento";
+        } else {
+            $url = "https://tufactura.co/habilitacion/api/ConValidacionPrevia/CrearSetPrueba";
+        }
+
+        $arrSoftwareEstrategico = $this->arrSoftwareEstrategico($arrFactura);
+        $json = json_encode($arrSoftwareEstrategico);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, "900395252:tufactura.co@softwareestrategico.com");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+            )
+        );
+
+        $resp = json_decode(curl_exec($ch), true);
+        if($resp) {
+            if(isset($resp['Message'])) {
+                if(isset($resp['ExceptionMessage'])) {
+                    $datos = $resp['ExceptionMessage'];
+                    $arRespuesta = new GenRespuestaFacturaElectronica();
+                    $arRespuesta->setFecha(new \DateTime('now'));
+                    $arRespuesta->setCodigoModeloFk('InvMovimiento');
+                    $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
+                    //$arRespuesta->setStatusCode($resp['statusCode']);
+                    $arRespuesta->setErrorMessage($resp['ExceptionMessage']);
+                    $em->persist($arRespuesta);
+                    $em->flush();
+                }
+                $procesoFacturaElectronica['estado'] = 'ER';
+            }
+            if(isset($resp['Validaciones'])) {
+                $validaciones = $resp['Validaciones'];
+                if($validaciones['Valido']) {
+                    $procesoFacturaElectronica['estado'] = 'EX';
+                    $procesoFacturaElectronica['codigoExterno'] = $validaciones['DoceId'];
+                } else {
+                    $procesoFacturaElectronica['estado'] = 'ER';
+                    $detalles = $validaciones['Detalle'];
+                    $datos = [];
+                    foreach ($detalles as $detalle) {
+                        $datos[] = $detalle['Validacion'];
+                    }
+                    $arRespuesta = new GenRespuestaFacturaElectronica();
+                    $arRespuesta->setFecha(new \DateTime('now'));
+                    $arRespuesta->setCodigoModeloFk('InvMovimiento');
+                    $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
+                    $arRespuesta->setErrorReason(json_encode($datos));
+                    $mensaje = "";
+                    if(isset($validaciones['Descripcion'])) {
+                        $mensaje .= $validaciones['Descripcion'];
+                    }
+                    if(isset($validaciones['mensaje'])) {
+                        $mensaje .= $validaciones['mensaje'];
+                    }
+                    $arRespuesta->setErrorMessage($mensaje);
+                    $em->persist($arRespuesta);
+                    $em->flush();
+                }
+            }
+        }
+        curl_close($ch);
+        return $procesoFacturaElectronica;
+    }
+
+    private function arrSoftwareEstrategico($arrFactura) {
+        $numero = $arrFactura['res_prefijo'] . $arrFactura['doc_numero'];
+        $tipo = '01';
+        if($arrFactura['doc_tipo'] == 'NC') {
+            $numero = $arrFactura['doc_numero'];
+            $tipo = '91';
+        }
+        if($arrFactura['doc_tipo'] == 'ND') {
+            $numero = $arrFactura['doc_numero'];
+            $tipo = '92';
+        }
+        $arrDatos = [
+            "Solicitud" => [
+                "Nonce"=> "af4c65a3-0a18-4b09-8ca7-475c95b45894",
+                "Suscriptor"=> $arrFactura['dat_suscriptor']
+            ],
+            "FacturaVenta"=> [
+                "Cabecera"=> [
+                    "DoceManejaPeriodos"=> 0,
+                    "DoceConsecutivo"=> $numero,
+                    "DoceCantidadItems"=> $arrFactura['doc_cantidad_item'],
+                    "AmbdCodigo"=> $arrFactura['dat_tipoAmbiente'],
+                    "TipoCodigo"=> "05",
+                    "DoetCodigo"=> $tipo,
+                    "MoneCodigo"=> "COP",
+                    "RefvNumero"=> $arrFactura['res_numero']
+                ],
+                "PagosFactura"=> [
+                    "ForpCodigo"=> 2,
+                    "DoepFechaVencimiento"=> $arrFactura['doc_fecha_vence'].'T'.$arrFactura['doc_hora2'],
+                    "Medios"=> [
+                        [
+                            "DempCodigo"=> "31",
+                            "DempDescripcion"=> " "
+                        ]
+                    ]
+                ],
+                "Observaciones"=> [],
+                "Referencias"=> [],
+                "AdquirienteFactura"=> [
+                    "DoeaEsResponsable"=> 1,
+                    "DoeaEsnacional"=> 1,
+                    "TidtCodigo"=> $arrFactura['ad_tipoIdentificacion'],
+                    "DoeaDocumento"=> $arrFactura['ad_numeroIdentificacion'],
+                    "DoeaDiv"=> $arrFactura['ad_digitoVerificacion'],
+                    "DoeaRazonSocial"=> $arrFactura['ad_nombreCompleto'],
+                    "DoeaNombreCiudad"=> $arrFactura['ad_nombreCiudad'],
+                    "DoeaNombreDepartamento"=> $arrFactura['ad_nombreDepartamento'],
+                    "DoeaPais"=> "CO",
+                    "DoeaDireccion"=> $arrFactura['ad_direccion'],
+                    "DoeaObligaciones"=> "O-99",
+                    "DoeaNombres"=> "",
+                    "DoeaApellidos"=> "",
+                    "DoeaOtrosNombres"=> "",
+                    "DoeaCorreo"=> $arrFactura['ad_correo'],
+                    "DoeaTelefono"=> $arrFactura['ad_telefono'],
+                    "TiotCodigo"=> $arrFactura['ad_tipoPersona'],
+                    "RegCodigo"=> '0' . $arrFactura['ad_regimen'],
+                    "CopcCodigo"=> '055468',
+                    "DoeaManejoAdjuntos"=> 1
+                ],
+                "ImpuestosFactura"=> [
+                    [
+                        "DoeiTotal"=> $arrFactura['doc_iva'],
+                        "DoeiEsPorcentual"=> 1,
+                        "ImpuCodigo"=> "01",
+                        "Detalle"=> [
+                            [
+                                "DediBase"=> $arrFactura['doc_baseIva'],
+                                "DediValor"=> $arrFactura['doc_iva'],
+                                "DediFactor"=> 19,
+                                "UnimCodigo"=> "1"
+                            ]
+                        ]
+                    ]
+                ],
+                "PeriodoFactura"=> [
+                    "DoepFechaInicial"=> $arrFactura['doc_fecha'].'T'.$arrFactura['doc_hora2'],
+                    "DoepFechaFinal"=> $arrFactura['doc_fecha_vence'].'T'.$arrFactura['doc_hora2']
+                ],
+                "ResumenImpuestosFactura"=> [
+                    "DeriTotalIva"=> $arrFactura['doc_iva'],
+                    "DeriTotalConsumo"=> 0,
+                    "DeriTotalIca"=> 0
+                ],
+                "TotalesFactura"=> [
+                    "DoetSubtotal"=> $arrFactura['doc_subtotal'],
+                    "DoetBase"=> $arrFactura['doc_baseIva'],
+                    "DoetTotalImpuestos"=> $arrFactura['doc_iva'],
+                    "DoetSubtotalMasImpuestos"=> $arrFactura['doc_total'],
+                    "DoetTotalDescuentos"=> 0,
+                    "DoetTotalcargos"=> 0,
+                    "DoetTotalAnticipos"=> 0,
+                    "DoetTotalDocumento"=> $arrFactura['doc_total']
+                ]
+            ]
+        ];
+        foreach ($arrFactura['doc_itemes'] as $item) {
+            $arrDatos['FacturaVenta']['DetalleFactura'][] =
+                [
+                    "DoeiItem"=> $item['item_id'],
+                    "DoeiCodigo"=> $item['item_codigo'],
+                    "DoeiDescripcion"=> $item['item_nombre'],
+                    "DoeiMarca"=> "",
+                    "DoeiModelo"=> "",
+                    "DoeiObservacion"=> "",
+                    "DoeiDatosVendedor"=> "",
+                    "DoeiCantidad"=> $item['item_cantidad'],
+                    "DoeiCantidadEmpaque"=> $item['item_cantidad'],
+                    "DoeiEsObsequio"=> 0,
+                    "DoeiPrecioUnitario"=> $item['item_precio'],
+                    "DoeiPrecioReferencia"=> $item['item_precio'],
+                    "DoeiValor"=> $item['item_precio'],
+                    "DoeiTotalDescuentos"=> 0,
+                    "DoeiTotalCargos"=> 0,
+                    "DoeiTotalImpuestos"=> $item['item_iva'],
+                    "DoeiBase"=> $item['item_baseIva'],
+                    "DoeiSubtotal"=> $item['item_subtotal'],
+                    "TicpCodigo"=> "999",
+                    "UnimCodigo"=> "94",
+                    "CtprCodigo"=> "02",
+                    "ImpuestosLinea"=> [
+                        [
+                            "DoeiTotal"=> $item['item_iva'],
+                            "DoeiEsPorcentual"=> 1,
+                            "ImpuCodigo"=> "01",
+                            "Detalle"=> [
+                                [
+                                    "DediBase"=> $item['item_baseIva'],
+                                    "DediValor"=> $item['item_iva'],
+                                    "DediFactor"=> $item['item_porcentaje_iva'],
+                                    "UnimCodigo"=> "1"
+                                ]
+                            ]
+                        ]
+                    ],
+                    "ImpuestosRetenidosLinea"=> [],
+                    "CargosDescuentosLinea"=> []
+                ];
+        }
+        if($tipo == '91' || $tipo == '92' ) {
+            $arrDatos['FacturaVenta']['DocumentoReferencia'] =
+                [
+                    "DedrDocumentoReferencia" => $arrFactura['ref_codigoExterno'],
+                    "CodigoConcepto" => "2"
+                ];
+        }
+        return $arrDatos;
+    }
 }
