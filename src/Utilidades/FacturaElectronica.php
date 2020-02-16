@@ -1390,6 +1390,39 @@ class FacturaElectronica
         return $procesoFacturaElectronica;
     }
 
+    public function correoSoftwareEstrategico($arrParametros){
+        $em = $this->em;
+
+        $arrDatos = [
+            "DoceId" => $arrParametros['DoceId'],
+            "Suscriptor" => $arrParametros['Suscriptor'],
+            "Archivos"=> [
+                [
+                    "TipoArchivo" => "1",
+                    "B64" => $arrParametros['B64'],
+                    "NombreArchivo" => "factura",
+                ],
+            ]
+        ];
+
+        $url = "https://tufactura.co/habilitacion/api/ConValidacionPrevia/CargarAnexos";
+        $json = json_encode($arrDatos);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, "900395252:tufactura.co@softwareestrategico.com");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+            )
+        );
+
+        $resp = json_decode(curl_exec($ch), true);
+
+        curl_close($ch);
+        return true;
+    }
+
     private function arrSoftwareEstrategico($arrFactura) {
         $numero = $arrFactura['res_prefijo'] . $arrFactura['doc_numero'];
         $tipo = '01';

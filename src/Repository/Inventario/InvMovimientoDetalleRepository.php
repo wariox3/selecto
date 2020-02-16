@@ -28,6 +28,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect(' md.cantidad')
             ->addSelect('md.vrPrecio')
             ->addSelect('md.vrSubtotal')
+            ->addSelect('md.vrBaseIva')
             ->addSelect('md.porcentajeIva')
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')

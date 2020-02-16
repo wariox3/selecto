@@ -2,6 +2,7 @@
 
 namespace App\Formatos;
 
+use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
 use App\Entity\General\GenResolucion;
 use App\Entity\Inventario\InvFacturaTipo;
@@ -23,7 +24,7 @@ class Factura extends \FPDF
      * @param $em ObjectManager
      * @param $codigoMovimiento integer
      */
-    public function Generar($em, $codigoMovimiento, $codigoEmpresa)
+    public function Generar($em, $codigoMovimiento, $codigoEmpresa, $ruta = '')
     {
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
@@ -44,7 +45,11 @@ class Factura extends \FPDF
         $pdf->SetTextColor(0, 0, 0);
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        $pdf->Output("Factura{$codigoMovimiento}.pdf", 'D');
+        if($ruta) {
+            $pdf->Output($ruta, 'F');
+        } else {
+            $pdf->Output("Factura{$codigoMovimiento}.pdf", 'D');
+        }
     }
 
     public function Header()
@@ -55,6 +60,12 @@ class Factura extends \FPDF
         $arMovimiento = $em->getRepository('App:Inventario\InvMovimiento')->find(self::$codigoMovimiento);
         $arResolucion = BaseDatos::getEm()->getRepository(GenResolucion::class)->find($arMovimiento->getCodigoResolucionFk());
         $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(self::$codigoEmpresa);
+
+        $contenido =  "MEC:\n";
+        $contenido .= "Fecha:\n";
+
+        $this->Image(FuncionesController::codigoQr($contenido), 5, 5, 33, 33);
+
 
         $this->SetFont('Arial', '', 5);
         $date = new \DateTime('now');

@@ -54,8 +54,9 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
-                                 <th>Digito</th>
+                                 <th>Tipo</th>
                                  <th>Identificacion</th>
+                                 <th>Digito</th>
                                  <th>Nombre corto</th>
                                  <th>Ciudad</th>
                                  <th>Direccion</th>
@@ -74,8 +75,9 @@
                              {% for tercero in arTerceros %}
                                  <tr>
                                      <td>{{ tercero.codigoTerceroPk }}</td>
-                                     <td>{{ tercero.digitoVerificacion }}</td>
+                                     <td>{{ tercero.codigoIdentificacionFk }}</td>
                                      <td>{{ tercero.numeroIdentificacion }}</td>
+                                     <td>{{ tercero.digitoVerificacion }}</td>
                                      <td>{{ tercero.nombreCorto }}</td>
                                      <td>{{ tercero.ciudad }}</td>
                                      <td>{{ tercero.direccion }}</td>

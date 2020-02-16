@@ -16,6 +16,7 @@ use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
+use App\Formatos\Factura;
 use App\Utilidades\FacturaElectronica;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -106,7 +107,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->leftJoin('m.documentoRel', 'd')
             ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC' OR m.codigoDocumentoFk = 'ND'")
             ->andWhere('m.codigoEmpresaFk = ' . $empresa)
-            ->andWhere('m.estadoElectronico = 0');
+            ->andWhere('m.estadoElectronico = 0')
+            ->andWhere('m.estadoAprobado = 1');
         $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
         return $queryBuilder;
     }
@@ -125,7 +127,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $retencionFuenteSinBase = $arMovimiento->getTerceroRel()->isRetencionFuenteSinBase();
         $vrSubtotalGlobal = 0;
         $vrTotalBrutoGlobal = 0;
-        $vrTotalNetoGlobal = 0;
+        $vrBaseIvaGlobal = 0;
         $vrIvaGlobal = 0;
         $vrTotalGlobal = 0;
         $vrRetencionFuenteGlobal = 0;
@@ -133,16 +135,24 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         $arrImpuestoRetenciones = $this->retencion($arMovimientoDetalles, $retencionFuenteSinBase);
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
-
+            $vrBaseIva = 0;
+            $vrIva = 0;
             $vrSubtotal = $arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad();
-            $vrIva = ($vrSubtotal * ($arMovimientoDetalle->getPorcentajeIva()) / 100);
+            if($arMovimientoDetalle->getCodigoImpuestoIvaFk()) {
+                if($arMovimientoDetalle->getCodigoImpuestoIvaFk() != 'I00') {
+                    $vrBaseIva = $vrSubtotal;
+                    $vrIva = ($vrSubtotal * ($arMovimientoDetalle->getPorcentajeIva()) / 100);
+                }
+            }
             $vrTotalBruto = $vrSubtotal;
             $vrTotal = $vrTotalBruto + $vrIva;
             $vrRetencionFuente = 0;
             $vrTotalGlobal += $vrTotal;
             $vrTotalBrutoGlobal += $vrTotalBruto;
+            $vrBaseIvaGlobal += $vrBaseIva;
             $vrIvaGlobal += $vrIva;
             $vrSubtotalGlobal += $vrSubtotal;
+
             if ($arMovimiento->getCodigoDocumentoFk() == 'FAC' || $arMovimiento->getCodigoDocumentoFk() == 'COM') {
                 if ($arMovimientoDetalle->getCodigoImpuestoRetencionFk()) {
                     if ($retencionFuente) {
@@ -154,6 +164,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             }
             $vrRetencionFuenteGlobal += $vrRetencionFuente;
             $arMovimientoDetalle->setVrSubtotal($vrSubtotal);
+            $arMovimientoDetalle->setVrBaseIva($vrBaseIva);
             $arMovimientoDetalle->setVrIva($vrIva);
             $arMovimientoDetalle->setVrTotal($vrTotal);
             $arMovimientoDetalle->setVrRetencionFuente($vrRetencionFuente);
@@ -172,6 +183,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         }
 
         $vrTotalNetoGlobal = $vrTotalGlobal - $vrRetencionFuenteGlobal - $vrRetencionIvaGlobal;
+        $arMovimiento->setVrBaseIva($vrBaseIvaGlobal);
         $arMovimiento->setVrIva($vrIvaGlobal);
         $arMovimiento->setVrSubtotal($vrSubtotalGlobal);
         $arMovimiento->setVrTotalBruto($vrTotalGlobal);
@@ -474,6 +486,19 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return $arrMovimiento;
     }
 
+    public function movimientoCorreoElectronica($codigoMovimiento) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.codigoExterno')
+            ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
+        $arrMovimiento = $queryBuilder->getQuery()->getResult();
+        if($arrMovimiento) {
+            $arrMovimiento = $arrMovimiento[0];
+        }
+        return $arrMovimiento;
+    }
+
     public function facturaElectronica($arr, $codigoEmpresa): bool
     {
         $em = $this->getEntityManager();
@@ -584,6 +609,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         if($procesoFacturaElectronica['estado'] == 'EX') {
                             if(!$arrFactura['res_prueba']) {
                                 $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
+                                $arFactura->setCodigoExterno($procesoFacturaElectronica['codigoExterno']);
                                 $arFactura->setEstadoElectronico(1);
                                 $em->persist($arFactura);
                                 $em->flush();
@@ -600,6 +626,27 @@ class InvMovimientoRepository extends ServiceEntityRepository
 
             }
         }
+        return true;
+    }
+
+    public function correoElectronica($codigoMovimiento, $codigoEmpresa): bool
+    {
+        $em = $this->getEntityManager();
+        $arrConfiguracion = $em->getRepository(Empresa::class)->facturaElectronica($codigoEmpresa);
+        $archivo = '/var/www/html/temporal/factura'.$codigoMovimiento.'.pdf';
+        $objFormato = new Factura();
+        $objFormato->Generar($em, $codigoMovimiento, $codigoEmpresa, $archivo);
+        $b64Doc = chunk_split(base64_encode(file_get_contents($archivo)));
+        $arFactura = $em->getRepository(InvMovimiento::class)->movimientoCorreoElectronica($codigoMovimiento);
+        $arr = [
+            'DoceId' => $arFactura['codigoExterno'],
+            'Suscriptor' => $arrConfiguracion['suscriptor'],
+            'B64' => $b64Doc
+        ];
+
+        $facturaElectronica = new FacturaElectronica($em);
+        $procesoFacturaElectronica = $facturaElectronica->correoSoftwareEstrategico($arr);
+
         return true;
     }
 

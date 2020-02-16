@@ -31,6 +31,7 @@ class GenTerceroRepository extends ServiceEntityRepository
             ->addSelect('t.digitoVerificacion')
             ->addSelect('t.cliente')
             ->addSelect('t.proveedor')
+            ->addSelect('t.codigoIdentificacionFk')
             ->leftJoin('t.ciudadRel', 'c')
         ->where('t.codigoEmpresaFk = ' . $empresa );
         $queryBuilder->orderBy("t.codigoTerceroPk", 'DESC');

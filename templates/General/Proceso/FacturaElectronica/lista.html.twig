@@ -86,19 +86,13 @@
                                      <td>{{ arMovimiento.estadoAutorizado ? 'SI':'NO' }}</td>
                                      <td>{{ arMovimiento.estadoAprobado ? 'SI':'NO' }}</td>
                                      <td>{{ arMovimiento.estadoAnulado ? 'SI':'NO' }}</td>
-                                     {% if arMovimiento.estadoAutorizado == false %}
-                                         <td align="center"><a
-                                                     href="{{ path('movimiento_nuevo', {'documento' : documento, 'id': arMovimiento.codigoMovimientoPk }) }}"
-                                                     title="editar descripcion"><i
-                                                         class="fa fa-edit fa-lg"></i></a></td>
-                                     {% else %}
-                                         <td></td>
-                                     {% endif %}
+                                     <td>
+                                         <button class="btn btn-default btn-xs" type="submit" name="OpCorreo" value="{{ arMovimiento.codigoMovimientoPk }}">Correo</button>
+                                     </td>
                                      <td>
                                          <a href="javascript:abrirVentana3('{{ path('general_proceso_facturaelectronica_respuesta_ver',{'entidad': 'InvMovimiento', 'codigo': arMovimiento.codigoMovimientoPk }) }}','Respuesta',800,1200)">Ver</a>
                                      </td>
                                      <td align="center"><input type="checkbox" name="ChkSeleccionar[]" value="{{ arMovimiento.codigoMovimientoPk }}"/></td>
-
                                  </tr>
                              {% endfor %}
                              </tbody>

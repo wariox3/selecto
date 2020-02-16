@@ -6,6 +6,7 @@ namespace App\Form\Type\Inventario;
 
 use App\Entity\General\GenCiudad;
 use App\Entity\General\GenFormaPago;
+use App\Entity\General\GenIdentificacion;
 use App\Entity\General\GenRegimen;
 use App\Entity\General\GenTipoPersona;
 use Doctrine\ORM\EntityRepository;
@@ -63,7 +64,16 @@ class TerceroType extends AbstractType
                 'choice_label' => 'nombre',
                 'label' => 'Regimen:'
             ])
-            ->add('codigoIdentificacionFk', ChoiceType::class, array('choices' => array('Cedula' => 'CC', 'Nit' => 'NI', 'Tarjeta de Extranjeria' => 'TE', 'Cedula de Extranjeria' => 'CE', 'Pasaporte' => 'PE', 'Tipo Documento Extranjero' => 'TDE', 'Permiso Especial de Permacencia' => 'PE',)))
+            ->add('identificacionRel',EntityType::class,[
+                'required' => true,
+                'class' => GenIdentificacion::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('i')
+                        ->orderBy('i.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'label' => 'Identificacion:'
+            ])
             ->add('numeroIdentificacion', TextType::class, array('required' => true))
             ->add('primerNombre', TextType::class, array('required' => false))
             ->add('segundoNombre', TextType::class, array('required' => false))
@@ -73,7 +83,7 @@ class TerceroType extends AbstractType
             ->add('direccion', TextType::class, array('required' => true))
             ->add('plazoPago', TextType::class, array('required' => true))
             ->add('telefono', TextType::class, array('required' => true))
-            ->add('email', TextType::class, array('required' => false))
+            ->add('email', TextType::class, array('required' => true))
             ->add('celular', TextType::class, array('required' => false))
             ->add('cliente', CheckboxType::class, array('required' => false, 'label' => 'Cliente'))
             ->add('proveedor', CheckboxType::class, array('required' => false, 'label' => 'Proveedor'))

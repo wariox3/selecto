@@ -41,41 +41,49 @@
             </td>
             <td class="titulo">DOCUMENTO:</td>
             <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
-            <td class="titulo">(+)IVA:</td>
-            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrIva | number_format(0, '.', ',') }}</td>
+            <td class="titulo">BASE IVA:</td>
+            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrBaseIva | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">TERCERO:</td>
             <td class="td-in-well">{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
-            <td class="titulo">BRUTO:</td>
-            <td class="td-in-well"
-                style="text-align: right;">{{ arMovimiento.vrTotalBruto | number_format(0, '.', ',') }}</td>
+            <td class="titulo">(+)IVA:</td>
+            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrIva | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">FECHA:</td>
             <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
             <td class="titulo">FECHA VENCE:</td>
             <td class="td-in-well">{{ arMovimiento.fechaVence | date('Y-m-d') }}</td>
-            <td class="titulo">(-)RTE FUENTE:</td>
+            <td class="titulo">BRUTO:</td>
             <td class="td-in-well"
-                style="text-align: right;">{{ arMovimiento.vrRetencionFuente | number_format(0, '.', ',') }}</td>
+                style="text-align: right;">{{ arMovimiento.vrTotalBruto | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
-            <td class="titulo">(-)RTE IVA:</td>
-            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrRetencionIva | number_format(0, '.', ',') }}</td>
+            <td class="titulo">(-)RTE FUENTE:</td>
+            <td class="td-in-well"
+                style="text-align: right;">{{ arMovimiento.vrRetencionFuente | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
             <td class="titulo">FORMA PAGO:</td>
             <td class="td-in-well">{{ arMovimiento.formaPagoRel.nombre | default('') }}</td>
             <td class="titulo">PLAZO PAGO:</td>
             <td class="td-in-well">{{ arMovimiento.plazoPago }}</td>
-            <td class="titulo">NETO:</td>
+            <td class="titulo">(-)RTE IVA:</td>
+            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrRetencionIva | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+            <td class="titulo"></td>
             <td class="td-in-well"
                 style="text-align: right;">{{ arMovimiento.vrTotalNeto | number_format(0, '.', ',') }}</td>
         </tr>
@@ -97,8 +105,9 @@
                         <th>Cantidad</th>
                         <th>Precio</th>
                         <th>Subtotal</th>
-                        <th>IVA</th>
-                        <th>IVA</th>
+                        <th>Base</th>
+                        <th>Cod</th>
+                        <th>Iva</th>
                         <th title="Codigo de la retencion">RET</th>
                         <th>Total</th>
                         <th><input type="checkbox" name=
@@ -140,19 +149,21 @@
                             {% endif %}
                             <td class="numero">{{ arMovimientoDetalle.vrSubtotal | number_format(0, '.', ',') }}</td>
                             {% if arMovimiento.estadoAutorizado %}
+                                <td class="numero">{{ arMovimientoDetalle.vrBaseIva | number_format(0, '.', ',') }}</td>
                                 <td>{{ arMovimientoDetalle.codigoImpuestoIvaFk }}</td>
                                 <td style="text-align: right;">{{ arMovimientoDetalle.vrIva | number_format(0,'.',',') }}</td>
                                 <td>{{ arMovimientoDetalle.codigoImpuestoRetencionFk }}</td>
                             {% else %}
+                                <td class="numero">{{ arMovimientoDetalle.vrBaseIva }}</td>
                                 <td style="text-align: left">
-                                    <select name="cboImpuestoIva[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]">
+                                    <select class="form-control input-sm" name="cboImpuestoIva[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]">
                                         {% for arImpuestoIva in arImpuestosIva %}
                                             <option value="{{ arImpuestoIva.codigoImpuestoPk }}" {% if arMovimientoDetalle.codigoImpuestoIvaFk == arImpuestoIva.codigoImpuestoPk %} selected {% endif %}>{{ arImpuestoIva.nombre }}</option>
                                         {% endfor %}
                                     </select></td>
                                 <td style="text-align: right;">{{ arMovimientoDetalle.vrIva | number_format(0,'.',',') }}</td>
                                 <td style="text-align: left;">
-                                    <select name="cboImpuestoRetencion[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]">
+                                    <select class="form-control input-sm" name="cboImpuestoRetencion[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]">
                                         {% for arImpuestoRetencion in arImpuestosRetencion %}
                                             <option value="{{ arImpuestoRetencion.codigoImpuestoPk }}" {% if arMovimientoDetalle.codigoImpuestoRetencionFk == arImpuestoRetencion.codigoImpuestoPk %} selected {% endif %}>{{ arImpuestoRetencion.nombre }}</option>
                                         {% endfor %}

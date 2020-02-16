@@ -6,6 +6,8 @@ use App\Entity\General\GenRespuestaFacturaElectronica;
 use App\Entity\General\GenTercero;
 use App\Entity\Inventario\InvMovimiento;
 use App\Form\Type\Inventario\TerceroType;
+use App\Formatos\Factura;
+use App\Utilidades\FacturaElectronica;
 use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -42,6 +44,10 @@ class FacturaElectronicaController extends Controller
             if ($form->get('btnEnviar')->isClicked()) {
                 $arr = $request->request->get('ChkSeleccionar');
                 $this->getDoctrine()->getRepository(InvMovimiento::class)->facturaElectronica($arr, $empresa);
+            }
+            if ($request->request->get('OpCorreo')) {
+                $codigo = $request->request->get('OpCorreo');
+                $this->getDoctrine()->getRepository(InvMovimiento::class)->correoElectronica($codigo, $empresa);
             }
         }
         $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente($empresa), $request->query->getInt('page', 1), 30);
