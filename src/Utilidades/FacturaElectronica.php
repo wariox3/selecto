@@ -1398,9 +1398,9 @@ class FacturaElectronica
             "Suscriptor" => $arrParametros['Suscriptor'],
             "Archivos"=> [
                 [
-                    "TipoArchivo" => "1",
+                    "TipoArchivo" => "0",
                     "B64" => $arrParametros['B64'],
-                    "NombreArchivo" => "factura",
+                    "NombreArchivo" => "factura.pdf",
                 ],
             ]
         ];

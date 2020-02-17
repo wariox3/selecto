@@ -613,6 +613,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                                 $arFactura->setEstadoElectronico(1);
                                 $em->persist($arFactura);
                                 $em->flush();
+                                $this->correoElectronica($codigo, $codigoEmpresa);
                             }
                         }
                     } else {
