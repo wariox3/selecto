@@ -21,6 +21,10 @@ use App\Formatos\Factura2;
 use App\Formatos\Salida;
 use App\Repository\General\EmpresaRepository;
 use App\Utilidades\Mensajes;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -47,6 +51,7 @@ class MovimientoController extends Controller
             ->add('fechaHasta', DateType::class, ['label' => 'Fecha hasta: ', 'required' => false, 'widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'data' => $session->get('filtroMovimientoFechaHasta') ? date_create($session->get('filtroMovimientoFechaHasta')) : null])
             ->add('cboTerceroRel', EntityType::class, $em->getRepository(GenTercero::class)->llenarCombo($empresa))
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
+            ->add('btnExcel', SubmitType::class, ['label' => 'Excel', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
         $form->handleRequest($request);
@@ -62,13 +67,13 @@ class MovimientoController extends Controller
                 }
             }
             if ($form->get('btnEliminar')->isClicked()) {
-                $arMovimientos = $em->getRepository(InvMovimiento::class)->findAll();
-                foreach ($arMovimientos as $arMovimiento) {
-                    $em->getRepository(InvMovimiento::class)->liquidar($arMovimiento);
-                }
-                /*$arItems = $request->request->get('ChkSeleccionar');
+                $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(InvMovimiento::class, $arItems);
-                return $this->redirect($this->generateUrl('movimiento_lista', ['documento' => $documento]));*/
+                return $this->redirect($this->generateUrl('movimiento_lista', ['documento' => $documento]));
+            }
+            if ($form->get('btnExcel')->isClicked()) {
+                $arMovimientos = $em->getRepository(InvMovimiento::class)->lista($documento, $empresa);
+                $this->exportarExcel($arMovimientos);
             }
         }
         $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->lista($documento, $empresa), $request->query->getInt('page', 1), 30);
@@ -335,6 +340,58 @@ class MovimientoController extends Controller
             'arMovimientos' => $arMovimientos
         ]);
     }
+
+    public function exportarExcel($arMovimientos)
+    {
+        ob_clean();
+        set_time_limit(0);
+        ini_set("memory_limit", -1);
+        $libro = new Spreadsheet();
+        $hoja = $libro->getActiveSheet();
+        $hoja->setTitle('movimiento');
+        $j = 0;
+        $arrColumnas = ['ID', 'DOCUMENTO', 'NUMERO', 'FECHA', 'REF', 'COD', 'NIT', 'TERCERO', 'SUBTOTAL', 'IVA', 'NETO'];
+        for ($i = 'A'; $j <= sizeof($arrColumnas) - 1; $i++) {
+            $hoja->getColumnDimension($i)->setAutoSize(true);
+            $hoja->getStyle(1)->getFont()->setName('Arial')->setSize(8);
+            $hoja->getStyle(1)->getFont()->setBold(true);
+            $hoja->setCellValue($i . '1', strtoupper($arrColumnas[$j]));
+            $j++;
+        }
+        $j = 2;
+        foreach ($arMovimientos as $arMovimiento) {
+            $hoja->getStyle($j)->getFont()->setName('Arial')->setSize(8);
+            $hoja->getStyle("I{$j}:K{$j}")->getNumberFormat()->setFormatCode('#,##0');
+            $hoja->getStyle("D{$j}")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
+            $hoja->setCellValue('A' . $j, $arMovimiento['codigoMovimientoPk']);
+            $hoja->setCellValue('B' . $j, $arMovimiento['documentoNombre']);
+            $hoja->setCellValue('C' . $j, $arMovimiento['numero']);
+            $hoja->setCellValue('D' . $j, Date::PHPToExcel($arMovimiento['fecha']->format('Y-m-d')));
+            $hoja->setCellValue('E' . $j, $arMovimiento['referencia']);
+            $hoja->setCellValue('F' . $j, $arMovimiento['codigoTerceroFk']);
+            $hoja->setCellValue('G' . $j, $arMovimiento['terceroNumeroIdentificacion']);
+            $hoja->setCellValue('H' . $j, $arMovimiento['terceroNombreCorto']);
+            $hoja->setCellValue('I' . $j, $arMovimiento['vrSubtotal']);
+            $hoja->setCellValue('J' . $j, $arMovimiento['vrIva']);
+            $hoja->setCellValue('K' . $j, $arMovimiento['vrTotalNeto']);
+            $j++;
+        }
+
+        $libro->setActiveSheetIndex(0);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="movimiento.xlsx"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        $writer = new Xlsx($libro);
+        $writer->save('php://output');
+        exit;
+
+    }
+
 }
 
 

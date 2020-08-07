@@ -45,8 +45,12 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.estadoAutorizado')
             ->addSelect('m.estadoAprobado')
             ->addSelect('m.estadoAnulado')
-            ->addSelect('t.nombreCorto AS tercero')
+            ->addSelect('m.codigoTerceroFk')
+            ->addSelect('t.nombreCorto AS terceroNombreCorto')
+            ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
+            ->addSelect('d.nombre as documentoNombre')
             ->leftJoin('m.terceroRel', 't')
+            ->leftJoin('m.documentoRel', 'd')
             ->where("m.codigoDocumentoFk = '" . $documento . "'")
             ->andWhere('m.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroMovimientoFechaDesde') != null) {
@@ -59,7 +63,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $queryBuilder->andWhere("m.codigoTerceroFk = '{$session->get('filtroMovimientoTercero')}'");
         }
         $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
-        return $queryBuilder;
+        return $queryBuilder->getQuery()->getResult();
     }
 
     public function listaReferencia($codigoTercero, $empresa)

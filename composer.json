@@ -32,7 +32,7 @@
         "symfony/translation": "^4.0",
         "symfony/twig-bundle": "^4.0",
         "symfony/yaml": "^4.0",
-        "yectep/phpspreadsheet-bundle": "^0.0.4"
+        "phpoffice/phpspreadsheet": "^1.2"
     },
     "require-dev": {
         "symfony/dotenv": "^4.0",

@@ -75,7 +75,7 @@
                                      <td>{{ movimiento.numero }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
                                      <td>{{ movimiento.referencia }}</td>
-                                     <td>{{ movimiento.tercero }}</td>
+                                     <td>{{ movimiento.terceroNombreCorto }}</td>
                                      <td class="numero">{{ movimiento.vrSubtotal | number_format }}</td>
                                      <td class="numero">{{ movimiento.vrIva | number_format }}</td>
                                      <td class="numero">{{ movimiento.vrTotalNeto | number_format }}</td>
@@ -113,6 +113,7 @@
                                  <a class="btn btn-sm btn-default"
                                     href="{{ path('movimiento_nuevo',{'documento': documento,'id':0}) }}">Nuevo
                                  </a>
+                                 {{ form_widget(form.btnExcel) }}
                                  {{ form_widget(form.btnEliminar) }}
                              </div>
                          </div>
