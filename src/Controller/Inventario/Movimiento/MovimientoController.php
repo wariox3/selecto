@@ -289,6 +289,7 @@ class MovimientoController extends Controller
                 }
                 if ($respuesta == '') {
                     $em->flush();
+                    $em->getRepository(InvMovimiento::class)->liquidar($arMovimiento);
                     echo "<script languaje='javascript' type='text/javascript'>window.close();window.opener.location.reload();</script>";
                 } else {
                     Mensajes::error($respuesta);
