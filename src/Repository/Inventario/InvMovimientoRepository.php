@@ -633,6 +633,67 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return true;
     }
 
+    public function imprimirFactura($codigoMovimiento) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.numero')
+            ->addSelect('m.fecha')
+            ->addSelect('m.fechaVence')
+            ->addSelect('m.plazoPago')
+            ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
+            ->addSelect('t.nombreCorto as terceroNombreCorto')
+            ->addSelect('t.telefono as terceroTelefono')
+            ->addSelect('t.direccion as terceroDireccion')
+            ->addSelect('rs.nombre as resolucionNombre')
+            ->addSelect('rs.prefijo as resolucionPrefijo')
+            ->addSelect('fp.nombre as formaPagoNombre')
+            ->addSelect('e.nombreCorto as empresaNombreCorto')
+            ->addSelect('e.nit as empresaNit')
+            ->addSelect('e.digitoVerificacion as empresaDigitoVerificacion')
+            ->addSelect('e.direccion as empresaDireccion')
+            ->addSelect('e.telefono as empresaTelefono')
+            ->addSelect('e.logo as empresaLogo')
+            ->addSelect('e.extension as empresaLogoExtension')
+            ->addSelect('tciu.nombre as terceroCiudadNombre')
+            ->addSelect('etp.nombre as empresaTipoPersonaNombre')
+            ->addSelect('ere.nombre as empresaRegimenNombre')
+            ->leftJoin('m.terceroRel', 't')
+            ->leftJoin('t.ciudadRel', 'tciu')
+            ->leftJoin('m.resolucionRel', 'rs')
+            ->leftJoin('m.formaPagoRel', 'fp')
+            ->leftJoin('m.empresaRel', 'e')
+            ->leftJoin('e.tipoPersonaRel', 'etp')
+            ->leftJoin('e.regimenRel', 'ere')
+            ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
+        $arrMovimiento = $queryBuilder->getQuery()->getResult();
+        if($arrMovimiento) {
+            $arrMovimiento = $arrMovimiento[0];
+        }
+        return $arrMovimiento;
+    }
+
+    public function imprimirFacturaFooter($codigoMovimiento) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrBaseIva')
+            ->addSelect('m.vrIva')
+            ->addSelect('m.vrTotalNeto')
+            ->addSelect('rs.numero as resolucionNumero')
+            ->addSelect('rs.numeroDesde as resolucionNumeroDesde')
+            ->addSelect('rs.numeroHasta as resolucionNumeroHasta')
+            ->addSelect('rs.fechaHasta as resolucionFechaHasta')
+            ->leftJoin('m.resolucionRel', 'rs')
+            ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
+        $arrMovimiento = $queryBuilder->getQuery()->getResult();
+        if($arrMovimiento) {
+            $arrMovimiento = $arrMovimiento[0];
+        }
+        return $arrMovimiento;
+    }
+
     public function generarFormato($arrMovimiento, $codigoEmpresa, $generarArchivo = false)
     {
         $em = $this->getEntityManager();
@@ -663,5 +724,4 @@ class InvMovimientoRepository extends ServiceEntityRepository
         }
         return $respuesta;
     }
-
 }

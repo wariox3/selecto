@@ -165,4 +165,23 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
         return $arrMovimiento;
     }
 
+    public function listaImprimirFactura($codigoMovimiento) {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
+            ->select('md.codigoMovimientoDetallePk')
+            ->addSelect('md.cantidad')
+            ->addSelect('md.vrPrecio')
+            ->addSelect('md.vrSubtotal')
+            ->addSelect('md.vrBaseIva')
+            ->addSelect('md.vrIva')
+            ->addSelect('md.vrTotal')
+            ->addSelect('md.porcentajeIva')
+            ->addSelect('md.codigoItemFk')
+            ->addSelect('i.descripcion as itemDescripcion')
+            ->leftJoin('md.itemRel', 'i')
+            ->where("md.codigoMovimientoFk = {$codigoMovimiento} ");
+        $arrMovimiento = $queryBuilder->getQuery()->getResult();
+        return $arrMovimiento;
+    }
+
 }
