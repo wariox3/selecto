@@ -181,7 +181,7 @@ class ItemController extends Controller
                 }
             }
         }
-        return $this->render('Inventario/Administracion/Item/importarItemsArchivo.html.twig', [
+        return $this->render('administracion/general/item/importarItemsArchivo.html.twig', [
             'form' => $form->createView()
         ]);
     }

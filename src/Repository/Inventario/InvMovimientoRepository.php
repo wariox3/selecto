@@ -464,7 +464,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('rs.numeroDesde as resolucionNumeroDesde')
             ->addSelect('rs.numeroHasta as resolucionNumeroHasta')
             ->addSelect('rs.ambiente as resolucionAmbiente')
-            ->addSelect('rs.setPruebas as resolucionSetPruebas')
             ->addSelect('ciu.nombre as ciudadNombre')
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
