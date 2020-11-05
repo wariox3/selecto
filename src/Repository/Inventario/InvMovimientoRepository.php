@@ -16,7 +16,12 @@ use App\Entity\Inventario\InvDocumento;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
+use App\Formatos\Compra;
+use App\Formatos\Entrada;
 use App\Formatos\Factura;
+use App\Formatos\Factura1;
+use App\Formatos\Factura2;
+use App\Formatos\Salida;
 use App\Utilidades\FacturaElectronica;
 use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -487,14 +492,25 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return $arrMovimiento;
     }
 
-    public function movimientoCorreoElectronica($codigoMovimiento) {
+    public function movimientoCorreoElectronica($codigoMovimiento)
+    {
         $em = $this->getEntityManager();
         $queryBuilder = $em->createQueryBuilder()->from(InvMovimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
             ->addSelect('m.codigoExterno')
+            ->addSelect('m.codigoDocumentoFk as doc_tipo')
+            ->addSelect('m.cue')
+            ->addSelect('m.numero as doc_numero')
+            ->addSelect('m.fecha')
+            ->addSelect('m.vrTotalNeto')
+            ->addSelect('ter.correoFacturaElectronica')
+            ->addSelect('ter.nombreCorto as adquiriente')
+            ->addSelect('r.prefijo as res_prefijo')
+            ->leftJoin('m.terceroRel', 'ter')
+            ->leftJoin('m.resolucionRel', 'r')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
-        if($arrMovimiento) {
+        if ($arrMovimiento) {
             $arrMovimiento = $arrMovimiento[0];
         }
         return $arrMovimiento;
@@ -593,16 +609,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         if($procesoFacturaElectronica['estado'] == 'CN') {
                             break;
                         }
-                        if($procesoFacturaElectronica['estado'] == 'EX') {
-                            if(!$arrFactura['res_prueba']) {
-                                $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
-                                $arFactura->setCodigoExterno($procesoFacturaElectronica['codigoExterno']);
-                                $arFactura->setEstadoElectronico(1);
-                                $em->persist($arFactura);
-                                $em->flush();
-                                $this->correoElectronica($codigo, $codigoEmpresa);
-                            }
-                        }
                         if ($procesoFacturaElectronica['estado'] == 'EX') {
                             $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
                             $arFactura->setEstadoElectronico(1);
@@ -612,7 +618,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
                             $em->persist($arFactura);
                             $em->flush();
                             if ($arFactura->getResolucionRel()->getAmbiente() == 1) {
-                                $this->correoElectronica($codigo, $codigoEmpresa);
+                                $facturaElectronica = new FacturaElectronica($em);
+                                $facturaElectronica->correo($arrConfiguracion, $arFactura);
                             }
                         }
                     } else {
@@ -629,121 +636,35 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return true;
     }
 
-
-    public function correoElectronica($codigoMovimiento, $codigoEmpresa): bool
+    public function generarFormato($arrMovimiento, $codigoEmpresa, $generarArchivo = false)
     {
         $em = $this->getEntityManager();
-        $arrFactura = $em->getRepository(InvMovimiento::class)->movimientoCorreoElectronica($codigoMovimiento);
-        $arrConfiguracion = $em->getRepository(GenConfiguracion::class)->facturaElectronica();
-        $arrConfiguracionDocumental = $em->getRepository(DocConfiguracion::class)->archivoMasivo();
-        $arMovimientoFactura = $em->getRepository(GenMovimiento::class)->find($codigoMovimiento);
-        $archivoFactura = $em->getRepository(GenMovimiento::class)->generarFormato($arMovimientoFactura, true);
-        $Suscriptor = $arrConfiguracion['suscriptor'];
-        $cue = $arrFactura['cue'];
-        $correo = $arrFactura['correoFacturaElectronica'];
-        $correoCopia = null;
-        if ($arrConfiguracion['copiaFacturaElectronica']) {
-            $correoCopia = $arrConfiguracion['correo'];
+        $respuesta = ['nombre' => null, 'base64' => null, 'ruta' => null];
+        $archivo = null;
+        if($generarArchivo) {
+            $archivo = '/var/www/html/temporal/documento' . $arrMovimiento['codigoMovimientoPk'] . '.pdf';
         }
-        $arrArchivos[] = [
-            'nombre' => 'factura.pdf',
-            'ruta' => $archivoFactura['ruta']
-        ];
-        $query = $em->getRepository(DocArchivo::class)->listaArchivo('GenMovimiento', $codigoMovimiento);
-        $arArchivos = $query->getQuery()->getResult();
-        foreach ($arArchivos as $arArchivo) {
-            $ruta = $arrConfiguracionDocumental['rutaAlmacenamiento'] . "/archivo/" . $arArchivo['codigoArchivoTipoFk'] . "/" . $arArchivo['directorio'] . "/" . $arArchivo['codigoArchivoPk'] . "_" . $arArchivo['nombre'];
-            $arrArchivos[] = [
-                'nombre' => $arArchivo['nombre'],
-                'ruta' => $ruta
-            ];
-        }
-        $facturaElectronica = new FacturaElectronica($em);
-        $respuestaCorreo = $facturaElectronica->correo($cue, $Suscriptor, $arrArchivos, $correo, $correoCopia, $arrFactura, $arrConfiguracion);
-        if ($respuestaCorreo->envio) {
-            $arLogCorreo = new GenLogCorreo();
-            $arLogCorreo->setCodigo($codigoMovimiento);
-            $arLogCorreo->setCodigoModeloFk('GenMovimiento');
-            $arLogCorreo->setIdentificador($respuestaCorreo->codigoEnvio);
-            $arLogCorreo->setFecha(new \DateTime('now'));
-            $arLogCorreo->setCorreo($correo);
-            $arLogCorreo->setCorreoCopia($correoCopia);
-            $em->persist($arLogCorreo);
-            $arFactura = $em->getRepository(GenMovimiento::class)->find($codigoMovimiento);
-            if ($arFactura) {
-                $arFactura->setEstadoNotificadoElectronico(1);
-                $em->persist($arFactura);
-            }
-        } else {
-            $arLogCorreo = new GenLogCorreo();
-            $arLogCorreo->setCodigo($codigoMovimiento);
-            $arLogCorreo->setEstadoError(1);
-            $arLogCorreo->setCodigoModeloFk('GenMovimiento');
-            $arLogCorreo->setError($respuestaCorreo->mensajeError);
-            $arLogCorreo->setFecha(new \DateTime('now'));
-            $arLogCorreo->setCorreo($correo);
-            $arLogCorreo->setCorreoCopia($correoCopia);
-            $em->persist($arLogCorreo);
-        }
-        $em->flush();
-        return true;
-    }
-
-    public function corregirCue() {
-        $em = $this->getEntityManager();
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
-            ->select('m.codigoMovimientoPk')
-            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC' OR m.codigoDocumentoFk = 'ND'")
-            ->andWhere('m.estadoElectronico = 0');
-        $arMovimientos = $queryBuilder->getQuery()->getResult();
-        foreach ($arMovimientos as $arMovimiento) {
-            $arMovimientoAct = $em->getRepository(InvMovimiento::class)->find($arMovimiento['codigoMovimientoPk']);
-            $cue = $this->generarCue($arMovimientoAct);
-            $arMovimientoAct->setCue($cue);
-            $em->persist($arMovimientoAct);
-        }
-        $em->flush();
-    }
-
-    /**
-     * @param $arMovimiento InvMovimiento
-     */
-    public function generarCue($arMovimiento) {
-        $prefijo = $arMovimiento->getPrefijo();
-        $numero = $arMovimiento->getNumero();
-        $fecha = $arMovimiento->getFecha()->format('Y-m-d');
-        $hora = '12:00:00-05:00';
-        $subtotal = number_format($arMovimiento->getVrSubtotal(), 2, '.', '');
-        $iva = number_format($arMovimiento->getVrIva(), 2, '.', '');
-        $inc = number_format(0, 2, '.', '');
-        $ica = number_format(0, 2, '.', '');
-        $total = number_format($arMovimiento->getVrTotalBruto(), 2, '.', '');
-        $identificacionEmisor = null;
-        if($arMovimiento->getCodigoEmpresaFk()) {
-            $identificacionEmisor = $arMovimiento->getEmpresaRel()->getNit();
-        }
-        $identificacionAdquiriente = null;
-        if($arMovimiento->getCodigoTerceroFk()) {
-            $identificacionAdquiriente = $arMovimiento->getTerceroRel()->getNumeroIdentificacion();
-        }
-        $llaveTecnica = null;
-        $pin = null;
-        $ambiente = null;
-        if($arMovimiento->getCodigoResolucionFk()) {
-            $llaveTecnica = $arMovimiento->getResolucionRel()->getClaveTecnica();
-            $pin = $arMovimiento->getResolucionRel()->getPin();
-            $ambiente = $arMovimiento->getResolucionRel()->getAmbiente();
-        }
-        $cue = null;
-        if($arMovimiento->getCodigoDocumentoFk() == 'FAC') {
-            $cue = $prefijo.$numero.$fecha.$hora.$subtotal.'01'.$iva.'04'.$inc.'03'.$ica.$total.$identificacionEmisor.$identificacionAdquiriente.$llaveTecnica.$ambiente;
+        if ($arrMovimiento['codigoDocumentoFk'] == 'SAL') {
+            $objFormato = new Salida();
+            $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
+        } elseif ($arrMovimiento['codigoDocumentoFk'] == 'ENT') {
+            $objFormato = new Entrada();
+            $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
+        } elseif ($arrMovimiento['codigoDocumentoFk'] == 'FAC') {
+            $objFormato = new Factura();
+            $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa, $archivo);
+        } elseif ($arrMovimiento['codigoDocumentoFk'] == 'COM') {
+            $objFormato = new Compra();
+            $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
         }
 
-        if($arMovimiento->getCodigoDocumentoFk() == 'NC' || $arMovimiento->getCodigoDocumentoFk() == 'ND') {
-            $cue = $prefijo.$numero.$fecha.$hora.$subtotal.'01'.$iva.'04'.$inc.'03'.$ica.$total.$identificacionEmisor.$identificacionAdquiriente.$pin.$ambiente;
+        if($generarArchivo) {
+            $b64Doc = chunk_split(base64_encode(file_get_contents($archivo)));
+            $respuesta['nombre'] = "documento{$arrMovimiento['codigoMovimientoPk']}.pdf";
+            $respuesta['base64'] = $b64Doc;
+            $respuesta['ruta'] = $archivo;
         }
-
-        return $cue;
+        return $respuesta;
     }
 
 }

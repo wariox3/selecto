@@ -12,6 +12,7 @@
         "knplabs/knp-paginator-bundle": "^3.0",
         "nelmio/cors-bundle": "^1.5",
         "royopa/fpdf-symfony2": "^3.0",
+        "nelexa/zip": "^3.3",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/asset": "^4.0",
         "symfony/console": "^4.0",

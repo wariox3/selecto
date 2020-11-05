@@ -9,6 +9,16 @@
         {{ form_widget(form.btnDesautorizar) }}
         {{ form_widget(form.btnAprobado) }}
         {{ form_widget(form.btnImprimir) }}
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Opciones <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+                {% if arMovimiento.codigoDocumentoFk == 'FAC' %}
+                <li>
+                    <a href="javascript:abrirVentana3('{{ path('movimiento_general_enviarcorreo', {'id':arMovimiento.codigoMovimientoPk }) }}', 'EnviarCorreoFE', 600, 900)">Enviar correo FE</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
     <div style="float:right">
         {% if arMovimiento.estadoAutorizado == true %}<span class="badge badge-success">Autorizado</span>{% endif %}

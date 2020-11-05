@@ -20,6 +20,7 @@ use App\Formatos\Factura1;
 use App\Formatos\Factura2;
 use App\Formatos\Salida;
 use App\Repository\General\EmpresaRepository;
+use App\Utilidades\FacturaElectronica;
 use App\Utilidades\Mensajes;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -192,28 +193,10 @@ class MovimientoController extends Controller
                 return $this->redirect($this->generateUrl('movimiento_general_detalle', ['id' => $id]));
             }
             if ($form->get('btnImprimir')->isClicked()) {
-                $arrConfiguracionImpresion = $em->getRepository(Empresa::class)->formato($this->getUser()->getCodigoEmpresaFk());
-                if ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'SAL') {
-                    $objFormato = new Salida();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
-                } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'FAC') {
-                    if ($arrConfiguracionImpresion['formatoFactura'] == 1) {
-                        $objFormato = new Factura1();
-                    }
-                    if($arrConfiguracionImpresion['formatoFactura'] == 2){
-                        $objFormato = new Factura2();
-                    }
-                    if($arrConfiguracionImpresion['formatoFactura'] == 0){
-                        $objFormato = new Factura();
-                    }
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
-                } elseif ($arMovimiento->getDocumentoRel()->getcodigoDocumentoPk() == 'COM') {
-                    $objFormato = new Compra();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
-                } else {
-                    $objFormato = new Entrada();
-                    $objFormato->Generar($em, $arMovimiento->getCodigoMovimientoPk(), $arMovimiento->getCodigoEmpresaFk());
-                }
+                $em->getRepository(InvMovimiento::class)->generarFormato([
+                    'codigoMovimientoPk' => $arMovimiento->getCodigoMovimientoPk(),
+                    'codigoDocumentoFk' => $arMovimiento->getDocumentoRel()->getCodigoDocumentoPk()],
+                    $this->getUser()->getCodigoEmpresaFk(), false);
             }
         }
         $arMovimientoDetalles = $paginator->paginate($em->getRepository(InvMovimientoDetalle::class)->lista($id), $request->query->getInt('page', 1), 50);
@@ -332,6 +315,27 @@ class MovimientoController extends Controller
         return $this->render('movimiento/general/referencia.html.twig', [
             'form' => $form->createView(),
             'arMovimientos' => $arMovimientos
+        ]);
+    }
+
+    /**
+     * @Route("/movimiento/general/enviarcorreo/{id}", name="movimiento_general_enviarcorreo")
+     */
+    public function enviarCorreoElectronica(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createFormBuilder()
+            ->add('btnEnviar', SubmitType::class, ['label' => 'Enviar', 'attr' => ['class' => 'btn btn-sm btn-default']])
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('btnEnviar')->isClicked()) {
+                $facturaElectronica = new FacturaElectronica($em);
+                $facturaElectronica->correo($id, $this->getUser()->getCodigoEmpresaFk());
+            }
+        }
+        return $this->render('movimiento/general/enviarCorreoFE.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 

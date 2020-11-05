@@ -71,6 +71,7 @@ class EmpresaRepository extends ServiceEntityRepository
             ->addSelect('e.digitoVerificacion')
             ->addSelect('e.nombreCorto as nombre')
             ->addSelect('e.correo')
+            ->addSelect('e.correoFacturaElectronica')
             ->addSelect('e.direccion')
             ->addSelect('e.codigoTipoPersonaFk')
             ->addSelect('e.matriculaMercantil')

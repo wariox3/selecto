@@ -48,6 +48,11 @@ class Empresa
     private $correo;
 
     /**
+     * @ORM\Column(name="correo_factura_electronica", type="string", length=200, nullable=true)
+     */
+    private $correoFacturaElectronica;
+
+    /**
      * @ORM\Column(name="ruta_temporal", type="string", length=100, nullable=true)
      */
     private $rutaTemporal;
@@ -539,6 +544,22 @@ class Empresa
     public function setSuscriptor($suscriptor): void
     {
         $this->suscriptor = $suscriptor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCorreoFacturaElectronica()
+    {
+        return $this->correoFacturaElectronica;
+    }
+
+    /**
+     * @param mixed $correoFacturaElectronica
+     */
+    public function setCorreoFacturaElectronica($correoFacturaElectronica): void
+    {
+        $this->correoFacturaElectronica = $correoFacturaElectronica;
     }
 
 

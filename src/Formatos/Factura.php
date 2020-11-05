@@ -24,7 +24,7 @@ class Factura extends \FPDF
      * @param $em ObjectManager
      * @param $codigoMovimiento integer
      */
-    public function Generar($em, $codigoMovimiento, $codigoEmpresa, $ruta = '')
+    public function Generar($em, $codigoMovimiento, $codigoEmpresa, $ruta = null)
     {
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;

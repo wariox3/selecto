@@ -138,6 +138,11 @@ class GenTercero
     private $email;
 
     /**
+     * @ORM\Column(name="correo_factura_electronica", type="string", length=500, nullable=true)
+     */
+    private $correoFacturaElectronica;
+
+    /**
      * @ORM\Column(name="plazo_pago", type="integer")
      */
     private $plazoPago = 0;
@@ -856,6 +861,22 @@ class GenTercero
     public function setCuentaCobroRel($cuentaCobroRel): void
     {
         $this->cuentaCobroRel = $cuentaCobroRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCorreoFacturaElectronica()
+    {
+        return $this->correoFacturaElectronica;
+    }
+
+    /**
+     * @param mixed $correoFacturaElectronica
+     */
+    public function setCorreoFacturaElectronica($correoFacturaElectronica): void
+    {
+        $this->correoFacturaElectronica = $correoFacturaElectronica;
     }
 
 
