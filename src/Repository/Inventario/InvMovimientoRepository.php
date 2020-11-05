@@ -616,7 +616,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                             $em->flush();
                             if ($arFactura->getResolucionRel()->getAmbiente() == 1) {
                                 $facturaElectronica = new FacturaElectronica($em);
-                                $facturaElectronica->correo($arrConfiguracion, $arFactura);
+                                $facturaElectronica->correo($codigo, $codigoEmpresa);
                             }
                         }
                     } else {
