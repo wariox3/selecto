@@ -10,6 +10,7 @@
                               <thead>
                               <tr>
                                   <th>Id</th>
+                                  <th>Nombre</th>
                                   <th>Número</th>
                                   <th>Fecha</th>
                                   <th>Fecha desde</th>
@@ -17,11 +18,7 @@
                                   <th>Prefijo</th>
                                   <th>Número desde</th>
                                   <th>Número hasta</th>
-                                  <th>Clave tecnica</th>
-                                  <th>Pin</th>
                                   <th>Ambiente</th>
-                                  <th>Set pruebas</th>
-                                  <th title="Prueba">PRU</th>
                                   <th></th>
                                   <th></th>
                                   <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
@@ -32,6 +29,7 @@
                               {% for resolucion in arResoluciones %}
                                   <tr>
                                       <td>{{ resolucion.codigoResolucionPk }}</td>
+                                      <td>{{ resolucion.nombre }}</td>
                                       <td>{{ resolucion.numero }}</td>
                                       <td>{{ resolucion.fecha | date('Y-m-d') }}</td>
                                       <td>{{ resolucion.fechaDesde | date('Y-m-d') }}</td>
@@ -39,16 +37,12 @@
                                       <td>{{ resolucion.prefijo }}</td>
                                       <td class="number">{{ resolucion.numeroDesde | number_format(0, '.', ',')}}</td>
                                       <td class="number">{{ resolucion.numeroHasta | number_format(0, '.', ',') }}</td>
-                                      <td>{{ resolucion.claveTecnica }}</td>
-                                      <td>{{ resolucion.pin }}</td>
                                       <td>{{ resolucion.ambiente }}</td>
-                                      <td>{{ resolucion.setPruebas }}</td>
-                                      <td>{{ resolucion.prueba?'SI':'NO' }}</td>
                                       <td align="center"><a
-                                                  href="{{ path('resolucion_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
+                                                  href="{{ path('administracion_general_resolucion_nuevo', { 'id': resolucion.codigoResolucionPk }) }}"
                                                   title="editar informacion"><i class="fa fa-edit fa-lg"></i></a></td>
                                       <td align="center"><a
-                                                  href="{{ path('resolucion_detalle', { 'id': resolucion.codigoResolucionPk }) }}"
+                                                  href="{{ path('administracion_general_resolucion_detalle', { 'id': resolucion.codigoResolucionPk }) }}"
                                                   title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
                                       <td align="center"><input type="checkbox" name="ChkSeleccionar[]"
                                                                 value="{{ resolucion.codigoResolucionPk }}"/></td>
@@ -68,7 +62,7 @@
                               <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                    aria-label="...">
                                   <a class="btn btn-sm btn-default"
-                                     href="{{ path('resolucion_nuevo',{'id':0}) }}">Nuevo</a>
+                                     href="{{ path('administracion_general_resolucion_nuevo',{'id':0}) }}">Nuevo</a>
                                   {{ form_widget(form.btnEliminar) }}
                               </div>
                           </div>

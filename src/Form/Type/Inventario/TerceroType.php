@@ -96,6 +96,7 @@ class TerceroType extends AbstractType
             ->add('bloqueoCartera', CheckboxType::class, ['required' => false, 'label' => 'Bloqueo cartera'])
             ->add('codigoCIUU',TextType::class,['required' => false,'label' => 'CIUU:'])
             ->add('digitoVerificacion', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('correoFacturaElectronica', TextType::class, array('required' => true))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }
 }

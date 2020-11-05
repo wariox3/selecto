@@ -19,6 +19,7 @@ class GenResolucionRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(GenResolucion::class, 'r')
             ->select('r.codigoResolucionPk')
+            ->addSelect('r.nombre')
             ->addSelect('r.numero')
             ->addSelect('r.fecha')
             ->addSelect('r.fechaDesde')
@@ -26,10 +27,6 @@ class GenResolucionRepository extends ServiceEntityRepository
             ->addSelect('r.prefijo')
             ->addSelect('r.numeroDesde')
             ->addSelect('r.numeroHasta')
-            ->addSelect('r.claveTecnica')
-            ->addSelect('r.prueba')
-            ->addSelect('r.pin')
-            ->addSelect('r.setPruebas')
             ->addSelect('r.ambiente')
             ->where('r.codigoEmpresaFk = ' . $empresa );
 

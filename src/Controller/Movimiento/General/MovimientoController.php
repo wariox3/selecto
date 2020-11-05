@@ -116,9 +116,6 @@ class MovimientoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
                 $arMovimiento = $form->getData();
-                if($documento == 'FAC') {
-                    $arMovimiento->setPrefijo($arMovimiento->getResolucionRel()->getPrefijo());
-                }
                 $em->persist($arMovimiento);
                 $em->flush();
                 return $this->redirect($this->generateUrl('movimiento_general_detalle', array('id' => $arMovimiento->getCodigoMovimientoPk())));

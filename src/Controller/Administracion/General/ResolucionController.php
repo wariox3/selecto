@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ResolucionController extends  AbstractController
 {
     /**
-     * @Route("/general/administracion/resolucion/lista", name="resolucion_lista")
+     * @Route("/administracion/general/resolucion/lista", name="administracion_general_resolucion_lista")
      */
     public function lista(Request $request, PaginatorInterface $paginator )
     {
@@ -34,15 +34,14 @@ class ResolucionController extends  AbstractController
             }
         }
         $arResoluciones = $paginator->paginate($em->getRepository(GenResolucion::class)->lista($empresa), $request->query->getInt('page', 1), 30);
-
-        return $this->render('General/Administracion/Resolucion/lista.html.twig', [
+        return $this->render('administracion/general/resolucion/lista.html.twig', [
             'arResoluciones' => $arResoluciones,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/general/administracion/resolucion/nuevo/{id}", name="resolucion_nuevo")
+     * @Route("/administracion/general/resolucion/nuevo/{id}", name="administracion_general_resolucion_nuevo")
      */
     public function nuevo(Request $request, $id)
     {
@@ -63,23 +62,23 @@ class ResolucionController extends  AbstractController
                 $arResolucion->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFk());
                 $em->persist($arResolucion);
                 $em->flush();
-                return $this->redirect($this->generateUrl('resolucion_detalle', array('id' => $arResolucion->getCodigoResolucionPk())));
+                return $this->redirect($this->generateUrl('administracion_general_resolucion_detalle', array('id' => $arResolucion->getCodigoResolucionPk())));
             }
         }
-        return $this->render('General/Administracion/Resolucion/nuevo.html.twig', [
+        return $this->render('administracion/general/resolucion/nuevo.html.twig', [
             'arResolucion' => $arResolucion,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/general/administracion/resolucion/detalle/{id}", name="resolucion_detalle")
+     * @Route("/administracion/general/resolucion/detalle/{id}", name="administracion_general_resolucion_detalle")
      */
     public function detalle(Request $request, PaginatorInterface $paginator,$id)
     {
         $em = $this->getDoctrine()->getManager();
         $arResolucion = $em->getRepository(GenResolucion::class)->find($id);
-        return $this->render('General/Administracion/Resolucion/detalle.html.twig', [
+        return $this->render('administracion/general/resolucion/detalle.html.twig', [
             'arResolucion' => $arResolucion,
         ]);
 

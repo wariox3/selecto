@@ -17,6 +17,11 @@ class GenResolucion
     private $codigoResolucionPk;
 
     /**
+     * @ORM\Column(name="nombre", type="string", length=100, nullable=true)
+     */
+    private $nombre;
+
+    /**
      * @ORM\Column(name="numero", type="float", nullable=true)
      */
     private $numero;
@@ -52,34 +57,14 @@ class GenResolucion
     private $numeroHasta;
 
     /**
-     * @ORM\Column(name="clave_tecnica", type="string",length=500, nullable=true)
-     */
-    private $claveTecnica;
-
-    /**
-     * @ORM\Column(name="pin", type="string",length=20, nullable=true)
-     */
-    private $pin;
-
-    /**
      * @ORM\Column(name="ambiente", type="string",length=10, nullable=true)
      */
     private $ambiente;
 
     /**
-     * @ORM\Column(name="set_pruebas", type="string",length=500, nullable=true)
-     */
-    private $setPruebas;
-
-    /**
      * @ORM\Column(name="codigo_empresa_fk", type="string",length=10, nullable=true)
      */
     private $codigoEmpresaFk;
-
-    /**
-     * @ORM\Column(name="prueba", type="boolean", options={"default":false})
-     */
-    private $prueba = false;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="resolucionRel")
@@ -222,38 +207,6 @@ class GenResolucion
     /**
      * @return mixed
      */
-    public function getClaveTecnica()
-    {
-        return $this->claveTecnica;
-    }
-
-    /**
-     * @param mixed $claveTecnica
-     */
-    public function setClaveTecnica($claveTecnica): void
-    {
-        $this->claveTecnica = $claveTecnica;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPin()
-    {
-        return $this->pin;
-    }
-
-    /**
-     * @param mixed $pin
-     */
-    public function setPin($pin): void
-    {
-        $this->pin = $pin;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getAmbiente()
     {
         return $this->ambiente;
@@ -270,22 +223,6 @@ class GenResolucion
     /**
      * @return mixed
      */
-    public function getSetPruebas()
-    {
-        return $this->setPruebas;
-    }
-
-    /**
-     * @param mixed $setPruebas
-     */
-    public function setSetPruebas($setPruebas): void
-    {
-        $this->setPruebas = $setPruebas;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoEmpresaFk()
     {
         return $this->codigoEmpresaFk;
@@ -297,22 +234,6 @@ class GenResolucion
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPrueba(): bool
-    {
-        return $this->prueba;
-    }
-
-    /**
-     * @param bool $prueba
-     */
-    public function setPrueba(bool $prueba): void
-    {
-        $this->prueba = $prueba;
     }
 
     /**
@@ -347,6 +268,21 @@ class GenResolucion
         $this->empresasResolucionRel = $empresasResolucionRel;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
+    }
 
 
 

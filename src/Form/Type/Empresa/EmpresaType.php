@@ -67,9 +67,9 @@ class EmpresaType extends AbstractType
             ->add('digitoVerificacion', NumberType::class, array('required' => true))
             ->add('direccion', TextType::class, array('required' => true))
             ->add('correo', TextType::class, array('required' => true))
+            ->add('correoFacturaElectronica', TextType::class, array('required' => true))
             ->add('telefono', TextType::class, array('required' => true))
             ->add('suscriptor', TextType::class, array('required' => true))
-            ->add('formatoFactura', TextType::class, array('required' => true))
             ->add('informacionCuentaPago', TextType::class, array('required' => true))
             ->add('matriculaMercantil', TextType::class, array('required' => true))
 

@@ -287,8 +287,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
                 $objFunciones = new FuncionesController();
                 $fecha = new \DateTime('now');
                 $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
-                $cue = $this->generarCue($arMovimiento);
-                $arMovimiento->setCue($cue);
             }
             if ($arMovimiento->getDocumentoRel()->isGeneraCartera()) {
                 /*if($arMovimiento->getDocumentoRel()->getCodigoCuentaCobrarTipoFk()) {

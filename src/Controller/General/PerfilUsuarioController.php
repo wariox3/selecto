@@ -41,7 +41,7 @@ class PerfilUsuarioController extends AbstractController
             }
         }
         $arUsuarioEmpresas = $em->getRepository(UsuarioEmpresa::class)->findBy(['codigoUsuarioFk' => $this->getUser()->getUsername()]);
-        return $this->render('General/PerfilUsuario/nuevo.html.twig', [
+        return $this->render('general/perfilusuario/nuevo.html.twig', [
             'arUsuarioEmpresas' => $arUsuarioEmpresas,
             'arEmpresa' => $arEmpresa,
             'form' => $form->createView()

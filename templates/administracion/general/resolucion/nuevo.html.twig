@@ -14,10 +14,10 @@
                  </div>
                  <div class="panel-body">
                      <div class="form-group form-group-sm">
-                         <label class="col-sm-1 control-label">Numero:</label>
+                         <label class="col-sm-1 control-label">Nombre:</label>
                          <div class="col-sm-5">
-                             {{ form_widget(form.numero ,{ 'attr' : {'class' : 'form-control'}}) }}
-                             <div style="color:red;">{{ form_errors(form.numero) }}</div>
+                             {{ form_widget(form.nombre ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.nombre) }}</div>
                          </div>
                          <label class="col-sm-1 control-label">Fecha:</label>
                          <div class="col-sm-5">
@@ -31,10 +31,10 @@
                              {{ form_widget(form.prefijo, { 'attr': {'class' : 'form-control'} }) }}
                              <div style="color:red;">{{ form_errors(form.prefijo) }}</div>
                          </div>
-                         <label class="col-sm-1 control-label">Llave tecnica</label>
+                         <label class="col-sm-1 control-label">Numero:</label>
                          <div class="col-sm-5">
-                             {{ form_widget(form.claveTecnica, { 'attr': {'class' : 'form-control'} }) }}
-                             <div style="color:red;">{{ form_errors(form.claveTecnica) }}</div>
+                             {{ form_widget(form.numero ,{ 'attr' : {'class' : 'form-control'}}) }}
+                             <div style="color:red;">{{ form_errors(form.numero) }}</div>
                          </div>
                      </div>
                      <div class="form-group form-group-sm">
@@ -48,9 +48,9 @@
                              {{ form_widget(form.numeroHasta)}}
                              <div style="color:red;">{{ form_errors(form.numeroHasta) }}</div>
                          </div>
-                         <label class="col-sm-1 control-label">Set pruebas:</label>
+                         <label class="col-sm-1 control-label"></label>
                          <div class="col-sm-5">
-                             {{ form_widget(form.setPruebas)}}
+
                          </div>
                      </div>
                      <div class="form-group form-group-sm">
@@ -64,9 +64,9 @@
                              {{ form_widget(form.fechaHasta ,{ 'attr' : {'class' : 'form-control'}}) }}
                              <div style="color:red;">{{ form_errors(form.fechaHasta) }}</div>
                          </div>
-                         <label class="col-sm-1 control-label">Pin:</label>
+                         <label class="col-sm-1 control-label"></label>
                          <div class="col-sm-2">
-                             {{ form_widget(form.pin)}}
+
                          </div>
                          <label class="col-sm-1 control-label">Ambiente:</label>
                          <div class="col-sm-2">
@@ -84,7 +84,7 @@
                          </div>
                          <label class="col-sm-1 control-label"></label>
                          <div class="col-sm-2">
-                             {{ form_widget(form.prueba)}}
+
                          </div>
                      </div>
                  </div>
@@ -92,7 +92,7 @@
                      <div class="row">
                          <div class="col-sm-6">
                              <a class="btn btn-default btn-sm" style="float:left"
-                                href="{{ path('resolucion_lista') }}">Cancelar</a>
+                                href="{{ path('administracion_general_resolucion_lista') }}">Cancelar</a>
                          </div>
                          <div class="col-sm-6">
                              {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
