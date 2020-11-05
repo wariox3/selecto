@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+                 <div class="panel-body">
+                     <div class="form-group">
+                         <label class="col-sm-1 control-label">Id:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.codigoItem) }}
+                         </div>
+                         <label class="col-sm-1 control-label">Descripción:</label>
+                         <div class="col-sm-2">
+                             {{ form_widget(form.descripcion) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-body">
+                     <div class="table-responsive">
+                         <table class="table table-bordered mb-none tabla-datos">
+                             <thead>
+                             <tr>
+                                 <th>Id</th>
+                                 <th>Descripcion</th>
+                                 <th>Referencia</th>
+                                 <th>Existencia</th>
+                                 <th>% IVA</th>
+                                 <th>Afecta inventario</th>
+                                 <th>Producto</th>
+                                 <th>Servicio</th>
+                                 <th></th>
+                                 <th></th>
+                                 <th><input type="checkbox" name="ChkSeleccionarTodosDetalle"
+                                            OnClick="ChequearTodosTabla(this, 'ChkSeleccionar[]');"/></th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             {% for arItem in arItems %}
+                                 <tr>
+                                     <td>{{ arItem.codigoItemPk }}</td>
+                                     <td>{{ arItem.descripcion }}</td>
+                                     <td>{{ arItem.referencia }}</td>
+                                     <td>{{ arItem.cantidadExistencia }}</td>
+                                     <td>{{ arItem.porcentajeIva }}</td>
+                                     <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                     <td align="center">{% if arItem.producto == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                     <td align="center">{% if arItem.servicio == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
+                                     <td align="center"><a
+                                                 href="{{ path('administracion_general_item_nuevo', { 'id': arItem.codigoItemPk }) }}"
+                                                 title="editar informacion"><i
+                                                     class="fa fa-edit fa-lg"></i></a></td>
+                                     <td align="center"><a
+                                                 href="{{ path('administracion_general_item_detalle', { 'id': arItem.codigoItemPk }) }}"
+                                                 title="mostrar informacion"><i class="fa fa-eye fa-lg"></i></a></td>
+                                     <td class="text-center"><input type="checkbox" name="ChkSeleccionar[]"
+                                                                    value="{{ arItem.codigoItemPk }}"/></td>
+                                 </tr>
+                             {% endfor %}
+                             </tbody>
+                         </table>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arItems.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arItems) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                                  aria-label="...">
+                                 <a class="btn btn-sm btn-default"
+                                    href="{{ path('administracion_general_item_nuevo',{'id':0}) }}">Nuevo</a>
+                                 {{ form_widget(form.btnEliminar) }}
+                             </div>
+                             <div class="btn-group" style="float: right">
+                                 {{ form_widget(form.btnExcel, { 'attr': {'class': 'btn btn-default btn-sm'} }) }}
+                             </div>
+                             <div class="btn-group" style="float: right">
+                                 <a href="javascript:abrirVentana3('{{ path('administracion_general_item_importar') }}','importarItems',600,900)"
+                                    class="btn btn-default btn-sm">Importar items</a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

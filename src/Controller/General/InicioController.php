@@ -17,7 +17,7 @@ class InicioController extends Controller
     public function inicioAction(Request $request)
     {
         // en index pagina con datos generales de la app
-        return $this->render('Inicio/inicio.html.twig', [
+        return $this->render('inicio/inicio.html.twig', [
 
         ]);
     }

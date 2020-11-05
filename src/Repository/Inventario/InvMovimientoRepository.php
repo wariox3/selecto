@@ -432,7 +432,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
         $queryBuilder = $em->createQueryBuilder()->from(InvMovimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
             ->addSelect('m.numero')
-            ->addSelect('m.prefijo')
             ->addSelect('m.fecha')
             ->addSelect('m.fechaVence')
             ->addSelect('m.vrSubtotal')
@@ -455,33 +454,31 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('t.codigoCIUU')
             ->addSelect('tp.codigoInterface as tipoPersona')
             ->addSelect('r.codigoInterface as regimen')
-            ->addSelect('rf.numero as resolucionNumero')
-            ->addSelect('rf.prefijo as resolucionPrefijo')
-            ->addSelect('rf.fechaDesde as resolucionFechaDesde')
-            ->addSelect('rf.fechaHasta as resolucionFechaHasta')
-            ->addSelect('rf.numeroDesde as resolucionNumeroDesde')
-            ->addSelect('rf.numeroHasta as resolucionNumeroHasta')
-            ->addSelect('rf.prueba as resolucionPrueba')
-            ->addSelect('rf.pin as resolucionPin')
-            ->addSelect('rf.claveTecnica as resolucionClaveTecnica')
-            ->addSelect('rf.ambiente as resolucionAmbiente')
-            ->addSelect('rf.setPruebas as resolucionSetPruebas')
+            ->addSelect('rs.numero as resolucionNumero')
+            ->addSelect('rs.prefijo as resolucionPrefijo')
+            ->addSelect('rs.fechaDesde as resolucionFechaDesde')
+            ->addSelect('rs.fechaHasta as resolucionFechaHasta')
+            ->addSelect('rs.numeroDesde as resolucionNumeroDesde')
+            ->addSelect('rs.numeroHasta as resolucionNumeroHasta')
+            ->addSelect('rs.ambiente as resolucionAmbiente')
+            ->addSelect('rs.setPruebas as resolucionSetPruebas')
             ->addSelect('ciu.nombre as ciudadNombre')
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
             ->addSelect('dep.codigoDaneMascara as departamentoCodigoDaneMascara')
             ->addSelect('mr.cue as referenciaCue')
             ->addSelect('mr.numero as referenciaNumero')
-            ->addSelect('mr.prefijo as referenciaPrefijo')
+            ->addSelect('mrrs.prefijo as referenciaPrefijo')
             ->addSelect('mr.fecha as referenciaFecha')
             ->leftJoin('m.terceroRel', 't')
+            ->leftJoin('m.resolucionRel', 'rs')
+            ->leftJoin('m.movimientoRel', 'mr')
+            ->leftJoin('mr.resolucionRel', 'mrrs')
             ->leftJoin('t.identificacionRel', 'i')
             ->leftJoin('t.tipoPersonaRel', 'tp')
             ->leftJoin('t.regimenRel', 'r')
-            ->leftJoin('m.resolucionRel', 'rf')
             ->leftJoin('t.ciudadRel', 'ciu')
             ->leftJoin('ciu.departamentoRel', 'dep')
-            ->leftJoin('m.movimientoRel', 'mr')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
         if($arrMovimiento) {
@@ -514,9 +511,6 @@ class InvMovimientoRepository extends ServiceEntityRepository
                     $arrFactura = [
                         'dat_suscriptor' => $arrConfiguracion['suscriptor'],
                         'dat_nitFacturador' => $arrConfiguracion['nit'],
-                        'dat_claveTecnica' => $arFactura['resolucionClaveTecnica'],
-                        'dat_setPruebas' => $arFactura['resolucionSetPruebas'],
-                        'dat_pin' => $arFactura['resolucionPin'],
                         'dat_tipoAmbiente' => $arFactura['resolucionAmbiente'],
                         'res_numero' => $arFactura['resolucionNumero'],
                         'res_prefijo' => $arFactura['resolucionPrefijo'],
@@ -524,12 +518,10 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         'res_fechaHasta' => $arFactura['resolucionFechaHasta']?$arFactura['resolucionFechaHasta']->format('Y-m-d'):null,
                         'res_desde' => $arFactura['resolucionNumeroDesde'],
                         'res_hasta' => $arFactura['resolucionNumeroHasta'],
-                        'res_prueba' => $arFactura['resolucionPrueba'],
                         'doc_codigo' => $arFactura['codigoMovimientoPk'],
                         'doc_tipo' => $arFactura['codigoDocumentoFk'],
                         'doc_codigoDocumento' => $arFactura['codigoDocumentoFk'],
                         'doc_cue' => $arFactura['cue'],
-                        'doc_prefijo' => $arFactura['prefijo'],
                         'doc_numero' => $arFactura['numero'],
                         'doc_fecha' => $arFactura['fecha']->format('Y-m-d'),
                         'doc_fecha_vence' => $arFactura['fechaVence']->format('Y-m-d'),
@@ -597,18 +589,9 @@ class InvMovimientoRepository extends ServiceEntityRepository
                     $facturaElectronica = new FacturaElectronica($em);
                     $respuesta = $facturaElectronica->validarDatos($arrFactura);
                     if($respuesta['estado'] == 'ok') {
-                        //$procesoFacturaElectronica = $facturaElectronica->enviarDispapeles($arrFactura);
-                        //$procesoFacturaElectronica = $facturaElectronica->enviarCadena($arrFactura);
                         $procesoFacturaElectronica = $facturaElectronica->enviarSoftwareEstrategico($arrFactura);
                         if($procesoFacturaElectronica['estado'] == 'CN') {
                             break;
-                        }
-                        if($procesoFacturaElectronica['estado'] == 'ER') {
-                            /*$arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
-                            $arFactura->setProcesoFacturaElectronica('ER');
-                            $em->persist($arFactura);
-                            $em->flush();
-                            */
                         }
                         if($procesoFacturaElectronica['estado'] == 'EX') {
                             if(!$arrFactura['res_prueba']) {
@@ -617,6 +600,18 @@ class InvMovimientoRepository extends ServiceEntityRepository
                                 $arFactura->setEstadoElectronico(1);
                                 $em->persist($arFactura);
                                 $em->flush();
+                                $this->correoElectronica($codigo, $codigoEmpresa);
+                            }
+                        }
+                        if ($procesoFacturaElectronica['estado'] == 'EX') {
+                            $arFactura = $em->getRepository(InvMovimiento::class)->find($codigo);
+                            $arFactura->setEstadoElectronico(1);
+                            $arFactura->setCodigoExterno($procesoFacturaElectronica['codigoExterno']);
+                            $arFactura->setCue($procesoFacturaElectronica['cue']);
+                            $arFactura->setCadenaCodigoQr($procesoFacturaElectronica['cadenaCodigoQr']);
+                            $em->persist($arFactura);
+                            $em->flush();
+                            if ($arFactura->getResolucionRel()->getAmbiente() == 1) {
                                 $this->correoElectronica($codigo, $codigoEmpresa);
                             }
                         }
@@ -634,24 +629,63 @@ class InvMovimientoRepository extends ServiceEntityRepository
         return true;
     }
 
+
     public function correoElectronica($codigoMovimiento, $codigoEmpresa): bool
     {
         $em = $this->getEntityManager();
-        $arrConfiguracion = $em->getRepository(Empresa::class)->facturaElectronica($codigoEmpresa);
-        $archivo = '/var/www/html/temporal/factura'.$codigoMovimiento.'.pdf';
-        $objFormato = new Factura();
-        $objFormato->Generar($em, $codigoMovimiento, $codigoEmpresa, $archivo);
-        $b64Doc = chunk_split(base64_encode(file_get_contents($archivo)));
-        $arFactura = $em->getRepository(InvMovimiento::class)->movimientoCorreoElectronica($codigoMovimiento);
-        $arr = [
-            'DoceId' => $arFactura['codigoExterno'],
-            'Suscriptor' => $arrConfiguracion['suscriptor'],
-            'B64' => $b64Doc
+        $arrFactura = $em->getRepository(InvMovimiento::class)->movimientoCorreoElectronica($codigoMovimiento);
+        $arrConfiguracion = $em->getRepository(GenConfiguracion::class)->facturaElectronica();
+        $arrConfiguracionDocumental = $em->getRepository(DocConfiguracion::class)->archivoMasivo();
+        $arMovimientoFactura = $em->getRepository(GenMovimiento::class)->find($codigoMovimiento);
+        $archivoFactura = $em->getRepository(GenMovimiento::class)->generarFormato($arMovimientoFactura, true);
+        $Suscriptor = $arrConfiguracion['suscriptor'];
+        $cue = $arrFactura['cue'];
+        $correo = $arrFactura['correoFacturaElectronica'];
+        $correoCopia = null;
+        if ($arrConfiguracion['copiaFacturaElectronica']) {
+            $correoCopia = $arrConfiguracion['correo'];
+        }
+        $arrArchivos[] = [
+            'nombre' => 'factura.pdf',
+            'ruta' => $archivoFactura['ruta']
         ];
-
+        $query = $em->getRepository(DocArchivo::class)->listaArchivo('GenMovimiento', $codigoMovimiento);
+        $arArchivos = $query->getQuery()->getResult();
+        foreach ($arArchivos as $arArchivo) {
+            $ruta = $arrConfiguracionDocumental['rutaAlmacenamiento'] . "/archivo/" . $arArchivo['codigoArchivoTipoFk'] . "/" . $arArchivo['directorio'] . "/" . $arArchivo['codigoArchivoPk'] . "_" . $arArchivo['nombre'];
+            $arrArchivos[] = [
+                'nombre' => $arArchivo['nombre'],
+                'ruta' => $ruta
+            ];
+        }
         $facturaElectronica = new FacturaElectronica($em);
-        $procesoFacturaElectronica = $facturaElectronica->correoSoftwareEstrategico($arr);
-
+        $respuestaCorreo = $facturaElectronica->correo($cue, $Suscriptor, $arrArchivos, $correo, $correoCopia, $arrFactura, $arrConfiguracion);
+        if ($respuestaCorreo->envio) {
+            $arLogCorreo = new GenLogCorreo();
+            $arLogCorreo->setCodigo($codigoMovimiento);
+            $arLogCorreo->setCodigoModeloFk('GenMovimiento');
+            $arLogCorreo->setIdentificador($respuestaCorreo->codigoEnvio);
+            $arLogCorreo->setFecha(new \DateTime('now'));
+            $arLogCorreo->setCorreo($correo);
+            $arLogCorreo->setCorreoCopia($correoCopia);
+            $em->persist($arLogCorreo);
+            $arFactura = $em->getRepository(GenMovimiento::class)->find($codigoMovimiento);
+            if ($arFactura) {
+                $arFactura->setEstadoNotificadoElectronico(1);
+                $em->persist($arFactura);
+            }
+        } else {
+            $arLogCorreo = new GenLogCorreo();
+            $arLogCorreo->setCodigo($codigoMovimiento);
+            $arLogCorreo->setEstadoError(1);
+            $arLogCorreo->setCodigoModeloFk('GenMovimiento');
+            $arLogCorreo->setError($respuestaCorreo->mensajeError);
+            $arLogCorreo->setFecha(new \DateTime('now'));
+            $arLogCorreo->setCorreo($correo);
+            $arLogCorreo->setCorreoCopia($correoCopia);
+            $em->persist($arLogCorreo);
+        }
+        $em->flush();
         return true;
     }
 

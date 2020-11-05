@@ -22,72 +22,55 @@
                     <li class="nav-parent">
                         <a>
                             <i class="fa fa-align-left" aria-hidden="true"></i>
-                            <span>Inventario</span>
+                            <span>Movimiento</span>
                         </a>
                         <ul class="nav nav-children" style="">
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Movimiento</span>
+                                    <span>Inventario</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'COM'}) }}" class="waves-effect">Compra</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'ENT'}) }}" class="waves-effect">Entrada</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'SAL'}) }}" class="waves-effect">Salida</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'FAC'}) }}" class="waves-effect">Factura</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'NC'}) }}" class="waves-effect">Nota credito</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('movimiento_lista', {'documento':'ND'}) }}" class="waves-effect">Nota debito</a>
-                                    </li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'ENT'}) }}" class="waves-effect">Entrada</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'SAL'}) }}" class="waves-effect">Salida</a></li>
                                 </ul>
                             </li>
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Administración</span>
+                                    <span>Compra</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('item_lista') }}" class="waves-effect">
-                                            Item</a>
-                                    </li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'COM'}) }}" class="waves-effect">Compra</a></li>
                                 </ul>
                             </li>
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Utilidad</span>
+                                    <span>Venta</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('utilidad_generar_factura') }}" class="waves-effect">Generar
-                                            factura</a>
-                                    </li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'FAC'}) }}" class="waves-effect">Factura</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'NC'}) }}" class="waves-effect">Nota credito</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'ND'}) }}" class="waves-effect">Nota debito</a></li>
                                 </ul>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-parent">
+                        <a>
+                            <i class="fa fa-align-left" aria-hidden="true"></i>
+                            <span>Proceso</span>
+                        </a>
+                        <ul class="nav nav-children" style="">
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Informe</span>
+                                    <span>Venta</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
                                     <li>
-                                        <a href="{{ path('informe_movimiento_lista_Detalle') }}" class="waves-effect">
-                                            Detalle</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('informe_existencia_lista') }}" class="waves-effect">
-                                            Existencias</a>
+                                        <a href="{{ path('proceso_venta_facturaelectronica_lista') }}" class="waves-effect">Factura electronica</a>
                                     </li>
                                 </ul>
                             </li>
@@ -96,91 +79,18 @@
                     <li class="nav-parent">
                         <a>
                             <i class="fa fa-align-left" aria-hidden="true"></i>
-                            <span>Recurso humano</span>
+                            <span>Administracion</span>
                         </a>
                         <ul class="nav nav-children" style="">
                             <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Administración</span>
+                                    <span>General</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_empleado_lista') }}" class="waves-effect">Empleado</a>
-                                        <a href="{{ path('recursoHumano_contrato_lista') }}" class="waves-effect">Contrato</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Movimiento</span>
-                                </a>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_programacion_lista') }}" class="waves-effect">Programación</a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_pagos_lista') }}">Pagos</a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_liquidacion_lista') }}">Liquidación</a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_adicional_lista') }}" class="waves-effect">Adicional</a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_novedad_lista') }}" class="waves-effect">Novedad</a>
-                                    </li>
-                                </ul>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('recursoHumano_vacacion_lista') }}" class="waves-effect">Vacacion</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-parent">
-                        <a>
-                            <i class="fa fa-align-left" aria-hidden="true"></i>
-                            <span>General</span>
-                        </a>
-                        <ul class="nav nav-children" style="">
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Administración</span>
-                                </a>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('tercero_lista') }}" class="waves-effect">
-                                            Tercero</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('resolucion_lista') }}"class="waves-effect">
-                                            Resolución
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>Proceso</span>
-                                </a>
-                                <ul class="nav nav-children" style="">
-                                    <li>
-                                        <a href="{{ path('general_proceso_facturaelectronica_lista') }}" class="waves-effect">Factura electronica</a>
-                                    </li>
+                                    <li><a href="{{ path('administracion_general_tercero_lista') }}" class="waves-effect">Tercero</a></li>
+                                    <li><a href="{{ path('administracion_general_item_lista') }}" class="waves-effect">Item</a></li>
+                                    <li><a href="{{ path('resolucion_lista') }}"class="waves-effect">Resolución</a></li>
                                 </ul>
                             </li>
                         </ul>

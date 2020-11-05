@@ -28,11 +28,6 @@ class InvMovimiento
     private $fechaVence;
 
     /**
-     * @ORM\Column(name="prefijo", type="string",length=5, nullable=true)
-     */
-    private $prefijo;
-
-    /**
      * @ORM\Column(name="numero", type="integer", nullable=true)
      */
     private $numero = 0;
@@ -123,6 +118,11 @@ class InvMovimiento
     private $estadoElectronico = false;
 
     /**
+     * @ORM\Column(name="estado_electronico_notificado", type="boolean", options={"default":false})
+     */
+    private $estadoElectronicoNotificado = false;
+
+    /**
      * @ORM\Column(name="codigo_resolucion_fk", type="integer", nullable=true)
      */
     private $codigoResolucionFk;
@@ -141,6 +141,11 @@ class InvMovimiento
      * @ORM\Column(name="codigo_externo", type="string", length=200, nullable=true)
      */
     private $codigoExterno;
+
+    /**
+     * @ORM\Column(name="cadena_codigo_qr", type="text", nullable=true)
+     */
+    private $cadenaCodigoQr;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="movimientosTerceroRel")
@@ -634,22 +639,6 @@ class InvMovimiento
     /**
      * @return mixed
      */
-    public function getPrefijo()
-    {
-        return $this->prefijo;
-    }
-
-    /**
-     * @param mixed $prefijo
-     */
-    public function setPrefijo($prefijo): void
-    {
-        $this->prefijo = $prefijo;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCue()
     {
         return $this->cue;
@@ -709,6 +698,38 @@ class InvMovimiento
     public function setVrBaseIva($vrBaseIva): void
     {
         $this->vrBaseIva = $vrBaseIva;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEstadoElectronicoNotificado(): bool
+    {
+        return $this->estadoElectronicoNotificado;
+    }
+
+    /**
+     * @param bool $estadoElectronicoNotificado
+     */
+    public function setEstadoElectronicoNotificado(bool $estadoElectronicoNotificado): void
+    {
+        $this->estadoElectronicoNotificado = $estadoElectronicoNotificado;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCadenaCodigoQr()
+    {
+        return $this->cadenaCodigoQr;
+    }
+
+    /**
+     * @param mixed $cadenaCodigoQr
+     */
+    public function setCadenaCodigoQr($cadenaCodigoQr): void
+    {
+        $this->cadenaCodigoQr = $cadenaCodigoQr;
     }
 
 

@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Información</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="_telefono">Descripción:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.descripcion) }}
+                        </div>
+                        <label class="col-md-1 control-label" for="_telefono">Referencia:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.referencia) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label">Impuesto retencion:</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.impuestoRetencionRel) }}
+                        </div>
+                        <label class="col-md-1 control-label">Impuesto Iva::</label>
+                        <div class="col-md-5">
+                            {{ form_widget(form.impuestoIvaVentaRel) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label">% IVA</label>
+                        <div class="col-md-1">
+                            {{ form_widget(form.porcentajeIva) }}
+                        </div>
+                        <label class="col-md-1 control-label">Precio:</label>
+                        <div class="col-md-1">
+                            {{ form_widget(form.vrPrecio) }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form_widget(form.afectaInventario) }}
+                        </div>
+                        <div class="col-sm-1"><input type="radio" name="tipo"
+                                                     value="1" {{ arItem.producto == true?"checked='checked'":"" }}>Producto
+                        </div>
+                        <div class="col-sm-1"><input type="radio" name="tipo"
+                                                     value="2" {{ arItem.servicio == true?"checked='checked'":"" }}>Servicio
+                        </div>
+                    </div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <a class="btn btn-default btn-sm" style="float:left" href="{{ path('administracion_general_item_lista') }}">Cancelar</a>
+                        </div>
+                        <div class="col-sm-6">
+                            {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

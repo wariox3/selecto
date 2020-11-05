@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+    <div class="btn-toolbar" style="float:left">
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="{{ path('administracion_general_item_lista') }}">Volver</a>
+        </div>
+    </div>
+    <br><br>
+    <table width="100%" class="table table-condensed table-bordered tabla-informacion ">
+        <tr>
+            <td class="titulo">ID</td>
+            <td class="td-in-well">{{ arItem.codigoItemPk }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">REFERENCIA</td>
+            <td class="td-in-well">{{ arItem.referencia }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">DESCRIPCION</td>
+            <td class="td-in-well">{{ arItem.descripcion }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">EXISTENCIA</td>
+            <td class="td-in-well">{{ arItem.cantidadExistencia }}</td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
