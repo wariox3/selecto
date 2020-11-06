@@ -70,7 +70,7 @@ class EmpresaType extends AbstractType
             ->add('correoFacturaElectronica', TextType::class, array('required' => true))
             ->add('telefono', TextType::class, array('required' => true))
             ->add('suscriptor', TextType::class, array('required' => true))
-            ->add('informacionCuentaPago', TextType::class, array('required' => true))
+            ->add('informacionPago', TextareaType::class, array('required' => false))
             ->add('matriculaMercantil', TextType::class, array('required' => true))
 
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));

@@ -56,9 +56,9 @@ final class FuncionesController
      * @param
      * @return string
      */
-    public static function codigoQr($contenido)
+    public static function codigoQr($contenido, $codigo)
     {
-        $filename = '/var/www/html/temporal/qrTest.png';
+        $filename = "/var/www/html/temporal/qr{$codigo}.png";
 
         $tamano = 10; //Tamaño de Pixel
         $level = 'L'; //Precisión Baja

@@ -681,11 +681,16 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.vrBaseIva')
             ->addSelect('m.vrIva')
             ->addSelect('m.vrTotalNeto')
+            ->addSelect('m.cue')
+            ->addSelect('m.cadenaCodigoQr')
+            ->addSelect('m.comentario')
             ->addSelect('rs.numero as resolucionNumero')
             ->addSelect('rs.numeroDesde as resolucionNumeroDesde')
             ->addSelect('rs.numeroHasta as resolucionNumeroHasta')
             ->addSelect('rs.fechaHasta as resolucionFechaHasta')
+            ->addSelect('e.informacionPago as empresaInformacionPago')
             ->leftJoin('m.resolucionRel', 'rs')
+            ->leftJoin('m.empresaRel', 'e')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
         if($arrMovimiento) {

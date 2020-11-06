@@ -83,9 +83,9 @@ class Empresa
     private $codigoRegimenFk;
 
     /**
-     * @ORM\Column(name="informacion_cuenta_pago", type="string", length=1000, nullable=true)
+     * @ORM\Column(name="informacion_pago", type="string", length=1000, nullable=true)
      */
-    private $informacionCuentaPago;
+    private $informacionPago;
 
     /**
      * @ORM\Column(name="codigo_ciudad_fk", type="integer", nullable=true)
@@ -357,22 +357,6 @@ class Empresa
     /**
      * @return mixed
      */
-    public function getInformacionCuentaPago()
-    {
-        return $this->informacionCuentaPago;
-    }
-
-    /**
-     * @param mixed $informacionCuentaPago
-     */
-    public function setInformacionCuentaPago($informacionCuentaPago): void
-    {
-        $this->informacionCuentaPago = $informacionCuentaPago;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCodigoCiudadFk()
     {
         return $this->codigoCiudadFk;
@@ -560,6 +544,22 @@ class Empresa
     public function setCorreoFacturaElectronica($correoFacturaElectronica): void
     {
         $this->correoFacturaElectronica = $correoFacturaElectronica;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionPago()
+    {
+        return $this->informacionPago;
+    }
+
+    /**
+     * @param mixed $informacionPago
+     */
+    public function setInformacionPago($informacionPago): void
+    {
+        $this->informacionPago = $informacionPago;
     }
 
 

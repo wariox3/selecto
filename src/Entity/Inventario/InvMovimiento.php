@@ -148,6 +148,11 @@ class InvMovimiento
     private $cadenaCodigoQr;
 
     /**
+     * @ORM\Column(name="comentario", type="string", length=500, nullable=true)
+     */
+    private $comentario;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
@@ -730,6 +735,22 @@ class InvMovimiento
     public function setCadenaCodigoQr($cadenaCodigoQr): void
     {
         $this->cadenaCodigoQr = $cadenaCodigoQr;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComentario()
+    {
+        return $this->comentario;
+    }
+
+    /**
+     * @param mixed $comentario
+     */
+    public function setComentario($comentario): void
+    {
+        $this->comentario = $comentario;
     }
 
 
