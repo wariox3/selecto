@@ -20,7 +20,8 @@ class InvItemRepository extends ServiceEntityRepository
         $session = new Session();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvItem::class, 'i')
             ->select('i.codigoItemPk')
-            ->addSelect('i.descripcion')
+            ->addSelect('i.nombre')
+            ->addSelect('i.nombre')
             ->addSelect('i.referencia')
             ->addSelect('i.vrPrecio')
             ->addSelect('i.cantidadExistencia')
@@ -33,8 +34,8 @@ class InvItemRepository extends ServiceEntityRepository
         if ($session->get('filtroItemCodigo') != '') {
             $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroItemCodigo')}");
         }
-        if ($session->get('filtroItemDescripcion') != '') {
-            $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
+        if ($session->get('filtroItemNombre') != '') {
+            $queryBuilder->andWhere("i.nombre like '%{$session->get('filtroItemNombre')}%'");
         }
         return $queryBuilder;
     }

@@ -39,11 +39,12 @@ class ItemType extends AbstractType
                 'choice_label' => 'nombre',
                 'label' => 'Iva:'
                 , 'required' => true])
-            ->add('descripcion', TextareaType::class, array('required' => true))
-            ->add('referencia', TextType::class, array('required' => true))
+            ->add('nombre', TextType::class, array('required' => true))
+            ->add('referencia', TextType::class, array('required' => false))
             ->add('vrPrecio', NumberType::class, array('required' => true))
-            ->add('porcentajeIva', TextType::class, array('required' => true))
             ->add('afectaInventario', CheckboxType::class, array('required' => false))
+            ->add('producto', CheckboxType::class, array('required' => false))
+            ->add('servicio', CheckboxType::class, array('required' => false))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }
 }

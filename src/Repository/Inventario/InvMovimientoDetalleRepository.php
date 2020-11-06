@@ -22,9 +22,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
-            ->addSelect('i.codigoItemPk as item')
-            ->addSelect('i.descripcion as descripcion')
-            ->addSelect('i.referencia as referencia')
+            ->addSelect('md.codigoItemFk')
             ->addSelect(' md.cantidad')
             ->addSelect('md.vrPrecio')
             ->addSelect('md.vrSubtotal')
@@ -34,6 +32,8 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.vrTotal')
             ->addSelect('md.codigoImpuestoRetencionFk')
             ->addSelect('md.codigoImpuestoIvaFk')
+            ->addSelect('i.nombre as itemNombre')
+            ->addSelect('i.referencia as referencia')
             ->leftJoin("md.itemRel", "i")
             ->where('md.codigoMovimientoFk = ' . $id);
         return $queryBuilder->getQuery()->getResult();
@@ -177,7 +177,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.vrTotal')
             ->addSelect('md.porcentajeIva')
             ->addSelect('md.codigoItemFk')
-            ->addSelect('i.descripcion as itemDescripcion')
+            ->addSelect('i.nombre as itemNombre')
             ->leftJoin('md.itemRel', 'i')
             ->where("md.codigoMovimientoFk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();

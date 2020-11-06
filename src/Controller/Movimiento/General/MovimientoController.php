@@ -224,7 +224,7 @@ class MovimientoController extends Controller
         $arMovimiento = $em->getRepository(InvMovimiento::class)->find($id);
         $form = $this->createFormBuilder()
             ->add('txtCodigoItem', IntegerType::class, ['label' => 'Codigo: ', 'required' => false])
-            ->add('txtDescripcion', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroItemDescripcion')])
+            ->add('txtNombre', TextType::class, ['label' => 'Nombre: ', 'required' => false, 'data' => $session->get('filtroItemDescripcion')])
             ->add('btnGuardar', SubmitType::class, ['label' => 'Guardar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
             ->getForm();
@@ -232,7 +232,7 @@ class MovimientoController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroItemCodigo', $form->get('txtCodigoItem')->getData());
-                $session->set('filtroItemDescripcion', $form->get('txtDescripcion')->getData());
+                $session->set('filtroItemNombre', $form->get('txtNombre')->getData());
             }
         }
         if ($form->get('btnGuardar')->isClicked()) {

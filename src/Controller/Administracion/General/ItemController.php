@@ -45,7 +45,7 @@ class ItemController extends Controller
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
                 $this->get("UtilidadesModelo")->eliminar(InvItem::class, $arItems);
-                return $this->redirect($this->generateUrl('item_lista'));
+                return $this->redirect($this->generateUrl('administracion_general_item_lista'));
             }
             if ($form->get('btnExcel')->isClicked()) {
                 General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->lista($empresa))->execute(), "Items");
@@ -72,25 +72,12 @@ class ItemController extends Controller
         $form = $this->createForm(ItemType::class, $arItem);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $arrControles = $request->request->All();
             if ($form->get('guardar')->isClicked()) {
                 $arItem = $form->getData();
-                if (isset($arrControles["tipo"])) {
-                    switch ($arrControles["tipo"]) {
-                        case 1:
-                            $arItem->setProducto(1);
-                            $arItem->setServicio(0);
-                            break;
-                        case 2:
-                            $arItem->setServicio(1);
-                            $arItem->setProducto(0);
-                            break;
-                    }
-                }
                 $arItem->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
                 $em->persist($arItem);
                 $em->flush();
-                return $this->redirect($this->generateUrl('item_lista', array('id' => $arItem->getCodigoItemPk())));
+                return $this->redirect($this->generateUrl('administracion_general_item_lista', array('id' => $arItem->getCodigoItemPk())));
             }
         }
         return $this->render('administracion/general/item/nuevo.html.twig', [
@@ -109,7 +96,7 @@ class ItemController extends Controller
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirect($this->generateUrl('item_detalle', ['id' => $id]));
+            return $this->redirect($this->generateUrl('administracion_general_item_detalle', ['id' => $id]));
         }
         return $this->render('administracion/general/item/detalle.html.twig', [
             'form' => $form->createView(),

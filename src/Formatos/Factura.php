@@ -156,7 +156,7 @@ class Factura extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->Cell(10, 4, $contador, 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['codigoItemFk'], 1, 0, 'L');
-            $pdf->Cell(105, 4, substr(utf8_decode($arMovimientoDetalle['itemDescripcion']), 0, 60), 1, 0, 'L');
+            $pdf->Cell(105, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arMovimientoDetalle['vrSubtotal'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(25, 4, number_format($arMovimientoDetalle['vrIva'], 0,'.', ','), 1, 0, 'R');
@@ -182,7 +182,7 @@ class Factura extends \FPDF
         $this->Rect(160,185,50,30);
         $this->SetXY(10,186);
         $this->MultiCell(150, 3, $arMovimiento['comentario'],0,'L', 0);
-        $this->Image(FuncionesController::codigoQr($arMovimiento['cadenaCodigoQr'], $arMovimiento['codigoMovimientoPk']), 168, 216, 33, 33);
+        $this->Image(FuncionesController::codigoQr($arMovimiento['cadenaCodigoQr'] . "", $arMovimiento['codigoMovimientoPk']), 168, 216, 33, 33);
         $this->SetXY(162,188);
         $this->SetFont('helvetica', 'B', 8);
         $this->Cell(20, 4, 'Subtotal', 0, 0, 'L');

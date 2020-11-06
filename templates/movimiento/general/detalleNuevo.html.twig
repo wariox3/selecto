@@ -16,7 +16,7 @@
                     </div>
                     <label class="col-sm-2 control-label">Nombre:</label>
                     <div class="col-sm-4">
-                        {{ form_widget(form.txtDescripcion) }}
+                        {{ form_widget(form.txtNombre) }}
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Item</th>
+                                <th>Nombre</th>
                                 <th>Existencia</th>
                                 <th>Precio</th>
                                 <th>Afecta inventario</th>
@@ -50,7 +50,7 @@
                             {% for arItem in arItems %}
                                 <tr>
                                     <td>{{ arItem.codigoItemPk }}</td>
-                                    <td>{{ arItem.descripcion }}</td>
+                                    <td>{{ arItem.nombre }}</td>
                                     <td align="center">{{ arItem.cantidadExistencia }}</td>
                                     <td class="numero">{{ arItem.vrPrecio | number_format }}</td>
                                     <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>

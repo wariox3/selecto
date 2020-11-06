@@ -23,6 +23,11 @@ class InvItem
     private $descripcion;
 
     /**
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
+
+    /**
      * @ORM\Column(name="referencia", type="string",length=50, nullable=true)
      */
     private $referencia;
@@ -70,7 +75,7 @@ class InvItem
     /**
      * @ORM\Column(name="afecta_inventario", type="boolean", nullable=true, options={"default":false})
      */
-    private $afectaInventario = true;
+    private $afectaInventario = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenImpuesto", inversedBy="itemsImpuestoRetencionRel")
@@ -108,22 +113,6 @@ class InvItem
     public function setCodigoItemPk($codigoItemPk): void
     {
         $this->codigoItemPk = $codigoItemPk;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
-    /**
-     * @param mixed $descripcion
-     */
-    public function setDescripcion($descripcion): void
-    {
-        $this->descripcion = $descripcion;
     }
 
     /**
@@ -348,6 +337,22 @@ class InvItem
     public function setContratosDetallesItemRel($contratosDetallesItemRel): void
     {
         $this->contratosDetallesItemRel = $contratosDetallesItemRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
+    {
+        $this->nombre = $nombre;
     }
 
 

@@ -109,8 +109,8 @@
                     <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Cod</th>
                         <th>Item</th>
-                        <th>Descripcion</th>
                         <th>Referencia</th>
                         <th>Cantidad</th>
                         <th>Precio</th>
@@ -132,8 +132,8 @@
                             <input type="hidden"
                                    name="arrCodigo[]"
                                    value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}">
-                            <td>{{ arMovimientoDetalle.item }} </td>
-                            <td>{{ arMovimientoDetalle.descripcion }}</td>
+                            <td>{{ arMovimientoDetalle.codigoItemFk }} </td>
+                            <td>{{ arMovimientoDetalle.itemNombre }}</td>
                             <td>{{ arMovimientoDetalle.referencia }}</td>
                             {% if arMovimiento.estadoAutorizado == 1 %}
                                 <td>{{ arMovimientoDetalle.cantidad }}</td>

@@ -63,9 +63,10 @@ final class FuncionesController
         $tamano = 10; //Tamaño de Pixel
         $level = 'L'; //Precisión Baja
         $framSize = 3; //Tamaño en blanco
-
+        if(!$contenido) {
+            $contenido = "Documento no autorizado";
+        }
         \QRcode::png($contenido, $filename, $level, $tamano, $framSize);
-
         return $filename;
     }
 

@@ -9,9 +9,9 @@
                 </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-md-1 control-label" for="_telefono">Descripción:</label>
+                        <label class="col-md-1 control-label" for="_telefono">Nombre:</label>
                         <div class="col-md-5">
-                            {{ form_widget(form.descripcion) }}
+                            {{ form_widget(form.nombre) }}
                         </div>
                         <label class="col-md-1 control-label" for="_telefono">Referencia:</label>
                         <div class="col-md-5">
@@ -19,32 +19,27 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-1 control-label">Impuesto retencion:</label>
+                        <label class="col-md-1 control-label">Retencion:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.impuestoRetencionRel) }}
                         </div>
-                        <label class="col-md-1 control-label">Impuesto Iva::</label>
+                        <label class="col-md-1 control-label">Iva:</label>
                         <div class="col-md-5">
                             {{ form_widget(form.impuestoIvaVentaRel) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-1 control-label">% IVA</label>
-                        <div class="col-md-1">
-                            {{ form_widget(form.porcentajeIva) }}
-                        </div>
                         <label class="col-md-1 control-label">Precio:</label>
-                        <div class="col-md-1">
+                        <div class="col-md-5">
                             {{ form_widget(form.vrPrecio) }}
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 control-label"></label>
+                        <div class="col-md-5">
                             {{ form_widget(form.afectaInventario) }}
-                        </div>
-                        <div class="col-sm-1"><input type="radio" name="tipo"
-                                                     value="1" {{ arItem.producto == true?"checked='checked'":"" }}>Producto
-                        </div>
-                        <div class="col-sm-1"><input type="radio" name="tipo"
-                                                     value="2" {{ arItem.servicio == true?"checked='checked'":"" }}>Servicio
+                            {{ form_widget(form.producto) }}
+                            {{ form_widget(form.servicio) }}
                         </div>
                     </div>
                 </div>
