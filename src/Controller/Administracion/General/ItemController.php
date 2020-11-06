@@ -40,7 +40,7 @@ class ItemController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroItemCodigo', $form->get('codigoItem')->getData());
-                $session->set('filtroItemDescripcion', $form->get('descripcion')->getData());
+                $session->set('filtroItemNombre', $form->get('descripcion')->getData());
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
@@ -73,8 +73,10 @@ class ItemController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
+                /** @var $arItem InvItem */
                 $arItem = $form->getData();
                 $arItem->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
+                $arItem->setPorcentajeIva($arItem->getImpuestoIvaVentaRel()->getPorcentaje());
                 $em->persist($arItem);
                 $em->flush();
                 return $this->redirect($this->generateUrl('administracion_general_item_lista', array('id' => $arItem->getCodigoItemPk())));
