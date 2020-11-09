@@ -3,8 +3,6 @@
 namespace App\Repository\Inventario;
 
 use App\Controller\Estructura\FuncionesController;
-use App\Entity\Cartera\CarCuentaCobrar;
-use App\Entity\Cartera\CarCuentaCobrarTipo;
 use App\Entity\Compra\ComCuentaPagar;
 use App\Entity\Compra\ComCuentaPagarTipo;
 use App\Entity\Empresa;
@@ -20,7 +18,6 @@ use App\Formatos\Compra;
 use App\Formatos\Entrada;
 use App\Formatos\Factura;
 use App\Formatos\Factura1;
-use App\Formatos\Factura2;
 use App\Formatos\Salida;
 use App\Utilidades\FacturaElectronica;
 use App\Utilidades\Mensajes;
@@ -716,8 +713,21 @@ class InvMovimientoRepository extends ServiceEntityRepository
             $objFormato = new Entrada();
             $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
         } elseif ($arrMovimiento['codigoDocumentoFk'] == 'FAC') {
-            $objFormato = new Factura();
-            $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa, $archivo);
+            $arrEmpresa = $em->getRepository(Empresa::class)->formato($codigoEmpresa);
+            switch ($arrEmpresa['formatoFactura']){
+                case "0":
+                    $objFormato = new Factura();
+                    $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa, $archivo);
+                    break;
+                case "1":
+                    $objFormato = new Factura1();
+                    $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
+                    break;
+                case "2":
+                    $objFormato = new Factura();
+                    $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa, $archivo);
+                    break;
+            }
         } elseif ($arrMovimiento['codigoDocumentoFk'] == 'COM') {
             $objFormato = new Compra();
             $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);

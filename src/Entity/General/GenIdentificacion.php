@@ -27,11 +27,6 @@ class GenIdentificacion
     private $codigoEntidad;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="identificacionRel")
-     */
-    protected $EmpleadosIdentificacionRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoIdentificacionPk()
@@ -61,22 +56,6 @@ class GenIdentificacion
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmpleadosIdentificacionRel()
-    {
-        return $this->EmpleadosIdentificacionRel;
-    }
-
-    /**
-     * @param mixed $EmpleadosIdentificacionRel
-     */
-    public function setEmpleadosIdentificacionRel($EmpleadosIdentificacionRel): void
-    {
-        $this->EmpleadosIdentificacionRel = $EmpleadosIdentificacionRel;
     }
 
     /**

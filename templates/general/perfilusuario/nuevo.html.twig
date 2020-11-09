@@ -94,15 +94,30 @@
                             {{ form_widget(form.suscriptor) }}
                         </div>
                     </div>
+                    <hr>
+                    <div class="btn-group" style="float: right; margin-right: 5px !important;">
+                        {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-sm-12">
+            <section class="panel panel-featured panel-featured-primary">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Información factura</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group form-group-sm">
+                        <label class="col-md-2 control-label" for="_telefono">Formato:</label>
+                        <div class="col-md-4">
+                            {{ form_widget(form.formatoFactura) }}
+                        </div>
+                    </div>
                     <div class="form-group form-group-sm">
                         <label class="col-md-2 control-label" for="_telefono">Informacion pago:</label>
                         <div class="col-md-10">
                             {{ form_widget(form.informacionPago,{ 'attr' : {'style' : 'margin-top: 0px; margin-bottom: 0px; height: 102px;'}}) }}
                         </div>
-                    </div>
-                    <hr>
-                    <div class="btn-group" style="float: right; margin-right: 5px !important;">
-                        {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
                     </div>
                 </div>
             </section>

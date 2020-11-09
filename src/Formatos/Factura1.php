@@ -136,23 +136,6 @@ class Factura1 extends \FPDF
 
     public function EncabezadoDetalles()
     {
-//        $this->Ln(70);
-//        $this->SetX(10);
-//        $header = array('ITEM', 'DESCRIPCION', 'REFERENCIA', 'CANT', 'PRECIO', 'SUBTOTAL', '% ', 'IVA', 'TOTAL');
-//        $this->SetFillColor(225, 225, 225);
-//        $this->SetLineWidth(.2);
-//        $this->SetFont('', 'B', 6);
-//
-//        //creamos la cabecera de la tabla.
-//        $w = array(10, 60, 40, 10, 15, 15, 10, 15, 15);
-//        for ($i = 0; $i < count($header); $i++) {
-//            $this->Cell($w[$i], 4, $header[$i], 1, 0, 'C', 1);
-//        }
-//        //Restauración de colores y fuentes
-//        $this->SetFillColor(224, 235, 255);
-//        $this->SetTextColor(0);
-//        $this->SetFont('');
-//        $this->Ln(4);
 
         $this->Ln(22);
         $this->SetX(8);
@@ -190,7 +173,7 @@ class Factura1 extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(8);
 //            $pdf->Cell(10, 6, $arMovimientoDetalle->getCodigoItemFk(), 1, 0, 'L');
-            $pdf->Cell(140, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getDescripcion()),  0, 'L');
+            $pdf->Cell(140, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getNombre()),  0, 'L');
 //            $pdf->Cell(40, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getReferencia()), 1, 0, 'L');
 //            $pdf->Cell(10, 6, $arMovimientoDetalle->getCantidad(), 1, 0, 'R');
             $this->setDrawColor('227', '227', '227');

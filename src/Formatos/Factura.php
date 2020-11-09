@@ -69,7 +69,7 @@ class Factura extends \FPDF
         $this->Text(170, 10, $date->format('Y-m-d H:i:s') . ' [Selecto | Facturacion]');
 
         $this->SetFont('helvetica', 'B', 11);
-        $this->Text(140, 20, $arMovimiento['resolucionNombre']);
+        $this->Text(140, 20, 'FACTURA ELECTRONICA DE VENTA');
         $this->SetFont('helvetica', 'B', 14);
         $this->Text(170, 25, $arMovimiento['resolucionPrefijo'] .$arMovimiento['numero']);
 

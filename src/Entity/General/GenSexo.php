@@ -22,10 +22,7 @@ class GenSexo
      */
     private $nombre;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="sexoRel")
-     */
-    protected $EmpleadosSexoRel;
+
 
     /**
      * @return mixed
@@ -57,22 +54,6 @@ class GenSexo
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmpleadosSexoRel()
-    {
-        return $this->EmpleadosSexoRel;
-    }
-
-    /**
-     * @param mixed $EmpleadosSexoRel
-     */
-    public function setEmpleadosSexoRel($EmpleadosSexoRel): void
-    {
-        $this->EmpleadosSexoRel = $EmpleadosSexoRel;
     }
 
 

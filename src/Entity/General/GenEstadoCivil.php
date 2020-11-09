@@ -21,10 +21,6 @@ class GenEstadoCivil
      */
     private $nombre;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="estadoCivilRel")
-     */
-    protected $EmpleadosEstadoCivilRel;
 
     /**
      * @return mixed
@@ -57,23 +53,5 @@ class GenEstadoCivil
     {
         $this->nombre = $nombre;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getEmpleadosEstadoCivilRel()
-    {
-        return $this->EmpleadosEstadoCivilRel;
-    }
-
-    /**
-     * @param mixed $EmpleadosEstadoCivilRel
-     */
-    public function setEmpleadosEstadoCivilRel($EmpleadosEstadoCivilRel): void
-    {
-        $this->EmpleadosEstadoCivilRel = $EmpleadosEstadoCivilRel;
-    }
-
-
 
 }

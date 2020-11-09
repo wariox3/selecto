@@ -68,9 +68,9 @@ class Empresa
     private $extension;
 
     /**
-     * @ORM\Column(name="formato_factura", type="string", length=1, nullable=true)
+     * @ORM\Column(name="formato_factura", type="string", length=1, nullable=true, options={"default" : "0"})
      */
-    private $formatoFactura;
+    private $formatoFactura = '0';
 
     /**
      * @ORM\Column(name="codigo_tipo_persona_fk", type="string", length=3, nullable=true)

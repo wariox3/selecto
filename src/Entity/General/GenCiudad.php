@@ -55,31 +55,6 @@ class GenCiudad
     private $ciudadTerceroRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadRel")
-     */
-    protected $EmpleadosCiudadRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadExpedicionRel")
-     */
-    protected $rhuEmpleadosCiudadExpedicionRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuEmpleado", mappedBy="ciudadNacimientoRel")
-     */
-    protected $EmpleadosCiudadNacimientoRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuContrato", mappedBy="ciudadContratoRel")
-     */
-    protected $rhuContratosCiudadContratoRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RecursoHumano\RhuContrato", mappedBy="ciudadLaboraRel")
-     */
-    protected $rhuContratosCiudadLaboraRel;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Empresa", mappedBy="ciudadRel")
      */
     protected $empresasCiudadRel;
@@ -151,6 +126,38 @@ class GenCiudad
     /**
      * @return mixed
      */
+    public function getCodigoDaneMascara()
+    {
+        return $this->codigoDaneMascara;
+    }
+
+    /**
+     * @param mixed $codigoDaneMascara
+     */
+    public function setCodigoDaneMascara($codigoDaneMascara): void
+    {
+        $this->codigoDaneMascara = $codigoDaneMascara;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoDaneCompleto()
+    {
+        return $this->codigoDaneCompleto;
+    }
+
+    /**
+     * @param mixed $codigoDaneCompleto
+     */
+    public function setCodigoDaneCompleto($codigoDaneCompleto): void
+    {
+        $this->codigoDaneCompleto = $codigoDaneCompleto;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDepartamentoRel()
     {
         return $this->departamentoRel;
@@ -183,86 +190,6 @@ class GenCiudad
     /**
      * @return mixed
      */
-    public function getEmpleadosCiudadRel()
-    {
-        return $this->EmpleadosCiudadRel;
-    }
-
-    /**
-     * @param mixed $EmpleadosCiudadRel
-     */
-    public function setEmpleadosCiudadRel($EmpleadosCiudadRel): void
-    {
-        $this->EmpleadosCiudadRel = $EmpleadosCiudadRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRhuEmpleadosCiudadExpedicionRel()
-    {
-        return $this->rhuEmpleadosCiudadExpedicionRel;
-    }
-
-    /**
-     * @param mixed $rhuEmpleadosCiudadExpedicionRel
-     */
-    public function setRhuEmpleadosCiudadExpedicionRel($rhuEmpleadosCiudadExpedicionRel): void
-    {
-        $this->rhuEmpleadosCiudadExpedicionRel = $rhuEmpleadosCiudadExpedicionRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmpleadosCiudadNacimientoRel()
-    {
-        return $this->EmpleadosCiudadNacimientoRel;
-    }
-
-    /**
-     * @param mixed $EmpleadosCiudadNacimientoRel
-     */
-    public function setEmpleadosCiudadNacimientoRel($EmpleadosCiudadNacimientoRel): void
-    {
-        $this->EmpleadosCiudadNacimientoRel = $EmpleadosCiudadNacimientoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRhuContratosCiudadContratoRel()
-    {
-        return $this->rhuContratosCiudadContratoRel;
-    }
-
-    /**
-     * @param mixed $rhuContratosCiudadContratoRel
-     */
-    public function setRhuContratosCiudadContratoRel($rhuContratosCiudadContratoRel): void
-    {
-        $this->rhuContratosCiudadContratoRel = $rhuContratosCiudadContratoRel;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRhuContratosCiudadLaboraRel()
-    {
-        return $this->rhuContratosCiudadLaboraRel;
-    }
-
-    /**
-     * @param mixed $rhuContratosCiudadLaboraRel
-     */
-    public function setRhuContratosCiudadLaboraRel($rhuContratosCiudadLaboraRel): void
-    {
-        $this->rhuContratosCiudadLaboraRel = $rhuContratosCiudadLaboraRel;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getEmpresasCiudadRel()
     {
         return $this->empresasCiudadRel;
@@ -275,39 +202,6 @@ class GenCiudad
     {
         $this->empresasCiudadRel = $empresasCiudadRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoDaneMascara()
-    {
-        return $this->codigoDaneMascara;
-    }
-
-    /**
-     * @param mixed $codigoDaneMascara
-     */
-    public function setCodigoDaneMascara($codigoDaneMascara): void
-    {
-        $this->codigoDaneMascara = $codigoDaneMascara;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCodigoDaneCompleto()
-    {
-        return $this->codigoDaneCompleto;
-    }
-
-    /**
-     * @param mixed $codigoDaneCompleto
-     */
-    public function setCodigoDaneCompleto($codigoDaneCompleto): void
-    {
-        $this->codigoDaneCompleto = $codigoDaneCompleto;
-    }
-
 
 
 }
