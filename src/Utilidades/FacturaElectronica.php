@@ -24,7 +24,11 @@ class FacturaElectronica
             if($arrFactura['dat_nitFacturador']) {
                 if($arrFactura['ad_tipoPersona']) {
                     if($arrFactura['doc_codigoDocumento'] =='NC' || ($arrFactura['res_numero'] && $arrFactura['res_prefijo'] && $arrFactura['res_fechaDesde'] && $arrFactura['res_fechaHasta'] && $arrFactura['res_desde'] && $arrFactura['res_hasta'])) {
-                        $arrRespuesta = ['estado' => 'ok', 'mensaje' => null];
+                        if(strlen($arrFactura['ad_codigoPostal']) == 6) {
+                            $arrRespuesta = ['estado' => 'ok', 'mensaje' => null];
+                        } else {
+                            $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El codigo postal del adquiriente debe tener 6 caracteres'];
+                        }
                     } else {
                         $arrRespuesta = ['estado' => 'error', 'mensaje' => 'Faltan datos de la resolucion o el documento no tiene resolucion asignada'];
                     }

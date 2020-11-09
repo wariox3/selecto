@@ -43,6 +43,8 @@
                                  <th>Fecha</th>
                                  <th>Referencia</th>
                                  <th>Tercero</th>
+                                 <th title="Codigo postal">CPos</th>
+                                 <th title="Correo factura electronica">Correo</th>
                                  <th>Subtotal</th>
                                  <th>Iva</th>
                                  <th>Neto</th>
@@ -59,7 +61,9 @@
                                      <td>{{ arMovimiento.numero }}</td>
                                      <td>{{ arMovimiento.fecha|date('Y-m-d') }}</td>
                                      <td>{{ arMovimiento.referencia }}</td>
-                                     <td>{{ arMovimiento.tercero }}</td>
+                                     <td>{{ arMovimiento.terceroNombreCorto }}</td>
+                                     <td>{{ arMovimiento.terceroCodigoPostal }}</td>
+                                     <td>{{ arMovimiento.terceroCorreoFacturaElectronica |slice(0,20) }}</td>
                                      <td class="numero">{{ arMovimiento.vrSubtotal | number_format }}</td>
                                      <td class="numero">{{ arMovimiento.vrIva | number_format }}</td>
                                      <td class="numero">{{ arMovimiento.vrTotalNeto | number_format }}</td>
