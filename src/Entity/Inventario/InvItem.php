@@ -38,6 +38,11 @@ class InvItem
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="codigo", type="string",length=10, nullable=true)
+     */
+    private $codigo;
+
+    /**
      * @ORM\Column(name="porcentaje_iva", type="integer", nullable=true)
      */
     private $porcentajeIva = 0;
@@ -348,6 +353,22 @@ class InvItem
     public function setNombre($nombre): void
     {
         $this->nombre = $nombre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    /**
+     * @param mixed $codigo
+     */
+    public function setCodigo($codigo): void
+    {
+        $this->codigo = $codigo;
     }
 
 
