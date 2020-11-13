@@ -25,7 +25,12 @@ class FacturaElectronica
                 if($arrFactura['ad_tipoPersona']) {
                     if($arrFactura['doc_codigoDocumento'] =='NC' || ($arrFactura['res_numero'] && $arrFactura['res_prefijo'] && $arrFactura['res_fechaDesde'] && $arrFactura['res_fechaHasta'] && $arrFactura['res_desde'] && $arrFactura['res_hasta'])) {
                         if(strlen($arrFactura['ad_codigoPostal']) == 6) {
-                            $arrRespuesta = ['estado' => 'ok', 'mensaje' => null];
+                            if($arrFactura['ad_correo']) {
+                                $arrRespuesta = ['estado' => 'ok', 'mensaje' => null];
+                            } else {
+                                $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El adquiriente debe tener un correo electronico'];
+                            }
+
                         } else {
                             $arrRespuesta = ['estado' => 'error', 'mensaje' => 'El codigo postal del adquiriente debe tener 6 caracteres'];
                         }

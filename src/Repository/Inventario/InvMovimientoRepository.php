@@ -449,7 +449,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('t.digitoVerificacion as digitoVerificacion')
             ->addSelect('t.nombreCorto as nombreCorto')
             ->addSelect('t.direccion')
-            ->addSelect('t.email')
+            ->addSelect('t.correoFacturaElectronica as email')
             ->addSelect('t.barrio')
             ->addSelect('t.codigoPostal')
             ->addSelect('t.telefono')
@@ -586,7 +586,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         $cantidadItemes++;
                         $arrItem[] = [
                             "item_id" => $cantidadItemes,
-                            "item_codigo" => $arFacturaDetalle['codigoItemFk'],
+                            "item_codigo" => $arFacturaDetalle['itemCodigo'],
                             "item_nombre" => $arFacturaDetalle['itemNombre'],
                             "item_cantidad" => number_format($arFacturaDetalle['cantidad'], 2, '.', ''),
                             "item_precio" => number_format($arFacturaDetalle['vrPrecio'], 2, '.', ''),

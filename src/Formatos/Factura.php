@@ -132,7 +132,7 @@ class Factura extends \FPDF
         $this->SetFont('', 'B', 7);
 
         //creamos la cabecera de la tabla.
-        $w = array(10,10,105, 10, 15, 25, 25);
+        $w = array(7,15,103, 10, 15, 25, 25);
         for ($i = 0; $i < count($header); $i++) {
             $this->Cell($w[$i], 4, $header[$i], 1, 0, 'C', 1);
         }
@@ -154,9 +154,9 @@ class Factura extends \FPDF
         $pdf->SetX(10);
         $contador = 1;
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
-            $pdf->Cell(10, 4, $contador, 1, 0, 'L');
-            $pdf->Cell(10, 4, $arMovimientoDetalle['codigoItemFk'], 1, 0, 'L');
-            $pdf->Cell(105, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
+            $pdf->Cell(7, 4, $contador, 1, 0, 'L');
+            $pdf->Cell(15, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
+            $pdf->Cell(103, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
             $pdf->Cell(15, 4, number_format($arMovimientoDetalle['vrSubtotal'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(25, 4, number_format($arMovimientoDetalle['vrIva'], 0,'.', ','), 1, 0, 'R');
