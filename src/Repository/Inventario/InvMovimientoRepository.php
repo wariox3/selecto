@@ -586,7 +586,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
                         $cantidadItemes++;
                         $arrItem[] = [
                             "item_id" => $cantidadItemes,
-                            "item_codigo" => $arFacturaDetalle['itemCodigo'],
+                            "item_codigo" => $arFacturaDetalle['codigoItemFk'],
                             "item_nombre" => $arFacturaDetalle['itemNombre'],
                             "item_cantidad" => number_format($arFacturaDetalle['cantidad'], 2, '.', ''),
                             "item_precio" => number_format($arFacturaDetalle['vrPrecio'], 2, '.', ''),
