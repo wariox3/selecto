@@ -53,6 +53,11 @@ class InvMovimientoDetalle
     private $porcentajeIva = 0;
 
     /**
+     * @ORM\Column(name="porcentaje_descuento", type="float", nullable=true, options={"default" : 0})
+     */
+    private $porcentajeDescuento = 0;
+
+    /**
      * @ORM\Column(name="codigo_impuesto_retencion_fk", type="string", length=3, nullable=true)
      */
     private $codigoImpuestoRetencionFk;
@@ -348,6 +353,22 @@ class InvMovimientoDetalle
     public function setVrBaseIva($vrBaseIva): void
     {
         $this->vrBaseIva = $vrBaseIva;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPorcentajeDescuento()
+    {
+        return $this->porcentajeDescuento;
+    }
+
+    /**
+     * @param mixed $porcentajeDescuento
+     */
+    public function setPorcentajeDescuento($porcentajeDescuento): void
+    {
+        $this->porcentajeDescuento = $porcentajeDescuento;
     }
 
 

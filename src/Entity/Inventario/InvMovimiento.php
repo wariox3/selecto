@@ -33,6 +33,11 @@ class InvMovimiento
     private $numero = 0;
 
     /**
+     * @ORM\Column(name="documento_soporte", type="string", length=100, nullable=true)
+     */
+    private $documentoSoporte;
+
+    /**
      * @ORM\Column(name="plazo_pago", type="integer", nullable=true)
      */
     private $plazoPago = 0;
@@ -753,6 +758,20 @@ class InvMovimiento
         $this->comentario = $comentario;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDocumentoSoporte()
+    {
+        return $this->documentoSoporte;
+    }
 
+    /**
+     * @param mixed $documentoSoporte
+     */
+    public function setDocumentoSoporte($documentoSoporte): void
+    {
+        $this->documentoSoporte = $documentoSoporte;
+    }
 
 }

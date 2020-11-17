@@ -28,6 +28,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.vrSubtotal')
             ->addSelect('md.vrBaseIva')
             ->addSelect('md.porcentajeIva')
+            ->addSelect('md.porcentajeDescuento')
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')
             ->addSelect('md.codigoImpuestoRetencionFk')
@@ -94,6 +95,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
         if ($this->getEntityManager()->getRepository(InvMovimiento::class)->contarDetalles($arMovimiento->getCodigoMovimientoPk()) > 0) {
             $arrCantidad = $arrControles['arrCantidad'];
             $arrPrecio = $arrControles['arrValor'];
+            $arrPorcentajeDescuento = $arrControles['arrPorcentajeDescuento'];
             $arrCodigo = $arrControles['arrCodigo'];
             $arrImpuestoIva = $arrControles['cboImpuestoIva'];
             $arrImpuestoRetencion = $arrControles['cboImpuestoRetencion'];
@@ -102,6 +104,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
                 $arMovimientoDetalle = $this->getEntityManager()->getRepository(InvMovimientoDetalle::class)->find($codigoMovimientoDetalle);
                 $arMovimientoDetalle->setCantidad($arrCantidad[$codigoMovimientoDetalle]);
                 $arMovimientoDetalle->setVrPrecio($arrPrecio[$codigoMovimientoDetalle]);
+                $arMovimientoDetalle->setPorcentajeDescuento($arrPorcentajeDescuento[$codigoMovimientoDetalle]);
                 $codigoImpuestoIva = $arrImpuestoIva[$codigoMovimientoDetalle];
                 if($arMovimientoDetalle->getCodigoImpuestoIvaFk() != $codigoImpuestoIva) {
                     $arImpuestoIva = $em->getRepository(GenImpuesto::class)->find($codigoImpuestoIva);
@@ -177,6 +180,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')
             ->addSelect('md.porcentajeIva')
+            ->addSelect('md.porcentajeDescuento')
             ->addSelect('md.codigoItemFk')
             ->addSelect('i.nombre as itemNombre')
             ->addSelect('i.codigo as itemCodigo')

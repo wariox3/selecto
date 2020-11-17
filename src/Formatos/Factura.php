@@ -97,6 +97,12 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', '', 8);
         $this->Cell(25, 4, $arMovimiento['plazoPago'], 0, 0, 'R', 0);
 
+        $this->SetFont('helvetica', 'B', 8);
+        $this->SetXY(140, 46);
+        $this->Cell(45, 4, 'DOC SOPORTE:', 0, 0, 'L', 0);
+        $this->SetFont('helvetica', '', 8);
+        $this->Cell(25, 4, $arMovimiento['documentoSoporte'], 0, 0, 'R', 0);
+
         $this->SetFont('helvetica', 'B', 11);
         $this->Text(50, 20, utf8_decode($arMovimiento['empresaNombreCorto']));
         $this->SetFont('helvetica', '', 8);
@@ -126,13 +132,13 @@ class Factura extends \FPDF
     {
         $this->Ln(6);
         $this->SetXY(10, 64);
-        $header = array('#','COD','DESCRIPCION', 'CANT', 'PRECIO', 'IVA', 'TOTAL');
+        $header = array('#','COD','DESCRIPCION', 'CANT', 'PRECIO', '%DSC', 'SUBTOTAL', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 7);
 
         //creamos la cabecera de la tabla.
-        $w = array(7,15,103, 10, 15, 25, 25);
+        $w = array(7, 15, 90, 10, 17, 10, 17, 17, 17);
         for ($i = 0; $i < count($header); $i++) {
             $this->Cell($w[$i], 4, $header[$i], 1, 0, 'C', 1);
         }
@@ -156,11 +162,13 @@ class Factura extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->Cell(7, 4, $contador, 1, 0, 'L');
             $pdf->Cell(15, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
-            $pdf->Cell(103, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
+            $pdf->Cell(90, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
-            $pdf->Cell(15, 4, number_format($arMovimientoDetalle['vrSubtotal'], 0, '.', ','), 1, 0, 'R');
-            $pdf->Cell(25, 4, number_format($arMovimientoDetalle['vrIva'], 0,'.', ','), 1, 0, 'R');
-            $pdf->Cell(25, 4, number_format($arMovimientoDetalle['vrTotal']), 1, 0, 'R');
+            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrPrecio'], 0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(10, 4, number_format($arMovimientoDetalle['porcentajeDescuento'], 0,'.', ','), 1, 0, 'R');
+            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrSubtotal'], 0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrIva'], 0,'.', ','), 1, 0, 'R');
+            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrTotal']), 1, 0, 'R');
             $pdf->Ln();
             $pdf->SetAutoPageBreak(true, 15);
             $contador++;
@@ -178,11 +186,11 @@ class Factura extends \FPDF
         $this->SetFillColor(225, 225, 225);
         $this->Cell(150, 5, 'COMENTARIOS', 1, 0, 'C', 1);
         $this->Cell(50, 5, 'TOTALES', 1, 0, 'C', 1);
-        $this->Rect(10,185,150,30);
-        $this->Rect(160,185,50,30);
+        $this->Rect(10,185,150,25);
+        $this->Rect(160,185,50,25);
         $this->SetXY(10,186);
         $this->MultiCell(150, 3, $arMovimiento['comentario'],0,'L', 0);
-        $this->Image(FuncionesController::codigoQr($arMovimiento['cadenaCodigoQr'] . "", $arMovimiento['codigoMovimientoPk']), 168, 216, 33, 33);
+        $this->Image(FuncionesController::codigoQr($arMovimiento['cadenaCodigoQr'] . "", $arMovimiento['codigoMovimientoPk']), 168, 211, 33, 33);
         $this->SetXY(162,188);
         $this->SetFont('helvetica', 'B', 8);
         $this->Cell(20, 4, 'Subtotal', 0, 0, 'L');
@@ -207,13 +215,15 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', '', 8);
         $this->Cell(25, 4, number_format($arMovimiento['vrTotalNeto']), 0, 0, 'R');
         $this->Ln();
-        $this->SetXY(10, 215);
+        $this->SetXY(10, 210);
         $this->SetFont('helvetica', 'B', 9);
         $this->Cell(150, 5, 'INFORMACION PAGO', 1, 0, 'C', 1);
-        $this->Rect(10,220,150,30);
+        $this->Rect(10,215,150,30);
         $this->SetXY(10, 221);
         $this->SetFont('helvetica', '', 8);
         $this->MultiCell(150, 3,$arMovimiento['empresaInformacionPago'],0,'L', 0);
+        $this->SetXY(10, 245);
+        $this->Cell(200, 5, $this->devolverNumeroLetras($arMovimiento['vrTotalNeto']), 1, 0, 'L');
         $this->SetXY(10, 250);
         $this->Cell(200, 5, 'CUFE/CUDE: ' . $arMovimiento['cue'], 1, 0, 'L');
         $this->SetXY(10, 255);
@@ -227,7 +237,7 @@ class Factura extends \FPDF
         $this->Text(188, 275, utf8_decode('Página ') . $this->PageNo() . ' de {nb}');
     }
 
-    public static function devolverNumeroLetras($num, $fem = true, $dec = true)
+    private function devolverNumeroLetras($num, $fem = true, $dec = true)
     {
 
         //if (strlen($num) > 14) die("El n?mero introducido es demasiado grande");

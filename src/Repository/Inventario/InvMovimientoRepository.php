@@ -145,7 +145,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $vrBaseIva = 0;
             $vrIva = 0;
-            $vrSubtotal = $arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getCantidad();
+            $vrSubtotal = ($arMovimientoDetalle->getVrPrecio() - ($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getPorcentajeDescuento() / 100))* $arMovimientoDetalle->getCantidad();
             if($arMovimientoDetalle->getCodigoImpuestoIvaFk()) {
                 if($arMovimientoDetalle->getCodigoImpuestoIvaFk() != 'I00') {
                     $vrBaseIva = $vrSubtotal;
@@ -640,6 +640,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.fecha')
             ->addSelect('m.fechaVence')
             ->addSelect('m.plazoPago')
+            ->addSelect('m.documentoSoporte')
             ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
             ->addSelect('t.nombreCorto as terceroNombreCorto')
             ->addSelect('t.telefono as terceroTelefono')

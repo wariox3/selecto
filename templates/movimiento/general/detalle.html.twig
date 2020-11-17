@@ -40,6 +40,31 @@
             <td class="numero"> {{ arMovimiento.vrSubtotal | number_format(0, '.', ',') }}</td>
         </tr>
         <tr>
+            <td class="titulo">FECHA:</td>
+            <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
+            <td class="titulo">DOCUMENTO:</td>
+            <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
+            <td class="titulo">BASE IVA:</td>
+            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrBaseIva | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">FECHA VENCE:</td>
+            <td class="td-in-well">{{ arMovimiento.fechaVence | date('Y-m-d') }}</td>
+            <td class="titulo">TERCERO:</td>
+            <td class="td-in-well">{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
+            <td class="titulo">(+)IVA:</td>
+            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrIva | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
+            <td class="titulo">DOCUMENTO SOPORTE:</td>
+            <td class="td-in-well">{{ arMovimiento.documentoSoporte }}</td>
+            <td class="titulo"></td>
+            <td class="td-in-well"></td>
+            <td class="titulo">BRUTO:</td>
+            <td class="td-in-well"
+                style="text-align: right;">{{ arMovimiento.vrTotalBruto | number_format(0, '.', ',') }}</td>
+        </tr>
+        <tr>
             <td class="titulo">REFERENCIA:</td>
             <td class="td-in-well">
                 {% if arMovimiento.codigoDocumentoFk == 'NC' or arMovimiento.codigoDocumentoFk == 'ND' %}
@@ -49,31 +74,6 @@
                     {% endif %}
                 {% endif %}
             </td>
-            <td class="titulo">DOCUMENTO:</td>
-            <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
-            <td class="titulo">BASE IVA:</td>
-            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrBaseIva | number_format(0, '.', ',') }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">TERCERO:</td>
-            <td class="td-in-well">{{ arMovimiento.terceroRel.nombreCorto | default('') }}</td>
-            <td class="titulo"></td>
-            <td class="td-in-well"></td>
-            <td class="titulo">(+)IVA:</td>
-            <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrIva | number_format(0, '.', ',') }}</td>
-        </tr>
-        <tr>
-            <td class="titulo">FECHA:</td>
-            <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
-            <td class="titulo">FECHA VENCE:</td>
-            <td class="td-in-well">{{ arMovimiento.fechaVence | date('Y-m-d') }}</td>
-            <td class="titulo">BRUTO:</td>
-            <td class="td-in-well"
-                style="text-align: right;">{{ arMovimiento.vrTotalBruto | number_format(0, '.', ',') }}</td>
-        </tr>
-        <tr>
-            <td class="titulo"></td>
-            <td class="td-in-well"></td>
             <td class="titulo"></td>
             <td class="td-in-well"></td>
             <td class="titulo">(-)RTE FUENTE:</td>
@@ -114,6 +114,7 @@
                         <th>Referencia</th>
                         <th>Cantidad</th>
                         <th>Precio</th>
+                        <th>%Dsc</th>
                         <th>Subtotal</th>
                         <th>Base</th>
                         <th>Cod</th>
@@ -137,6 +138,8 @@
                             <td>{{ arMovimientoDetalle.referencia }}</td>
                             {% if arMovimiento.estadoAutorizado == 1 %}
                                 <td>{{ arMovimientoDetalle.cantidad }}</td>
+                                <td class="numero">{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
+                                <td>{{ arMovimientoDetalle.porcentajeDescuento }}</td>
                             {% else %}
                                 <td style="text-align: center;">
                                     <input type="number"
@@ -145,16 +148,19 @@
                                            style="text-align: right; width:90px"
                                            size="10">
                                 </td>
-                            {% endif %}
-                            {% if arMovimiento.estadoAutorizado == 1 %}
-                                <td class="numero">{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
-                            {% else %}
                                 <td style="text-align: center;">
                                     <input type="number"
                                            name="arrValor[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]"
                                            value="{{ arMovimientoDetalle.vrPrecio }}"
                                            style="text-align: right; width:90px"
                                            size="10">
+                                </td>
+                                <td style="text-align: center;">
+                                    <input type="number"
+                                           name="arrPorcentajeDescuento[{{ arMovimientoDetalle.codigoMovimientoDetallePk }}]"
+                                           value="{{ arMovimientoDetalle.porcentajeDescuento }}"
+                                           style="text-align: right; width:90px"
+                                           size="5">
                                 </td>
                             {% endif %}
                             <td class="numero">{{ arMovimientoDetalle.vrSubtotal | number_format(0, '.', ',') }}</td>

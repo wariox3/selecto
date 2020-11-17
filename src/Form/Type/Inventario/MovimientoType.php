@@ -41,6 +41,7 @@ class MovimientoType extends AbstractType
                 'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('plazoPago', TextType::class, array('required' => true))
+            ->add('documentoSoporte', TextType::class, array('required' => false))
             ->add('guardar', SubmitType::class, array('label' => 'Guardar'));
     }
 }
