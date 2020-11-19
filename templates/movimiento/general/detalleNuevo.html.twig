@@ -10,9 +10,19 @@
             </div>
             <div class="panel-body">
                 <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label">ID:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.txtID) }}
+                    </div>
                     <label class="col-sm-2 control-label">Codigo:</label>
                     <div class="col-sm-4">
-                        {{ form_widget(form.txtCodigoItem) }}
+                        {{ form_widget(form.txtCodigo) }}
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label class="col-sm-2 control-label">Referencia:</label>
+                    <div class="col-sm-4">
+                        {{ form_widget(form.txtReferencia) }}
                     </div>
                     <label class="col-sm-2 control-label">Nombre:</label>
                     <div class="col-sm-4">
@@ -36,13 +46,12 @@
                             <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Codigo</th>
                                 <th>Nombre</th>
-                                <th>Existencia</th>
+                                <th>Referencia</th>
+                                <th title="Existencia">Ex</th>
                                 <th>Precio</th>
-                                <th>Afecta inventario</th>
                                 <th>Cantidad</th>
-                                <th>Producto</th>
-                                <th>Servicio</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -50,13 +59,11 @@
                             {% for arItem in arItems %}
                                 <tr>
                                     <td>{{ arItem.codigoItemPk }}</td>
+                                    <td>{{ arItem.codigo }}</td>
                                     <td>{{ arItem.nombre }}</td>
-                                    <td align="center">{{ arItem.cantidadExistencia }}</td>
+                                    <td>{{ arItem.referencia }}</td>
+                                    <td class="numero">{{ arItem.cantidadExistencia }}</td>
                                     <td class="numero">{{ arItem.vrPrecio | number_format }}</td>
-                                    <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
-                                    <td align="center">{% if arItem.afectaInventario == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
-                                    <td align="center">{% if arItem.producto == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
-                                    <td align="center">{% if arItem.servicio == true %}{{ 'Si' }}{% else %}{{ 'No' }}{% endif %}</td>
                                     <td style="text-align: center;"><input type="number"
                                                                            name="itemCantidad[{{ arItem.codigoItemPk }}]"
                                                                            size="10" style="width:70px"></td>

@@ -21,7 +21,7 @@ class InvItemRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvItem::class, 'i')
             ->select('i.codigoItemPk')
             ->addSelect('i.nombre')
-            ->addSelect('i.nombre')
+            ->addSelect('i.codigo')
             ->addSelect('i.referencia')
             ->addSelect('i.vrPrecio')
             ->addSelect('i.cantidadExistencia')
@@ -31,8 +31,14 @@ class InvItemRepository extends ServiceEntityRepository
             ->addSelect('i.afectaInventario')
             ->orderBy('i.codigoItemPk', 'ASC')
             ->where('i.codigoEmpresaFk = '. $empresa);
+        if ($session->get('filtroItemId') != '') {
+            $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroItemId')}");
+        }
         if ($session->get('filtroItemCodigo') != '') {
-            $queryBuilder->andWhere("i.codigoItemPk = {$session->get('filtroItemCodigo')}");
+            $queryBuilder->andWhere("i.codigo like '%{$session->get('filtroItemCodigo')}%'");
+        }
+        if ($session->get('filtroItemReferencia') != '') {
+            $queryBuilder->andWhere("i.referencia like '%{$session->get('filtroItemReferencia')}%'");
         }
         if ($session->get('filtroItemNombre') != '') {
             $queryBuilder->andWhere("i.nombre like '%{$session->get('filtroItemNombre')}%'");

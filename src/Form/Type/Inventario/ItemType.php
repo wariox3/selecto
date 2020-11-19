@@ -40,6 +40,7 @@ class ItemType extends AbstractType
                 'label' => 'Iva:'
                 , 'required' => true])
             ->add('nombre', TextType::class, array('required' => true))
+            ->add('codigo', TextType::class, array('required' => true))
             ->add('referencia', TextType::class, array('required' => false))
             ->add('vrPrecio', NumberType::class, array('required' => true))
             ->add('afectaInventario', CheckboxType::class, array('required' => false))

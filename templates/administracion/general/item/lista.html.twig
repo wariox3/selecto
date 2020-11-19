@@ -39,6 +39,7 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Codigo</th>
                                  <th>Nombre</th>
                                  <th>Referencia</th>
                                  <th>Existencia</th>
@@ -56,6 +57,7 @@
                              {% for arItem in arItems %}
                                  <tr>
                                      <td>{{ arItem.codigoItemPk }}</td>
+                                     <td>{{ arItem.codigo }}</td>
                                      <td>{{ arItem.nombre }}</td>
                                      <td>{{ arItem.referencia }}</td>
                                      <td>{{ arItem.cantidadExistencia }}</td>

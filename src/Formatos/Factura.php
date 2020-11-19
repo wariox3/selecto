@@ -160,9 +160,13 @@ class Factura extends \FPDF
         $pdf->SetX(10);
         $contador = 1;
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
+            $nombre = $arMovimientoDetalle['itemNombre'];
+            if($arMovimientoDetalle['itemReferencia']) {
+                $nombre.= " ". $arMovimientoDetalle['itemReferencia'];
+            }
             $pdf->Cell(7, 4, $contador, 1, 0, 'L');
             $pdf->Cell(15, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
-            $pdf->Cell(90, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
+            $pdf->Cell(90, 4, substr(utf8_decode($nombre), 0, 60), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrPrecio'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(10, 4, number_format($arMovimientoDetalle['porcentajeDescuento'], 0,'.', ','), 1, 0, 'R');

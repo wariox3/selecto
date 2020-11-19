@@ -95,11 +95,6 @@ class InvItem
     protected $movimientosDetallesItemRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="InvContratoDetalle", mappedBy="itemRel")
-     */
-    protected $contratosDetallesItemRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoItemPk()

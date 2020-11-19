@@ -214,16 +214,6 @@ class GenTercero
     protected $movimientosTerceroRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvContrato", mappedBy="terceroRel")
-     */
-    protected $contratosTerceroRel;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cartera\CarCuentaCobrar", mappedBy="terceroRel")
-     */
-    private $cuentaCobroRel;
-
-    /**
      * @return mixed
      */
     public function getCodigoTerceroPk()
