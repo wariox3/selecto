@@ -184,7 +184,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.codigoItemFk')
             ->addSelect('i.nombre as itemNombre')
             ->addSelect('i.codigo as itemCodigo')
-            ->addSelect('i.codigo as itemReferencia')
+            ->addSelect('i.referencia as itemReferencia')
             ->leftJoin('md.itemRel', 'i')
             ->where("md.codigoMovimientoFk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
