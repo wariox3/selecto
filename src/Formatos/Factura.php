@@ -132,13 +132,13 @@ class Factura extends \FPDF
     {
         $this->Ln(6);
         $this->SetXY(10, 64);
-        $header = array('#','COD','DESCRIPCION', 'CANT', 'PRECIO', '%DSC', 'SUBTOTAL', 'IVA', 'TOTAL');
+        $header = array('#','COD','DESCRIPCION', 'CANT', 'PRECIO', '%DSC', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 7);
 
         //creamos la cabecera de la tabla.
-        $w = array(7, 15, 90, 10, 17, 10, 17, 17, 17);
+        $w = array(7, 10, 112, 10, 17, 10, 17, 17);
         for ($i = 0; $i < count($header); $i++) {
             $this->Cell($w[$i], 4, $header[$i], 1, 0, 'C', 1);
         }
@@ -162,15 +162,14 @@ class Factura extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $nombre = $arMovimientoDetalle['itemNombre'];
             if($arMovimientoDetalle['itemReferencia']) {
-                $nombre.= " ". $arMovimientoDetalle['itemReferencia'];
+                $nombre.= " Ref. ". $arMovimientoDetalle['itemReferencia'];
             }
             $pdf->Cell(7, 4, $contador, 1, 0, 'L');
-            $pdf->Cell(15, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
-            $pdf->Cell(90, 4, substr(utf8_decode($nombre), 0, 60), 1, 0, 'L');
+            $pdf->Cell(10, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
+            $pdf->Cell(112, 4, substr(utf8_decode($nombre), 0, 60), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrPrecio'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(10, 4, number_format($arMovimientoDetalle['porcentajeDescuento'], 0,'.', ','), 1, 0, 'R');
-            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrSubtotal'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrIva'], 0,'.', ','), 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrTotal']), 1, 0, 'R');
             $pdf->Ln();
