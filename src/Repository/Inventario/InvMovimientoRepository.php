@@ -641,6 +641,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.fechaVence')
             ->addSelect('m.plazoPago')
             ->addSelect('m.documentoSoporte')
+            ->addSelect('m.codigoDocumentoFk')
             ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
             ->addSelect('t.nombreCorto as terceroNombreCorto')
             ->addSelect('t.telefono as terceroTelefono')
@@ -713,7 +714,7 @@ class InvMovimientoRepository extends ServiceEntityRepository
         } elseif ($arrMovimiento['codigoDocumentoFk'] == 'ENT') {
             $objFormato = new Entrada();
             $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
-        } elseif ($arrMovimiento['codigoDocumentoFk'] == 'FAC') {
+        } elseif ($arrMovimiento['codigoDocumentoFk'] == 'FAC' || $arrMovimiento['codigoDocumentoFk'] == 'NC' || $arrMovimiento['codigoDocumentoFk'] == 'ND') {
             $arrEmpresa = $em->getRepository(Empresa::class)->formato($codigoEmpresa);
             switch ($arrEmpresa['formatoFactura']){
                 case "0":
