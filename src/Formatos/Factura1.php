@@ -64,7 +64,10 @@ class Factura1 extends \FPDF
         $this->SetFont('Arial', 'B', 10);
         $this->SetXY(10, 10);
         try {
-            $this->Image('../public/assets/img/empresa/logo.jpg', 12, 13, 40, 25);
+            $logo = self::$em->getRepository('App\Entity\Empresa')->find(self::$codigoEmpresa);
+            if ($logo) {
+                $this->Image("data:image/'{$logo->getExtension()}';base64," . base64_encode(stream_get_contents($logo->getLogo())), 20, 10, 40, 25, $logo->getExtension());
+            }
         } catch (\Exception $exception) {
         }
         $this->SetXY(100, 10);
@@ -137,7 +140,7 @@ class Factura1 extends \FPDF
     public function EncabezadoDetalles()
     {
 
-        $this->Ln(22);
+        $this->Ln(10);
         $this->SetX(8);
         $header = array('Concepto', 'Valor');
         $this->SetFillColor(227, 227, 227);
@@ -194,10 +197,12 @@ class Factura1 extends \FPDF
     {
         /**
          * @var $arMovimiento InvMovimiento
-         * //         * @var $arMovimientoDetalles InvMovimientoDetalle
-         * //         */
+         * @var $arMovimientoDetalles InvMovimientoDetalle
+         * @var $arEmpresa Empresa
+         */
         $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
         $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
+        $arEmpresa = self::$em->getRepository(Empresa::class)->find(self::$codigoEmpresa);
 
         $this->setDrawColor('227', '227', '227');
 
@@ -205,7 +210,7 @@ class Factura1 extends \FPDF
         $y = 71+($nr*6)+8;
         $x = 171;
 
-        $this->Line(148, 71,148, $y-2); //Linea body tabla
+        $this->Line(148, 60,148, $y-2); //Linea body tabla
 
         $this->Line(8, $y-2, 206, $y-2); //Linea Inferior tabla
 
@@ -281,7 +286,8 @@ class Factura1 extends \FPDF
         $this->SetFont('Arial', 'B', 7);
         $this->Text(8.5, $y+12, 'Observaciones:');
         $this->SetFont('Arial', '', 7);
-        $this->Text(50, $y+26.5, '');
+        $this->SetXY(7.5,$y+16 );
+        $this->MultiCell(198, 3, utf8_decode($arEmpresa->getInformacionPago()), 0, 'L', false);
 
         //Marco
         $y+=28;
