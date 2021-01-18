@@ -129,7 +129,7 @@ class Compra extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(10);
             $pdf->Cell(10, 6, $arMovimientoDetalle->getCodigoItemFk(), 1, 0, 'L');
-            $pdf->Cell(60, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getDescripcion()), 1, 0, 'L');
+            $pdf->Cell(60, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getNombre()), 1, 0, 'L');
             $pdf->Cell(40, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getReferencia()), 1, 0, 'L');
             $pdf->Cell(10, 6, $arMovimientoDetalle->getCantidad(), 1, 0, 'R');
             $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrPrecio(), 0, '.', ','), 1, 0, 'R');
