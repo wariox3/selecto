@@ -146,7 +146,7 @@ class Factura extends \FPDF
     {
         $this->Ln(6);
         $this->SetXY(10, 64);
-        $header = array('#','COD','DESCRIPCION', 'CANT', 'PRECIO', '%DSC', 'IVA', 'TOTAL');
+        $header = array('#','COD','ITEM', 'CANT', 'PRECIO', '%DSC', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 7);
@@ -176,7 +176,7 @@ class Factura extends \FPDF
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->Cell(7, 4, $contador, 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
-            $pdf->Cell(112, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 60), 1, 0, 'L');
+            $pdf->Cell(112, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 85), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrPrecio'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(10, 4, number_format($arMovimientoDetalle['porcentajeDescuento'], 0,'.', ','), 1, 0, 'R');
