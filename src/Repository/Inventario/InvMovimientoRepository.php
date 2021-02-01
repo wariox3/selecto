@@ -51,8 +51,10 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->addSelect('t.nombreCorto AS terceroNombreCorto')
             ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
             ->addSelect('d.nombre as documentoNombre')
+            ->addSelect('cc.nombre as centroCostoNombre')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('m.documentoRel', 'd')
+            ->leftJoin('m.centroCostoRel', 'cc')
             ->where("m.codigoDocumentoFk = '" . $documento . "'")
             ->andWhere('m.codigoEmpresaFk = ' . $empresa);
         if ($session->get('filtroMovimientoFechaDesde') != null) {

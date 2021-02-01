@@ -158,6 +158,11 @@ class InvMovimiento
     private $comentario;
 
     /**
+     * @ORM\Column(name="codigo_centro_costo_fk", type="integer", nullable=true)
+     */
+    private $codigoCentroCostoFk;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTercero", inversedBy="movimientosTerceroRel")
      * @ORM\JoinColumn(name="codigo_tercero_fk", referencedColumnName="codigo_tercero_pk")
      */
@@ -192,6 +197,12 @@ class InvMovimiento
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
     private $empresaRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CentroCosto", inversedBy="movimientosCentroCostoRel")
+     * @ORM\JoinColumn(name="codigo_centro_costo_fk", referencedColumnName="codigo_centro_costo_pk")
+     */
+    protected $centroCostoRel;
 
     /**
      * @ORM\OneToMany(targetEntity="InvMovimientoDetalle", mappedBy="movimientoRel")
@@ -773,5 +784,39 @@ class InvMovimiento
     {
         $this->documentoSoporte = $documentoSoporte;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoCentroCostoFk()
+    {
+        return $this->codigoCentroCostoFk;
+    }
+
+    /**
+     * @param mixed $codigoCentroCostoFk
+     */
+    public function setCodigoCentroCostoFk($codigoCentroCostoFk): void
+    {
+        $this->codigoCentroCostoFk = $codigoCentroCostoFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCentroCostoRel()
+    {
+        return $this->centroCostoRel;
+    }
+
+    /**
+     * @param mixed $centroCostoRel
+     */
+    public function setCentroCostoRel($centroCostoRel): void
+    {
+        $this->centroCostoRel = $centroCostoRel;
+    }
+
+
 
 }

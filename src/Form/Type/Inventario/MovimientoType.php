@@ -4,6 +4,7 @@
 namespace App\Form\Type\Inventario;
 
 
+use App\Entity\CentroCosto;
 use App\Entity\General\GenFormaPago;
 use App\Entity\General\GenTercero;
 use Doctrine\ORM\EntityRepository;
@@ -28,6 +29,17 @@ class MovimientoType extends AbstractType
                         ->where("t.codigoEmpresaFk = '". $options['data']->getEmpresaRel()->getCodigoEmpresaPk() ."'");
                 },
                 'choice_label' => 'nombreCorto',
+                'attr' => ['class' => 'form-control to-select-2']
+            ])
+            ->add('centroCostoRel', EntityType::class, [
+                'required' => true,
+                'class' => CentroCosto::class,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('cc')
+                        ->orderBy('cc.nombre', 'ASC')
+                        ->where("cc.codigoEmpresaFk = '". $options['data']->getEmpresaRel()->getCodigoEmpresaPk() ."'");
+                },
+                'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control to-select-2']
             ])
             ->add('formaPagoRel', EntityType::class, [
