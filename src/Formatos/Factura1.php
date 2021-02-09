@@ -142,13 +142,13 @@ class Factura1 extends \FPDF
 
         $this->Ln(10);
         $this->SetX(8);
-        $header = array('Concepto', 'Valor');
+        $header = array('ID','Concepto','Cantidad','Valor', 'Descuento', 'Iva', 'Total');
         $this->SetFillColor(227, 227, 227);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 7);
 
         //creamos la cabecera de la tabla.
-        $w = array(140,58);
+        $w = array(15,100, 13,20,15, 15, 20);
         for ($i = 0; $i < count($header); $i++) {
             $this->Cell($w[$i], 6, $header[$i], 1, 0, 'C', 1);
         }
@@ -175,16 +175,14 @@ class Factura1 extends \FPDF
         /** @var  $arMovimientoDetalle InvMovimientoDetalle */
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(8);
-//            $pdf->Cell(10, 6, $arMovimientoDetalle->getCodigoItemFk(), 1, 0, 'L');
-            $pdf->Cell(140, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getNombre()),  0, 'L');
-//            $pdf->Cell(40, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getReferencia()), 1, 0, 'L');
-//            $pdf->Cell(10, 6, $arMovimientoDetalle->getCantidad(), 1, 0, 'R');
+            $pdf->Cell(15, 6, $arMovimientoDetalle->getCodigoItemFk(), 0, 0, 'L');
+            $pdf->Cell(100, 6, utf8_decode($arMovimientoDetalle->getItemRel()->getNombre()),  0, 'L');
+            $pdf->Cell(13, 6, $arMovimientoDetalle->getCantidad(), 0, 0, 'C');
+            $pdf->Cell(20, 6, number_format($arMovimientoDetalle->getVrPrecio(), 0, '.', ','), 0, 0, 'R');
+            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getPorcentajeDescuento(), 0, '.', ','), 0, 0, 'R');
+            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrIva(), 0, '.', ','), 0, 0, 'R');
+            $pdf->Cell(20, 6, number_format($arMovimientoDetalle->getVrTotal(), 0, '.', ','), 0, 0, 'R');
             $this->setDrawColor('227', '227', '227');
-            $pdf->Cell(58, 6, number_format($arMovimientoDetalle->getVrPrecio(), 0, '.', ','), '', 0, 'C');
-//            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrSubtotal(), 0, '.', ','), 1, 0, 'R');
-//            $pdf->Cell(10, 6, number_format($arMovimientoDetalle->getPorcentajeIva(), 0, '.', ','), 1, 0, 'R');
-//            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrIva(), 0, '.', ','), 1, 0, 'R');
-//            $pdf->Cell(15, 6, number_format($arMovimientoDetalle->getVrTotal(), 0, '.', ','), 1, 0, 'R');
             $pdf->Ln();
             $pdf->SetAutoPageBreak(true, 15);
         }
@@ -210,7 +208,7 @@ class Factura1 extends \FPDF
         $y = 71+($nr*6)+8;
         $x = 171;
 
-        $this->Line(148, 60,148, $y-2); //Linea body tabla
+        $this->Line(136, 60,136, $y-2); //Linea body tabla
 
         $this->Line(8, $y-2, 206, $y-2); //Linea Inferior tabla
 
