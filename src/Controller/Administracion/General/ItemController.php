@@ -31,7 +31,8 @@ class ItemController extends Controller
         $paginator = $this->get('knp_paginator');
         $form = $this->createFormBuilder()
             ->add('codigoItem', TextType::class, ['required' => false, 'data' => $session->get('filtroItemCodigo')])
-            ->add('descripcion', TextType::class, ['required' => false, 'data' => $session->get('filtroItemDescripcion')])
+            ->add('nombre', TextType::class, ['required' => false, 'data' => $session->get('filtroItemNombre')])
+            ->add('referencia', TextType::class, ['required' => false, 'data' => $session->get('filtroItemReferencia')])
             ->add('btnEliminar', SubmitType::class, ['label' => 'Eliminar', 'attr' => ['class' => 'btn btn-sm btn-danger']])
             ->add('btnExcel', SubmitType::class, array('label' => 'Excel'))
             ->add('btnFiltrar', SubmitType::class, ['label' => 'Filtrar', 'attr' => ['class' => 'btn btn-sm btn-default']])
@@ -40,7 +41,8 @@ class ItemController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnFiltrar')->isClicked()) {
                 $session->set('filtroItemCodigo', $form->get('codigoItem')->getData());
-                $session->set('filtroItemNombre', $form->get('descripcion')->getData());
+                $session->set('filtroItemNombre', $form->get('nombre')->getData());
+                $session->set('filtroItemReferencia', $form->get('referencia')->getData());
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
