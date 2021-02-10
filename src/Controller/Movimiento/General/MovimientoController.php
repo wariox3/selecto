@@ -349,7 +349,7 @@ class MovimientoController extends Controller
         $hoja = $libro->getActiveSheet();
         $hoja->setTitle('movimiento');
         $j = 0;
-        $arrColumnas = ['ID', 'DOCUMENTO', 'NUMERO', 'FECHA', 'REF', 'COD', 'NIT', 'TERCERO', 'SUBTOTAL', 'IVA', 'NETO'];
+        $arrColumnas = ['ID', 'DOCUMENTO', 'NUMERO', 'FECHA', 'REF', 'COD', 'NIT', 'TERCERO', 'CC','SUBTOTAL', 'IVA', 'NETO'];
         for ($i = 'A'; $j <= sizeof($arrColumnas) - 1; $i++) {
             $hoja->getColumnDimension($i)->setAutoSize(true);
             $hoja->getStyle(1)->getFont()->setName('Arial')->setSize(8);
@@ -370,9 +370,10 @@ class MovimientoController extends Controller
             $hoja->setCellValue('F' . $j, $arMovimiento['codigoTerceroFk']);
             $hoja->setCellValue('G' . $j, $arMovimiento['terceroNumeroIdentificacion']);
             $hoja->setCellValue('H' . $j, $arMovimiento['terceroNombreCorto']);
-            $hoja->setCellValue('I' . $j, $arMovimiento['vrSubtotal']);
-            $hoja->setCellValue('J' . $j, $arMovimiento['vrIva']);
-            $hoja->setCellValue('K' . $j, $arMovimiento['vrTotalNeto']);
+            $hoja->setCellValue('I' . $j, $arMovimiento['centroCostoNombre']);
+            $hoja->setCellValue('J' . $j, $arMovimiento['vrSubtotal']);
+            $hoja->setCellValue('K' . $j, $arMovimiento['vrIva']);
+            $hoja->setCellValue('L' . $j, $arMovimiento['vrTotalNeto']);
             $j++;
         }
 

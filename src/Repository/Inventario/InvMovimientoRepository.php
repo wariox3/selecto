@@ -745,4 +745,43 @@ class InvMovimientoRepository extends ServiceEntityRepository
         }
         return $respuesta;
     }
+
+    public function listaFactura($empresa)
+    {
+        $session = new Session();
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimiento::class, 'm')
+            ->select('m.codigoMovimientoPk')
+            ->addSelect('m.numero')
+            ->addSelect('m.fecha')
+            ->addSelect('m.referencia')
+            ->addSelect('m.vrSubtotal')
+            ->addSelect('m.vrIva')
+            ->addSelect('m.vrTotalNeto')
+            ->addSelect('m.estadoAutorizado')
+            ->addSelect('m.estadoAprobado')
+            ->addSelect('m.estadoAnulado')
+            ->addSelect('m.codigoTerceroFk')
+            ->addSelect('t.nombreCorto AS terceroNombreCorto')
+            ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
+            ->addSelect('d.nombre as documentoNombre')
+            ->addSelect('cc.nombre as centroCostoNombre')
+            ->leftJoin('m.terceroRel', 't')
+            ->leftJoin('m.documentoRel', 'd')
+            ->leftJoin('m.centroCostoRel', 'cc')
+            ->where("m.codigoDocumentoFk = 'FAC'")
+            ->andWhere('m.codigoEmpresaFk = ' . $empresa);
+
+        if ($session->get('fitroInformeVentasFechaDesde') != null) {
+            $queryBuilder->andWhere("m.fecha >= '{$session->get('fitroInformeVentasFechaDesde')} 00:00:00'");
+        }
+        if ($session->get('fitroInformeVentasFechaHasta') != null) {
+            $queryBuilder->andWhere("m.fecha <= '{$session->get('fitroInformeVentasFechaHasta')} 23:59:59'");
+        }
+        if ($session->get('fitroInformeVentasTercero')) {
+            $queryBuilder->andWhere("m.codigoTerceroFk = '{$session->get('fitroInformeVentasTercero')}'");
+        }
+        $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
+        return $queryBuilder->getQuery()->getResult();
+    }
+
 }

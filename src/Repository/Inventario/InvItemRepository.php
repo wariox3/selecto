@@ -5,6 +5,7 @@ namespace App\Repository\Inventario;
 use App\Entity\Inventario\InvItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 
@@ -65,5 +66,28 @@ class InvItemRepository extends ServiceEntityRepository
             $queryBuilder->andWhere("i.descripcion like '%{$session->get('filtroItemDescripcion')}%'");
         }
         return $queryBuilder;
+    }
+
+    public function llenarCombo($empresa)
+    {
+        $session = new Session();
+        $array = [
+            'class' => InvItem::class,
+            'query_builder' => function (EntityRepository $er) use ($empresa) {
+                return $er->createQueryBuilder('i')
+                    ->orderBy('i.nombre', 'ASC')
+                    ->where('i.codigoEmpresaFk = ' . $empresa);
+            },
+            'choice_label' => 'nombre',
+            'required' => false,
+            'empty_data' => "",
+            'placeholder' => "TODOS",
+            'data' => "",
+            'attr' => ['class' => 'form-control to-select-2']
+        ];
+        if ($session->get('filtroitem')) {
+            $array['data'] = $this->getEntityManager()->getReference(InvItem::class, $session->get('filtroitem'));
+        }
+        return $array;
     }
 }
