@@ -208,6 +208,13 @@
                         <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="fa fa-lock"></i> Bloquear pantalla</a>
                     </li>
                     <li>
+                        <a role="menuitem" tabindex="-1"
+                        href="javascript:abrirVentana3('{{ path('perfil_usuario_nuevo_clave',
+                            {'hash':  encriptar(app.user.username)}) }}', 'Editar contrato', 800, 1200)">
+                            <i class="fa fa-key"></i>Cambiar contraseña
+                        </a>
+                    </li>
+                    <li>
                         <a role="menuitem" tabindex="-1" href="{{ path('logout') }}"><i class="fa fa-power-off"></i> Salir</a>
                     </li>
                 </ul>

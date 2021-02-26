@@ -20,11 +20,13 @@ class AppExtension extends AbstractExtension
     {
         return [];
     }
+
     public function getFunctions()
     {
         return [
             new TwigFunction('calcularTiempo', [$this, "getCalcularTiempo"]),
             new \Twig_Function('notificar', [$this, 'getNotifies']),
+            new TwigFunction('encriptar', [$this, 'encriptar']),
 
         ];
     }
@@ -77,6 +79,11 @@ class AppExtension extends AbstractExtension
             return "{$attr}=\"{$value}\"";
         }, array_keys($attrs), $attrs));
         return "<{$tag}" . ($attrs ? " {$attrs}" : "") . ">{$content}</{$tag}>";
+    }
+
+    public function encriptar($dato)
+    {
+        return str_replace('/', '&', password_hash($dato, PASSWORD_BCRYPT));
     }
 
 }
