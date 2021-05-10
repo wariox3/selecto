@@ -30,7 +30,7 @@ class ResolucionController extends  AbstractController
             if ($form->get('btnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->query->get('ChkSeleccionar');
                 $em->getRepository(GenResolucion::class)->eliminar($arrSeleccionados);
-                return $this->redirect($this->generateUrl('resolucion_lista'));
+                return $this->redirect($this->generateUrl('administracion_general_resolucion_lista'));
             }
         }
         $arResoluciones = $paginator->paginate($em->getRepository(GenResolucion::class)->lista($empresa), $request->query->getInt('page', 1), 30);

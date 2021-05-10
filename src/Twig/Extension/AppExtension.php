@@ -25,8 +25,8 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('calcularTiempo', [$this, "getCalcularTiempo"]),
-            new \Twig_Function('notificar', [$this, 'getNotifies']),
             new TwigFunction('encriptar', [$this, 'encriptar']),
+            new TwigFunction('notificar', [$this, 'getNotifies']),
 
         ];
     }
@@ -58,13 +58,14 @@ class AppExtension extends AbstractExtension
             foreach ($messages AS $message) {
                 $span = $this->createTag("span", "&times;", ['aria-hidden' => 'true']);
                 $button = $this->createTag("button", $span, ['class' => 'close', 'data-dismiss' => 'alert', 'aria-label' => 'Close']);
-                $alert = $this->createTag("div", $button . $message, ['class' => "alert alert-{$type}", 'data','style' => 'margin-top:0px;margin-bottom:10px;']);
+                $alert = $this->createTag("div", $button . $message, ['class' => "alert alert-{$type}", 'data', 'style' => 'margin-top:5px;margin-bottom:5px;']);
                 $html[] = $alert;
             }
         }
         $session->getFlashBag()->clear();
         return implode('', $html);
     }
+
 
     /**
      * Esta función nos permite obtener código html sin violar estandares de mezcla de código.
@@ -85,5 +86,7 @@ class AppExtension extends AbstractExtension
     {
         return str_replace('/', '&', password_hash($dato, PASSWORD_BCRYPT));
     }
+
+
 
 }
