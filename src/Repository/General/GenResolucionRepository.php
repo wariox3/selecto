@@ -4,6 +4,7 @@ namespace App\Repository\General;
 
 use App\Entity\General\GenBanco;
 use App\Entity\General\GenResolucion;
+use App\Utilidades\Mensajes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
