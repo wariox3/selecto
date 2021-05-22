@@ -56,10 +56,15 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Tp</th>
+                                 <th>Numero</th>
+                                 <th>Fecha</th>
+                                 <th>Nit</th>
+                                 <th>Tercero</th>
                                  <th>Cod</th>
                                  <th>Item</th>
                                  <th>Referencia</th>
-                                 <th>Cantidad</th>
+                                 <th>Cant</th>
                                  <th>Precio</th>
                                  <th>%Dsc</th>
                                  <th>Subtotal</th>
@@ -74,9 +79,11 @@
                              {% for arMovimientoDetalle  in arMovimientoDetalles %}
                                  <tr>
                                      <td>{{ arMovimientoDetalle.codigoMovimientoDetallePk }}</td>
-                                     <input type="hidden"
-                                            name="arrCodigo[]"
-                                            value="{{ arMovimientoDetalle.codigoMovimientoDetallePk }}">
+                                     <td>{{ arMovimientoDetalle.codigoDocumentoFk }} </td>
+                                     <td>{{ arMovimientoDetalle.movimientoNumero }} </td>
+                                     <td>{{ arMovimientoDetalle.movimientoFecha|date('Y-m-d') }}</td>
+                                     <td>{{ arMovimientoDetalle.terceroNumeroIdentificacion }} </td>
+                                     <td>{{ arMovimientoDetalle.terceroNombreCorto }} </td>
                                      <td>{{ arMovimientoDetalle.codigoItemFk }} </td>
                                      <td>{{ arMovimientoDetalle.itemNombre }}</td>
                                      <td>{{ arMovimientoDetalle.referencia }}</td>

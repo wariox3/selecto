@@ -768,7 +768,8 @@ class InvMovimientoRepository extends ServiceEntityRepository
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('m.documentoRel', 'd')
             ->leftJoin('m.centroCostoRel', 'cc')
-            ->where("m.codigoDocumentoFk = 'FAC'")
+            ->where("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC' OR m.codigoDocumentoFk = 'ND'")
+            ->andWhere('m.estadoAprobado = 1')
             ->andWhere('m.codigoEmpresaFk = ' . $empresa);
 
         if ($session->get('fitroInformeVentasFechaDesde') != null) {

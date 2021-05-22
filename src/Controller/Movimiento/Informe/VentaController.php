@@ -8,7 +8,9 @@ use App\Entity\General\GenTercero;
 use App\Entity\Inventario\InvItem;
 use App\Entity\Inventario\InvMovimiento;
 use App\Entity\Inventario\InvMovimientoDetalle;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VentaController  extends Controller
 {
     /**
-     * @Route("/informacion/venta/lista/", name="informacion_venta_lista")
+     * @Route("/informe/venta/lista/", name="informe_venta_lista")
      */
     public function lista(Request $request)
     {
@@ -62,7 +64,7 @@ class VentaController  extends Controller
     }
 
     /**
-     * @Route("/informacion/ventadetalle/lista/", name="informacion_venta_detalle_lista")
+     * @Route("/informe/ventadetalle/lista/", name="informe_ventadetalle_lista")
      */
     public function listaDetalle(Request $request)
     {
@@ -112,7 +114,7 @@ class VentaController  extends Controller
         $hoja = $libro->getActiveSheet();
         $hoja->setTitle('movimiento');
         $j = 0;
-        $arrColumnas = ['ID','NUMERO','FECHA','REFERENCIA','TERCERO','CC','SUBTOTAL','IVA','NETO','AUT','APR','ANU'];
+        $arrColumnas = ['ID','TIPO', 'NUMERO','FECHA', 'REFERENCIA', 'NIT', 'TERCERO', 'CC','SUBTOTAL','IVA','NETO'];
         for ($i = 'A'; $j <= sizeof($arrColumnas) - 1; $i++) {
             $hoja->getColumnDimension($i)->setAutoSize(true);
             $hoja->getStyle(1)->getFont()->setName('Arial')->setSize(8);
@@ -123,19 +125,20 @@ class VentaController  extends Controller
         $j = 2;
         foreach ($arMovimientos as $arMovimiento) {
             $hoja->getStyle($j)->getFont()->setName('Arial')->setSize(8);
+            $hoja->getStyle("D{$j}:D{$j}")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
+            $hoja->getStyle("I{$j}:K{$j}")->getNumberFormat()->setFormatCode('#,##0');
             $hoja->setCellValue('A' . $j, $arMovimiento['codigoMovimientoPk']);
-            $hoja->setCellValue('B' . $j, $arMovimiento['numero']);
-            $hoja->setCellValue('C' . $j, $arMovimiento['fecha']->format('Y-m-d'));
-            $hoja->setCellValue('D' . $j, $arMovimiento['referencia']);
-            $hoja->setCellValue('E' . $j, $arMovimiento['terceroNombreCorto']);
-            $hoja->setCellValue('F' . $j, $arMovimiento['centroCostoNombre']);
-            $hoja->setCellValue('G' . $j, $arMovimiento['vrSubtotal']);
-            $hoja->setCellValue('H' . $j, $arMovimiento['vrIva']);
-            $hoja->setCellValue('I' . $j, $arMovimiento['vrTotalNeto']);
-            $hoja->setCellValue('J' . $j, $arMovimiento['estadoAutorizado']?"SI":"NO");
-            $hoja->setCellValue('K' . $j, $arMovimiento['estadoAprobado']?"SI":"NO");
-            $hoja->setCellValue('L' . $j, $arMovimiento['estadoAnulado']?"SI":"NO");
-
+            $hoja->setCellValue('B' . $j, $arMovimiento['documentoNombre']);
+            $hoja->setCellValue('C' . $j, $arMovimiento['numero']);
+            $hoja->setCellValue('D' . $j, Date::PHPToExcel($arMovimiento['fecha']->format("Y-m-d")));
+            $hoja->setCellValue('E' . $j, $arMovimiento['referencia']);
+            $hoja->setCellValue('F' . $j, $arMovimiento['terceroNumeroIdentificacion']);
+            $hoja->setCellValue('G' . $j, $arMovimiento['terceroNombreCorto']);
+            $hoja->setCellValue('H' . $j, $arMovimiento['centroCostoNombre']);
+            $hoja->setCellValue('I' . $j, $arMovimiento['vrSubtotal']);
+            $hoja->setCellValue('J' . $j, $arMovimiento['vrIva']);
+            $hoja->setCellValue('K' . $j, $arMovimiento['vrTotalNeto']);
+            $j++;
         }
         $libro->setActiveSheetIndex(0);
         header('Content-Type: application/vnd.ms-excel');
@@ -159,7 +162,7 @@ class VentaController  extends Controller
         $hoja = $libro->getActiveSheet();
         $hoja->setTitle('movimiento detalle');
         $j = 0;
-        $arrColumnas = ['ID','CODIGOITEM','CANTIDAD','PRECIO','SUBTOTAL','BASEIVA','PORCENTAJEIVA','PORCENTAJEDESCUENTO','VALORR IVA','VRTOTAL','IMPUESTORETENCION','IMPUESTOIVA','ITEMNOMBRE',	'REFERENCIA'];
+        $arrColumnas = ['ID', 'TP', 'NUMERO', 'FECHA', 'NIT', 'NOMBRE', 'COD', 'ITEM','REF', 'CANT', 'PRECIO','DCTO','SUBTOTAL', 'IVA', 'TOTAL'];
         for ($i = 'A'; $j <= sizeof($arrColumnas) - 1; $i++) {
             $hoja->getColumnDimension($i)->setAutoSize(true);
             $hoja->getStyle(1)->getFont()->setName('Arial')->setSize(8);
@@ -170,20 +173,22 @@ class VentaController  extends Controller
         $j = 2;
         foreach ($arMovimientos as $arMovimiento) {
             $hoja->getStyle($j)->getFont()->setName('Arial')->setSize(8);
+            $hoja->getStyle("D{$j}:D{$j}")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_YYYYMMDD);
             $hoja->setCellValue('A' . $j, $arMovimiento['codigoMovimientoDetallePk']);
-            $hoja->setCellValue('B' . $j, $arMovimiento['codigoItemFk']);
-            $hoja->setCellValue('C' . $j, $arMovimiento['cantidad']);
-            $hoja->setCellValue('D' . $j, $arMovimiento['vrPrecio']);
-            $hoja->setCellValue('E' . $j, $arMovimiento['vrSubtotal']);
-            $hoja->setCellValue('F' . $j, $arMovimiento['vrBaseIva']);
-            $hoja->setCellValue('G' . $j, $arMovimiento['porcentajeIva']);
-            $hoja->setCellValue('H' . $j, $arMovimiento['porcentajeDescuento']);
-            $hoja->setCellValue('I' . $j, $arMovimiento['vrIva']);
-            $hoja->setCellValue('J' . $j, $arMovimiento['vrTotal']);
-            $hoja->setCellValue('K' . $j, $arMovimiento['codigoImpuestoRetencionFk']);
-            $hoja->setCellValue('L' . $j, $arMovimiento['codigoImpuestoIvaFk']);
-            $hoja->setCellValue('M' . $j, $arMovimiento['itemNombre']);
-            $hoja->setCellValue('N' . $j, $arMovimiento['referencia']);
+            $hoja->setCellValue('B' . $j, $arMovimiento['codigoDocumentoFk']);
+            $hoja->setCellValue('C' . $j, $arMovimiento['movimientoNumero']);
+            $hoja->setCellValue('D' . $j, Date::PHPToExcel($arMovimiento['movimientoFecha']->format("Y-m-d")));
+            $hoja->setCellValue('E' . $j, $arMovimiento['terceroNumeroIdentificacion']);
+            $hoja->setCellValue('F' . $j, $arMovimiento['terceroNombreCorto']);
+            $hoja->setCellValue('G' . $j, $arMovimiento['codigoItemFk']);
+            $hoja->setCellValue('H' . $j, $arMovimiento['itemNombre']);
+            $hoja->setCellValue('I' . $j, $arMovimiento['referencia']);
+            $hoja->setCellValue('J' . $j, $arMovimiento['cantidad']);
+            $hoja->setCellValue('K' . $j, $arMovimiento['vrPrecio']);
+            $hoja->setCellValue('L' . $j, $arMovimiento['porcentajeDescuento']);
+            $hoja->setCellValue('M' . $j, $arMovimiento['vrSubtotal']);
+            $hoja->setCellValue('N' . $j, $arMovimiento['vrIva']);
+            $hoja->setCellValue('O' . $j, $arMovimiento['vrTotal']);
             $j++;
         }
 

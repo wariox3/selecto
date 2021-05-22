@@ -197,7 +197,7 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
         $queryBuilder = $this->getEntityManager()->createQueryBuilder()->from(InvMovimientoDetalle::class, 'md')
             ->select('md.codigoMovimientoDetallePk')
             ->addSelect('md.codigoItemFk')
-            ->addSelect(' md.cantidad')
+            ->addSelect('md.cantidad')
             ->addSelect('md.vrPrecio')
             ->addSelect('md.vrSubtotal')
             ->addSelect('md.vrBaseIva')
@@ -205,14 +205,22 @@ class InvMovimientoDetalleRepository extends ServiceEntityRepository
             ->addSelect('md.porcentajeDescuento')
             ->addSelect('md.vrIva')
             ->addSelect('md.vrTotal')
+            ->addSelect('md.porcentajeDescuento')
             ->addSelect('md.codigoImpuestoRetencionFk')
             ->addSelect('md.codigoImpuestoIvaFk')
+            ->addSelect('m.numero as movimientoNumero')
+            ->addSelect('m.fecha as movimientoFecha')
+            ->addSelect('m.codigoDocumentoFk')
             ->addSelect('i.nombre as itemNombre')
             ->addSelect('i.referencia as referencia')
+            ->addSelect('t.numeroIdentificacion as terceroNumeroIdentificacion')
+            ->addSelect('t.nombreCorto as terceroNombreCorto')
             ->leftJoin("md.itemRel", "i")
             ->leftJoin("md.movimientoRel", "m")
-            ->where('md.codigoEmpresaFk = ' . $empresa)
-            ->where("m.codigoDocumentoFk = 'FAC'");
+            ->leftJoin('m.terceroRel', 't')
+            ->where('m.codigoEmpresaFk = ' . $empresa)
+            ->andWhere('m.estadoAprobado = 1')
+            ->andWhere("m.codigoDocumentoFk = 'FAC' OR m.codigoDocumentoFk = 'NC' OR m.codigoDocumentoFk = 'ND'");
         if ($session->get('fitroInformeVentasFechaDesde') != null) {
             $queryBuilder->andWhere("m.fecha >= '{$session->get('fitroInformeVentasFechaDesde')} 00:00:00'");
         }

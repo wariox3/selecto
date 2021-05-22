@@ -52,16 +52,16 @@
                              <thead>
                              <tr>
                                  <th>Id</th>
+                                 <th>Tipo</th>
                                  <th>Numero</th>
                                  <th>Fecha</th>
                                  <th>Referencia</th>
+                                 <th>Nit</th>
                                  <th>Tercero</th>
                                  <th title="Centro costo">CC</th>
                                  <th>Subtotal</th>
                                  <th>Iva</th>
                                  <th>Neto</th>
-                                 <th title="Autorizado">Aut</th>
-                                 <th title="Aprobado">Apr</th>
                                  <th title="Anulado">Anu</th>
                              </tr>
                              </thead>
@@ -69,16 +69,16 @@
                              {% for movimiento in arMovimientos %}
                                  <tr>
                                      <td>{{ movimiento.codigoMovimientoPk }}</td>
+                                     <td>{{ movimiento.documentoNombre }}</td>
                                      <td>{{ movimiento.numero }}</td>
                                      <td>{{ movimiento.fecha|date('Y-m-d') }}</td>
                                      <td>{{ movimiento.referencia }}</td>
+                                     <td>{{ movimiento.terceroNumeroIdentificacion }}</td>
                                      <td>{{ movimiento.terceroNombreCorto }}</td>
                                      <td>{{ movimiento.centroCostoNombre }}</td>
                                      <td class="numero">{{ movimiento.vrSubtotal | number_format }}</td>
                                      <td class="numero">{{ movimiento.vrIva | number_format }}</td>
                                      <td class="numero">{{ movimiento.vrTotalNeto | number_format }}</td>
-                                     <td>{{ movimiento.estadoAutorizado ? 'SI':'NO' }}</td>
-                                     <td>{{ movimiento.estadoAprobado ? 'SI':'NO' }}</td>
                                      <td>{{ movimiento.estadoAnulado ? 'SI':'NO' }}</td>
                                  </tr>
                              {% endfor %}
