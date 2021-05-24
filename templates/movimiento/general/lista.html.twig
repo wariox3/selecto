@@ -86,7 +86,7 @@
                                      <td>{{ movimiento.estadoAnulado ? 'SI':'NO' }}</td>
                                      {% if movimiento.estadoAutorizado == false %}
                                          <td align="center"><a
-                                                     href="{{ path('movimiento_general_nuevo', {'documento' : documento, 'id': movimiento.codigoMovimientoPk }) }}"
+                                                     href="{{ path('movimiento_general_nuevo', {'movimientoTipo' : movimientoTipo, 'id': movimiento.codigoMovimientoPk }) }}"
                                                      title="editar descripcion"><i
                                                          class="fa fa-edit fa-lg"></i></a></td>
                                      {% else %}
@@ -113,7 +113,7 @@
                              <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
                                   aria-label="...">
                                  <a class="btn btn-sm btn-default"
-                                    href="{{ path('movimiento_general_nuevo',{'documento': documento,'id':0}) }}">Nuevo
+                                    href="{{ path('movimiento_general_nuevo',{'movimientoTipo': movimientoTipo,'id':0}) }}">Nuevo
                                  </a>
                                  {{ form_widget(form.btnExcel) }}
                                  {{ form_widget(form.btnEliminar) }}

@@ -2,10 +2,10 @@
 
 namespace App\Controller\General\Proceso;
 
-use App\Entity\General\GenRespuestaFacturaElectronica;
-use App\Entity\General\GenTercero;
-use App\Entity\Inventario\InvMovimiento;
-use App\Form\Type\Inventario\TerceroType;
+use App\Entity\RespuestaFacturaElectronica;
+use App\Entity\Tercero;
+use App\Entity\Movimiento;
+use App\Form\Type\TerceroType;
 use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -33,7 +33,7 @@ class CorreccionesController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('btnGenerar')->isClicked()) {
-                $this->getDoctrine()->getRepository(InvMovimiento::class)->corregirCue();
+                $this->getDoctrine()->getRepository(Movimiento::class)->corregirCue();
             }
         }
         return $this->render('General/Proceso/Varios/correcciones.html.twig', [

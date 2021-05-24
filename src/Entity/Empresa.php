@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Empresa
- * @ORM\Entity(repositoryClass="App\Repository\General\EmpresaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\EmpresaRepository")
  */
 class Empresa
 {
@@ -108,25 +108,25 @@ class Empresa
     private $suscriptor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenCiudad", inversedBy="empresasCiudadRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ciudad", inversedBy="empresasCiudadRel")
      * @ORM\JoinColumn(name="codigo_ciudad_fk", referencedColumnName="codigo_ciudad_pk")
      */
     protected $ciudadRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenTipoPersona", inversedBy="empresasTipoPersonaRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TipoPersona", inversedBy="empresasTipoPersonaRel")
      * @ORM\JoinColumn(name="codigo_tipo_persona_fk", referencedColumnName="codigo_tipo_persona_pk")
      */
     private $tipoPersonaRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenRegimen", inversedBy="empresasRegimenRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Regimen", inversedBy="empresasRegimenRel")
      * @ORM\JoinColumn(name="codigo_regimen_fk", referencedColumnName="codigo_regimen_pk")
      */
     private $regimenRel;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\General\GenResolucion", inversedBy="empresasResolucionRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Resolucion", inversedBy="empresasResolucionRel")
      * @ORM\JoinColumn(name="codigo_resolucion_fk", referencedColumnName="codigo_resolucion_pk")
      */
     private $resolucionRel;
@@ -142,7 +142,7 @@ class Empresa
     protected $usuariosEmpresasEmpresaRel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="empresaRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Movimiento", mappedBy="empresaRel")
      */
     protected $movimientosEmpresaRel;
 
@@ -261,6 +261,22 @@ class Empresa
     /**
      * @return mixed
      */
+    public function getCorreoFacturaElectronica()
+    {
+        return $this->correoFacturaElectronica;
+    }
+
+    /**
+     * @param mixed $correoFacturaElectronica
+     */
+    public function setCorreoFacturaElectronica($correoFacturaElectronica): void
+    {
+        $this->correoFacturaElectronica = $correoFacturaElectronica;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getRutaTemporal()
     {
         return $this->rutaTemporal;
@@ -307,17 +323,17 @@ class Empresa
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFormatoFactura()
+    public function getFormatoFactura(): string
     {
         return $this->formatoFactura;
     }
 
     /**
-     * @param mixed $formatoFactura
+     * @param string $formatoFactura
      */
-    public function setFormatoFactura($formatoFactura): void
+    public function setFormatoFactura(string $formatoFactura): void
     {
         $this->formatoFactura = $formatoFactura;
     }
@@ -352,6 +368,22 @@ class Empresa
     public function setCodigoRegimenFk($codigoRegimenFk): void
     {
         $this->codigoRegimenFk = $codigoRegimenFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInformacionPago()
+    {
+        return $this->informacionPago;
+    }
+
+    /**
+     * @param mixed $informacionPago
+     */
+    public function setInformacionPago($informacionPago): void
+    {
+        $this->informacionPago = $informacionPago;
     }
 
     /**
@@ -400,6 +432,22 @@ class Empresa
     public function setCodigoResolucionFk($codigoResolucionFk): void
     {
         $this->codigoResolucionFk = $codigoResolucionFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuscriptor()
+    {
+        return $this->suscriptor;
+    }
+
+    /**
+     * @param mixed $suscriptor
+     */
+    public function setSuscriptor($suscriptor): void
+    {
+        $this->suscriptor = $suscriptor;
     }
 
     /**
@@ -513,55 +561,6 @@ class Empresa
     {
         $this->movimientosEmpresaRel = $movimientosEmpresaRel;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getSuscriptor()
-    {
-        return $this->suscriptor;
-    }
-
-    /**
-     * @param mixed $suscriptor
-     */
-    public function setSuscriptor($suscriptor): void
-    {
-        $this->suscriptor = $suscriptor;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCorreoFacturaElectronica()
-    {
-        return $this->correoFacturaElectronica;
-    }
-
-    /**
-     * @param mixed $correoFacturaElectronica
-     */
-    public function setCorreoFacturaElectronica($correoFacturaElectronica): void
-    {
-        $this->correoFacturaElectronica = $correoFacturaElectronica;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getInformacionPago()
-    {
-        return $this->informacionPago;
-    }
-
-    /**
-     * @param mixed $informacionPago
-     */
-    public function setInformacionPago($informacionPago): void
-    {
-        $this->informacionPago = $informacionPago;
-    }
-
 
 
 }

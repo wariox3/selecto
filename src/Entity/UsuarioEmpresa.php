@@ -6,7 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\General\UsuarioEmpresaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UsuarioEmpresaRepository")
  */
 class UsuarioEmpresa
 {
@@ -28,7 +28,7 @@ class UsuarioEmpresa
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Empresa", inversedBy="usuariosEmpresasEmpresaRel")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Empresa", inversedBy="usuariosEmpresasEmpresaRel")
      * @ORM\JoinColumn(name="codigo_empresa_fk", referencedColumnName="codigo_empresa_pk")
      */
     private $empresaRel;

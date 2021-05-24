@@ -4,8 +4,8 @@ namespace App\Formatos;
 
 use App\Entity\Empresa;
 use App\Entity\Inventario\InvFacturaTipo;
-use App\Entity\Inventario\InvMovimiento;
-use App\Entity\Inventario\InvMovimientoDetalle;
+use App\Entity\Movimiento;
+use App\Entity\MovimientoDetalle;
 use App\Entity\General\GenTercero;
 use App\Utilidades\BaseDatos;
 use App\Utilidades\Estandares;
@@ -30,7 +30,7 @@ class Factura1 extends \FPDF
         self::$codigoMovimiento = $codigoMovimiento;
         self::$codigoEmpresa = $codigoEmpresa;
         /** @var  $arMovimiento Movimiento */
-        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
+        $arMovimiento = $em->getRepository(Movimiento::class)->find($codigoMovimiento);
         ob_clean();
         $pdf = new Factura1('P', 'mm', 'letter');
         $pdf->AliasNbPages();
@@ -55,9 +55,9 @@ class Factura1 extends \FPDF
     public function Header()
     {
         /**
-         * @var $arMovimiento InvMovimiento
+         * @var $arMovimiento Movimiento
          */
-        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
+        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
         $arEmpresa = BaseDatos::getEm()->getRepository(Empresa::class)->find(self::$codigoEmpresa);
         $this->setDrawColor('227', '227', '227');
         $this->SetFillColor(277, 277, 277);
@@ -166,13 +166,13 @@ class Factura1 extends \FPDF
     public function Body($pdf)
     {
         /**
-         * @var $arMovimiento InvMovimiento
-         * @var $arMovimientoDetalles InvMovimientoDetalle
+         * @var $arMovimiento Movimiento
+         * @var $arMovimientoDetalles MovimientoDetalle
          */
-        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
-        $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
+        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
+        $arMovimientoDetalles = self::$em->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
         $pdf->SetFont('Arial', '', 7);
-        /** @var  $arMovimientoDetalle InvMovimientoDetalle */
+        /** @var  $arMovimientoDetalle MovimientoDetalle */
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(8);
             $pdf->Cell(15, 6, $arMovimientoDetalle->getCodigoItemFk(), 0, 0, 'L');
@@ -194,12 +194,12 @@ class Factura1 extends \FPDF
     public function Footer()
     {
         /**
-         * @var $arMovimiento InvMovimiento
-         * @var $arMovimientoDetalles InvMovimientoDetalle
+         * @var $arMovimiento Movimiento
+         * @var $arMovimientoDetalles MovimientoDetalle
          * @var $arEmpresa Empresa
          */
-        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
-        $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
+        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
+        $arMovimientoDetalles = self::$em->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
         $arEmpresa = self::$em->getRepository(Empresa::class)->find(self::$codigoEmpresa);
 
         $this->setDrawColor('227', '227', '227');

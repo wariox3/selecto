@@ -31,8 +31,8 @@
                                     <span>Inventario</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'ENT'}) }}" class="waves-effect">Entrada</a></li>
-                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'SAL'}) }}" class="waves-effect">Salida</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'movimientoTipo':'ENT'}) }}" class="waves-effect">Entrada</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'movimientoTipo':'SAL'}) }}" class="waves-effect">Salida</a></li>
                                 </ul>
                             </li>
                             <li class="nav-parent">
@@ -41,7 +41,7 @@
                                     <span>Compra</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'COM'}) }}" class="waves-effect">Compra</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'movimientoTipo':'COM'}) }}" class="waves-effect">Compra</a></li>
                                 </ul>
                             </li>
                             <li class="nav-parent">
@@ -50,9 +50,9 @@
                                     <span>Venta</span>
                                 </a>
                                 <ul class="nav nav-children" style="">
-                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'FAC'}) }}" class="waves-effect">Factura</a></li>
-                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'NC'}) }}" class="waves-effect">Nota credito</a></li>
-                                    <li><a href="{{ path('movimiento_general_lista', {'documento':'ND'}) }}" class="waves-effect">Nota debito</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'movimientoTipo':'FAC'}) }}" class="waves-effect">Factura</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'movimientoTipo':'NC'}) }}" class="waves-effect">Nota credito</a></li>
+                                    <li><a href="{{ path('movimiento_general_lista', {'movimientoTipo':'ND'}) }}" class="waves-effect">Nota debito</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -101,9 +101,25 @@
                             <span>Informe</span>
                         </a>
                         <ul class="nav nav-children" style="">
-                            <li>
-                                <a href="{{ path('informe_venta_lista') }}" class="waves-effect">Venta</a>
-                                <a href="{{ path('informe_ventadetalle_lista') }}" class="waves-effect">Venta detalle</a>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-align-left" aria-hidden="true"></i>
+                                    <span>Venta</span>
+                                </a>
+                                <ul class="nav nav-children" style="">
+                                    <li><a href="{{ path('informe_venta_lista') }}" class="waves-effect">Venta</a></li>
+                                    <li><a href="{{ path('informe_ventadetalle_lista') }}" class="waves-effect">Venta detalle</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-align-left" aria-hidden="true"></i>
+                                    <span>Compra</span>
+                                </a>
+                                <ul class="nav nav-children" style="">
+                                    <li><a href="{{ path('informe_compra_lista') }}" class="waves-effect">Compra</a></li>
+                                    <li><a href="{{ path('informe_compradetalle_lista') }}" class="waves-effect">Compra detalle</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

@@ -2,8 +2,8 @@
 
 namespace App\Controller\Administracion\General;
 
-use App\Entity\General\GenTercero;
-use App\Form\Type\Inventario\TerceroType;
+use App\Entity\Tercero;
+use App\Form\Type\TerceroType;
 use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,11 +43,11 @@ class TerceroController extends Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(GenTercero::class, $arItems);
+                $this->get("UtilidadesModelo")->eliminar(Tercero::class, $arItems);
                 return $this->redirect($this->generateUrl('tercero_lista'));
             }
         }
-        $arTerceros = $paginator->paginate($em->getRepository(GenTercero::class)->lista($empresa), $request->query->getInt('page', 1), 30);
+        $arTerceros = $paginator->paginate($em->getRepository(Tercero::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('administracion/general/tercero/lista.html.twig', [
             'arTerceros' => $arTerceros,
             'form' => $form->createView()
@@ -60,9 +60,9 @@ class TerceroController extends Controller
     public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arTercero = new GenTercero();
+        $arTercero = new Tercero();
         if ($id != 0) {
-            $arTercero = $em->getRepository(GenTercero::class)->find($id);
+            $arTercero = $em->getRepository(Tercero::class)->find($id);
         }
         $form = $this->createForm(TerceroType::class, $arTercero);
         $form->handleRequest($request);
@@ -94,7 +94,7 @@ class TerceroController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arTercero = $em->getRepository(GenTercero::class)->find($id);
+        $arTercero = $em->getRepository(Tercero::class)->find($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

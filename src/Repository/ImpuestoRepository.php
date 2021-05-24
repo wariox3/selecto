@@ -2,8 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\General\GenCiudad;
-use App\Entity\General\GenImpuesto;
+use App\Entity\Ciudad;
 use App\Entity\Impuesto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;

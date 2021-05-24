@@ -2,10 +2,9 @@
 
 namespace App\Formatos;
 
-use App\Entity\Inventario\InvFacturaTipo;
-use App\Entity\Inventario\InvMovimiento;
-use App\Entity\Inventario\InvMovimientoDetalle;
-use App\Entity\General\GenTercero;
+use App\Entity\Movimiento;
+use App\Entity\MovimientoDetalle;
+use App\Entity\Tercero;
 use App\Utilidades\Estandares;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -26,8 +25,8 @@ class Entrada extends \FPDF
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
         self::$codigoEmpresa = $codigoEmpresa;
-        /** @var  $arMovimiento InvMovimiento */
-        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
+        /** @var  $arMovimiento Movimiento */
+        $arMovimiento = $em->getRepository(Movimiento::class)->find($codigoMovimiento);
         ob_clean();
         $pdf = new Entrada('P', 'mm', 'letter');
         $pdf->AliasNbPages();
@@ -50,7 +49,7 @@ class Entrada extends \FPDF
      */
     public function Header()
     {
-        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
+        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
         $this->SetFillColor(200, 200, 200);
         $this->SetFont('Arial', 'B', 10);
         Estandares::generarEncabezado($this, 'ENTRADA DE ALMACEN', self::$em, null , self::$codigoEmpresa);
@@ -116,13 +115,13 @@ class Entrada extends \FPDF
     public function Body($pdf)
     {
         /**
-         * @var $arMovimiento InvMovimiento
-         * @var $arMovimientoDetalles InvMovimientoDetalle
+         * @var $arMovimiento Movimiento
+         * @var $arMovimientoDetalles MovimientoDetalle
          */
-        $arMovimiento = self::$em->getRepository(InvMovimiento::class)->find(self::$codigoMovimiento);
-        $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
+        $arMovimiento = self::$em->getRepository(Movimiento::class)->find(self::$codigoMovimiento);
+        $arMovimientoDetalles = self::$em->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => self::$codigoMovimiento]);
         $pdf->SetFont('Arial', '', 7);
-        /** @var  $arMovimientoDetalle InvMovimientoDetalle */
+        /** @var  $arMovimientoDetalle MovimientoDetalle */
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $pdf->SetX(10);
             $pdf->Cell(10, 6, $arMovimientoDetalle->getCodigoItemFk(), 1, 0, 'L');

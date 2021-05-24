@@ -4,7 +4,7 @@
     {{ notificar()|raw }}
     <div class="btn-group" style="float:left">
         <a class="btn btn-default btn-sm"
-           href="{{ path('movimiento_general_lista', {'documento': arMovimiento.documentoRel.codigoDocumentoPk}) }}">Volver</a>
+           href="{{ path('movimiento_general_lista', {'movimientoTipo': arMovimiento.movimientoTipoRel.codigoMovimientoTipoPk}) }}">Volver</a>
         {{ form_widget(form.btnAutorizar) }}
         {{ form_widget(form.btnDesautorizar) }}
         {{ form_widget(form.btnAprobado) }}
@@ -12,7 +12,7 @@
         <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Opciones <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-                {% if arMovimiento.codigoDocumentoFk == 'FAC' %}
+                {% if arMovimiento.codigoMovimientoTipoFk == 'FAC' %}
                 <li>
                     <a href="javascript:abrirVentana3('{{ path('movimiento_general_enviarcorreo', {'id':arMovimiento.codigoMovimientoPk }) }}', 'EnviarCorreoFE', 600, 900)">Enviar correo FE</a>
                 </li>
@@ -43,7 +43,7 @@
             <td class="titulo">FECHA:</td>
             <td class="td-in-well">{{ arMovimiento.fecha|date('Y-m-d') }}</td>
             <td class="titulo">DOCUMENTO:</td>
-            <td class="td-in-well">{{ arMovimiento.documentoRel.nombre }}</td>
+            <td class="td-in-well">{{ arMovimiento.movimientoTipoRel.nombre }}</td>
             <td class="titulo">BASE IVA:</td>
             <td class="td-in-well" style="text-align: right;">{{ arMovimiento.vrBaseIva | number_format(0, '.', ',') }}</td>
         </tr>
@@ -67,7 +67,7 @@
         <tr>
             <td class="titulo">REFERENCIA:</td>
             <td class="td-in-well">
-                {% if arMovimiento.codigoDocumentoFk == 'NC' or arMovimiento.codigoDocumentoFk == 'ND' %}
+                {% if arMovimiento.codigoMovimientoTipoFk == 'NC' or arMovimiento.codigoMovimientoTipoFk == 'ND' %}
                     COD: {{ arMovimiento.codigoMovimientoFk  | default("") }} NUM: {{ arMovimiento.movimientoRel.numero   | default("") }}
                     {% if arMovimiento.estadoAutorizado == 0 %}
                         <a class="btn btn-default btn-xs" href="javascript:abrirVentana3('{{ path('movimiento_general_referencia', {'id': arMovimiento.codigoMovimientoPk }) }}', 'AdicionarFactura', 600, 900)">Agregar</a>

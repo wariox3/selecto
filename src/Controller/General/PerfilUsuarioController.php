@@ -5,7 +5,7 @@ namespace App\Controller\General;
 use App\Entity\Empresa;
 use App\Entity\Usuario;
 use App\Entity\UsuarioEmpresa;
-use App\Form\Type\Empresa\EmpresaType;
+use App\Form\Type\EmpresaType;
 use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

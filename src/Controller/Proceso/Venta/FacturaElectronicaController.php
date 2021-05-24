@@ -2,17 +2,10 @@
 
 namespace App\Controller\Proceso\Venta;
 
-use App\Entity\General\GenRespuestaFacturaElectronica;
-use App\Entity\General\GenTercero;
-use App\Entity\Inventario\InvMovimiento;
-use App\Form\Type\Inventario\TerceroType;
-use App\Formatos\Factura;
-use App\Utilidades\FacturaElectronica;
-use App\Utilidades\Mensajes;
+use App\Entity\RespuestaFacturaElectronica;
+use App\Entity\Movimiento;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,10 +32,10 @@ class FacturaElectronicaController extends Controller
             }
             if ($form->get('btnEnviar')->isClicked()) {
                 $arr = $request->request->get('ChkSeleccionar');
-                $this->getDoctrine()->getRepository(InvMovimiento::class)->facturaElectronica($arr, $empresa);
+                $this->getDoctrine()->getRepository(Movimiento::class)->facturaElectronica($arr, $empresa);
             }
         }
-        $arMovimientos = $paginator->paginate($em->getRepository(InvMovimiento::class)->facturaElectronicaPendiente($empresa), $request->query->getInt('page', 1), 30);
+        $arMovimientos = $paginator->paginate($em->getRepository(Movimiento::class)->facturaElectronicaPendiente($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('proceso/venta/facturaelectronica/lista.html.twig', [
             'arMovimientos' => $arMovimientos,
             'form' => $form->createView()
@@ -62,7 +55,7 @@ class FacturaElectronicaController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
         }
-        $arRespuestas = $paginator->paginate($em->getRepository(GenRespuestaFacturaElectronica::class)->lista($entidad, $codigo), $request->query->getInt('page', 1), 1000);
+        $arRespuestas = $paginator->paginate($em->getRepository(RespuestaFacturaElectronica::class)->lista($entidad, $codigo), $request->query->getInt('page', 1), 1000);
         return $this->render('proceso/venta/facturaelectronica/verError.html.twig', [
             'arRespuestas'      =>  $arRespuestas,
             'form' => $form->createView()

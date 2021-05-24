@@ -38,6 +38,11 @@ class Item
     private $codigoEmpresaFk;
 
     /**
+     * @ORM\Column(name="codigo", type="string",length=10, nullable=true)
+     */
+    private $codigo;
+
+    /**
      * @ORM\Column(name="porcentaje_iva", type="integer", nullable=true)
      */
     private $porcentajeIva = 0;
@@ -70,7 +75,24 @@ class Item
     /**
      * @ORM\Column(name="afecta_inventario", type="boolean", nullable=true, options={"default":false})
      */
-    private $afectaInventario = true;
+    private $afectaInventario = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Impuesto", inversedBy="itemsImpuestoRetencionRel")
+     * @ORM\JoinColumn(name="codigo_impuesto_retencion_fk",referencedColumnName="codigo_impuesto_pk")
+     */
+    protected $impuestoRetencionRel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Impuesto", inversedBy="itemsImpuestoIvaVentaRel")
+     * @ORM\JoinColumn(name="codigo_impuesto_iva_venta_fk",referencedColumnName="codigo_impuesto_pk")
+     */
+    protected $impuestoIvaVentaRel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MovimientoDetalle", mappedBy="itemRel")
+     */
+    protected $movimientosDetallesItemRel;
 
     /**
      * @return mixed
@@ -150,6 +172,22 @@ class Item
     public function setCodigoEmpresaFk($codigoEmpresaFk): void
     {
         $this->codigoEmpresaFk = $codigoEmpresaFk;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    /**
+     * @param mixed $codigo
+     */
+    public function setCodigo($codigo): void
+    {
+        $this->codigo = $codigo;
     }
 
     /**
@@ -262,6 +300,54 @@ class Item
     public function setAfectaInventario(bool $afectaInventario): void
     {
         $this->afectaInventario = $afectaInventario;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImpuestoRetencionRel()
+    {
+        return $this->impuestoRetencionRel;
+    }
+
+    /**
+     * @param mixed $impuestoRetencionRel
+     */
+    public function setImpuestoRetencionRel($impuestoRetencionRel): void
+    {
+        $this->impuestoRetencionRel = $impuestoRetencionRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImpuestoIvaVentaRel()
+    {
+        return $this->impuestoIvaVentaRel;
+    }
+
+    /**
+     * @param mixed $impuestoIvaVentaRel
+     */
+    public function setImpuestoIvaVentaRel($impuestoIvaVentaRel): void
+    {
+        $this->impuestoIvaVentaRel = $impuestoIvaVentaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovimientosDetallesItemRel()
+    {
+        return $this->movimientosDetallesItemRel;
+    }
+
+    /**
+     * @param mixed $movimientosDetallesItemRel
+     */
+    public function setMovimientosDetallesItemRel($movimientosDetallesItemRel): void
+    {
+        $this->movimientosDetallesItemRel = $movimientosDetallesItemRel;
     }
 
 

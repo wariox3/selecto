@@ -72,7 +72,7 @@ class Egreso extends \FPDF
         $this->Cell(32, 4, "DOCUMENTO:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
-        $this->Cell(32, 4, $arEgreso->getDocumentoRel()->getNombre(), 1, 0, 'L', 1);
+        $this->Cell(32, 4, $arEgreso->getMovimientoTipoRel()->getNombre(), 1, 0, 'L', 1);
         $this->SetFont('Arial', 'B', 8);
         $this->SetFillColor(200, 200, 200);
         $this->Cell(25, 4, "PAGO:", 1, 0, 'L', 1);

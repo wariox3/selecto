@@ -4,8 +4,8 @@
 namespace App\Controller\Administracion\General;
 
 
-use App\Entity\General\GenResolucion;
-use App\Form\Type\General\ResolucionType;
+use App\Entity\Resolucion;
+use App\Form\Type\ResolucionType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,11 +29,11 @@ class ResolucionController extends  AbstractController
         if ($form->isSubmitted()){
             if ($form->get('btnEliminar')->isClicked()) {
                 $arrSeleccionados = $request->query->get('ChkSeleccionar');
-                $em->getRepository(GenResolucion::class)->eliminar($arrSeleccionados);
+                $em->getRepository(Resolucion::class)->eliminar($arrSeleccionados);
                 return $this->redirect($this->generateUrl('administracion_general_resolucion_lista'));
             }
         }
-        $arResoluciones = $paginator->paginate($em->getRepository(GenResolucion::class)->lista($empresa), $request->query->getInt('page', 1), 30);
+        $arResoluciones = $paginator->paginate($em->getRepository(Resolucion::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('administracion/general/resolucion/lista.html.twig', [
             'arResoluciones' => $arResoluciones,
             'form' => $form->createView()
@@ -46,9 +46,9 @@ class ResolucionController extends  AbstractController
     public function nuevo(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arResolucion = new GenResolucion();
+        $arResolucion = new Resolucion();
         if ($id != 0) {
-            $arResolucion = $em->getRepository(GenResolucion::class)->find($id);
+            $arResolucion = $em->getRepository(Resolucion::class)->find($id);
         } else {
             $arResolucion->setFecha(new \DateTime('now'));
             $arResolucion->setFechaDesde(new \DateTime('now'));
@@ -77,7 +77,7 @@ class ResolucionController extends  AbstractController
     public function detalle(Request $request, PaginatorInterface $paginator,$id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arResolucion = $em->getRepository(GenResolucion::class)->find($id);
+        $arResolucion = $em->getRepository(Resolucion::class)->find($id);
         return $this->render('administracion/general/resolucion/detalle.html.twig', [
             'arResolucion' => $arResolucion,
         ]);

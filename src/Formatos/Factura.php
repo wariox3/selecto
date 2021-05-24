@@ -4,10 +4,10 @@ namespace App\Formatos;
 
 use App\Controller\Estructura\FuncionesController;
 use App\Entity\Empresa;
-use App\Entity\General\GenResolucion;
+use App\Entity\Resolucion;
 use App\Entity\Inventario\InvFacturaTipo;
-use App\Entity\Inventario\InvMovimiento;
-use App\Entity\Inventario\InvMovimientoDetalle;
+use App\Entity\Movimiento;
+use App\Entity\MovimientoDetalle;
 use App\Entity\General\GenTercero;
 use App\Utilidades\BaseDatos;
 use App\Utilidades\Estandares;
@@ -29,8 +29,8 @@ class Factura extends \FPDF
         self::$em = $em;
         self::$codigoMovimiento = $codigoMovimiento;
         self::$codigoEmpresa = $codigoEmpresa;
-        /** @var  $arMovimiento InvMovimiento */
-        $arMovimiento = $em->getRepository(InvMovimiento::class)->find($codigoMovimiento);
+        /** @var  $arMovimiento Movimiento */
+        $arMovimiento = $em->getRepository(Movimiento::class)->find($codigoMovimiento);
         ob_clean();
         $pdf = new Factura('P', 'mm', 'letter');
         $pdf->AliasNbPages();
@@ -56,7 +56,7 @@ class Factura extends \FPDF
     {
         /** @var  $em ObjectManager */
         $em = self::$em;
-        $arMovimiento = $em->getRepository(InvMovimiento::class)->imprimirFactura(self::$codigoMovimiento);
+        $arMovimiento = $em->getRepository(Movimiento::class)->imprimirFactura(self::$codigoMovimiento);
         try {
             if ($arMovimiento['empresaLogo']) {
                 $this->Image("data:image/'{$arMovimiento['empresaLogoExtension']}';base64," . base64_encode(stream_get_contents($arMovimiento['empresaLogo'])), 10, 10, 30, 30, $arMovimiento['empresaLogoExtension']);
@@ -70,11 +70,11 @@ class Factura extends \FPDF
 
         $titulo = "FACTURA ELECTRONICA DE VENTA";
         $prefijo = $arMovimiento['resolucionPrefijo'];
-        if($arMovimiento['codigoDocumentoFk'] == 'NC') {
+        if($arMovimiento['codigoMovimientoTipoFk'] == 'NC') {
             $titulo = "NOTA CREDITO";
             $prefijo = "";
         }
-        if($arMovimiento['codigoDocumentoFk'] == 'ND') {
+        if($arMovimiento['codigoMovimientoTipoFk'] == 'ND') {
             $titulo = "NOTA DEBITO";
             $prefijo = "";
         }
@@ -169,7 +169,7 @@ class Factura extends \FPDF
      */
     public function Body($pdf)
     {
-        $arMovimientoDetalles = self::$em->getRepository(InvMovimientoDetalle::class)->listaImprimirFactura(self::$codigoMovimiento);
+        $arMovimientoDetalles = self::$em->getRepository(MovimientoDetalle::class)->listaImprimirFactura(self::$codigoMovimiento);
         $pdf->SetFont('helvetica', '', 7);
         $pdf->SetX(10);
         $contador = 1;
@@ -192,7 +192,7 @@ class Factura extends \FPDF
     {
         /** @var  $em ObjectManager */
         $em = self::$em;
-        $arMovimiento = $em->getRepository(InvMovimiento::class)->imprimirFacturaFooter(self::$codigoMovimiento);
+        $arMovimiento = $em->getRepository(Movimiento::class)->imprimirFacturaFooter(self::$codigoMovimiento);
         $this->Ln();
         $this->SetXY(10, 180);
         $this->SetFont('helvetica', 'B', 9);

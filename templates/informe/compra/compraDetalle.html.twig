@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+ {% block content %}
+     {{ form_start(form) }}
+     {{ notificar()|raw }}
+     <div class="row">
+         <div class="col-md-12">
+             <section class="panel">
+                 <header class="panel-heading">
+                     <div class="panel-actions">
+                         <a href="#" class="fa fa-caret-down"></a>
+                     </div>
+                     <h2 class="panel-title">Filtro de busqueda</h2>
+                 </header>
+                 <div class="panel-body">
+                     <div class="form-group">
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Item:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.cboItemRel) }}
+                             </div>
+                             <label class="col-sm-1 control-label">Número:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.numero) }}
+                             </div>
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Desde:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.fechaDesde) }}
+                             </div>
+                         </div>
+                         <div class="form-group form-group-sm">
+                             <label class="col-sm-1 control-label">Hasta:</label>
+                             <div class="col-sm-2">
+                                 {{ form_widget(form.fechaHasta) }}
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             {{ form_widget(form.btnFiltrar, { 'attr': {'class': 'btn btn-primary', 'style':'float:right'} }) }}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+         <div class="col-md-12">
+             <section class="panel">
+                 <div class="panel-body">
+                     <div class="table-responsive">
+                         <table class="table table-bordered mb-none tabla-datos">
+                             <thead>
+                             <tr>
+                                 <th>Id</th>
+                                 <th>Tp</th>
+                                 <th>Numero</th>
+                                 <th>Fecha</th>
+                                 <th>Nit</th>
+                                 <th>Tercero</th>
+                                 <th>CC</th>
+                                 <th>Cod</th>
+                                 <th>Item</th>
+                                 <th>Referencia</th>
+                                 <th>Cant</th>
+                                 <th>Precio</th>
+                                 <th>%Dsc</th>
+                                 <th>Subtotal</th>
+                                 <th>Cod</th>
+                                 <th>Iva</th>
+                                 <th title="Codigo de la retencion">RET</th>
+                                 <th>Total</th>
+                             </tr>
+                             </thead>
+                             <tbody>
+                             {% for arMovimientoDetalle  in arMovimientoDetalles %}
+                                 <tr>
+                                     <td>{{ arMovimientoDetalle.codigoMovimientoDetallePk }}</td>
+                                     <td>{{ arMovimientoDetalle.codigoMovimientoTipoFk }} </td>
+                                     <td>{{ arMovimientoDetalle.movimientoNumero }} </td>
+                                     <td>{{ arMovimientoDetalle.movimientoFecha|date('Y-m-d') }}</td>
+                                     <td>{{ arMovimientoDetalle.terceroNumeroIdentificacion }} </td>
+                                     <td>{{ arMovimientoDetalle.terceroNombreCorto }} </td>
+                                     <td>{{ arMovimientoDetalle.centroCostoNombre }} </td>
+                                     <td>{{ arMovimientoDetalle.codigoItemFk }} </td>
+                                     <td>{{ arMovimientoDetalle.itemNombre }}</td>
+                                     <td>{{ arMovimientoDetalle.referencia }}</td>
+                                     <td>{{ arMovimientoDetalle.cantidad }}</td>
+                                     <td class="numero">{{ arMovimientoDetalle.vrPrecio | number_format(0, '.', ',') }}</td>
+                                     <td>{{ arMovimientoDetalle.porcentajeDescuento }}</td>
+                                     <td class="numero">{{ arMovimientoDetalle.vrSubtotal | number_format(0, '.', ',') }}</td>
+                                     <td>{{ arMovimientoDetalle.codigoImpuestoIvaFk }}</td>
+                                     <td style="text-align: right;">{{ arMovimientoDetalle.vrIva | number_format(0,'.',',') }}</td>
+                                     <td>{{ arMovimientoDetalle.codigoImpuestoRetencionFk }}</td>
+                                     <td class="numero">{{ arMovimientoDetalle.vrTotal | number_format(0, '.', ',') }}</td>
+                                     </td>
+                                 </tr>
+                             {% endfor %}
+                             </tbody>
+                         </table>
+                         <div style="display: flex; flex-direction: row;">
+                             <span style="margin-right: 4px">registros: {{ arMovimientoDetalles.getTotalItemCount }}</span>
+                             {{ knp_pagination_render(arMovimientoDetalles) }}
+                         </div>
+                     </div>
+                 </div>
+                 <div class="panel-footer">
+                     <div class="row">
+                         <div class="col-sm-9 col-sm-offset-3">
+                             <div style="float: right; margin-right: 5px !important;" class="btn-group" role="group"
+                                  aria-label="...">
+                                 {{ form_widget(form.btnExcel) }}
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </section>
+         </div>
+     </div>
+     {{ form_end(form) }}
+ {% endblock %}

@@ -3,9 +3,9 @@
 namespace App\Controller\Administracion\General;
 
 use App\Entity\Empresa;
-use App\Entity\General\GenConfiguracion;
-use App\Entity\Inventario\InvItem;
-use App\Form\Type\Inventario\ItemType;
+use App\Entity\Configuracion;
+use App\Entity\Item;
+use App\Form\Type\ItemType;
 use App\General\General;
 use App\Utilidades\Mensajes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -46,14 +46,14 @@ class ItemController extends Controller
             }
             if ($form->get('btnEliminar')->isClicked()) {
                 $arItems = $request->request->get('ChkSeleccionar');
-                $this->get("UtilidadesModelo")->eliminar(InvItem::class, $arItems);
+                $this->get("UtilidadesModelo")->eliminar(Item::class, $arItems);
                 return $this->redirect($this->generateUrl('administracion_general_item_lista'));
             }
             if ($form->get('btnExcel')->isClicked()) {
-                General::get()->setExportar($em->createQuery($em->getRepository(InvItem::class)->lista($empresa))->execute(), "Items");
+                General::get()->setExportar($em->createQuery($em->getRepository(Item::class)->lista($empresa))->execute(), "Items");
             }
         }
-        $arItems = $paginator->paginate($em->getRepository(InvItem::class)->lista($empresa), $request->query->getInt('page', 1), 30);
+        $arItems = $paginator->paginate($em->getRepository(Item::class)->lista($empresa), $request->query->getInt('page', 1), 30);
         return $this->render('administracion/general/item/lista.html.twig', [
             'arItems' => $arItems,
             'form' => $form->createView()
@@ -67,15 +67,15 @@ class ItemController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $arItem = new InvItem();
+        $arItem = new Item();
         if ($id != 0) {
-            $arItem = $em->getRepository(InvItem::class)->find($id);
+            $arItem = $em->getRepository(Item::class)->find($id);
         }
         $form = $this->createForm(ItemType::class, $arItem);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('guardar')->isClicked()) {
-                /** @var $arItem InvItem */
+                /** @var $arItem Item */
                 $arItem = $form->getData();
                 $arItem->setCodigoEmpresaFk($this->getUser()->getCodigoEmpresaFK());
                 $arItem->setPorcentajeIva($arItem->getImpuestoIvaVentaRel()->getPorcentaje());
@@ -96,7 +96,7 @@ class ItemController extends Controller
     public function detalle(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $arItem = $em->getRepository(InvItem::class)->find($id);
+        $arItem = $em->getRepository(Item::class)->find($id);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -160,7 +160,7 @@ class ItemController extends Controller
                     }
                     //leercargas
                     foreach ($arrCargas as $arrCarga) {
-                        $item = New InvItem();
+                        $item = New Item();
                         $item->setDescripcion($arrCarga['descripcion']);
                         $item->setReferencia($arrCarga['referencia']);
                         $item->setCodigoEmpresaFk($empresa);

@@ -3,8 +3,8 @@
 
 namespace App\Utilidades;
 use App\Entity\Empresa;
-use App\Entity\General\GenRespuestaFacturaElectronica;
-use App\Entity\Inventario\InvMovimiento;
+use App\Entity\RespuestaFacturaElectronica;
+use App\Entity\Movimiento;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpZip\ZipFile;
 
@@ -78,7 +78,7 @@ class FacturaElectronica
         if($resp) {
             if(isset($resp['Message'])) {
                 if(isset($resp['ExceptionMessage'])) {
-                    $arRespuesta = new GenRespuestaFacturaElectronica();
+                    $arRespuesta = new RespuestaFacturaElectronica();
                     $arRespuesta->setFecha(new \DateTime('now'));
                     $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
                     $arRespuesta->setErrorMessage($resp['ExceptionMessage']);
@@ -124,7 +124,7 @@ class FacturaElectronica
                             }
                         }
                     }
-                    $arRespuesta = new GenRespuestaFacturaElectronica();
+                    $arRespuesta = new RespuestaFacturaElectronica();
                     $arRespuesta->setFecha(new \DateTime('now'));
                     $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
                     $arRespuesta->setErrorReason(json_encode($datos));
@@ -327,10 +327,10 @@ class FacturaElectronica
     {
         $em = $this->em;
         $arrConfiguracion = $em->getRepository(Empresa::class)->facturaElectronica($codigoEmpresa);
-        $arrMovimiento = $em->getRepository(InvMovimiento::class)->movimientoCorreoElectronica($codigoMovimiento);
-        $archivoFactura = $em->getRepository(InvMovimiento::class)->generarFormato([
+        $arrMovimiento = $em->getRepository(Movimiento::class)->movimientoCorreoElectronica($codigoMovimiento);
+        $archivoFactura = $em->getRepository(Movimiento::class)->generarFormato([
             'codigoMovimientoPk' => $arrMovimiento['codigoMovimientoPk'],
-            'codigoDocumentoFk' => $arrMovimiento['doc_tipo']],
+            'codigoMovimientoTipoFk' => $arrMovimiento['doc_tipo']],
             $codigoEmpresa,true);
         $arrArchivos[] = [
             'nombre' => 'factura.pdf',

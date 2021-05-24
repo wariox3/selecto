@@ -33,7 +33,7 @@ class CentroCosto
     private $codigoEmpresaFk;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Inventario\InvMovimiento", mappedBy="centroCostoRel")
+     * @ORM\OneToMany(targetEntity="App\Entity\Movimiento", mappedBy="centroCostoRel")
      */
     protected $movimientosCentroCostoRel;
 
@@ -116,7 +116,6 @@ class CentroCosto
     {
         $this->movimientosCentroCostoRel = $movimientosCentroCostoRel;
     }
-
 
 
 }
