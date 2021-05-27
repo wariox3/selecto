@@ -279,7 +279,7 @@ class MovimientoRepository extends ServiceEntityRepository
                 $arMovimiento->setFecha(new \DateTime('now'));
             }
 
-            if ($arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk() == 'FAC' || $arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk() == 'NC' || $arMovimiento->getDocumentoRel()->getCodigoMovimientoTipoPk() == 'ND') {
+            if ($arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk() == 'FAC' || $arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk() == 'NC' || $arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk() == 'ND') {
                 $objFunciones = new FuncionesController();
                 $fecha = new \DateTime('now');
                 $arMovimiento->setFechaVence($arMovimiento->getPlazoPago() == 0 ? $fecha : $objFunciones->sumarDiasFecha($fecha, $arMovimiento->getPlazoPago()));
