@@ -47,7 +47,7 @@ class MovimientoType extends AbstractType
                 'class' => FormaPago::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('fp')
-                        ->orderBy('fp.nombre', 'ASC');
+                        ->orderBy('fp.orden', 'ASC');
                 },
                 'choice_label' => 'nombre',
                 'attr' => ['class' => 'form-control to-select-2']

@@ -21,6 +21,11 @@ class FormaPago
     private $nombre;
 
     /**
+     * @ORM\Column(name="orden", type="integer", nullable=true, options={"default":0})
+     */
+    private $orden = 0;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Tercero", mappedBy="formaPagoRel")
      */
     private $tercerosFormaPagoRel;
@@ -92,6 +97,22 @@ class FormaPago
     public function setMovimientosFormaPagoRel($movimientosFormaPagoRel): void
     {
         $this->movimientosFormaPagoRel = $movimientosFormaPagoRel;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOrden(): int
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param int $orden
+     */
+    public function setOrden(int $orden): void
+    {
+        $this->orden = $orden;
     }
 
 
