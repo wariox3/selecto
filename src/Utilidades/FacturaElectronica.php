@@ -384,6 +384,9 @@ class FacturaElectronica
             'doc_emisor' => $arrConfiguracion['nombre'],
             'doc_adquiriente' => $arrMovimiento['adquiriente'],
             'doc_cue' => $arrMovimiento['cue'],
+            'oxi_empresa' => $arrConfiguracion['codigoEmpresaOxigeno'],
+            'oxi_modelo' => "Movimiento",
+            'oxi_codigo' => $codigoMovimiento,
         ];
         $datosJson = json_encode($arrDatos);
         $ch = curl_init();

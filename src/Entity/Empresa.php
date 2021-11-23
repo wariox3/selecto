@@ -103,6 +103,11 @@ class Empresa
     private $codigoResolucionFk;
 
     /**
+     * @ORM\Column(name="codigo_empresa_oxigeno", type="integer", nullable=false)
+     */
+    private $codigoEmpresaOxigeno;
+
+    /**
      * @ORM\Column(name="suscriptor", type="string", length=300, nullable=true)
      */
     private $suscriptor;
@@ -560,6 +565,22 @@ class Empresa
     public function setMovimientosEmpresaRel($movimientosEmpresaRel): void
     {
         $this->movimientosEmpresaRel = $movimientosEmpresaRel;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodigoEmpresaOxigeno()
+    {
+        return $this->codigoEmpresaOxigeno;
+    }
+
+    /**
+     * @param mixed $codigoEmpresaOxigeno
+     */
+    public function setCodigoEmpresaOxigeno($codigoEmpresaOxigeno): void
+    {
+        $this->codigoEmpresaOxigeno = $codigoEmpresaOxigeno;
     }
 
 

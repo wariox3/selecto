@@ -128,6 +128,11 @@ class Movimiento
     private $estadoElectronicoNotificado = false;
 
     /**
+     * @ORM\Column(name="respuesta_electronico", type="string", length=3, options={"default" : "P"}, nullable=true)
+     */
+    private $respuestaElectronico = 'P';
+
+    /**
      * @ORM\Column(name="codigo_resolucion_fk", type="integer", nullable=true)
      */
     private $codigoResolucionFk;
@@ -815,6 +820,22 @@ class Movimiento
     public function setMovimientosDetallesMovimientoRel($movimientosDetallesMovimientoRel): void
     {
         $this->movimientosDetallesMovimientoRel = $movimientosDetallesMovimientoRel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRespuestaElectronico(): string
+    {
+        return $this->respuestaElectronico;
+    }
+
+    /**
+     * @param string $respuestaElectronico
+     */
+    public function setRespuestaElectronico(string $respuestaElectronico): void
+    {
+        $this->respuestaElectronico = $respuestaElectronico;
     }
 
 

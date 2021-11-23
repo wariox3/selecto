@@ -142,9 +142,9 @@ class MovimientoRepository extends ServiceEntityRepository
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $vrBaseIva = 0;
             $vrIva = 0;
-            $vrSubtotal = ($arMovimientoDetalle->getVrPrecio() - ($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getPorcentajeDescuento() / 100))* $arMovimientoDetalle->getCantidad();
-            if($arMovimientoDetalle->getCodigoImpuestoIvaFk()) {
-                if($arMovimientoDetalle->getCodigoImpuestoIvaFk() != 'I00') {
+            $vrSubtotal = ($arMovimientoDetalle->getVrPrecio() - ($arMovimientoDetalle->getVrPrecio() * $arMovimientoDetalle->getPorcentajeDescuento() / 100)) * $arMovimientoDetalle->getCantidad();
+            if ($arMovimientoDetalle->getCodigoImpuestoIvaFk()) {
+                if ($arMovimientoDetalle->getCodigoImpuestoIvaFk() != 'I00') {
                     $vrBaseIva = $vrSubtotal;
                     $vrIva = ($vrSubtotal * ($arMovimientoDetalle->getPorcentajeIva()) / 100);
                 }
@@ -273,7 +273,7 @@ class MovimientoRepository extends ServiceEntityRepository
         if ($arMovimiento->isEstadoAnulado() == 0) {
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
-            if($arMovimiento->getNumero() == 0) {
+            if ($arMovimiento->getNumero() == 0) {
                 $consecutivo = $em->getRepository(MovimientoTipo::class)->generarConsecutivo($arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk(), $arMovimiento->getCodigoEmpresaFk());
                 $arMovimiento->setNumero($consecutivo);
                 $arMovimiento->setFecha(new \DateTime('now'));
@@ -352,7 +352,7 @@ class MovimientoRepository extends ServiceEntityRepository
 
         $em = $this->getEntityManager();
         $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
-        foreach ($arMovimientoDetalles AS $arMovimientoDetalle) {
+        foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
             $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
             if ($arItem->isAfectaInventario() == true) {
                 $existenciaAnterior = $arItem->getCantidadExistencia();
@@ -426,7 +426,8 @@ class MovimientoRepository extends ServiceEntityRepository
         return $array;
     }
 
-    public function movimientoFacturaElectronica($codigoMovimiento) {
+    public function movimientoFacturaElectronica($codigoMovimiento)
+    {
         $em = $this->getEntityManager();
         $queryBuilder = $em->createQueryBuilder()->from(Movimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
@@ -479,7 +480,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->leftJoin('ciu.departamentoRel', 'dep')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
-        if($arrMovimiento) {
+        if ($arrMovimiento) {
             $arrMovimiento = $arrMovimiento[0];
         }
         return $arrMovimiento;
@@ -514,17 +515,17 @@ class MovimientoRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         if ($arr) {
             $arrConfiguracion = $em->getRepository(Empresa::class)->facturaElectronica($codigoEmpresa);
-            foreach ($arr AS $codigo) {
+            foreach ($arr as $codigo) {
                 $arFactura = $em->getRepository(Movimiento::class)->movimientoFacturaElectronica($codigo);
-                if($arFactura['estadoAprobado'] && !$arFactura['estadoElectronico']) {
+                if ($arFactura['estadoAprobado'] && !$arFactura['estadoElectronico']) {
                     $arrFactura = [
                         'dat_suscriptor' => $arrConfiguracion['suscriptor'],
                         'dat_nitFacturador' => $arrConfiguracion['nit'],
                         'dat_tipoAmbiente' => $arFactura['resolucionAmbiente'],
                         'res_numero' => $arFactura['resolucionNumero'],
                         'res_prefijo' => $arFactura['resolucionPrefijo'],
-                        'res_fechaDesde' => $arFactura['resolucionFechaDesde']?$arFactura['resolucionFechaDesde']->format('Y-m-d'):null,
-                        'res_fechaHasta' => $arFactura['resolucionFechaHasta']?$arFactura['resolucionFechaHasta']->format('Y-m-d'):null,
+                        'res_fechaDesde' => $arFactura['resolucionFechaDesde'] ? $arFactura['resolucionFechaDesde']->format('Y-m-d') : null,
+                        'res_fechaHasta' => $arFactura['resolucionFechaHasta'] ? $arFactura['resolucionFechaHasta']->format('Y-m-d') : null,
                         'res_desde' => $arFactura['resolucionNumeroDesde'],
                         'res_hasta' => $arFactura['resolucionNumeroHasta'],
                         'doc_codigo' => $arFactura['codigoMovimientoPk'],
@@ -545,7 +546,7 @@ class MovimientoRepository extends ServiceEntityRepository
                         'ref_cue' => $arFactura['referenciaCue'],
                         'ref_numero' => $arFactura['referenciaNumero'],
                         'ref_prefijo' => $arFactura['referenciaPrefijo'],
-                        'ref_fecha' => $arFactura['referenciaFecha']?$arFactura['referenciaFecha']->format('Y-m-d'):null,
+                        'ref_fecha' => $arFactura['referenciaFecha'] ? $arFactura['referenciaFecha']->format('Y-m-d') : null,
                         'em_tipoPersona' => $arrConfiguracion['tipoPersona'],
                         'em_numeroIdentificacion' => $arrConfiguracion['nit'],
                         'em_digitoVerificacion' => $arrConfiguracion['digitoVerificacion'],
@@ -597,9 +598,9 @@ class MovimientoRepository extends ServiceEntityRepository
                     $arrFactura['doc_cantidad_item'] = $cantidadItemes;
                     $facturaElectronica = new FacturaElectronica($em);
                     $respuesta = $facturaElectronica->validarDatos($arrFactura);
-                    if($respuesta['estado'] == 'ok') {
+                    if ($respuesta['estado'] == 'ok') {
                         $procesoFacturaElectronica = $facturaElectronica->enviarSoftwareEstrategico($arrFactura);
-                        if($procesoFacturaElectronica['estado'] == 'CN') {
+                        if ($procesoFacturaElectronica['estado'] == 'CN') {
                             break;
                         }
                         if ($procesoFacturaElectronica['estado'] == 'EX') {
@@ -629,7 +630,8 @@ class MovimientoRepository extends ServiceEntityRepository
         return true;
     }
 
-    public function imprimirFactura($codigoMovimiento) {
+    public function imprimirFactura($codigoMovimiento)
+    {
         $em = $this->getEntityManager();
         $queryBuilder = $em->createQueryBuilder()->from(Movimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
@@ -665,13 +667,14 @@ class MovimientoRepository extends ServiceEntityRepository
             ->leftJoin('e.regimenRel', 'ere')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
-        if($arrMovimiento) {
+        if ($arrMovimiento) {
             $arrMovimiento = $arrMovimiento[0];
         }
         return $arrMovimiento;
     }
 
-    public function imprimirFacturaFooter($codigoMovimiento) {
+    public function imprimirFacturaFooter($codigoMovimiento)
+    {
         $em = $this->getEntityManager();
         $queryBuilder = $em->createQueryBuilder()->from(Movimiento::class, 'm')
             ->select('m.codigoMovimientoPk')
@@ -691,7 +694,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->leftJoin('m.empresaRel', 'e')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
-        if($arrMovimiento) {
+        if ($arrMovimiento) {
             $arrMovimiento = $arrMovimiento[0];
         }
         return $arrMovimiento;
@@ -702,7 +705,7 @@ class MovimientoRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $respuesta = ['nombre' => null, 'base64' => null, 'ruta' => null];
         $archivo = null;
-        if($generarArchivo) {
+        if ($generarArchivo) {
             $archivo = '/var/www/html/temporal/documento' . $arrMovimiento['codigoMovimientoPk'] . '.pdf';
         }
         if ($arrMovimiento['codigoMovimientoTipoFk'] == 'SAL') {
@@ -713,7 +716,7 @@ class MovimientoRepository extends ServiceEntityRepository
             $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
         } elseif ($arrMovimiento['codigoMovimientoTipoFk'] == 'FAC' || $arrMovimiento['codigoMovimientoTipoFk'] == 'NC' || $arrMovimiento['codigoMovimientoTipoFk'] == 'ND') {
             $arrEmpresa = $em->getRepository(Empresa::class)->formato($codigoEmpresa);
-            switch ($arrEmpresa['formatoFactura']){
+            switch ($arrEmpresa['formatoFactura']) {
                 case "0":
                     $objFormato = new Factura();
                     $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa, $archivo);
@@ -732,7 +735,7 @@ class MovimientoRepository extends ServiceEntityRepository
             $objFormato->Generar($em, $arrMovimiento['codigoMovimientoPk'], $codigoEmpresa);
         }
 
-        if($generarArchivo) {
+        if ($generarArchivo) {
             $b64Doc = chunk_split(base64_encode(file_get_contents($archivo)));
             $respuesta['nombre'] = "documento{$arrMovimiento['codigoMovimientoPk']}.pdf";
             $respuesta['base64'] = $b64Doc;
@@ -817,5 +820,65 @@ class MovimientoRepository extends ServiceEntityRepository
         }
         $queryBuilder->orderBy("m.codigoMovimientoPk", 'DESC');
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function apiExternoFacturaLista($codigoFactura)
+    {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder()->from(Movimiento::class, 'f')
+            ->select('f.codigoMovimientoPk AS codigoFactura')
+            ->addSelect('f.numero AS numeroFactura')
+            ->addSelect('f.fecha AS fecha')
+            ->addSelect('f.fechaVence')
+            ->addSelect('f.vrSubtotal')
+            ->addSelect('f.vrIva')
+            ->addSelect('f.vrRetencionFuente')
+            ->addSelect('f.vrTotal')
+            ->addSelect('f.respuestaElectronico')
+            ->where("f.codigoFacturaPk = {$codigoFactura}")
+            ->andWhere("f.codigoMovimientoTipoFk = 'FAC'");
+        $arFactura = $queryBuilder->getQuery()->getSingleResult();
+        return $arFactura;
+    }
+
+    public function apiExternoFactura($raw)
+    {
+        $em = $this->getEntityManager();
+        try {
+            $codigoFactura = $raw['codigoFactura'] ?? null;
+            $estado = $raw['estado'] ?? null;
+            if ($codigoFactura) {
+                $arFactura = $em->getRepository(Movimiento::class)->find($codigoFactura);
+                if ($arFactura) {
+                    if ($arFactura->getRespuestaElectronico() == "P") {
+                        $arFactura->setRespuestaElectronico($estado);
+                        $em->persist($arFactura);
+                        $em->flush();
+                        return [
+                            'error' => false
+                        ];
+                    } else {
+                        return [
+                            'error' => true,
+                            'errorMensaje' => "La factura ya fue procesada anteriormente"
+                        ];
+                    }
+                } else {
+                    return [
+                        'error' => true,
+                        'errorMensaje' => "La factura no existe"
+                    ];
+                }
+            } else {
+                return [
+                    'error' => true,
+                    'errorMensaje' => "Faltan datos para el consumo de la api"
+                ];
+            }
+        } catch (\Exception $e) {
+            return [
+                'error' => true,
+                'errorMensaje' => "Ocurrió un error en la api " . $e->getMessage()];
+        }
     }
 }
