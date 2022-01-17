@@ -96,7 +96,7 @@ class Factura1 extends \FPDF
         $this->SetXY(8, $intY + 5);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Propietario:", 1, 0, 'L', 1);
+        $this->Cell(18, 5, "Cliente:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(100, 5, $arMovimiento->getTerceroRel()->getNombreCorto(), 1, 0, 'L', 1);
@@ -104,7 +104,7 @@ class Factura1 extends \FPDF
         $this->SetXY(8, $intY + 10);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(18, 5, "Ref:", 1, 0, 'L', 1);
+        $this->Cell(18, 5, "Nit:", 1, 0, 'L', 1);
         $this->SetFont('Arial', '', 7);
         $this->SetFillColor(272, 272, 272);
         $this->Cell(45, 5, $arMovimiento->getTerceroRel()->getNumeroIdentificacion(), 1, 0, 'L', 1);
@@ -119,7 +119,7 @@ class Factura1 extends \FPDF
         $this->SetXY(150, $intY + 3);
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
-        $this->Cell(28, 6, "Fecha de Factura", 1, 0, 'C', 1);
+        $this->Cell(28, 6, "Fecha de factura", 1, 0, 'C', 1);
 
         $this->SetFont('Arial', 'B', 7);
         $this->SetFillColor(227, 227, 227);
@@ -270,7 +270,7 @@ class Factura1 extends \FPDF
 
         $this->SetXY(7.5, $y-12);
         $this->SetFont('Arial', 'B', 7);
-        $this->Cell(46, 6, 'Condiciones de Pago', 0, 0, 'L');
+        $this->Cell(46, 6, 'Condiciones de pago', 0, 0, 'L');
         $this->SetXY(7.5,$y-7.5 );
         $this->SetFont('Arial', '', 7);
         $this->Cell(20, 3, strtoupper($vrTotalLetras), 0, 'R');
