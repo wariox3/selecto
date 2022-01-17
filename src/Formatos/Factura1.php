@@ -282,7 +282,7 @@ class Factura1 extends \FPDF
         $this->Cell(20, 3, "-.00", 0, 'R');
 
         $this->SetFont('Arial', 'B', 7);
-        $this->Text(8.5, $y+12, utf8_decode("Observaciones: ") . utf8_decode($arMovimiento->getComentario()));
+        $this->Text(8.5, $y+12, utf8_decode("Comentario: ") . utf8_decode($arMovimiento->getComentario()));
         $this->SetFont('Arial', '', 7);
         $this->SetXY(7.5,$y+16 );
         $this->MultiCell(198, 3, utf8_decode($arEmpresa->getInformacionPago()), 0, 'L', false);
