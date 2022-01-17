@@ -214,7 +214,7 @@ class Factura1 extends \FPDF
 
         $this->SetXY(125, $y);
         $this->SetFont('Arial', '', 7);
-        $this->Cell(46, 6, 'Total Cuotas y Cargos Del Mes', 1, 0, 'L');
+        $this->Cell(46, 6, 'Subtotal', 1, 0, 'L');
         $this->SetFont('Arial', '', 7);
         $this->SetX($x);
         $this->SetFont('Arial', '', 7);
@@ -223,26 +223,10 @@ class Factura1 extends \FPDF
         $y += 6;
         $this->SetXY(125, $y);
         $this->SetFont('Arial', '', 7);
-        $this->Cell(46, 6, 'Valor de Iva', 1, 0, 'L');
+        $this->Cell(46, 6, 'Valor de IVA', 1, 0, 'L');
         $this->SetX($x);
         $this->SetFont('Arial', '', 7);
         $this->Cell(35, 6, number_format($arMovimiento->getVrIva()), 1, 0, 'R');
-
-        $y += 6;
-        $this->SetFont('Arial', '', 7);
-        $this->SetXY(125, $y);
-        $this->Cell(46, 6, 'Anticipos', 1, 0, 'L');
-        $this->SetX($x);
-        $this->SetFont('Arial', '', 7);
-        $this->Cell(35, 6, number_format(0), 1, 0, 'R');
-
-        $y += 6;
-        $this->SetFont('Arial', '', 7);
-        $this->SetXY(125, $y);
-        $this->Cell(46, 6, 'Saldo Anterior', 1, 0, 'L');
-        $this->SetX($x);
-        $this->SetFont('Arial', '', 7);
-        $this->Cell(35, 6, number_format($arMovimiento->getVrTotalNeto()), 1, 0, 'R');
 
         $y += 6;
         $this->SetXY(125, $y);
