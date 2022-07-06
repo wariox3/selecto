@@ -909,6 +909,7 @@ class MovimientoRepository extends ServiceEntityRepository
                             $arMovimiento->setCodigoFormaPagoFk($arFormaPago->getCodigoFormaPagoPk());
                             $arMovimiento->setPlazoPago($raw['plazoPago']);
                             $arMovimiento->setComentario(utf8_decode($raw['comentario']));
+                            $arMovimiento->setDocumentoSoporte($raw['documentoSoporte']);
                             $em->persist($arMovimiento);
                             $em->flush();
                             foreach ($raw['detalles'] as $detalle) {
