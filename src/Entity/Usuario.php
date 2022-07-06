@@ -4,7 +4,6 @@ namespace App\Entity;
 
 
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Role\Role;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -63,6 +62,11 @@ class Usuario implements UserInterface, \Serializable
      * @ORM\Column(name="control", type="boolean", nullable=true)
      */
     private $control;
+
+    /**
+     * @ORM\Column(type="string", length=300, nullable=true)
+     */
+    private $apiToken;
 
     /**
      * @ORM\ManyToOne(targetEntity="Empresa", inversedBy="usuariosEmpresaRel")
@@ -293,4 +297,22 @@ class Usuario implements UserInterface, \Serializable
     {
         $this->empresaRel = $empresaRel;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getApiToken()
+    {
+        return $this->apiToken;
+    }
+
+    /**
+     * @param mixed $apiToken
+     */
+    public function setApiToken($apiToken): void
+    {
+        $this->apiToken = $apiToken;
+    }
+
+
 }
