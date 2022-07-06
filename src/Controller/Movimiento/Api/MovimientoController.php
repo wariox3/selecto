@@ -14,7 +14,7 @@ class MovimientoController extends AbstractController
 
     /**
      * @return array
-     * @Rest\Post("/api/movimimiento/nuevo")
+     * @Rest\Post("/api/movimiento/nuevo")
      */
     public function movimiento(Request $request)
     {
