@@ -6,6 +6,7 @@ use App\Controller\Estructura\FuncionesController;
 
 use App\Entity\Configuracion;
 use App\Entity\Empresa;
+use App\Entity\FormaPago;
 use App\Entity\Impuesto;
 use App\Entity\Item;
 use App\Entity\Movimiento;
@@ -894,48 +895,59 @@ class MovimientoRepository extends ServiceEntityRepository
                 if ($arTercero) {
                     $arMovimientoTipo = $em->getRepository(MovimientoTipo::class)->find($raw['codigoMovimientoTipoFk']);
                     if ($arMovimientoTipo) {
-                        $arMovimiento = new Movimiento();
-                        $arMovimiento->setTerceroRel($arTercero);
-                        $arMovimiento->setMovimientoTipoRel($arMovimientoTipo);
-                        $arMovimiento->setCodigoMovimientoTipoFk($arMovimientoTipo->getCodigoMovimientoTipoPk());
-                        $arMovimiento->setFecha(new \DateTime('now'));
-                        $arMovimiento->setEmpresaRel($arEmpresa);
-                        $arMovimiento->setCodigoEmpresaFk($arEmpresa->getCodigoEmpresaPk());
-                        $arMovimiento->setResolucionRel($arEmpresa->getResolucionRel());
-                        $arMovimiento->setComentario($raw['comentario']);
-                        $em->persist($arMovimiento);
-                        $em->flush();
-                        foreach ($raw['detalles'] as $detalle) {
-                            $arItem = $em->getRepository(Item::class)->findOneBy(array('codigoItemPk' => $detalle['codigoItemFk'], 'codigoEmpresaFk' => $arEmpresa->getCodigoEmpresaPk()));
-                            if ($arItem) {
-                                $arMovimientoDetalle = new MovimientoDetalle();
-                                $arMovimientoDetalle->setMovimientoRel($arMovimiento);
-                                $arMovimientoDetalle->setCodigoMovimientoFk($arMovimiento->getCodigoMovimientoPk());
-                                $arMovimientoDetalle->setItemRel($arItem);
-                                $arMovimientoDetalle->setCodigoItemFk($arItem->getCodigoItemPk());
-                                $arMovimientoDetalle->setCantidad($detalle['cantidad']);
-                                $arMovimientoDetalle->setVrPrecio($detalle['vrPrecio']);
-                                $arMovimientoDetalle->setPorcentajeDescuento($detalle['porcentajeDescuento']);
-                                $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
-                                $arMovimientoDetalle->setCodigoImpuestoIvaFk($detalle['codigoImpuestoIvaFk']);
-                                $arMovimientoDetalle->setCodigoImpuestoRetencionFk($detalle['codigoImpuestoRetencionFk']);
-                                $em->persist($arMovimientoDetalle);
-                            } else {
-                                return [
-                                    'error' => true,
-                                    'errorMensaje' => "El codigo del item relacionado no existe, por favor validar"
-                                ];
+                        $arFormaPago = $em->getRepository(FormaPago::class)->find($raw['codigoFormaPagoFk']);
+                        if ($arFormaPago) {
+                            $arMovimiento = new Movimiento();
+                            $arMovimiento->setTerceroRel($arTercero);
+                            $arMovimiento->setMovimientoTipoRel($arMovimientoTipo);
+                            $arMovimiento->setCodigoMovimientoTipoFk($arMovimientoTipo->getCodigoMovimientoTipoPk());
+                            $arMovimiento->setFecha(new \DateTime('now'));
+                            $arMovimiento->setEmpresaRel($arEmpresa);
+                            $arMovimiento->setCodigoEmpresaFk($arEmpresa->getCodigoEmpresaPk());
+                            $arMovimiento->setResolucionRel($arEmpresa->getResolucionRel());
+                            $arMovimiento->setFormaPagoRel($arFormaPago);
+                            $arMovimiento->setCodigoFormaPagoFk($arFormaPago->getCodigoFormaPagoPk());
+                            $arMovimiento->setPlazoPago($raw['plazoPago']);
+                            $arMovimiento->setComentario(utf8_decode($raw['comentario']));
+                            $em->persist($arMovimiento);
+                            $em->flush();
+                            foreach ($raw['detalles'] as $detalle) {
+                                $arItem = $em->getRepository(Item::class)->findOneBy(array('codigoItemPk' => $detalle['codigoItemFk'], 'codigoEmpresaFk' => $arEmpresa->getCodigoEmpresaPk()));
+                                if ($arItem) {
+                                    $arMovimientoDetalle = new MovimientoDetalle();
+                                    $arMovimientoDetalle->setMovimientoRel($arMovimiento);
+                                    $arMovimientoDetalle->setCodigoMovimientoFk($arMovimiento->getCodigoMovimientoPk());
+                                    $arMovimientoDetalle->setItemRel($arItem);
+                                    $arMovimientoDetalle->setCodigoItemFk($arItem->getCodigoItemPk());
+                                    $arMovimientoDetalle->setCantidad($detalle['cantidad']);
+                                    $arMovimientoDetalle->setVrPrecio($detalle['vrPrecio']);
+                                    $arMovimientoDetalle->setPorcentajeDescuento($detalle['porcentajeDescuento']);
+                                    $arMovimientoDetalle->setPorcentajeIva($arItem->getPorcentajeIva());
+                                    $arMovimientoDetalle->setCodigoImpuestoIvaFk($detalle['codigoImpuestoIvaFk']);
+                                    $arMovimientoDetalle->setCodigoImpuestoRetencionFk($detalle['codigoImpuestoRetencionFk']);
+                                    $em->persist($arMovimientoDetalle);
+                                } else {
+                                    return [
+                                        'error' => true,
+                                        'errorMensaje' => "El codigo del item relacionado no existe, por favor validar"
+                                    ];
+                                }
                             }
+                            $em->flush();
+                            $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
+                            $em->getRepository(Movimiento::class)->autorizar($arMovimiento);
+                            $em->getRepository(Movimiento::class)->aprobar($arMovimiento);
+                            $em->flush();
+                            return [
+                                'error' => false,
+                                'errorMensaje' => "Registro creado con éxito"
+                            ];
+                        } else {
+                            return [
+                                'error' => true,
+                                'errorMensaje' => "La forma de pago informada no existe, por favor validar"
+                            ];
                         }
-                        $em->flush();
-                        $em->getRepository(Movimiento::class)->liquidar($arMovimiento);
-                        $em->getRepository(Movimiento::class)->autorizar($arMovimiento);
-                        $em->getRepository(Movimiento::class)->aprobar($arMovimiento);
-                        $em->flush();
-                        return [
-                            'error' => false,
-                            'errorMensaje' => "Registro creado con éxito"
-                        ];
                     } else {
                         return [
                             'error' => true,
