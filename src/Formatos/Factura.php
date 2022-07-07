@@ -120,7 +120,7 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', 'B', 11);
         $this->Text(50, 20, utf8_decode($arMovimiento['empresaNombreCorto']));
         $this->SetFont('helvetica', '', 8);
-        $this->Text(50, 24, utf8_decode($arMovimiento['empresaTipoPersonaNombre'] . ' - ' . $arMovimiento['empresaRegimenNombre']));
+        $this->Text(50, 24, utf8_decode($arMovimiento['empresaTipoPersonaNombre']));
         $this->Text(50, 28, 'NIT: ' . $arMovimiento['empresaNit'] . '-' . $arMovimiento['empresaDigitoVerificacion']);
         $this->Text(50, 32, utf8_decode($arMovimiento['empresaDireccion']));
         $this->Text(50, 36, 'TEL: ' . $arMovimiento['empresaTelefono']);
