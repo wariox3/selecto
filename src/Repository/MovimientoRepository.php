@@ -4,15 +4,19 @@ namespace App\Repository;
 
 use App\Controller\Estructura\FuncionesController;
 
+use App\Entity\Ciudad;
 use App\Entity\Configuracion;
 use App\Entity\Empresa;
 use App\Entity\FormaPago;
+use App\Entity\Identificacion;
 use App\Entity\Impuesto;
 use App\Entity\Item;
 use App\Entity\Movimiento;
 use App\Entity\MovimientoDetalle;
 use App\Entity\MovimientoTipo;
+use App\Entity\Regimen;
 use App\Entity\Tercero;
+use App\Entity\TipoPersona;
 use App\Entity\Usuario;
 use App\Formatos\Compra;
 use App\Formatos\Entrada;
@@ -277,7 +281,7 @@ class MovimientoRepository extends ServiceEntityRepository
             $this->afectar($arMovimiento);
             $arMovimiento->setEstadoAprobado(1);
             if ($arMovimiento->getNumero() == 0) {
-                $consecutivo = $em->getRepository(MovimientoTipo::class)->generarConsecutivo($arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk(), $arMovimiento->getCodigoEmpresaFk());
+                $consecutivo = $em->getRepository(MovimientoTipo::class)->generarConsecutivo($arMovimiento->getMovimientoTipoRel()->getCodigoMovimientoTipoPk(), $arMovimiento->getEmpresaRel()->getCodigoEmpresaPk());
                 $arMovimiento->setNumero($consecutivo);
                 $arMovimiento->setFecha(new \DateTime('now'));
             }
@@ -354,9 +358,9 @@ class MovimientoRepository extends ServiceEntityRepository
     {
 
         $em = $this->getEntityManager();
-        $arMovimientoDetalles = $this->getEntityManager()->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
+        $arMovimientoDetalles = $em->getRepository(MovimientoDetalle::class)->findBy(['codigoMovimientoFk' => $arMovimiento->getCodigoMovimientoPk()]);
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
-            $arItem = $this->getEntityManager()->getRepository(Item::class)->find($arMovimientoDetalle->getCodigoItemFk());
+            $arItem = $em->getRepository(Item::class)->find($arMovimientoDetalle->getItemRel()->getCodigoItemPk());
             if ($arItem->isAfectaInventario() == true) {
                 $existenciaAnterior = $arItem->getCantidadExistencia();
                 if ($arMovimiento->getMovimientoTipoRel()->getOperacionInventario() == -1) {
@@ -888,11 +892,21 @@ class MovimientoRepository extends ServiceEntityRepository
     public function apiExternoMovimientoNuevo($raw)
     {
         $em = $this->getEntityManager();
-        if ($raw) {
-            $arEmpresa = $em->getRepository(Empresa::class)->find($raw['codigoEmpresaFk']);
-            if ($arEmpresa) {
-                $arTercero = $em->getRepository(Tercero::class)->findOneBy(array('codigoIdentificacionFk' => $raw['codigoIdentificacionFk'], 'numeroIdentificacion' => $raw['numeroIdentificacion'], 'codigoEmpresaFk' => $arEmpresa->getCodigoEmpresaPk()));
-                if ($arTercero) {
+        try {
+            if ($raw) {
+                $codigoIdentificacionFk = $raw['informacionTercero']['codigoIdentificacionFk'] ?? null;
+                $numeroIdentificacion = $raw['informacionTercero']['numeroIdentificacion'] ?? null;
+                $arEmpresa = $em->getRepository(Empresa::class)->find($raw['codigoEmpresaFk']);
+                if ($arEmpresa) {
+                    $arTercero = $em->getRepository(Tercero::class)->findOneBy(array('codigoIdentificacionFk' => $codigoIdentificacionFk, 'numeroIdentificacion' => $numeroIdentificacion, 'codigoEmpresaFk' => $arEmpresa->getCodigoEmpresaPk()));
+                    if (!$arTercero) {
+                        $respuesta = $this->crearTercero($raw['informacionTercero'], $arEmpresa);
+                        if ($respuesta['error'] == true) {
+                            return $respuesta;
+                        } else {
+                            $arTercero = $em->getRepository(Tercero::class)->find($respuesta['codigoTercero']);
+                        }
+                    }
                     $arMovimientoTipo = $em->getRepository(MovimientoTipo::class)->find($raw['codigoMovimientoTipoFk']);
                     if ($arMovimientoTipo) {
                         $arFormaPago = $em->getRepository(FormaPago::class)->find($raw['codigoFormaPagoFk']);
@@ -900,26 +914,20 @@ class MovimientoRepository extends ServiceEntityRepository
                             $arMovimiento = new Movimiento();
                             $arMovimiento->setTerceroRel($arTercero);
                             $arMovimiento->setMovimientoTipoRel($arMovimientoTipo);
-                            $arMovimiento->setCodigoMovimientoTipoFk($arMovimientoTipo->getCodigoMovimientoTipoPk());
                             $arMovimiento->setFecha(new \DateTime('now'));
                             $arMovimiento->setEmpresaRel($arEmpresa);
-                            $arMovimiento->setCodigoEmpresaFk($arEmpresa->getCodigoEmpresaPk());
                             $arMovimiento->setResolucionRel($arEmpresa->getResolucionRel());
                             $arMovimiento->setFormaPagoRel($arFormaPago);
-                            $arMovimiento->setCodigoFormaPagoFk($arFormaPago->getCodigoFormaPagoPk());
                             $arMovimiento->setPlazoPago($raw['plazoPago']);
                             $arMovimiento->setComentario(utf8_decode($raw['comentario']));
                             $arMovimiento->setDocumentoSoporte($raw['documentoSoporte']);
                             $em->persist($arMovimiento);
-                            $em->flush();
                             foreach ($raw['detalles'] as $detalle) {
                                 $arItem = $em->getRepository(Item::class)->findOneBy(array('codigoItemPk' => $detalle['codigoItemFk'], 'codigoEmpresaFk' => $arEmpresa->getCodigoEmpresaPk()));
                                 if ($arItem) {
                                     $arMovimientoDetalle = new MovimientoDetalle();
                                     $arMovimientoDetalle->setMovimientoRel($arMovimiento);
-                                    $arMovimientoDetalle->setCodigoMovimientoFk($arMovimiento->getCodigoMovimientoPk());
                                     $arMovimientoDetalle->setItemRel($arItem);
-                                    $arMovimientoDetalle->setCodigoItemFk($arItem->getCodigoItemPk());
                                     $arMovimientoDetalle->setCantidad($detalle['cantidad']);
                                     $arMovimientoDetalle->setVrPrecio($detalle['vrPrecio']);
                                     $arMovimientoDetalle->setPorcentajeDescuento($detalle['porcentajeDescuento']);
@@ -940,8 +948,7 @@ class MovimientoRepository extends ServiceEntityRepository
                             $em->getRepository(Movimiento::class)->aprobar($arMovimiento);
                             $em->flush();
                             return [
-                                'error' => false,
-                                'errorMensaje' => "Registro creado con éxito"
+                                'error' => false
                             ];
                         } else {
                             return [
@@ -958,15 +965,93 @@ class MovimientoRepository extends ServiceEntityRepository
                 } else {
                     return [
                         'error' => true,
-                        'errorMensaje' => "El tercero ingresado no se encuentra en el sistema, por favor validar"
+                        'errorMensaje' => "La empresa ingresada no existe, por favor validar"
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+            return [
+                'error' => true,
+                'errorMensaje' => "Ocurrió un error en la api " . $e->getMessage()];
+        }
+    }
+
+    public function crearTercero($raw, $empresa)
+    {
+        $em = $this->getEntityManager();
+        $arIdentificacion = $em->getRepository(Identificacion::class)->find($raw['codigoIdentificacionFk']);
+        if ($arIdentificacion) {
+            $arCiudad = $em->getRepository(Ciudad::class)->findOneBy(array('codigoDaneCompleto' => $raw['codigoCiudadDane']));
+            if ($arCiudad) {
+                $arFormaPago = $em->getRepository(FormaPago::class)->find($raw['codigoFormaPagoFk']);
+                if ($arFormaPago) {
+                    $arTipoPersona = $em->getRepository(TipoPersona::class)->find($raw['codigoTipoPersonaFk']);
+                    if ($arTipoPersona) {
+                        $arRegimen = $em->getRepository(Regimen::class)->find($raw['codigoRegimenFk']);
+                        if ($arRegimen) {
+                            $arTercero = new Tercero();
+                            $arTercero->setIdentificacionRel($arIdentificacion);
+                            $arTercero->setNumeroIdentificacion($raw['numeroIdentificacion']);
+                            $arTercero->setDigitoVerificacion($raw['digitoVerificacion']);
+                            $arTercero->setNombreCorto($raw['nombreCorto']);
+                            $arTercero->setPrimerNombre($raw['primerNombre']);
+                            $arTercero->setSegundoNombre($raw['segundoNombre']);
+                            $arTercero->setPrimerApellido($raw['primerApellido']);
+                            $arTercero->setSegundoApellido($raw['segundoApellido']);
+                            $arTercero->setCiudadRel($arCiudad);
+                            $arTercero->setDireccion($raw['direccion']);
+                            $arTercero->setBarrio($raw['barrio']);
+                            $arTercero->setTelefono($raw['telefono']);
+                            $arTercero->setCelular($raw['celular']);
+                            $arTercero->setEmail($raw['email']);
+                            $arTercero->setCodigoPostal($raw['codigoPostal']);
+                            $arTercero->setCupoCompra($raw['cupoCompra']);
+                            $arTercero->setCorreoFacturaElectronica($raw['emailFactuacionElectronica']);
+                            $arTercero->setFormaPagoRel($arFormaPago);
+                            $arTercero->setPlazoPago($raw['plazoPago']);
+                            $arTercero->setCliente($raw['cliente']);
+                            $arTercero->setProveedor($raw['proveedor']);
+                            $arTercero->setRetencionIva($raw['retencionIva']);
+                            $arTercero->setRetencionFuente($raw['retencionFuente']);
+                            $arTercero->setRetencionFuenteSinBase($raw['retencionFuenteSinBase']);
+                            $arTercero->setCodigoCIUU($raw['codigoCiuu']);
+                            $arTercero->setCodigoEmpresaFk($empresa->getCodigoEmpresaPk());
+                            $arTercero->setTipoPersonaRel($arTipoPersona);
+                            $arTercero->setRegimenRel($arRegimen);
+                            $em->persist($arTercero);
+                            return [
+                                'error' => false,
+                                'codigoTercero' => $arTercero->getCodigoTerceroPk(),
+                            ];
+                        }  else {
+                            return [
+                                'error' => true,
+                                'errorMensaje' => "El codigo del regimen ingresado no existe, por favor validar"
+                            ];
+                        }
+                    } else {
+                        return [
+                            'error' => true,
+                            'errorMensaje' => "El tipo de persona ingresado no existe, por favor validar"
+                        ];
+                    }
+                } else {
+                    return [
+                        'error' => true,
+                        'errorMensaje' => "EL codigo de la forma de pago ingresada no existe, por favor validar"
                     ];
                 }
             } else {
                 return [
                     'error' => true,
-                    'errorMensaje' => "La empresa ingresada no existe, por favor validar"
+                    'errorMensaje' => "EL codigo de la ciudad del DANE no existe, por favor validar"
                 ];
             }
+        } else {
+            return [
+                'error' => true,
+                'errorMensaje' => "El tipo de identificacion ingresado no existe, por favor validar"
+            ];
         }
     }
 }
