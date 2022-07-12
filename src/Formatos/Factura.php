@@ -45,7 +45,7 @@ class Factura extends \FPDF
         $pdf->SetTextColor(0, 0, 0);
         $pdf->SetFont('Times', '', 12);
         $this->Body($pdf);
-        if($ruta) {
+        if ($ruta) {
             $pdf->Output($ruta, 'F');
         } else {
             $pdf->Output("Factura{$codigoMovimiento}.pdf", 'D');
@@ -70,11 +70,11 @@ class Factura extends \FPDF
 
         $titulo = "FACTURA ELECTRONICA DE VENTA";
         $prefijo = $arMovimiento['resolucionPrefijo'];
-        if($arMovimiento['codigoMovimientoTipoFk'] == 'NC') {
+        if ($arMovimiento['codigoMovimientoTipoFk'] == 'NC') {
             $titulo = "NOTA CREDITO";
             $prefijo = "";
         }
-        if($arMovimiento['codigoMovimientoTipoFk'] == 'ND') {
+        if ($arMovimiento['codigoMovimientoTipoFk'] == 'ND') {
             $titulo = "NOTA DEBITO";
             $prefijo = "";
         }
@@ -146,7 +146,7 @@ class Factura extends \FPDF
     {
         $this->Ln(6);
         $this->SetXY(10, 64);
-        $header = array('#','COD','ITEM', 'CANT', 'PRECIO', '%DSC', 'IVA', 'TOTAL');
+        $header = array('#', 'COD', 'ITEM', 'CANT', 'PRECIO', '%DSC', 'IVA', 'TOTAL');
         $this->SetFillColor(225, 225, 225);
         $this->SetLineWidth(.2);
         $this->SetFont('', 'B', 7);
@@ -172,20 +172,24 @@ class Factura extends \FPDF
         $arMovimientoDetalles = self::$em->getRepository(MovimientoDetalle::class)->listaImprimirFactura(self::$codigoMovimiento);
         $pdf->SetFont('helvetica', '', 7);
         $pdf->SetX(10);
-        $contador = 1;
+        $contador = 0;
         foreach ($arMovimientoDetalles as $arMovimientoDetalle) {
+            $contador++;
             $pdf->Cell(7, 4, $contador, 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['itemCodigo'], 1, 0, 'L');
             $pdf->Cell(112, 4, substr(utf8_decode($arMovimientoDetalle['itemNombre']), 0, 85), 1, 0, 'L');
             $pdf->Cell(10, 4, $arMovimientoDetalle['cantidad'], 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrPrecio'], 0, '.', ','), 1, 0, 'R');
-            $pdf->Cell(10, 4, number_format($arMovimientoDetalle['porcentajeDescuento'], 0,'.', ','), 1, 0, 'R');
-            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrIva'], 0,'.', ','), 1, 0, 'R');
+            $pdf->Cell(10, 4, number_format($arMovimientoDetalle['porcentajeDescuento'], 0, '.', ','), 1, 0, 'R');
+            $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrIva'], 0, '.', ','), 1, 0, 'R');
             $pdf->Cell(17, 4, number_format($arMovimientoDetalle['vrTotal']), 1, 0, 'R');
             $pdf->Ln();
             $pdf->SetAutoPageBreak(true, 15);
-            $contador++;
         }
+        $pdf->Ln();
+        $pdf->setX(10);
+        $pdf->SetFont('helvetica', 'B', 7);
+        $pdf->Cell(10, 4, "CANTIDAD DE ITEMS: " . $contador, 0, 0, 'L');
     }
 
     public function Footer()
@@ -199,12 +203,12 @@ class Factura extends \FPDF
         $this->SetFillColor(225, 225, 225);
         $this->Cell(150, 5, 'COMENTARIOS', 1, 0, 'C', 1);
         $this->Cell(50, 5, 'TOTALES', 1, 0, 'C', 1);
-        $this->Rect(10,185,150,25);
-        $this->Rect(160,185,50,25);
-        $this->SetXY(10,186);
-        $this->MultiCell(150, 3, $arMovimiento['comentario'],0,'L', 0);
+        $this->Rect(10, 185, 150, 25);
+        $this->Rect(160, 185, 50, 25);
+        $this->SetXY(10, 186);
+        $this->MultiCell(150, 3, $arMovimiento['comentario'], 0, 'L', 0);
         $this->Image(FuncionesController::codigoQr($arMovimiento['cadenaCodigoQr'] . "", $arMovimiento['codigoMovimientoPk']), 168, 211, 33, 33);
-        $this->SetXY(162,188);
+        $this->SetXY(162, 188);
         $this->SetFont('helvetica', 'B', 8);
         $this->Cell(20, 4, 'Subtotal', 0, 0, 'L');
         $this->SetFont('helvetica', '', 8);
@@ -231,10 +235,10 @@ class Factura extends \FPDF
         $this->SetXY(10, 210);
         $this->SetFont('helvetica', 'B', 9);
         $this->Cell(150, 5, 'INFORMACION PAGO', 1, 0, 'C', 1);
-        $this->Rect(10,215,150,30);
+        $this->Rect(10, 215, 150, 30);
         $this->SetXY(10, 221);
         $this->SetFont('helvetica', '', 8);
-        $this->MultiCell(150, 3,$arMovimiento['empresaInformacionPago'],0,'L', 0);
+        $this->MultiCell(150, 3, $arMovimiento['empresaInformacionPago'], 0, 'L', 0);
         $this->SetXY(10, 245);
         $this->Cell(200, 5, $this->devolverNumeroLetras($arMovimiento['vrTotalNeto']), 1, 0, 'L');
         $this->SetXY(10, 250);
