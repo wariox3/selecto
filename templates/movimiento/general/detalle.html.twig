@@ -12,7 +12,7 @@
         <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Opciones <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-                {% if arMovimiento.codigoMovimientoTipoFk == 'FAC' %}
+                {% if arMovimiento.codigoMovimientoTipoFk == 'FAC' or  arMovimiento.codigoMovimientoTipoFk == 'NC' or arMovimiento.codigoMovimientoTipoFk == 'ND'%}
                 <li>
                     <a href="javascript:abrirVentana3('{{ path('movimiento_general_enviarcorreo', {'id':arMovimiento.codigoMovimientoPk }) }}', 'EnviarCorreoFE', 600, 900)">Enviar correo FE</a>
                 </li>
