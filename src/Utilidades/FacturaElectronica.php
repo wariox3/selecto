@@ -57,10 +57,10 @@ class FacturaElectronica
             'cue' => '',
             'cadenaCodigoQr' => ''
         ];
-        if($arrFactura['dat_tipoAmbiente'] == 1) {
-            $url = "https://tufactura.co/habilitacion/api/ConValidacionPrevia/EmitirDocumento";
+        if ($arrFactura['dat_tipoAmbiente'] == 1) {
+            $url = "https://apps.kiai.co/api/ConValidacionPrevia/EmitirDocumento";
         } else {
-            $url = "https://tufactura.co/habilitacion/api/ConValidacionPrevia/CrearSetPrueba";
+            $url = "https://apps.kiai.co/api/ConValidacionPrevia/CrearSetPrueba";
         }
         $arrSoftwareEstrategico = $this->arrSoftwareEstrategico($arrFactura);
         $json = json_encode($arrSoftwareEstrategico);
