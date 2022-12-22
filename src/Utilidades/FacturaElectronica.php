@@ -408,7 +408,7 @@ class FacturaElectronica
     private function consultarDocumento($suscriptor, $cue)
     {
         $em = $this->em;
-        $url = "https://tufactura.co/habilitacion/api/ConValidacionPrevia/RecuperarDocumentoDian/{$suscriptor}/{$cue}";
+        $url = "https://apps.kiai.co/api/ConValidacionPrevia/RecuperarDocumentoDian/{$suscriptor}/{$cue}";
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
