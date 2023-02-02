@@ -665,6 +665,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->addSelect('tciu.nombre as terceroCiudadNombre')
             ->addSelect('etp.nombre as empresaTipoPersonaNombre')
             ->addSelect('ere.nombre as empresaRegimenNombre')
+            ->addSelect('mr.numero as numeroReferencia')
             ->leftJoin('m.terceroRel', 't')
             ->leftJoin('t.ciudadRel', 'tciu')
             ->leftJoin('m.resolucionRel', 'rs')
@@ -672,6 +673,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->leftJoin('m.empresaRel', 'e')
             ->leftJoin('e.tipoPersonaRel', 'etp')
             ->leftJoin('e.regimenRel', 'ere')
+            ->leftJoin('m.movimientoRel', 'mr')
             ->where("m.codigoMovimientoPk = {$codigoMovimiento} ");
         $arrMovimiento = $queryBuilder->getQuery()->getResult();
         if ($arrMovimiento) {

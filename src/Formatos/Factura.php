@@ -117,6 +117,13 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', '', 8);
         $this->Cell(25, 4, $arMovimiento['documentoSoporte'], 0, 0, 'R', 0);
 
+        if($arMovimiento['codigoMovimientoTipoFk'] == 'NC' || $arMovimiento['codigoMovimientoTipoFk'] == 'ND'){
+            $this->SetFont('helvetica', 'B', 8);
+            $this->SetXY(140, 50);
+            $this->Cell(45, 4, 'NUMERO REFERENCIA:', 0, 0, 'L', 0);
+            $this->SetFont('helvetica', '', 8);
+            $this->Cell(25, 4, $arMovimiento['numeroReferencia'], 0, 0, 'R', 0);
+        }
         $this->SetFont('helvetica', 'B', 11);
         $this->Text(50, 20, utf8_decode($arMovimiento['empresaNombreCorto']));
         $this->SetFont('helvetica', '', 8);
