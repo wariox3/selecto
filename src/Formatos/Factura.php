@@ -68,14 +68,14 @@ class Factura extends \FPDF
         $date = new \DateTime('now');
         $this->Text(170, 10, $date->format('Y-m-d H:i:s') . ' [Selecto | Facturacion]');
 
-        $titulo = "FACTURA ELECTRONICA DE VENTA";
+        $titulo = "FACTURA ELECTRÓNICA DE VENTA";
         $prefijo = $arMovimiento['resolucionPrefijo'];
         if ($arMovimiento['codigoMovimientoTipoFk'] == 'NC') {
-            $titulo = "NOTA CREDITO";
+            $titulo = utf8_decode("NOTA CRÉDITO");
             $prefijo = "";
         }
         if ($arMovimiento['codigoMovimientoTipoFk'] == 'ND') {
-            $titulo = "NOTA DEBITO";
+            $titulo = utf8_decode("NOTA DÉBITO");
             $prefijo = "";
         }
         $this->SetFont('helvetica', 'B', 11);
@@ -89,7 +89,7 @@ class Factura extends \FPDF
 
         $this->SetFont('helvetica', 'B', 8);
         $this->SetXY(140, 30);
-        $this->Cell(45, 4, 'FECHA EMISION:', 0, 0, 'L', 0);
+        $this->Cell(45, 4, utf8_decode('FECHA EMISIÓN:'), 0, 0, 'L', 0);
         $this->SetFont('helvetica', '', 8);
         $this->Cell(25, 4, $arMovimiento['fecha']->format('Y-m-d'), 0, 0, 'R', 0);
 
@@ -117,10 +117,10 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', '', 8);
         $this->Cell(25, 4, $arMovimiento['documentoSoporte'], 0, 0, 'R', 0);
 
-        if($arMovimiento['codigoMovimientoTipoFk'] == 'NC' || $arMovimiento['codigoMovimientoTipoFk'] == 'ND'){
+        if ($arMovimiento['codigoMovimientoTipoFk'] == 'NC' || $arMovimiento['codigoMovimientoTipoFk'] == 'ND') {
             $this->SetFont('helvetica', 'B', 8);
             $this->SetXY(140, 50);
-            $this->Cell(45, 4, 'NUMERO REFERENCIA:', 0, 0, 'L', 0);
+            $this->Cell(45, 4, utf8_decode('NÚMERO FACTURA:'), 0, 0, 'L', 0);
             $this->SetFont('helvetica', '', 8);
             $this->Cell(25, 4, $arMovimiento['numeroReferencia'], 0, 0, 'R', 0);
         }
@@ -135,9 +135,9 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', 'B', 8);
         $this->Text(10, 46, 'CLIENTE:');
         $this->Text(10, 50, 'NIT:');
-        $this->Text(10, 54, 'DIRECCION:');
+        $this->Text(10, 54, 'DIRECCIÓN:');
         $this->Text(10, 58, 'CIUDAD:');
-        $this->Text(10, 62, 'TELEFONO:');
+        $this->Text(10, 62, 'TELÉFONO:');
 
         $this->SetFont('helvetica', '', 8);
         $this->Text(40, 46, utf8_decode($arMovimiento['terceroNombreCorto']));
