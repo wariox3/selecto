@@ -68,7 +68,7 @@ class Factura extends \FPDF
         $date = new \DateTime('now');
         $this->Text(170, 10, $date->format('Y-m-d H:i:s') . ' [Selecto | Facturacion]');
 
-        $titulo = "FACTURA ELECTRÓNICA DE VENTA";
+        $titulo = utf8_decode("FACTURA ELECTRÓNICA DE VENTA");
         $prefijo = $arMovimiento['resolucionPrefijo'];
         if ($arMovimiento['codigoMovimientoTipoFk'] == 'NC') {
             $titulo = utf8_decode("NOTA CRÉDITO");
@@ -135,9 +135,9 @@ class Factura extends \FPDF
         $this->SetFont('helvetica', 'B', 8);
         $this->Text(10, 46, 'CLIENTE:');
         $this->Text(10, 50, 'NIT:');
-        $this->Text(10, 54, 'DIRECCIÓN:');
+        $this->Text(10, 54, utf8_decode('DIRECCIÓN:'));
         $this->Text(10, 58, 'CIUDAD:');
-        $this->Text(10, 62, 'TELÉFONO:');
+        $this->Text(10, 62, utf8_decode('TELÉFONO:'));
 
         $this->SetFont('helvetica', '', 8);
         $this->Text(40, 46, utf8_decode($arMovimiento['terceroNombreCorto']));
