@@ -79,6 +79,7 @@ class FacturaElectronica
             if(isset($resp['Message'])) {
                 if(isset($resp['ExceptionMessage'])) {
                     $arRespuesta = new RespuestaFacturaElectronica();
+                    $arRespuesta->setCodigoModeloFk('InvMovimiento');
                     $arRespuesta->setFecha(new \DateTime('now'));
                     $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
                     $arRespuesta->setErrorMessage($resp['ExceptionMessage']);
@@ -125,6 +126,7 @@ class FacturaElectronica
                         }
                     }
                     $arRespuesta = new RespuestaFacturaElectronica();
+                    $arRespuesta->setCodigoModeloFk('InvMovimiento');
                     $arRespuesta->setFecha(new \DateTime('now'));
                     $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
                     $arRespuesta->setErrorReason(json_encode($datos));
