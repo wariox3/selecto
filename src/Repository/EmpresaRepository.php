@@ -76,6 +76,7 @@ class EmpresaRepository extends ServiceEntityRepository
             ->addSelect('e.codigoTipoPersonaFk')
             ->addSelect('e.matriculaMercantil')
             ->addSelect('e.suscriptor')
+            ->addSelect('e.codigoEmpresaOxigeno')
             ->addSelect('ciu.nombre as ciudadNombre')
             ->addSelect('ciu.codigoDaneCompleto as ciudadCodigoDaneCompleto')
             ->addSelect('dep.nombre as departamentoNombre')
