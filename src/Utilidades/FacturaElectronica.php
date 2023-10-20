@@ -392,7 +392,7 @@ class FacturaElectronica
         ];
         $datosJson = json_encode($arrDatos);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://104.248.81.122/dubnio/public/index.php/api/correo/correoFacturaElectronica');
+        curl_setopt($ch, CURLOPT_URL, 'http://zinc.semantica.com.co/index.php/api/correo/electronico');
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $datosJson);
@@ -402,7 +402,7 @@ class FacturaElectronica
         );
         $respuesta = curl_exec($ch);
         curl_close($ch);
-        $respuesta = json_decode($respuesta);
+        $respuesta = json_decode($respuesta, true);
         return $respuesta;
 
     }
