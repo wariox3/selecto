@@ -449,6 +449,7 @@ class MovimientoRepository extends ServiceEntityRepository
             ->addSelect('m.estadoElectronico')
             ->addSelect('m.codigoMovimientoTipoFk')
             ->addSelect('m.cue')
+            ->addSelect('m.documentoSoporte')
             ->addSelect('i.codigoEntidad as tipoIdentificacion')
             ->addSelect('t.numeroIdentificacion as numeroIdentificacion')
             ->addSelect('t.digitoVerificacion as digitoVerificacion')
@@ -542,6 +543,7 @@ class MovimientoRepository extends ServiceEntityRepository
                         'doc_numero' => $arFactura['numero'],
                         'doc_fecha' => $arFactura['fecha']->format('Y-m-d'),
                         'doc_fecha_vence' => $arFactura['fechaVence']->format('Y-m-d'),
+                        "doc_soporte" => $arFactura['documentoSoporte'],
                         'doc_hora' => '12:00:00-05:00',
                         'doc_hora2' => '12:00:00',
                         'doc_subtotal' => number_format($arFactura['vrSubtotal'], 2, '.', ''),

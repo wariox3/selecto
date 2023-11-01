@@ -207,6 +207,12 @@ class FacturaElectronica
                 ],
                 "Observaciones" => [],
                 "Referencias" => [],
+                "orderDocumento" => [
+                    "DeorNumeroOrden" => $arrFactura['doc_soporte'],
+                    "DeorTipoOrden" => "",
+                    "DeorFechaOrden" => "",
+                    "DeorDocumentoReferencia" => $numero
+                ],
                 "AdquirienteFactura" => [
                     "DoeaEsResponsable" => 1,
                     "DoeaEsnacional" => 1,
