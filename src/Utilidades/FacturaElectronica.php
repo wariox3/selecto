@@ -69,6 +69,7 @@ class FacturaElectronica
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERPWD, "900395252:tufactura.co@softwareestrategico.com");
+        curl_setopt($ch, CURLOPT_TIMEOUT, 7);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
             )
@@ -142,6 +143,14 @@ class FacturaElectronica
                     $em->flush();
                 }
             }
+        }else {
+            $procesoFacturaElectronica['estado'] = 'ER';
+            $arRespuesta = new RespuestaFacturaElectronica();
+            $arRespuesta->setFecha(new \DateTime('now'));
+            $arRespuesta->setCodigoDocumento($arrFactura['doc_codigo']);
+            $arRespuesta->setErrorMessage("Error servidor kiai");
+            $em->persist($arRespuesta);
+            $em->flush();
         }
         curl_close($ch);
         return $procesoFacturaElectronica;
