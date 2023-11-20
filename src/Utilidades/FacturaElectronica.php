@@ -69,7 +69,7 @@ class FacturaElectronica
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERPWD, "900395252:tufactura.co@softwareestrategico.com");
-        curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json',
             )
