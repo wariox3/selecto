@@ -161,6 +161,7 @@ class FacturaElectronica
         $numero = $arrFactura['res_prefijo'] . $arrFactura['doc_numero'];
         $tipo = '01';
         $tipoCodigo = "05";
+        $periodos = 0;
         if ($arrFactura['doc_tipo'] == 'NC') {
             /* Poner prefijo cuando da este error: Error al parsear xml. startIndex cannot be larger than length of string. Parameter name: startIndex */
             //$numero = "NC".$arrFactura['doc_numero'];
@@ -168,6 +169,7 @@ class FacturaElectronica
             $tipo = '91';
             if(!$arrFactura['ref_codigoExterno']) {
                 $tipoCodigo = "22";
+                $periodos = 1;
             }
         }
         if ($arrFactura['doc_tipo'] == 'ND') {
@@ -195,7 +197,7 @@ class FacturaElectronica
             ],
             "FacturaVenta" => [
                 "Cabecera" => [
-                    "DoceManejaPeriodos" => 0,
+                    "DoceManejaPeriodos" => $periodos,
                     "DoceConsecutivo" => $numero,
                     "DoceCantidadItems" => $arrFactura['doc_cantidad_item'],
                     "AmbdCodigo" => $arrFactura['dat_tipoAmbiente'],
